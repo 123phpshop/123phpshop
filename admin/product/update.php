@@ -203,6 +203,7 @@ do {
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
  <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+
 <script>
 $().ready(function(){
 	CKEDITOR.replace('intro');
