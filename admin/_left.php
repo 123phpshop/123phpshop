@@ -66,10 +66,14 @@ div a {
 <div class="menu_item" ><a href="product/recycled.php" target="_main">产品回收站</a></div>
 <div class="menu_item" ><a href="order/index.php" target="_main">订单管理</a></div>
 <div class="menu_item" ><a href="order/recycle.php" target="_main">订单回收站</a></div>
+<div class="menu_item" ><a href="brands/index.php" target="_main">品牌管理</a></div>
+<div class="menu_item" ><a href="brands/add.php" target="_main">添加品牌</a></div>
+<div class="menu_item" ><a href="express_fee_templates/index.php" target="_main">运费管理</a></div>
+<div class="menu_item" ><a href="express_fee_templates/add.php" target="_main">添加运费</a></div>
 <div class="menu_item" ><a href="ad/index.php" target="_main">广告管理</a></div>
 <div class="menu_item" ><a href="ad/add.php" target="_main">添加广告</a></div>
 <div class="menu_item" ><a href="users/index.php" target="_main">用户列表</a></div>
-<div class="menu_item" ><a href="users/add.php" target="_main">添加用户</a></div>
+<div class="menu_item" ><a href="users/add.php" target="_main">添加用户</a></div> 
 <div class="menu_item" ><a href="pay_method/index.php" target="_main">支付方式</a></div>
 <div class="menu_item" ><a href="admin/update_password.php" target="_main">密码设置</a></div>
 <div class="menu_item" ><a href="user_comments/index.php" target="_main">评论管理</a></div>

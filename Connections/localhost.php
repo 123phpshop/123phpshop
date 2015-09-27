@@ -22,7 +22,7 @@
 # HTTP="true"
 error_reporting(E_ALL);
 $hostname_localhost = "localhost";
-$database_localhost = "123phpshop_test";
+$database_localhost = "123phpshop_v2";
 $username_localhost = "root";
 $password_localhost = "";
 $localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR); 
