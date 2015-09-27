@@ -55,6 +55,12 @@ $product = mysql_query($query_product, $localhost) or die(mysql_error());
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
+mysql_select_db($database_localhost, $localhost);
+$query_brands = "SELECT id, name FROM brands";
+$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$row_brands = mysql_fetch_assoc($brands);
+$totalRows_brands = mysql_num_rows($brands);
+
 
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -73,7 +79,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 
 //	如果需要上架的话
- $updateSQL = sprintf("UPDATE product SET on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s WHERE id=%s",
+ $updateSQL = sprintf("UPDATE product SET on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
  					   GetSQLValueString($on_sheft_time, "date"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
@@ -85,6 +91,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['is_recommanded'], "text"),
                        GetSQLValueString($_POST['store_num'], "int"),
                        GetSQLValueString($_POST['intro'], "text"),
+					   GetSQLValueString($_POST['brand_id'], "int"),
                        GetSQLValueString($_POST['id'], "int"));
  
   mysql_select_db($database_localhost, $localhost);
@@ -125,8 +132,27 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">市场价:</td>
-      <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13"></td>
+      <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13">	</td>
     </tr>
+	<tr valign="baseline">
+      <td nowrap align="right">品牌:</td>
+      <td><select name="brand_id" id="brand_id">
+        <option value="0" <?php if (!(strcmp(0, $row_product['brand_id']))) {echo "selected=\"selected\"";} ?>>未设置</option>
+        <?php
+do {  
+?>
+        <option value="<?php echo $row_brands['id']?>"<?php if (!(strcmp($row_brands['id'], $row_product['brand_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_brands['name']?></option>
+        <?php
+} while ($row_brands = mysql_fetch_assoc($brands));
+  $rows = mysql_num_rows($brands);
+  if($rows > 0) {
+      mysql_data_seek($brands, 0);
+	  $row_brands = mysql_fetch_assoc($brands);
+  }
+?>
+      </select></td>
+    </tr>
+	
     <tr valign="baseline">
       <td nowrap align="right">上架:</td>
       <td valign="baseline"><input type="radio" name="is_on_sheft" value="1" <?php if (!(strcmp($row_product['is_on_sheft'],"1"))) {echo "CHECKED";} ?> />
@@ -162,7 +188,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     <tr valign="baseline">
       <td nowrap align="right" valign="top">介绍:</td>
       <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"><?php echo $row_product['intro']; ?></script>
-	       </td>
+      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -330,5 +356,7 @@ $().ready(function(){
 </html>
 <?php
 mysql_free_result($product);
+
+mysql_free_result($brands);
 ?>
 

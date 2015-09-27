@@ -49,11 +49,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO ad (image_width, image_height, name, intro) VALUES (%s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['image_width'], "int"),
                        GetSQLValueString($_POST['image_height'], "int"),
                        GetSQLValueString($_POST['name'], "text"),
-                       GetSQLValueString($_POST['intro'], "text"));
+                       GetSQLValueString($_POST['intro'], "text"),
+					   GetSQLValueString($_POST['start_date'], "text"),
+					   GetSQLValueString($_POST['end_date'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -97,6 +99,16 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       *[像素]</td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right" valign="top">起始：</td>
+      <td><label>
+        <input name="start_date" type="text" id="start_date" />
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right" valign="top">终止：</td>
+      <td><input name="end_date" type="text" id="end_date" /></td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="intro" cols="50" rows="5" id="intro"></textarea>      </td>
     </tr>
@@ -109,6 +121,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </form>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="/js/jquery-ui-1.11.4.custom/jquery-ui.min.css">
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+<script>
+ $(function() {
+	$( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+});
+</script>
+	
 <script>
 $().ready(function(){
 

@@ -49,11 +49,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE ad SET name=%s, image_width=%s, image_height=%s, intro=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE ad SET name=%s, image_width=%s, image_height=%s, intro=%s, start_date=%s, end_date=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['image_width'], "int"),
                        GetSQLValueString($_POST['image_height'], "int"),
                        GetSQLValueString($_POST['intro'], "text"),
+					   GetSQLValueString($_POST['start_date'], "date"),
+					   GetSQLValueString($_POST['end_date'], "date"),
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
@@ -104,9 +106,18 @@ $totalRows_ad = mysql_num_rows($ad);
       *[像素]</td>
     </tr>
     <tr valign="baseline">
+      <td nowrap="nowrap" align="right" valign="top">起始：</td>
+      <td><label>
+        <input name="start_date" type="text" id="start_date" value="<?php echo $row_ad['start_date']; ?>"/>
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap="nowrap" align="right" valign="top">终止：</td>
+      <td><input name="end_date" type="text" id="end_date" value="<?php echo $row_ad['end_date']; ?>"/></td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap align="right" valign="top" >介绍:</td>
-      <td><textarea name="intro" cols="50" rows="5" id="intro"><?php echo $row_ad['intro']; ?></textarea>
-      </td>
+      <td><textarea name="intro" cols="50" rows="5" id="intro"><?php echo $row_ad['intro']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -118,6 +129,14 @@ $totalRows_ad = mysql_num_rows($ad);
 </form>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="/js/jquery-ui-1.11.4.custom/jquery-ui.min.css">
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+<script>
+ $(function() {
+	$( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+});
+</script>
 <script>
 $().ready(function(){
 

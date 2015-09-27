@@ -16,8 +16,13 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); ?>
-<?php
+<?php require_once('../../Connections/localhost.php'); 
+mysql_select_db($database_localhost, $localhost);
+$query_brands = "SELECT id, name FROM brands";
+$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$row_brands = mysql_fetch_assoc($brands);
+$totalRows_brands = mysql_num_rows($brands);
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -49,9 +54,10 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-	require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
+  require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
+  
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO product (cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                        GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
@@ -63,9 +69,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['is_season'], "text"),
                        GetSQLValueString($_POST['is_recommanded'], "text"),
                        GetSQLValueString($_POST['store_num'], "int"),
-                       GetSQLValueString($_POST['intro'], "text"));
+                       GetSQLValueString($_POST['intro'], "text"),
+					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro) VALUES (%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+ $insertSQL = sprintf("INSERT INTO product (on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
  					   GetSQLValueString(date('Y-m-d H:i:s'), "date"),
                        GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
@@ -78,7 +85,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['is_season'], "text"),
                        GetSQLValueString($_POST['is_recommanded'], "text"),
                        GetSQLValueString($_POST['store_num'], "int"),
-                       GetSQLValueString($_POST['intro'], "text"));
+                       GetSQLValueString($_POST['intro'], "text"),
+					   GetSQLValueString($_POST['brand_id'], "text"));
 
 }
   mysql_select_db($database_localhost, $localhost);
@@ -118,6 +126,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <th nowrap align="right">市场价:</th>
       <td><input  name="market_price" type="text" class="required" id="market_price" value="" size="32" maxlength="13">
       *</td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">品牌：</th>
+      <td><label>
+        <select name="brand_id" id="brand_id">
+          <option value="0">未设置</option>
+          <?php
+do {  
+?>
+          <option value="<?php echo $row_brands['id']?>"><?php echo $row_brands['name']?></option>
+          <?php
+} while ($row_brands = mysql_fetch_assoc($brands));
+  $rows = mysql_num_rows($brands);
+  if($rows > 0) {
+      mysql_data_seek($brands, 0);
+	  $row_brands = mysql_fetch_assoc($brands);
+  }
+?>
+        </select>
+      </label></td>
     </tr>
     <tr valign="baseline">
       <th nowrap align="right">是否上架:</th>
@@ -171,8 +199,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline">
       <th nowrap align="right" valign="top">介绍:</th>
       <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"></script>
-      *
-      </td>
+      *      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -341,3 +368,6 @@ $().ready(function(){
 </body>
 
 </html>
+<?php
+mysql_free_result($brands);
+?>

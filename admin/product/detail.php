@@ -102,7 +102,7 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = sprintf("SELECT * FROM product  WHERE id = $recordID", $recordID);
+$query_DetailRS1 = sprintf("SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
 $DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
@@ -151,6 +151,11 @@ form{
       <tr>
         <td>分类</td>
         <td><?php echo $row_DetailRS1['catalog_id']; ?> </td>
+      </tr>
+	  
+	   <tr>
+        <td>品牌</td>
+        <td><a href="../brands/detail.php?recordID=<?php echo $row_DetailRS1['brand_id']; ?>"><?php echo $row_DetailRS1['brand_name']; ?></a> </td>
       </tr>
      
       <tr>
