@@ -68,8 +68,8 @@ div a {
 <div class="menu_item" ><a href="order/recycle.php" target="_main">订单回收站</a></div>
 <div class="menu_item" ><a href="brands/index.php" target="_main">品牌管理</a></div>
 <div class="menu_item" ><a href="brands/add.php" target="_main">添加品牌</a></div>
-<div class="menu_item" ><a href="express_fee_templates/index.php" target="_main">运费管理</a></div>
-<div class="menu_item" ><a href="express_fee_templates/add.php" target="_main">添加运费</a></div>
+<div class="menu_item" ><a href="shipping_method/index.php" target="_main">配送方式</a></div>
+<div class="menu_item" ><a href="shipping_method/add.php" target="_main">添加配送</a></div>
 <div class="menu_item" ><a href="ad/index.php" target="_main">广告管理</a></div>
 <div class="menu_item" ><a href="ad/add.php" target="_main">添加广告</a></div>
 <div class="menu_item" ><a href="users/index.php" target="_main">用户列表</a></div>

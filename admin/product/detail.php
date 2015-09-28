@@ -84,7 +84,7 @@ if (isset($_GET['recordID'])) {
   $colname_product_images = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s", $colname_product_images);
+$query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images);
 $product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
 $row_product_images = mysql_fetch_assoc($product_images);
 $totalRows_product_images = mysql_num_rows($product_images);
