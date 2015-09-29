@@ -153,6 +153,16 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <?php  } ?>
 </table>
+<?php logistic_process_info=get_logistic_process_info($express_company_id,$express_order_sn) ;?>
+<p>物流信息</p>
+<table width="100%" border="1"  class="phpshop123_list_box">
+  <?php while ($row_log_DetailRS1 = mysql_fetch_assoc($log_DetailRS1)){ ?>
+  <tr  >
+    <td width="10%"><?php echo $row_log_DetailRS1['create_time'];?></td>
+    <td width="90%"><?php echo $row_log_DetailRS1['message'];?></td>
+  </tr>
+  <?php  } ?>
+</table>
 <p>&nbsp;</p>
 <p>收货人</p>
 <table width="100%" border="1" class="phpshop123_list_box">

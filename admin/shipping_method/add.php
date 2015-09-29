@@ -31,18 +31,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method (name, `desc`, is_activated, is_cod, is_fixed_fee, fixed_fee, is_free, jiangzhehu_first_kg_fee, jiangzhehu_continue_kg_fee, other_city_first_kg_fee, other_city_continue_kg_fee) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method (name, `desc`, config_file_path, is_activated, is_cod, is_free) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['desc'], "text"),
+                       GetSQLValueString($_POST['config_file_path'], "text"),
                        GetSQLValueString(isset($_POST['is_activated']) ? "true" : "", "defined","1","0"),
                        GetSQLValueString(isset($_POST['is_cod']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString(isset($_POST['is_fixed_fee']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString($_POST['fixed_fee'], "double"),
-                       GetSQLValueString(isset($_POST['is_free']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString($_POST['jiangzhehu_first_kg_fee'], "double"),
-                       GetSQLValueString($_POST['jiangzhehu_continue_kg_fee'], "double"),
-                       GetSQLValueString($_POST['other_city_first_kg_fee'], "double"),
-                       GetSQLValueString($_POST['other_city_continue_kg_fee'], "double"));
+                       GetSQLValueString(isset($_POST['is_free']) ? "true" : "", "defined","1","0"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -74,41 +69,20 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input name="is_activated" type="checkbox" value="" checked="checked" ></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_cod:</td>
+      <td nowrap align="right">配送区域配置文件位置:</td>
+      <td><input name="config_file_path" type="text" id="config_file_path" value="" size="32" /></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">是否为货到付款:</td>
       <td><input type="checkbox" name="is_cod" value="" ></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Is_fixed_fee:</td>
-      <td><input type="checkbox" name="is_fixed_fee" value="" ></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Fixed_fee:</td>
-      <td><input type="text" name="fixed_fee" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Is_free:</td>
       <td><input type="checkbox" name="is_free" value="" ></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Jiangzhehu_first_kg_fee:</td>
-      <td><input type="text" name="jiangzhehu_first_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Jiangzhehu_continue_kg_fee:</td>
-      <td><input type="text" name="jiangzhehu_continue_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Other_city_first_kg_fee:</td>
-      <td><input type="text" name="other_city_first_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Other_city_continue_kg_fee:</td>
-      <td><input type="text" name="other_city_continue_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
       <td nowrap align="right" valign="top">Desc:</td>
-      <td><textarea name="desc" cols="50" rows="5"></textarea>
-      </td>
+      <td><textarea name="desc" cols="50" rows="5"></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

@@ -192,7 +192,7 @@ div{
 		   <?php } ?>
       </table></td>
     </tr>
-  </table>
+</table>
   <p>&nbsp;</p>
   <table width="100%" border="0" style="background-color:#ffffff;border:none;">
    <tr>
@@ -211,6 +211,22 @@ div{
      </table></td>
    </tr>
  </table>
+  <p>&nbsp;</p>
+  <table width="100%" border="0" style="background-color:#ffffff;border:none;">
+    <tr>
+      <th height="38" scope="row"><div align="left" style="padding-left:20px;">物流处理过程</div></th>
+    </tr>
+    <tr>
+      <td scope="row"><table width="97%"  border="0" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
+          <?php while ($row_log_DetailRS1 = mysql_fetch_assoc($log_DetailRS1)){ ?>
+          <tr>
+            <td width="10%" scope="row"><div align="left" style="padding-left:20px;"><?php echo $row_log_DetailRS1['create_time'];?></div></td>
+            <td width="90%"><div align="left" style="padding-left:20px;"><?php echo $row_log_DetailRS1['message'];?></div></td>
+          </tr>
+          <?php  } ?>
+      </table></td>
+    </tr>
+  </table>
  <p>&nbsp;</p>
   <table width="100%" border="0" style="background-color:#ffffff;border:none;">
    <tr>

@@ -22,21 +22,15 @@ $totalRows_areas = mysql_num_rows($areas);
   <tr>
     <td>id</td>
     <td>name</td>
-    <td>pid</td>
     <td>level_depth</td>
-    <td>level_path</td>
-    <td>child_num</td>
     <td>操作</td>
   </tr>
   <?php do { ?>
     <tr>
       <td><?php echo $row_areas['id']; ?>&nbsp; </td>
       <td><a href="detail.php?recordID=<?php echo $row_areas['id']; ?>"> <?php echo $row_areas['name']; ?>&nbsp; </a> </td>
-      <td><?php echo $row_areas['pid']; ?>&nbsp; </td>
       <td><?php echo $row_areas['level_depth']; ?>&nbsp; </td>
-      <td><?php echo $row_areas['level_path']; ?>&nbsp; </td>
-      <td><?php echo $row_areas['child_num']; ?></td>
-      <td>删除更新 子区域列表 添加子区域</td>
+      <td><a href="remove.php?id=<?php echo $row_areas['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_areas['id']; ?>">更新</a> <a href="index.php?pid=<?php echo $row_areas['id']; ?>">子区域列表</a> <a href="add.php?pid=<?php echo $row_areas['id']; ?>">添加子区域</a></td>
     </tr>
     <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
 </table>

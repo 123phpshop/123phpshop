@@ -22,49 +22,26 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
     <td><?php echo $row_DetailRS1['name']; ?> </td>
   </tr>
   <tr>
-    <td>desc</td>
-    <td><?php echo $row_DetailRS1['desc']; ?> </td>
+    <td>config_file_path</td>
+    <td><?php echo $row_DetailRS1['config_file_path']; ?> </td>
   </tr>
   
   <tr>
     <td>is_activated</td>
     <td><?php echo $row_DetailRS1['is_activated']; ?> </td>
   </tr>
-  <tr>
-    <td>create_time</td>
-    <td><?php echo $row_DetailRS1['create_time']; ?> </td>
-  </tr>
+
   <tr>
     <td>is_cod</td>
     <td><?php echo $row_DetailRS1['is_cod']; ?> </td>
   </tr>
-  <tr>
-    <td>是否为固定费，默认为否</td>
-    <td><?php echo $row_DetailRS1['is_fixed_fee']; ?></td>
-  </tr>
-  <tr>
-    <td>固定费用</td>
-    <td><?php echo $row_DetailRS1['fixed_fee']; ?></td>
-  </tr>
-  <tr>
-    <td>是否免费，默认为否</td>
-   <td><?php echo $row_DetailRS1['is_free']; ?></td>
-  </tr>
-  <tr>
-    <td>江浙沪首重价格</td>
-     <td><?php echo $row_DetailRS1['jiangzhehu_first_kg_fee']; ?></td>
-  </tr>
-  <tr>
-    <td>江浙沪续重价格</td>
-     <td><?php echo $row_DetailRS1['jiangzhehu_continue_kg_fee']; ?></td>
-  </tr>
-  <tr>
-    <td>其他城市首重费用</td>
-    <td><?php echo $row_DetailRS1['other_city_first_kg_fee']; ?></td>
-  </tr>
-  <tr>
-    <td>其他城市续重费用</td>
-    <td><?php echo $row_DetailRS1['other_city_continue_kg_fee']; ?></td>
+ <tr>
+	<td>create_time</td>
+	<td><?php echo $row_DetailRS1['create_time']; ?> </td>
+</tr>
+<tr>
+    <td>desc</td>
+    <td><?php echo $row_DetailRS1['desc']; ?> </td>
   </tr>
   
 </table>
