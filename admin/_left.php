@@ -72,6 +72,7 @@ div a {
 <div class="menu_item" ><a href="shipping_method/add.php" target="_main">添加配送</a></div>
 <div class="menu_item" ><a href="ad/index.php" target="_main">广告管理</a></div>
 <div class="menu_item" ><a href="ad/add.php" target="_main">添加广告</a></div>
+ 
 <div class="menu_item" ><a href="users/index.php" target="_main">用户列表</a></div>
 <div class="menu_item" ><a href="users/add.php" target="_main">添加用户</a></div> 
 <div class="menu_item" ><a href="pay_method/index.php" target="_main">支付方式</a></div>
@@ -84,6 +85,7 @@ div a {
 <div class="menu_item" ><a href="admin/index.php" target="_main">管理员列表</a></div>
 <div class="menu_item" ><a href="admin/add.php" target="_main">添加管理员</a></div>
 <div class="menu_item" ><a href="info.php" target="_main">店铺信息</a></div>
+<div class="menu_item" ><a href="area/index.php" target="_main">区域管理</a></div>
 <div class="menu_item" ><a href="http://www.123phpshop.com/client_portal/" target="_main">家族软件</a></div>
 </div>
 </body>

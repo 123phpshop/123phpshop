@@ -29,7 +29,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_comment") && $colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product)) {
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_comment") && $colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product) && isset($_POST['captcha']) && ($_POST['captcha']==$_SESSION['captcha']) ) {
   $insertSQL = sprintf("INSERT INTO product_comment (message, product_id, user_id) VALUES (%s, %s, %s)",
                        GetSQLValueString($_POST['message'], "text"),
                        GetSQLValueString($colname_product, "text"),
@@ -106,21 +106,21 @@ $totalRows_comments = mysql_num_rows($comments);
 <?php } ?>
            <?php if($colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product)){?>
                 </p>
-     <form action="<?php echo $editFormAction; ?>" method="post" name="new_comment">
+     <form action="<?php echo $editFormAction; ?>" method="post" name="new_comment" id="new_comment">
 <table width="990" align="center" style="margin:0px auto;" >
             <tr valign="baseline">
               <td>&nbsp;</td>
             </tr>
             <tr valign="baseline">
               <td><div align="left">
-                  <textarea name="message" cols="100" rows="10"></textarea>
+                  <textarea name="message" id="message" cols="100" rows="10"></textarea>
               </div></td>
             </tr>
-            <tr valign="baseline">
-              <td><div align="left">
-                  <input name="submit" type="submit" value="发表评论" />
-              </div></td>
-            </tr>
+           <tr valign="middle" >
+	  <td style="padding-top:10px;"><label>
+	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
+	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"  ><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="发表评论" /></td>
+    </tr>
   </table>
             <input type="hidden" name="MM_insert" value="new_comment" />
 </form>
@@ -128,3 +128,33 @@ $totalRows_comments = mysql_num_rows($comments);
 <?php } 
 mysql_free_result($comments);
 ?>
+
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#new_comment").validate({
+        rules: {
+            message: {
+                required: true,
+				maxlength:50
+            },
+            captcha: {
+                required: true,
+				minlength:4
+             }
+        },
+        messages: {
+            message: {
+                required: "必填" ,
+				maxlength:"最多只能输入50个汉字哦"
+            },
+            captcha: {
+                required: "必填",
+				minlength:"至少要输入4个字符哦"
+            }
+        }
+    });
+	
+});</script>

@@ -26,15 +26,24 @@ if (isset($_GET['accesscheck'])) {
 }
 
 if (isset($_POST['username'])) {
+
+
+	
   $loginUsername=$_POST['username'];
   $password=md5($_POST['password']);
   $MM_fldUserAuthorization = "";
   $MM_redirectLoginSuccess = "index.php";
   $MM_redirectLoginFailed = "login.php?error=1";
   $MM_redirecttoReferrer = true;
-  mysql_select_db($database_localhost, $localhost);
   
-  $LoginRS__query=sprintf("SELECT id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
+   //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
+  if(!isset($_POST['captcha']) OR $_POST['captcha']!=$_SESSION['captcha']){
+  		 header("Location: ". $MM_redirectLoginFailed );
+		 return;
+  }
+  
+  mysql_select_db($database_localhost, $localhost);
+   $LoginRS__query=sprintf("SELECT id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
     get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password)); 
    
   $LoginRS = mysql_query($LoginRS__query, $localhost) or die(mysql_error());
@@ -95,25 +104,33 @@ table{
 </table>
 <form id="login_form" name="login_form" method="POST" action="<?php echo $loginFormAction; ?>">
   <p>&nbsp;</p>
-  <table  style="border-top:3px solid #bfbfbf;" width="600" height="278" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
+  <table  style="border-top:3px solid #bfbfbf;" width="600" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
     <tr>
       <td height="41" bordercolor="#e8e8e8" bgcolor="#fcfcfc">&nbsp;&nbsp;&nbsp;123PHPSHOP登陆</td>
     </tr>
     <tr>
-      <td valign="top"><table width="100%" height="234" border="0">
+      <td valign="top">
+	  <table width="100%" border="0">
         <tr>
-          <td width="14%"><div align="right"><strong>用户名:</strong></div></td>
+          <td width="14%" height="77"><div align="right"><strong>用户名:</strong></div></td>
           <td width="86%"><label>
             <input name="username" type="text" id="username" style="padding-left:10px;border-radius:3px;padding-left:10px;margin-left:10px;width:90%;height:33px;border:1px solid #cccccc;" maxlength="16" />
-          </label>
-           </td>
+          </label>           </td>
         </tr>
         <tr>
           <td><div align="right"><strong>密码:</strong></div></td>
           <td height="77"><label>
             <input name="password" type="password" id="password" style="padding-left:10px;border-radius:3px;padding-left:10px;margin-left:10px;width:90%;height:33px;border:1px solid #cccccc;" maxlength="16" />
-          </label>
-           </td>
+          </label>           </td>
+        </tr>
+        <tr>
+          <td align="right" valign="bottom"><strong>验证码:</strong></td>
+          <td height="" align="right" valign="bottom"><div align="left">
+            <label>
+            <input name="captcha" type="text" size="4" maxlength="4" style="padding-left:10px;border-radius:3px;padding-left:10px;margin-left:10px;height:33px;border:1px solid #cccccc;"/>
+            </label>
+            <img height="37" style="cursor:pointer;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"></div>
+            </img></td>
         </tr>
         <tr>
           <td align="right" valign="bottom">&nbsp;</td>

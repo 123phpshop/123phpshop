@@ -33,7 +33,7 @@ if (isset($_GET['accesscheck'])) {
   $_SESSION['PrevUrl'] = $_GET['accesscheck'];
 }
 
-if (isset($_POST['username'])) {
+ if (isset($_POST['username'])) {
   $loginUsername=$_POST['username'];
   $password=$_POST['password'];
   $MM_fldUserAuthorization = "";
@@ -42,15 +42,21 @@ if (isset($_POST['username'])) {
   $MM_redirecttoReferrer = true;
   mysql_select_db($database_localhost, $localhost);
   
-  $LoginRS__query=sprintf("SELECT id,username, password FROM user WHERE username='%s' AND password='%s' and is_delete=0",
+  //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
+  if(!isset($_POST['captcha']) OR $_POST['captcha']!=$_SESSION['captcha']){
+  		 header("Location: ". $MM_redirectLoginFailed );
+		 return;
+  }
+  
+     $LoginRS__query=sprintf("SELECT id,username, password FROM user WHERE username='%s' AND password='%s' and is_delete=0",
     get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? md5($password ): addslashes(md5($password))); 
    
   $LoginRS = mysql_query($LoginRS__query, $localhost) or die(mysql_error());
   $user=mysql_fetch_assoc( $LoginRS);
-   $loginFoundUser = mysql_num_rows($LoginRS);
-  if ($loginFoundUser) {
+      $loginFoundUser = mysql_num_rows($LoginRS);
+    if ($loginFoundUser) {
      $loginStrGroup = "";
-    
+   
     //declare two session variables and assign them
     $_SESSION['username'] = $loginUsername;
     $_SESSION['MM_UserGroup'] = $loginStrGroup;	      
@@ -98,7 +104,7 @@ a{
 <table width="100%" height="475" border="0" bgcolor="#e93854">
   <tr>
     <td>&nbsp;</td>
-    <td width="990"><table width="346" height="357" border="0" cellspacing="20" bgcolor="#ffffff" style="float:right;">
+    <td width="990"><table width="346" height="371" border="0" cellspacing="20" bgcolor="#ffffff" style="float:right;">
       <tr>
         <td><span class="STYLE1">会员登陆</span></td>
         <td><div align="right" class="STYLE2"><a href="register.php" class="STYLE3">立即注册</a></div></td>
@@ -116,6 +122,12 @@ a{
         <td colspan="2" align="center">
           <input placeholder="密码" style="padding-left:10px;border:1px solid #bdbdbd;height:38px;width:304px;" name="password" type="password" class="required" id="password" maxlength="16" /></td>
         </tr>
+		<tr>
+        <td colspan="2" align="center">
+          <input name="captcha"  class="required" id="captcha" style="padding-left:10px;border:1px solid #bdbdbd;height:38px;width:152px;float:left;" size="4" maxlength="4" placeholder="验证码" /> 
+          <img height="37" style="cursor:pointer;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();" style="float:right;"></td>
+        </tr>
+		
       <tr>
         <td colspan="2" align="center"><input style="color:white;border:1px solid #e85356;font-size:21px;width:302px;background-color:#e4393c;height:33px;line-height:32px;" type="submit" name="Submit"class="required"    value="提交" /></td>
         </tr>

@@ -136,7 +136,7 @@ $().ready(function(){
 	$("#form1").validate({
         rules: {
             name: {
-                required: true 
+                required: true
             },
             image_width: {
                 required: true,

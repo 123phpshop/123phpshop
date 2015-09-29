@@ -22,7 +22,7 @@
  **/
 function user_could_comment($user_id, $product_id) {
 	 
-
+	return true;
 
 //	检查用户评论过得这个商品的数目，如果这个数目是0的话，那么直接返回true
  	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON orders.id=order_item.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";

@@ -28,17 +28,23 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_consult") && $colname_product!='-1' && isset($_SESSION['user_id'])) {
-  $insertSQL = sprintf("INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)",
-                       GetSQLValueString($_SESSION['user_id'], "int"),
-					   GetSQLValueString($_POST['content'], "text"),
-                       GetSQLValueString($colname_product, "int"));
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_consult") && $colname_product!='-1' && isset($_SESSION['user_id']) && isset($_POST['captcha']) && ($_POST['captcha']==$_SESSION['captcha']) ){
 
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-  
-  $update_sql=sprintf("update product set consulted_num=consulted_num+1 where id=%s",GetSQLValueString($colname_product, "int"));
-  $Result2 = mysql_query($update_sql, $localhost) or die(mysql_error());
+
+ //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
+ 
+   
+	  $insertSQL = sprintf("INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)",
+						   GetSQLValueString($_SESSION['user_id'], "int"),
+						   GetSQLValueString($_POST['content'], "text"),
+						   GetSQLValueString($colname_product, "int"));
+	
+	  mysql_select_db($database_localhost, $localhost);
+	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+	  
+	  $update_sql=sprintf("update product set consulted_num=consulted_num+1 where id=%s",GetSQLValueString($colname_product, "int"));
+	  $Result2 = mysql_query($update_sql, $localhost) or die(mysql_error());
+ 
 }
  
 $colname_consult = "-1";
@@ -122,15 +128,16 @@ $totalRows_consult = mysql_num_rows($consult);
 		<td>&nbsp;</td>
 	</tr>
 	<tr valign="baseline">
-		<td><textarea name="content" cols="120" rows="10"></textarea>
-	</td>
+		<td><textarea name="content" cols="120" rows="10"></textarea>	</td>
 	</tr>
-	<tr valign="baseline">
-		<td><input name="submit" type="submit" value="马上咨询" /></td>
-	</tr>
+	<tr valign="middle" >
+	  <td style="padding-top:10px;"><label >
+	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
+	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="马上咨询" /></td>
+    </tr>
 </table>
 <input type="hidden" name="product_id2" value="<?php echo $row_product['id']; ?>" />
 <input type="hidden" name="MM_insert" value="new_consult" />
 </form>
- <?php } ?>
+<?php } ?>
  
