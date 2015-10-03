@@ -43,13 +43,21 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
       <th scope="col">官网</th>
       <th scope="col">介绍</th>
       <th scope="col">状态</th>
+      <th scope="col">操作</th>
     </tr>
     <?php do { ?>
       <tr>
-        <td><a href="/admin/pay/pay_alipay/"><?php echo $row_pay_methods['name']; ?></a></td>
+        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><?php echo $row_pay_methods['name']; ?></a></td>
         <td><a href="<?php echo $row_pay_methods['www']; ?>"><?php echo $row_pay_methods['www']; ?></a></td>
         <td><?php echo $row_pay_methods['intro']; ?></td>
         <td><div align="right"><?php echo $row_pay_methods['is_activated']?"已激活":"未激活"; ?></div></td>
+        <td>
+		  <div align="right">
+		    <?php if($row_pay_methods['is_activated']==0){ ?>
+		      <a href="activate.php?id=<?php echo $row_pay_methods['id']; ?>">激活</a>
+	        <?php }else{ ?>
+		      <a href="deactivate.php?id=<?php echo $row_pay_methods['id']; ?>">失效</a>
+	        <?php }?> <a href="update.php?id=<?php echo $row_pay_methods['id']; ?>">编辑</a></div></td>
       </tr>
       <?php } while ($row_pay_methods = mysql_fetch_assoc($pay_methods)); ?>
   </table>

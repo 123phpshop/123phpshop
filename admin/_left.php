@@ -62,10 +62,13 @@ div a {
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:26px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
 <div class="menu_item" ><a href="catalog/index.php" target="_main">产品分类</a></div>
+<div class="menu_item" ><a href="product_type/index.php" target="_main">产品类型</a></div>
 <div class="menu_item" ><a href="product/index.php" target="_main">产品管理</a></div>
 <div class="menu_item" ><a href="product/recycled.php" target="_main">产品回收站</a></div>
 <div class="menu_item" ><a href="order/index.php" target="_main">订单管理</a></div>
-<div class="menu_item" ><a href="order/recycle.php" target="_main">订单回收站</a></div>
+<div class="menu_item" ><a href="order/index.php" target="_main">发货订单</a></div>
+ <div class="menu_item" ><a href="order/index.php" target="_main">退货订单</a></div>
+ <div class="menu_item" ><a href="order/recycle.php" target="_main">订单回收站</a></div>
 <div class="menu_item" ><a href="brands/index.php" target="_main">品牌管理</a></div>
 <div class="menu_item" ><a href="brands/add.php" target="_main">添加品牌</a></div>
 <div class="menu_item" ><a href="shipping_method/index.php" target="_main">配送方式</a></div>
@@ -76,6 +79,7 @@ div a {
 <div class="menu_item" ><a href="users/index.php" target="_main">用户列表</a></div>
 <div class="menu_item" ><a href="users/add.php" target="_main">添加用户</a></div> 
 <div class="menu_item" ><a href="pay_method/index.php" target="_main">支付方式</a></div>
+<div class="menu_item" ><a href="pay_method/add.php" target="_main">添加支付</a></div>
 <div class="menu_item" ><a href="admin/update_password.php" target="_main">密码设置</a></div>
 <div class="menu_item" ><a href="user_comments/index.php" target="_main">评论管理</a></div>
 <div class="menu_item" ><a href="user_consult/index.php" target="_main">咨询管理</a></div>

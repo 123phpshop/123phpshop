@@ -1,4 +1,4 @@
-<?php require_once('../../../Connections/localhost.php'); ?>
+<?php require_once('../../Connections/localhost.php'); ?>
 <?php
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -31,26 +31,35 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (name, shipping_method_id, area, shipping_by_quantity, first_kg_fee, continue_kg_fee, free_quota, single_product_fee) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO product_type_attr (name, is_selectable, input_method, selectable_value, product_type_id) VALUES (%s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
-                       GetSQLValueString($_POST['shipping_method_id'], "int"),
-                       GetSQLValueString($_POST['area'], "text"),
-                       GetSQLValueString($_POST['shipping_by_quantity'], "int"),
-                       GetSQLValueString($_POST['first_kg_fee'], "double"),
-                       GetSQLValueString($_POST['continue_kg_fee'], "double"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['single_product_fee'], "double"));
+                       GetSQLValueString($_POST['is_selectable'], "int"),
+                       GetSQLValueString($_POST['input_method'], "int"),
+                       GetSQLValueString($_POST['selectable_value'], "text"),
+                       GetSQLValueString($_POST['product_type_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
-  $insertGoTo = "../index.php?shipping_method=1";
+  
+   $insertGoTo = "index.php?product_type_id=".$_POST['product_type_id'];
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
   }
   header(sprintf("Location: %s", $insertGoTo));
+  
+  
 }
+
+$colname_product_type = "-1";
+if (isset($_GET['product_type_id'])) {
+  $colname_product_type = (get_magic_quotes_gpc()) ? $_GET['product_type_id'] : addslashes($_GET['product_type_id']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_product_type);
+$product_type = mysql_query($query_product_type, $localhost) or die(mysql_error());
+$row_product_type = mysql_fetch_assoc($product_type);
+$totalRows_product_type = mysql_num_rows($product_type);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -59,55 +68,52 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p>申通快递：添加配送区域</p>
-<p>&nbsp; </p>
-
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <p><?php echo $row_product_type['name']; ?>：添加属性  </p>
+  <table width="100%" align="center">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
+      <td nowrap align="right">Is_selectable:</td>
       <td valign="baseline"><table>
         <tr>
-          <td><input type="radio" name="shipping_by_quantity" value="radiobutton1" >
-            [ 按重量计算 ]
-              <input type="radio" name="shipping_by_quantity" value="radiobutton2" />
-[ 按数量计算 ]</td>
+          <td><input name="is_selectable" type="radio" value="1" checked="checked" >
+            只是显示<input type="radio" name="is_selectable" value="2" >
+            可单选<input type="radio" name="is_selectable" value="3" >
+            可复选</td>
         </tr>
+        
       </table></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">First_kg_fee:</td>
-      <td><input type="text" name="first_kg_fee" value="" size="32"></td>
+      <td nowrap align="right">Input_method:</td>
+      <td valign="baseline"><table>
+        <tr>
+          <td><input name="input_method" type="radio" value="1" checked="checked" >
+            手动录<input type="radio" name="input_method" value="2" >
+            从以下列表中选<input type="radio" name="input_method" value="3" >
+            多行文本择入</td>
+        </tr>
+        
+      </table></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Continue_kg_fee:</td>
-      <td><input type="text" name="continue_kg_fee" value="" size="32"></td>
+      <td nowrap align="right">Selectable_value:</td>
+      <td><textarea name="selectable_value" cols="50" rows="5"></textarea>
+	  <input type="hidden" name="product_type_id" value="<?php echo $_GET['product_type_id']; ?>" /></td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Single_product_fee:</td>
-      <td><input type="text" name="single_product_fee" value="" size="32" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Free_quota:</td>
-      <td><input type="text" name="free_quota" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr valign="baseline">
+     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="插入记录"></td>
     </tr>
   </table>
-  <input type="hidden" name="shipping_method_id" value="">
-  <input type="hidden" name="area" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
 </body>
 </html>
+<?php
+mysql_free_result($product_type);
+?>

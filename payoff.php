@@ -40,6 +40,15 @@ if($row_order['order_status']!=0){
 	$url="/";
 	 header("Location: " . $url );
 }
+
+mysql_select_db($database_localhost, $localhost);
+$query_pay_method = "SELECT * FROM pay_method WHERE is_activated = 1";
+$pay_method = mysql_query($query_pay_method, $localhost) or die(mysql_error());
+$row_pay_method = mysql_fetch_assoc($pay_method);
+$totalRows_pay_method = mysql_num_rows($pay_method);
+$consignee_id=0;
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -69,7 +78,6 @@ margin:0px 3px;
 <body style="margin:0;">
 <?php include_once('widget/top_full_nav.php'); ?>
 <?php include_once('widget/cashdesk.php'); ?>
- <form id="alipayment" name="alipayment" method="post" action="/payment/alipay/alipayapi.php">
 <table width="990" height="46" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:10px auto;">
   <tr>
     <td width="50%" height="26" style="font-size:14px;">订单提交成功，请尽快付款，订单号：<strong><?php echo $row_order['sn']; ?></strong></td>
@@ -81,25 +89,31 @@ margin:0px 3px;
   </tr>
 </table>
 <div id="zhifu_white">
-<table width="990" height="46" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
-  <tr>
-    <td width="215"><label>
-    <input name="radiobutton" type="radio" value="radiobutton" checked="checked" />
-    </label>
-支付宝</td>
-    <td width="641"><div align="right" style="margin-right:20px;">支付<span class="need_pay"><?php echo $row_order['actual_paid']; ?></span>元</div></td>
-    <td width="74" colspan="2"><p align="right">
-      <input style="margin-right:10px;border-radius:4px;width:106px;height:34px;border:1px solid #54bef5;background-color:#54bef5;color:#ffffff;font-size:12px;" type="submit" name="Submit" value="立即支付" />
-    </p>    </td>
-  </tr>
-</table>
-<input name="WIDbody" type="hidden" value="订单及时到账支付" size="30" />
-<input name="WIDshow_url" type="hidden" value="http://<?php echo  $_SERVER['SERVER_NAME'];?>" size="30" />
-<input name="WIDout_trade_no" type="hidden" value="<?php echo $row_order['sn']; ?>" size="30" />
-<input name="WIDsubject"  type="hidden" value="订单号：<?php echo $row_order['sn']; ?>" size="30" />
-<input name="WIDtotal_fee"  type="hidden" value="<?php echo $row_order['actual_paid']; ?>" size="30" />
-</form>
-</div>
+    <form id="alipayment" name="alipayment" method="post" action="/payment/alipay/alipayapi.php">
+
+  <?php $checked=true;do { 
+   ?>
+      <table width="990" height="46" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+        <tr>
+          <td width="215"><label>
+            <input name="pay_method" type="radio" value="<?php echo $row_pay_method['id']; ?>" <?php if($checked){ ?>checked<?php }?> />
+            </label>
+          <?php echo $row_pay_method['name']; ?></td>
+        <td width="641"></td>
+        <td width="74" colspan="2"><p align="right">
+          <input style="margin-right:10px;border-radius:4px;width:106px;height:34px;border:1px solid #54bef5;background-color:#54bef5;color:#ffffff;font-size:12px;" type="submit" name="Submit" value="立即支付" />
+          </p>    </td>
+      </tr>
+      </table>
+      <input name="WIDbody" type="hidden" value="订单及时到账支付" size="30" />
+      <input name="WIDshow_url" type="hidden" value="http://<?php echo  $_SERVER['SERVER_NAME'];?>" size="30" />
+      <input name="WIDout_trade_no" type="hidden" value="<?php echo $row_order['sn']; ?>" size="30" />
+      <input name="WIDsubject"  type="hidden" value="订单号：<?php echo $row_order['sn']; ?>" size="30" />
+      <input name="WIDtotal_fee"  type="hidden" value="<?php echo $row_order['actual_paid']; ?>" size="30" />
+    <?php $checked=false;} while ($row_pay_method = mysql_fetch_assoc($pay_method)); ?>
+	        </form>
+
+	</div>
  <hr width="90%" style="border:none;border-bottom:1px solid #dddddd;position:absolute;bottom:40px;left:5%;"/>
  <div style="color:#666666;width:90%;left:5%;position:absolute;bottom:10px;text-align:center;">
    <div align="center">Copyright © 2015 上海序程信息科技有限公司www.123phpshop.com 版权所有</div>
@@ -108,4 +122,6 @@ margin:0px 3px;
 </html>
 <?php
 mysql_free_result($order);
+
+mysql_free_result($pay_method);
 ?>

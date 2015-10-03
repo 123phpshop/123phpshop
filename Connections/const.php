@@ -37,6 +37,7 @@ $order_status[0]='未付款';
 $order_status[100]='已付款';
 $order_status[200]='已发货';
 $order_status[300]='已收货';
+$pay_way['在线支付']=100;
 $pay_methomd[100]="支付宝";
 $shipping_method[100]="免运费";
 $please_deliver_at[1]="每天都可以";

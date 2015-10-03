@@ -1,4 +1,4 @@
-<?php
+<?php require_once('../../Connections/localhost.php'); ?><?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -57,8 +57,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
+  $insertSQL = sprintf("INSERT INTO product (unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+						GetSQLValueString($_POST['unit'], "text"),
+						GetSQLValueString($_POST['is_virtual'], "int"),
+						GetSQLValueString($_POST['weight'], "double"),
+					   GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
                        GetSQLValueString($_POST['catalog_id'], "int"),
@@ -72,8 +75,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
- 					   GetSQLValueString(date('Y-m-d H:i:s'), "date"),
+ $insertSQL = sprintf("INSERT INTO product (unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s)",
+ 					   GetSQLValueString($_POST['unit'], "text"),
+						GetSQLValueString($_POST['is_virtual'], "int"),
+						GetSQLValueString($_POST['weight'], "double"),
+					   GetSQLValueString(date('Y-m-d H:i:s'), "date"),
                        GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
@@ -96,6 +102,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
    
   header(sprintf("Location: %s", $insertGoTo));
 }
+?>
+<?php
+mysql_select_db($database_localhost, $localhost);
+$query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
+$product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
+$row_product_types = mysql_fetch_assoc($product_types);
+$totalRows_product_types = mysql_num_rows($product_types);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -146,6 +159,45 @@ do {
 ?>
         </select>
       </label></td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">商品类型：</th>
+      <td><select name="product_type_id" id="product_type_id">
+        <option value="0">未设置</option>
+        <?php
+do {  
+?>
+        <option value="<?php echo $row_product_types['id']?>"><?php echo $row_product_types['name']?></option>
+        <?php
+} while ($row_product_types = mysql_fetch_assoc($product_types));
+  $rows = mysql_num_rows($product_types);
+  if($rows > 0) {
+      mysql_data_seek($product_types, 0);
+	  $row_product_types = mysql_fetch_assoc($product_types);
+  }
+?>
+      </select></td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">重量：</th>
+      <td><input  name="weight" type="text" class="required" id="weight" value="" size="32" maxlength="13" />
+      克</td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">单位：</th>
+      <td><input  name="unit" type="text" class="required" id="unit" value="" size="32" maxlength="5" />
+      如盒，箱或支...</td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">虚拟产品:</th>
+      <td><table>
+        <tr>
+          <td><input type="radio" name="is_virtual" value="1">
+            是
+            <input  name="is_virtual" type="radio" value="0" checked="checked" />
+            否</td>
+        </tr>
+      </table></td>
     </tr>
     <tr valign="baseline">
       <th nowrap align="right">是否上架:</th>
@@ -370,4 +422,6 @@ $().ready(function(){
 </html>
 <?php
 mysql_free_result($brands);
+
+mysql_free_result($product_types);
 ?>

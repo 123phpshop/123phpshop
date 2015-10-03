@@ -30,7 +30,7 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
       <td><?php echo $row_shipping_methods['desc']; ?>&nbsp; </td>
       <td><?php echo $row_shipping_methods['is_activated']; ?>&nbsp; </td>
       <td><?php echo $row_shipping_methods['is_cod']; ?></td>
-      <td><a href="activate.php?id=<?php echo $row_shipping_methods['id']; ?>">激活</a> <a href="../shipping_method_area/index.php?shipping_method_id=<?php echo $row_shipping_methods['id']; ?>">配送区域</a> <a href="update.php?id=<?php echo $row_shipping_methods['id']; ?>">编辑</a> <a href="remove.php?id=<?php echo $row_shipping_methods['id']; ?>">删除</a></td>
+      <td><a href="activate.php?id=<?php echo $row_shipping_methods['id']; ?>">激活</a> <a href="/admin/shipping_method_area/<?php echo $row_shipping_methods['config_file_path']; ?>/add.php">添加配送区域</a> <a href="../shipping_method_area/index.php?shipping_method_id=<?php echo $row_shipping_methods['id']; ?>">配送区域</a> <a href="update.php?id=<?php echo $row_shipping_methods['id']; ?>">编辑</a> <a href="remove.php?id=<?php echo $row_shipping_methods['id']; ?>">删除</a></td>
     </tr>
     <?php } while ($row_shipping_methods = mysql_fetch_assoc($shipping_methods)); ?>
 </table>

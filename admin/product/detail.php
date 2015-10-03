@@ -102,7 +102,7 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = sprintf("SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = $recordID", $recordID);
+$query_DetailRS1 = sprintf("SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  right join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
 $DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
@@ -154,6 +154,10 @@ form{
       </tr>
 	  
 	   <tr>
+	     <td>类型</td>
+	     <td><?php echo $row_DetailRS1['product_type_name']; ?></td>
+      </tr>
+	   <tr>
         <td>品牌</td>
         <td><a href="../brands/detail.php?recordID=<?php echo $row_DetailRS1['brand_id']; ?>"><?php echo $row_DetailRS1['brand_name']; ?></a> </td>
       </tr>
@@ -178,31 +182,31 @@ form{
       
       <tr>
         <td>是否上架</td>
-        <td><?php echo $row_DetailRS1['is_on_sheft']; ?> </td>
+        <td><?php echo $row_DetailRS1['is_on_sheft']==0?"否":"是"; ?> </td>
       </tr>
       <tr>
         <td>热销产品</td>
-        <td><?php echo $row_DetailRS1['is_hot']; ?> </td>
+        <td><?php echo $row_DetailRS1['is_hot']==0?"否":"是"; ?> </td>
       </tr>
       <tr>
         <td>当季产品</td>
-        <td><?php echo $row_DetailRS1['is_season']; ?> </td>
+        <td><?php echo $row_DetailRS1['is_season']==0?"否":"是"; ?> </td>
       </tr>
       <tr>
         <td>推荐产品</td>
-        <td><?php echo $row_DetailRS1['is_recommanded']; ?> </td>
+        <td><?php echo $row_DetailRS1['is_recommanded']==0?"否":"是"; ?> </td>
       </tr>
-      <tr>
-        <td>介绍</td>
-        <td><?php echo $row_DetailRS1['description']; ?> </td>
-      </tr>
-      <tr>
+       <tr>
         <td>库存数目</td>
         <td><?php echo $row_DetailRS1['store_num']; ?> </td>
       </tr>
       <tr>
         <td>创建时间</td>
         <td><?php echo $row_DetailRS1['create_time']; ?> </td>
+      </tr>
+	  <tr>
+        <td>上架时间</td>
+        <td><?php echo $row_DetailRS1['on_sheft_time']; ?> </td>
       </tr>
 	   <tr>
         <td>介绍</td>

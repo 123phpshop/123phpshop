@@ -91,7 +91,7 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and 
 $consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
-$consignee_id=0;
+
 
 
  
@@ -293,7 +293,7 @@ mysql_query($order_log_sql, $localhost);
                      <td width="98" height="30" bordercolor="#cccccc">
                      	<div align="center" class="set_consingee" onclick="select_consignee(<?php echo $row_consignee['id'];?>)"><?php echo $row_consignee['name']; ?> <?php echo $row_consignee['province']; ?></div>
                      </td>
-                     </tr>
+                   </tr>
                 </table>
                      <?php 	}?>
                     <?php $default_address=false;?>
@@ -317,8 +317,8 @@ mysql_query($order_log_sql, $localhost);
 			   <?php } while ($row_consignee = mysql_fetch_assoc($consignee)); ?>
 			  <?php } ?>
              </table>
-            </td>
-          </tr>
+          </td>
+        </tr>
       </table>
       <hr width="98%" noshade="noshade" />
 	  
@@ -367,7 +367,7 @@ mysql_query($order_log_sql, $localhost);
               <td height="187" valign="top" bgcolor="#f3fbfe"><table width="576" height="102" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tr>
                   <td height="24" colspan="5">商家：自营</td>
-                  </tr>
+                </tr>
                  <?php
 					foreach ( $cart_products as $cart_products_item ) {
 						if(!isset($cart_products_item ['product_name'])){
@@ -396,7 +396,7 @@ mysql_query($order_log_sql, $localhost);
                 <tr>
                   <td>&nbsp;</td>
                   <td colspan="3">&nbsp;</td>
-                  </tr>
+                </tr>
  				  <?php  } ?>
               </table></td>
             </tr>
@@ -414,10 +414,10 @@ mysql_query($order_log_sql, $localhost);
             </p>
             <p>发票抬头： 
               <input name="invoice_title" type="text" id="invoice_title " />
-              </p>
+            </p>
             <p>发票备注：
               <input name="invoice_message" type="text" id="invoice_message " />
-              </p></td>
+            </p></td>
         </tr>
 		
 		<tr>
@@ -430,7 +430,7 @@ mysql_query($order_log_sql, $localhost);
 		 <input name="payment_method" type="hidden" value="100" />
 		</td>
       </tr>
-       </table>
+  </table>
       </div></td>
   </tr>
 </table>
@@ -462,7 +462,7 @@ mysql_query($order_log_sql, $localhost);
 		  <input name="MM_insert" type="hidden" id="MM_insert" value="order_form" />
      	<input name="consignee_id" type="hidden" id="consignee_id" value="" />
      </div></td>
-   </tr>
+  </tr>
 </table>
 </form>
 <table width="990" border="0" align="center" cellpadding="0" bgcolor="#F4F4F4">
@@ -600,6 +600,8 @@ function check_consignee(){
 </html>
 <?php
 mysql_free_result($consignee);
+
+mysql_free_result($pay_method);
 
 mysql_free_result($product_image);
 ?>

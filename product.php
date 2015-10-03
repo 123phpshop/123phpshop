@@ -207,8 +207,7 @@ body {
           <input name="product_name" type="hidden" id="product_name" value="<?php echo $row_product['name']; ?>" />
           <input name="product_image" type="hidden" id="product_image" value="<?php echo $row_product_images['image_files']; ?>" />
           <input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_product['ad_text']; ?>" />
-          <input name="product_price" type="hidden" id="product_price" value="<?php echo $row_product['price']; ?>" />
-          <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
+           <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
         </div>        </label></td>
     </tr>
     

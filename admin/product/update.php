@@ -61,6 +61,12 @@ $brands = mysql_query($query_brands, $localhost) or die(mysql_error());
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
+mysql_select_db($database_localhost, $localhost);
+$query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
+$product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
+$row_product_types = mysql_fetch_assoc($product_types);
+$totalRows_product_types = mysql_num_rows($product_types);
+
 
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -79,8 +85,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 
 //	如果需要上架的话
- $updateSQL = sprintf("UPDATE product SET on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
- 					   GetSQLValueString($on_sheft_time, "date"),
+ $updateSQL = sprintf("UPDATE product SET product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
+					   GetSQLValueString($_POST['product_type_id'], "text"),
+ 					   GetSQLValueString($_POST['unit'], "text"),
+                       GetSQLValueString($_POST['weight'], "double"),
+                       GetSQLValueString($_POST['is_virtual'], "int"),
+					   GetSQLValueString($on_sheft_time, "date"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
                        GetSQLValueString($_POST['price'], "double"),
@@ -154,6 +164,39 @@ do {
     </tr>
 	
     <tr valign="baseline">
+      <td nowrap="nowrap" align="right">商品类型：</td>
+      <td><select name="product_type_id" id="product_type_id">
+        <option value="0" <?php if (!(strcmp(0, $row_product['product_type_id']))) {echo "selected=\"selected\"";} ?>>未设置</option>
+        <?php
+do {  
+?>
+        <option value="<?php echo $row_product_types['id']?>"<?php if (!(strcmp($row_product_types['id'], $row_product['product_type_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_product_types['name']?></option>
+        <?php
+} while ($row_product_types = mysql_fetch_assoc($product_types));
+  $rows = mysql_num_rows($product_types);
+  if($rows > 0) {
+      mysql_data_seek($product_types, 0);
+	  $row_product_types = mysql_fetch_assoc($product_types);
+  }
+?>
+      </select></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">重量：</td>
+      <td valign="baseline"><input name="weight" type="text"  id="weight" value="<?php echo $row_product['weight']; ?>" size="32" maxlength="13" /></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">单位：</td>
+      <td valign="baseline"><input name="unit" type="text"  id="unit" value="<?php echo $row_product['unit']; ?>" size="32" maxlength="13" /></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">虚拟物品：</td>
+      <td valign="baseline"><input type="radio" name="is_virtual" value="1" <?php if (!(strcmp($row_product['is_virtual'],"1"))) {echo "CHECKED";} ?> />
+是
+  <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0"))) {echo "CHECKED";} ?> />
+否</td>
+    </tr> 
+    <tr valign="baseline">
       <td nowrap align="right">上架:</td>
       <td valign="baseline"><input type="radio" name="is_on_sheft" value="1" <?php if (!(strcmp($row_product['is_on_sheft'],"1"))) {echo "CHECKED";} ?> />
 是
@@ -187,8 +230,7 @@ do {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">介绍:</td>
-      <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"><?php echo $row_product['intro']; ?></script>
-      </td>
+      <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"><?php echo $row_product['intro']; ?></script>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -359,5 +401,7 @@ $().ready(function(){
 mysql_free_result($product);
 
 mysql_free_result($brands);
+
+mysql_free_result($product_types);
 ?>
 

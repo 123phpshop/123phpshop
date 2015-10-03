@@ -71,12 +71,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="file:///I|/vhost/123phpshop/css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>添加支付方式 </p>
+<p class="phpshop123_title">添加支付方式 </p>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>
       <td><input type="text" name="name" value="" size="32"></td>

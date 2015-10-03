@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -27,6 +29,7 @@ class Cart {
 		//		这里检查session是否开启，如果没有开启，那么开启
 		if(!$this->_is_cart_initialized()){
 			$this->_init_cart ();
+			$this->clear();
 		}
  	}
 	
@@ -220,7 +223,20 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	private function _do_add_product($product) {
+	
+//			这里需要根据product的id获取相应的产品的价格
+		$price=$this->_get_product_from_db_by_id($product ['product_id']);
+		$product['product_price']=$price;
 		$_SESSION ['cart'] ['products'] [] = $product;
+	}
+	
+	private function _get_product_from_db_by_id($product_id){
+		mysql_select_db($database_localhost);
+		$query_product = "SELECT id, price FROM product WHERE id = ".$product_id;
+		$product = mysql_query($query_product) or die(mysql_error());
+		$row_product = mysql_fetch_assoc($product);
+		//$totalRows_product = mysql_num_rows($product);
+		return $row_product['price'];
 	}
 	
 	/**
@@ -304,7 +320,7 @@ class Cart {
 	 * Enter description here ...
 	 */
 	public function update() {
-	
+		
 	}
 	
 	/**

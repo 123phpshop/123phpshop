@@ -197,7 +197,7 @@ function _get_product_where($get){
         <td><?php echo $row_products['is_hot']=='1'?"√":""; ?>&nbsp; </td>
         <td><?php echo $row_products['is_recommanded']=='1'?"√":""; ?>&nbsp; </td>
         <td><?php echo $row_products['store_num']; ?></td>
-        <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">更新</a> <a href="../product_images/index.php?id=<?php echo $row_products['id']; ?>"></a></div></td>
+        <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">更新  </a> <a href="set_attr.php?product_id=<?php echo $row_products['id']; ?>">设置属性</a></div></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
