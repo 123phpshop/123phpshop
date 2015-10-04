@@ -1,4 +1,3 @@
-<?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once('../../Connections/localhost.php'); 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -62,7 +61,6 @@ $shipping_method = mysql_query($query_shipping_method, $localhost) or die(mysql_
 $row_shipping_method = mysql_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
 ?>
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -79,20 +77,20 @@ $totalRows_shipping_method = mysql_num_rows($shipping_method);
       <td><input type="text" name="name" value="<?php echo $row_shipping_method['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Config_file_path:</td>
+      <td nowrap align="right">配置文件夹名称:</td>
       <td><input type="text" name="config_file_path" value="<?php echo $row_shipping_method['config_file_path']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_activated:</td>
-      <td><input type="checkbox" name="is_activated" value=""  <?php if (!(strcmp($row_shipping_method['is_activated'],""))) {echo "@@checked@@";} ?>></td>
+      <td nowrap align="right">激活:</td>
+      <td><input type="checkbox" name="is_activated" value=""  <?php if ($row_shipping_method['is_activated']==1) {echo "checked";} ?>></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_cod:</td>
-      <td><input type="checkbox" name="is_cod" value=""  <?php if (!(strcmp($row_shipping_method['is_cod'],""))) {echo "@@checked@@";} ?>></td>
+      <td nowrap align="right">到付:</td>
+      <td><input type="checkbox" name="is_cod" value=""  <?php if ($row_shipping_method['is_cod']==1) {echo "checked";} ?>></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_free:</td>
-      <td><input type="checkbox" name="is_free" value=""  <?php if (!(strcmp($row_shipping_method['is_free'],""))) {echo "@@checked@@";} ?>></td>
+      <td nowrap align="right">免费:</td>
+      <td><input type="checkbox" name="is_free" value=""  <?php if ($row_shipping_method['is_free']==1) {echo "checked";} ?>></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Desc:</td>

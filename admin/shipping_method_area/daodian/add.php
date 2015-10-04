@@ -31,19 +31,31 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, name, shipping_by_quantity, first_kg_fee, continue_kg_fee, free_quota, single_product_fee) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, name) VALUES (%s, %s, %s)",
                        GetSQLValueString($_POST['shipping_method_id'], "int"),
                        GetSQLValueString($_POST['area'], "text"),
-                       GetSQLValueString($_POST['name'], "text"),
-                       GetSQLValueString($_POST['shipping_by_quantity'], "int"),
-                       GetSQLValueString($_POST['first_kg_fee'], "double"),
-                       GetSQLValueString($_POST['continue_kg_fee'], "double"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['single_product_fee'], "double"));
+                       GetSQLValueString($_POST['name'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+
+  $insertGoTo = "../index.php";
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: %s", $insertGoTo));
 }
+
+$colname_shipping_method = "-1";
+if (isset($_GET['config_file_path'])) {
+  $colname_shipping_method = (get_magic_quotes_gpc()) ? $_GET['config_file_path'] : addslashes($_GET['config_file_path']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_shipping_method = sprintf("SELECT * FROM shipping_method WHERE config_file_path = 'daodian'");
+$shipping_method = mysql_query($query_shipping_method, $localhost) or die(mysql_error());
+$row_shipping_method = mysql_fetch_assoc($shipping_method);
+$totalRows_shipping_method = mysql_num_rows($shipping_method);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -52,43 +64,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p>顺丰配送区域配置</p>
-<p>&nbsp; </p>
-
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+  <p>到店自提&gt;添加配送区域</p>
   <table align="center">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>
       <td><input type="text" name="name" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input name="shipping_by_quantity" type="radio" value="0" checked="checked" >
-            按重量</td>
-        </tr>
-        <tr>
-          <td><input type="radio" name="shipping_by_quantity" value="1" >
-            按数量</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">First_kg_fee:</td>
-      <td><input type="text" name="first_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Continue_kg_fee:</td>
-      <td><input type="text" name="continue_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Free_quota:</td>
-      <td><input type="text" name="free_quota" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Single_product_fee:</td>
-      <td><input type="text" name="single_product_fee" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">配送区域</td>
@@ -99,10 +80,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input type="submit" value="插入记录"></td>
     </tr>
   </table>
-  <input type="hidden" name="shipping_method_id" value="">
+  <input type="hidden" name="shipping_method_id" value="<?php echo $row_shipping_method['id'];?> ">
   <input type="hidden" name="area" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
 </body>
 </html>
+<?php
+mysql_free_result($shipping_method);
+?>

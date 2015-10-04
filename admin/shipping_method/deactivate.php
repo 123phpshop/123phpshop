@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
   $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_admin = sprintf("SELECT * FROM brands WHERE id = %s", $colname_admin);
+$query_admin = sprintf("SELECT * FROM shipping_method WHERE id = %s", $colname_admin);
 $admin = mysql_query($query_admin, $localhost) or die(mysql_error());
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
@@ -38,7 +38,7 @@ if($could_delete==1){
 		header("Location: " . $remove_succeed_url );
 	}
 	
-	$update_catalog = sprintf("update `brands` set is_delete=1 where id = %s", $colname_admin);
+	$update_catalog = sprintf("update `shipping_method` set is_activated=0 where id = %s", $colname_admin);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
 		$could_delete=0;
@@ -58,7 +58,7 @@ if($could_delete==1){
 <body>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <p>由于一下原因，您不能删除这个品牌：</p>
+  <p>由于一下原因，您不能卸载这种配送方式：</p>
   <p>1. 记录不存在，请检查参数之后再试。</p>
   <p>2. 系统错误，无法删除，请示稍后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。
