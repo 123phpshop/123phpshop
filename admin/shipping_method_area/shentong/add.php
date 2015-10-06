@@ -56,48 +56,44 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>申通快递：添加配送区域</p>
+<p class="phpshop123_title">申通快递：添加配送区域</p>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
+      <td nowrap align="right">名称:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input type="radio" name="shipping_by_quantity" value="radiobutton1" >
-            [ 按重量计算 ]
-              <input type="radio" name="shipping_by_quantity" value="radiobutton2" />
-[ 按数量计算 ]</td>
-        </tr>
-      </table></td>
+      <td nowrap align="right">运费计算:</td>
+      <td valign="baseline"><input name="shipping_by_quantity" onchange="by_weight()" type="radio" value="0" checked="checked">
+ 按重量计算
+   <input type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()"/>   按数量计算 </td>
+    </tr>
+    <tr valign="baseline" class="by_weight">
+      <td nowrap align="right">首重费用:</td>
+      <td><input type="text" name="first_kg_fee" value="15" size="32"></td>
+    </tr>
+    <tr valign="baseline" class="by_weight">
+      <td nowrap align="right">续重费用:</td>
+      <td><input type="text" name="continue_kg_fee" value="5" size="32"></td>
+    </tr>
+    <tr valign="baseline" class="by_quantity" style="display:none;">
+      <td nowrap="nowrap" align="right">单商品费用:</td>
+      <td><input type="text" name="single_product_fee" value="15" size="32" /></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">First_kg_fee:</td>
-      <td><input type="text" name="first_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Continue_kg_fee:</td>
-      <td><input type="text" name="continue_kg_fee" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Single_product_fee:</td>
-      <td><input type="text" name="single_product_fee" value="" size="32" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Free_quota:</td>
-      <td><input type="text" name="free_quota" value="" size="32"></td>
+      <td nowrap align="right">免费额度:</td>
+      <td><input type="text" name="free_quota" value="0" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td>&nbsp;</td>
+      <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -108,6 +104,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   <input type="hidden" name="area" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+ <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+ 
 </body>
 </html>

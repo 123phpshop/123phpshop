@@ -34,17 +34,22 @@ function show_disticts(city_name){
   <table width="960" border="0">
   <tr>
     <td width="131" valign="top"><table width="118" border="0" id="province_box">
-  <?php do { ?>
+  
     <tr>
-      <td width="108" > 
-        <input type="checkbox" name="area[]" class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['name']; ?>">
-       <label onMouseOver="show_city('<?php echo $row_areas['name']; ?>')"><?php echo $row_areas['name']; ?></label></td>
+      <td width="108" valign="top" > 
+	  <?php do { ?>
+        <div style="cursor:pointer;" onMouseOver="show_city('<?php echo $row_areas['name']; ?>')">
+<input type="checkbox" name="area[]"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')">
+<span><?php echo $row_areas['name']; ?></span></br>
+</div>
+		 <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
+		</td>
     </tr>
-    <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
+   
 </table></td>
     <td width="201" valign="top" id="city_box">
 	<?php while($row_areas_for_city = mysql_fetch_assoc($areas_for_city)){ ?>
-	<div class="city_list_item" province_name="<?php echo $row_areas_for_city['name']; ?>" id="city_<?php echo $row_areas_for_city['id'];?>" style="display:none;">
+	<div class="city_list_item" province_name="<?php echo $row_areas_for_city['name']; ?>" id="city_<?php echo $row_areas_for_city['id'];?>" style="display:none;cursor:pointer;">
  		<?php 
 			mysql_select_db($database_localhost, $localhost);
 			$query_cities = "SELECT * FROM area WHERE pid = ".$row_areas_for_city['id'];
@@ -52,7 +57,7 @@ function show_disticts(city_name){
 			$totalRows_cities = mysql_num_rows($cities);
 			while($row_cities = mysql_fetch_assoc($cities)){
 		?>
-       	<input type="checkbox" name="checkbox" value="checkbox"><span onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
+       	<input type="checkbox" class="city" name="area[]" province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')" ><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
  	 	<?php } ?>
 	  </div>
 	<?php } ?>	</td><td width="606" valign="top">
@@ -73,7 +78,7 @@ function show_disticts(city_name){
 				$totalRows_distict = mysql_num_rows($disticties);?>
 				<div class="district_list_item" city_name="<?php echo $row_cities['name'];?>" style="display:none;" >
  				<?php 	while($row_distict = mysql_fetch_assoc($disticties)){?>
-						<input type="checkbox" value=""><?php echo $row_distict['name'];?></br>
+						<input class="district" name="area[]" type="checkbox" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('".<?php echo $row_cities['name']; ?>."')"><?php echo $row_distict['name'];?></br>
  				<?php 	} ?>
  				</div>
 				<?php 	}

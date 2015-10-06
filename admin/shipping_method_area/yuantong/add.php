@@ -75,22 +75,22 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td nowrap align="right">根据数量计算:</td>
       <td valign="baseline"><table width="100%">
         <tr>
-          <td><input name="shipping_by_quantity" type="radio" value="0" checked="checked" >
+          <td><input name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()" >
             按重量
-              <input type="radio" name="shipping_by_quantity" value="1" />
+              <input type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()"/>
 按数量</td>
         </tr>
       </table></td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" class="by_weight">
       <td nowrap align="right">首重费用:</td>
       <td><input type="text" name="first_weight_fee" value="" size="32"></td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" class="by_weight">
       <td nowrap align="right">续重费用:</td>
       <td><input type="text" name="continue_weight_fee" value="" size="32"></td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" class="by_quantity" style="display:none;">
       <td nowrap align="right">单个商品费用:</td>
       <td><input type="text" name="single_product_fee" value="" size="32"></td>
     </tr>
@@ -115,6 +115,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   <input type="hidden" name="area" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+
 </body>
 </html>

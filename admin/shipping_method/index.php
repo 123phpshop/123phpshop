@@ -19,8 +19,7 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
     <td><div align="center">id</div></td>
     <td>name</td>
     <td>desc</td>
-    <td>is_activated</td>
-    <td>is_cod</td>
+    <td><div align="center">is_activated</div></td>
     <td>操作</td>
   </tr>
   <?php do { ?>
@@ -31,8 +30,7 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
       <td><label></label>
       <a href="detail.php?recordID=<?php echo $row_shipping_methods['id']; ?>"> <?php echo $row_shipping_methods['name']; ?>&nbsp; </a> </td>
       <td><?php echo $row_shipping_methods['desc']; ?>&nbsp; </td>
-      <td><?php echo $row_shipping_methods['is_activated']==1?"√":""; ?>&nbsp; </td>
-      <td><?php echo $row_shipping_methods['is_cod']==1?"√":""; ?></td>
+      <td><div align="center"><?php echo $row_shipping_methods['is_activated']==1?"√":""; ?>&nbsp; </div></td>
       <td><?php if( $row_shipping_methods['is_activated']==0){ ?><a href="activate.php?id=<?php echo $row_shipping_methods['id']; ?>">激活</a><?php }else{ ?><a href="deactivate.php?id=<?php echo $row_shipping_methods['id']; ?>" onclick="return confirm('您确实要卸载这中配送方式吗？')">卸载</a><?php } ?> <a href="/admin/shipping_method_area/<?php echo $row_shipping_methods['config_file_path']; ?>/add.php">添加配送区域</a> <a href="../shipping_method_area/index.php?shipping_method_id=<?php echo $row_shipping_methods['id']; ?>">配送区域</a> <a href="update.php?id=<?php echo $row_shipping_methods['id']; ?>">编辑</a> <a href="remove.php?id=<?php echo $row_shipping_methods['id']; ?>" onclick="return confirm('您确实要删除这条记录吗？')">删除</a></td>
     </tr>
     <?php } while ($row_shipping_methods = mysql_fetch_assoc($shipping_methods)); ?>

@@ -73,29 +73,31 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td nowrap align="right">Shipping_by_quantity:</td>
       <td valign="baseline"><table width="100%">
         <tr>
-          <td><input name="shipping_by_quantity" type="radio" value="按重量" checked="checked" >
+          <td><input name="shipping_by_quantity" type="radio" value="按重量" checked="checked" onchange="by_weight()" >
             按重量
-              <input type="radio" name="shipping_by_quantity" value="按数量" />
+              <input type="radio" name="shipping_by_quantity" value="按数量" onchange="by_quantity()"/>
 按数量</td>
         </tr>
       </table></td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" class="by_weight">
       <td nowrap align="right">First_kg_fee:</td>
       <td><input type="text" name="first_kg_fee" value="" size="32"></td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" class="by_weight">
       <td nowrap align="right">Continue_kg_fee:</td>
       <td><input type="text" name="continue_kg_fee" value="" size="32"></td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Free_quota:</td>
-      <td><input type="text" name="free_quota" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
+   
+    <tr valign="baseline" class="by_quantity">
       <td nowrap align="right">Single_product_fee:</td>
       <td><input type="text" name="single_product_fee" value="" size="32"></td>
     </tr>
+	 <tr valign="baseline">
+      <td nowrap align="right">Free_quota:</td>
+      <td><input type="text" name="free_quota" value="" size="32"></td>
+    </tr>
+	
     <tr valign="baseline">
       <td nowrap align="right">区域设置</td>
       <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>
@@ -108,6 +110,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   <input type="hidden" name="shipping_method_id" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
 </body>
 </html>
