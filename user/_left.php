@@ -37,22 +37,22 @@ a{
 <body>
 <table width="100" border="0" align="right">
   <tr height="24">
-    <td scope="row"><a href="order/index.php" target="_main">我的订单</a></td>
+    <td scope="row"><a href="order/index.php" target="main">我的订单</a></td>
   </tr>
   <tr height="24">
-     <td scope="row"><a href="consignee/index.php" target="_main">收货地址</a></td>
+     <td scope="row"><a href="consignee/index.php" target="main">收货地址</a></td>
   </tr>
   <tr height="24">
-    <td scope="row"><a href="password/update.php" target="_main">更新密码</a></td>
+    <td scope="row"><a href="password/update.php" target="main">更新密码</a></td>
   </tr>
   <tr>
-    <td scope="row"><a href="info.php" target="_main">账户信息</a></td>
+    <td scope="row"><a href="info.php" target="main">账户信息</a></td>
   </tr>
   <tr height="24">
-    <td scope="row"><a href="user_comments/index.php" target="_main">我的评论</a></td>
+    <td scope="row"><a href="user_comments/index.php" target="main">我的评论</a></td>
   </tr>
   <tr height="24">
-    <td scope="row"><a href="user_consult/index.php" target="_main">我的咨询</a></td>
+    <td scope="row"><a href="user_consult/index.php" target="main">我的咨询</a></td>
   </tr>
  
 </table>

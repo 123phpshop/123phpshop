@@ -21,7 +21,7 @@
 <frame src="_top.php" name="_top" scrolling="no"/>
 	<frameset cols="15%,*" scrolling="no">
 		<frame src="_left.php" name="_left"/>
-		<frame src="<?php echo isset($_GET['path'])?$_GET['path']:'order/index.php';?>" name="_main"/>
+		<frame src="<?php echo isset($_GET['path'])?$_GET['path']:'order/index.php';?>" name="main"/>
 	</frameset>
 </frameset><noframes></noframes>
  
