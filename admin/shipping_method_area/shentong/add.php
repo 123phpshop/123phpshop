@@ -25,6 +25,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
+mysql_select_db($database_localhost, $localhost);
+$query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path = 'shentong'";
+$shipping_method = mysql_query($query_shipping_method, $localhost) or die(mysql_error());
+$row_shipping_method = mysql_fetch_assoc($shipping_method);
+$totalRows_shipping_method = mysql_num_rows($shipping_method);
+
+
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -33,7 +40,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   $insertSQL = sprintf("INSERT INTO shipping_method_area (name, shipping_method_id, area, shipping_by_quantity, first_kg_fee, continue_kg_fee, free_quota, single_product_fee) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
-                       GetSQLValueString($_POST['shipping_method_id'], "int"),
+                       GetSQLValueString($row_shipping_method['id'], "int"),
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
                        GetSQLValueString($_POST['first_kg_fee'], "double"),
@@ -43,14 +50,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
-  $insertGoTo = "../index.php?shipping_method=1";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
+   $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];
+   header(sprintf("Location: %s", $insertGoTo));
 }
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -100,12 +104,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input type="submit" value="插入记录"></td>
     </tr>
   </table>
-  <input type="hidden" name="shipping_method_id" value="">
   <input type="hidden" name="area" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
- <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
-  <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
- 
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
 </body>
 </html>
+<?php
+mysql_free_result($shipping_method);
+?>

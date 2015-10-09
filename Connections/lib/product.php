@@ -75,3 +75,9 @@ function _add_db_view_history($product_id){
 		mysql_query($sql) or die(mysql_error());
 	}
 }
+
+// 计算运费
+function get_shipping_fee($shipping_detination){
+	
+	
+}

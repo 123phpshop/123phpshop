@@ -92,21 +92,22 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>添加产品类型</p>
+<p class="phpshop123_title">添加产品类型</p>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
       <td nowrap align="right">产品类型:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
   <input type="hidden" name="pid" value="<?php echo isset($_GET['pid'])?$_GET['pid']:"0"; ?>">
@@ -133,23 +134,21 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
   </tr>
 </table>
 <p>
-<table width="100%" border="1" align="center">
+<table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td>id</td>
-    <td>name</td>
-    <td>pid</td>
-    <td>is_delete</td>
-    <td>create_time</td>
-    <td>操作</td>
+    <td width="3%"><div align="center">选择</div></td>
+    <td width="46%">名称</td>
+    <td width="51%"><div align="right">操作</div></td>
   </tr>
   <?php do { ?>
     <tr>
-      <td><?php echo $row_product_type['id']; ?>&nbsp; </td>
+      <td><label>
+        <div align="center">
+          <input type="checkbox" name="checkbox" value="checkbox" />
+          </div>
+      </label> </td>
       <td><a href="detail.php?recordID=<?php echo $row_product_type['id']; ?>"> <?php echo $row_product_type['name']; ?>&nbsp; </a> </td>
-      <td><?php echo $row_product_type['pid']; ?>&nbsp; </td>
-      <td><?php echo $row_product_type['is_delete']; ?>&nbsp; </td>
-      <td><?php echo $row_product_type['create_time']; ?></td>
-      <td><a href="remove.php?id=<?php echo $row_product_type['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">更新</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></td>
+      <td><div align="right"><a href="remove.php?id=<?php echo $row_product_type['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">更新</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></div></td>
     </tr>
     <?php } while ($row_product_type = mysql_fetch_assoc($product_type)); ?>
 </table>

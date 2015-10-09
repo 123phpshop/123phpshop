@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
 }
   
 mysql_select_db($database_localhost, $localhost);
-$query_product = sprintf("SELECT * FROM product WHERE id = %s and is_delete=0 and is_on_sheft=1", $colname_product);
+$query_product = sprintf("SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = %s and product.is_delete=0 and product.is_on_sheft=1", $colname_product);
 $product = mysql_query($query_product, $localhost) or die(mysql_error());
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
@@ -63,7 +63,7 @@ if (isset($_GET['id'])) {
   $colname_product_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s", $colname_product_images);
+$query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images);
 $product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
 $row_product_images = mysql_fetch_assoc($product_images);
 $totalRows_product_images = mysql_num_rows($product_images);
@@ -77,6 +77,16 @@ $query_product_image_small = sprintf("SELECT * FROM product_images WHERE product
 $product_image_small = mysql_query($query_product_image_small, $localhost) or die(mysql_error());
 $row_product_image_small = mysql_fetch_assoc($product_image_small);
 $totalRows_product_image_small = mysql_num_rows($product_image_small);
+
+$colname_consignee = "-1";
+if (isset($_SESSION['user_id'])) {
+  $colname_consignee = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 order by id desc limit 1", $colname_consignee);
+$consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
+$row_consignee = mysql_fetch_assoc($consignee);
+$totalRows_consignee = mysql_num_rows($consignee);
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = ".$row_product['catalog_id'];
@@ -167,10 +177,10 @@ body {
         </div>
 		<table width="98%">
 		<tr>
-      <td width="18%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
+      <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
         <p style="margin-left:12px;"> 本店价:</p>
       </blockquote></td>
-      <td width="43%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span> </div></td>
+      <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span> </div></td>
       <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
     </tr>
     <tr>
@@ -180,19 +190,19 @@ body {
       <td height="38" colspan="2" scope="row"><div align="left"><s><strong id="jd-price">￥</strong><?php echo $row_product['market_price']; ?></s></div></td>
     </tr>
     <tr>
-      <td height="38" scope="row"  style="padding-left:12px;">库存:</td>
+      <td height="38" scope="row"  style="padding-left:12px;">库&nbsp;&nbsp;&nbsp;&nbsp;存:</td>
       <td height="38" colspan="2" scope="row"><?php echo $row_product['store_num']; ?></td>
     </tr>
     <tr>
-      <td height="38" scope="row" style="padding-left:12px;">上架时间:</td>
-      <td height="38" colspan="2" scope="row"><?php echo $row_product['on_sheft_time']; ?></td>
+      <td height="38" scope="row" style="padding-left:12px;">品&nbsp;&nbsp;&nbsp;&nbsp;牌:</td>
+      <td height="38" colspan="2" scope="row"><?php echo $row_product['brand_name']; ?></td>
     </tr>
     <tr>
-      <td height="38" scope="row" style="padding-left:12px;">创建时间:</td>
-      <td height="38" colspan="2" scope="row"><?php echo $row_product['create_time']; ?></td>
+      <td height="38" scope="row" style="padding-left:12px;">配送至:</td>
+      <td height="38" colspan="2" valign="middle" scope="row" style="padding:0px;"><?php include_once('widget/area/index.php')?>  有货</td>
     </tr>
     <tr>
-      <td scope="row" style="padding-left:12px;">      数量:</td>
+      <td scope="row" style="padding-left:12px;">      数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
       <td colspan="2" scope="row"><label>
   		 
       </label>
@@ -231,7 +241,7 @@ body {
     <tr>
       <td width="210" valign="top"> 
        <?php include_once('widget/view_buy.php'); ?>
-       </td>
+      </td>
       <td valign="top" align="center"> 
 	  	
         <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
@@ -254,6 +264,9 @@ body {
 <script language="JavaScript" type="text/javascript" src="/js/image_slide/js/jquery-1.8.3.min.js"></script>
 <script src="/js/product_image_slide/js/pic_tab.js"></script>
 <script>
+<?php if($row_consignee['province']!=''){ ?>
+addressInit('province', 'city', 'district', '<?php echo $row_consignee['province']; ?>', '<?php echo $row_consignee['city']; ?>', '<?php echo $row_consignee['district']; ?>');
+ <?php } ?>
 jq('#demo1').banqh({
 	box:"#demo1",//总框架
 	pic:"#ban_pic1",//大图框架
@@ -298,5 +311,7 @@ var change_quantity=function(quantity){
 </body>
 </html>
 <?php
+mysql_free_result($consignee);
+
 add_view_history($colname_product);
 ?>

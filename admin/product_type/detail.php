@@ -12,7 +12,7 @@ if (isset($_GET['pid'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = sprintf("SELECT * FROM product_type  WHERE id = $recordID", $colname_product_type);
+$query_DetailRS1 = sprintf("SELECT * FROM product_type  WHERE id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
 $DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
@@ -29,11 +29,13 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 		
-<table border="1" align="center">
+<p class="phpshop123_title">产品类型详细</p>
+<table border="0" align="center" class="phpshop123_form_box">
   
   <tr>
     <td>id</td>
@@ -47,16 +49,6 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
     <td>pid</td>
     <td><?php echo $row_DetailRS1['pid']; ?> </td>
   </tr>
-  <tr>
-    <td>is_delete</td>
-    <td><?php echo $row_DetailRS1['is_delete']; ?> </td>
-  </tr>
-  <tr>
-    <td>create_time</td>
-    <td><?php echo $row_DetailRS1['create_time']; ?> </td>
-  </tr>
-  
-  
 </table>
 
 </body>

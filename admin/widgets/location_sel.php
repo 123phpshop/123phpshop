@@ -1,5 +1,10 @@
-<?php //require_once('../../Connections/localhost.php'); ?><?php //require_once('../../Connections/localhost.php'); ?>
 <?php
+ 
+//	将配送区域用；隔开
+
+$area=explode(";",$row_shipping_method_area['area']);
+
+ 
 mysql_select_db($database_localhost, $localhost);
 $query_areas = "SELECT id, name FROM area WHERE pid = 0";
 $areas = mysql_query($query_areas, $localhost) or die(mysql_error());
@@ -16,6 +21,16 @@ mysql_select_db($database_localhost, $localhost);
 $query_areas_for_district = "SELECT id, name FROM area WHERE pid = 0";
 $areas_for_district = mysql_query($query_areas_for_district, $localhost) or die(mysql_error());
 
+
+function should_check($area_name,$area_array){
+ 	for($i=0;$i<count($area_array);$i++){
+		if(strpos($area_array[$i],$area_name)>-1){
+			return true; 
+		}
+	}
+ 	return false;
+}
+
 ?> 
 <script src="/js/jquery-1.7.2.min.js"></script>
 <script src="/js/jsAddress.js"></script>
@@ -31,23 +46,43 @@ function show_disticts(city_name){
    $(".district_list_item[city_name!="+city_name+"]").hide();
 }
 </script>
-  <table width="960" border="0">
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+
+  <p>选择的列表</p>
+  <table width="100%" border="0" class="phpshop123_list_box" id="area_selected">
+    <tr>
+      <td>省</td>
+      <td>市</td>
+      <td>区县</td>
+    </tr>
+	<?php foreach($area as $area_item){ if($area_item!=''){ $location_array=explode('_',$area_item);if($area_item!=''){?>
+	 <tr class="selected_area_row" province_name="<?php echo $location_array[0];?>" city_name="<?php echo $location_array[1];?>" district_name="<?php echo $location_array[2];?>">
+      <td class="province_selected"><?php echo $location_array[0];?></td>
+      <td class="city_selected"><?php echo $location_array[1];?></td>
+      <td class="district_selected"><?php echo $location_array[2];?></td>
+    </tr>
+	<?php } } } ?>
+  </table>
+  <p>&nbsp;</p>
+  <table width="33%" border="0" id="areas_box">
   <tr>
-    <td width="131" valign="top"><table width="118" border="0" id="province_box">
+    <td width="119" valign="top"><table width="118" border="0" id="province_box">
   
     <tr>
       <td width="108" valign="top" > 
+	  <input value="*" name="area[]"  type="checkbox" id="country" onchange="select_all()" />
+	  <span>全国</span></br>
 	  <?php do { ?>
         <div style="cursor:pointer;" onMouseOver="show_city('<?php echo $row_areas['name']; ?>')">
-<input type="checkbox" name="area[]"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')">
-<span><?php echo $row_areas['name']; ?></span></br>
+<input type="checkbox" name="area[]"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')" <?php if(in_array($row_areas['name']."_*_*",$area) || should_check($row_areas['name']."_",$area)){ ?> checked <?php } ?>>
+<span area_pos="<?php echo should_check($row_areas['name']."_",$area);?>"><?php echo $row_areas['name']; ?></span></br>
 </div>
 		 <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
 		</td>
     </tr>
    
 </table></td>
-    <td width="201" valign="top" id="city_box">
+    <td width="161" valign="top" id="city_box">
 	<?php while($row_areas_for_city = mysql_fetch_assoc($areas_for_city)){ ?>
 	<div class="city_list_item" province_name="<?php echo $row_areas_for_city['name']; ?>" id="city_<?php echo $row_areas_for_city['id'];?>" style="display:none;cursor:pointer;">
  		<?php 
@@ -57,10 +92,10 @@ function show_disticts(city_name){
 			$totalRows_cities = mysql_num_rows($cities);
 			while($row_cities = mysql_fetch_assoc($cities)){
 		?>
-       	<input type="checkbox" class="city" name="area[]" province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')" ><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
+       	<input type="checkbox" class="city" name="area[]" province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')"  <?php if(in_array($row_areas_for_city['name']."_".$row_cities['name']."_*",$area) || in_array($row_areas_for_city['name']."_*_*",$area) || should_check($row_areas['name']."_".$row_cities['name']."_",$area)){ ?> checked <?php } ?>><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
  	 	<?php } ?>
 	  </div>
-	<?php } ?>	</td><td width="606" valign="top">
+	<?php } ?>	</td><td width="255" valign="top">
 		<?php 
 		// 获取各个省份的信息
 		while($row_areas_for_district = mysql_fetch_assoc($areas_for_district)){
@@ -78,7 +113,7 @@ function show_disticts(city_name){
 				$totalRows_distict = mysql_num_rows($disticties);?>
 				<div class="district_list_item" city_name="<?php echo $row_cities['name'];?>" style="display:none;" >
  				<?php 	while($row_distict = mysql_fetch_assoc($disticties)){?>
-						<input class="district" name="area[]" type="checkbox" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('".<?php echo $row_cities['name']; ?>."')"><?php echo $row_distict['name'];?></br>
+						<input class="district" name="area[]" type="checkbox" province_name="<?php echo $row_areas_for_district['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" district_name="<?php echo $row_distict['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('<?php echo $row_distict['name']; ?>')"  <?php if(in_array($row_areas_for_district['name']."_".$row_cities['name']."_".$row_distict['name'],$area) || in_array($row_areas_for_district['name']."_*_*",$area) || in_array($row_areas_for_district['name']."_".$row_cities['name']."_*",$area) ){ ?> checked <?php } ?>><?php echo $row_distict['name'];?></br>
  				<?php 	} ?>
  				</div>
 				<?php 	}

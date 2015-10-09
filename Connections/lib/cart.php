@@ -25,7 +25,7 @@ class Cart {
 	 * 构造函数
 	 */
 	public function __construct() {
-		
+ 	
 		//		这里检查session是否开启，如果没有开启，那么开启
 		if(!$this->_is_cart_initialized()){
 			$this->_init_cart ();
@@ -39,8 +39,17 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	public function add($product) {
+	
+		// 获取默认收货地址
 		
-		//		如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
+		// 如果用户已经登录的话，那么获取用户的默认收货地址
+		
+		// 如果用户没有登录的话，那么获取系统的默认收货区域
+		
+		// 检查商品是否可以配送到这个区域，如果不能配送到这个区域，那么返回false
+		
+		
+ 		//	如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
 		if (! $_is_product_exits_in_cart) {
 			//		如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
@@ -223,14 +232,15 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	private function _do_add_product($product) {
-	
-//			这里需要根据product的id获取相应的产品的价格
+ //			这里需要根据product的id获取相应的产品的价格
 		$price=$this->_get_product_from_db_by_id($product ['product_id']);
 		$product['product_price']=$price;
 		$_SESSION ['cart'] ['products'] [] = $product;
 	}
 	
 	private function _get_product_from_db_by_id($product_id){
+		require_once ($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
+
 		mysql_select_db($database_localhost);
 		$query_product = "SELECT id, price FROM product WHERE id = ".$product_id;
 		$product = mysql_query($query_product) or die(mysql_error());

@@ -99,3 +99,7 @@ function phpshop_log($message){
 	fclose($f);
 	return;
 }
+
+function get_logistic_process_info(){
+	return array();
+}

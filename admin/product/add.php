@@ -57,10 +57,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-						GetSQLValueString($_POST['unit'], "text"),
-						GetSQLValueString($_POST['is_virtual'], "int"),
-						GetSQLValueString($_POST['weight'], "double"),
+  $insertSQL = sprintf("INSERT INTO product (tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					   GetSQLValueString($_POST['tags'], "text"),
+					   GetSQLValueString($_POST['unit'], "text"),
+					   GetSQLValueString($_POST['is_virtual'], "int"),
+					   GetSQLValueString($_POST['weight'], "double"),
 					   GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
@@ -75,10 +76,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s)",
- 					   GetSQLValueString($_POST['unit'], "text"),
-						GetSQLValueString($_POST['is_virtual'], "int"),
-						GetSQLValueString($_POST['weight'], "double"),
+ $insertSQL = sprintf("INSERT INTO product (tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s)",
+ 					   GetSQLValueString($_POST['tags'], "text"),
+  					   GetSQLValueString($_POST['unit'], "text"),
+					   GetSQLValueString($_POST['is_virtual'], "int"),
+					   GetSQLValueString($_POST['weight'], "double"),
 					   GetSQLValueString(date('Y-m-d H:i:s'), "date"),
                        GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
@@ -247,6 +249,12 @@ do {
       <th nowrap align="right">库存:</th>
       <td><input name="store_num" type="text"  class="" id="store_num" value="100" size="32" maxlength="11">
       *</td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right" valign="top">标签:</th>
+      <td><label>
+        <input name="tags" type="text" id="tags" size="32" maxlength="50" />
+      [2个标签之间请以空格隔开]</label></td>
     </tr>
     <tr valign="baseline">
       <th nowrap align="right" valign="top">介绍:</th>

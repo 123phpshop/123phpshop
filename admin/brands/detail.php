@@ -26,12 +26,13 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 		
-<p>品牌详细</p>
-<table width="100%" border="1" align="center">
+<p class="phpshop123_title">品牌详细</p>
+<table width="100%" border="0" align="center" class="phpshop123_form_box">
   
   <tr>
     <td>id</td>

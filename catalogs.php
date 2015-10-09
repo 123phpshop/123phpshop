@@ -50,7 +50,8 @@ a{
 	border-bottom:2px solid #E13335;
 }
 
-.catalog_row_item{
+
+.catalog_row_item_active{
 	width:122px;
 	height:31px;
 	text-align:center;
@@ -62,6 +63,24 @@ a{
 	margin-left:20px;
 	border-top-right-radius:5px;
 	border-top-left-radius:5px;
+	float:left;
+}
+
+.catalog_row_item{
+	width:122px;
+	height:30px;
+	text-align:center;
+	line-height:30px;
+	background-color:#f8f8f8;
+	color:#000000;
+	border:1px solid #E4E4E4;
+	font-size:14px;
+	font-weight:bold;
+	margin-left:20px;
+	border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	border-bottom:2px solid #ca0401;
+	float:left;
 }
 .first_level a{color:#666;font-size: 14px;font-family:"Microsoft yahei";line-height:19px;font-weight:bold;padding-left:20px;}
 .second_level{border-bottom:1px dotted #cccccc;}
@@ -77,7 +96,8 @@ a{
 <?php include_once('/widget/logo_search_cart.php'); ?>
 <?php include_once('/widget/full_ori_nav_1210.php'); ?>
 <div class="catalog_row">
-  <div class="catalog_row_item">全部商品分类</div>
+  <a href="/catalogs.php"> <div class="catalog_row_item_active">全部商品分类</div></a>
+<a href="/brands_list.php"> <div class="catalog_row_item">全部品牌</div></a>
 </div>
 <?php if($totalRows_top_catalogs>0){ ?>
 <?php do { ?>

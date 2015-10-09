@@ -43,6 +43,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 $editFormAction = $_SERVER['PHP_SELF'];
+$error=array();
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
@@ -102,10 +103,16 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = sprintf("SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  right join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID);
+$query_DetailRS1 = sprintf("SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  left join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
 $DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
+$totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
+//	如果找不到这个产品的话，那么直接跳转到index。php
+if($totalRows_DetailRS1==0){
+	 $updateGoTo = "index.php";
+   	header(sprintf("Location: %s", $updateGoTo));
+}
 
 if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
@@ -207,6 +214,10 @@ form{
 	  <tr>
         <td>上架时间</td>
         <td><?php echo $row_DetailRS1['on_sheft_time']; ?> </td>
+      </tr>
+	   <tr>
+        <td>标签</td>
+        <td><?php echo $row_DetailRS1['tags']; ?> </td>
       </tr>
 	   <tr>
         <td>介绍</td>

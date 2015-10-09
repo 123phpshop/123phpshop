@@ -42,11 +42,12 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <?php if ($totalRows_brands > 0) { // Show if recordset not empty ?>
-  <p>品牌列表</p>
+  <p class="phpshop123_title">品牌列表</p>
   <table border="0" width="50%" align="right">
     <tr>
       <td width="23%" align="center"><?php if ($pageNum_brands > 0) { // Show if not first page ?>
@@ -65,9 +66,9 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
   </table>
   <p>&nbsp;</p>
   <p>
-  <table width="100%" border="1" align="center">
+  <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
-      <td>id</td>
+      <td><div align="center">选择</div></td>
       <td>name</td>
       <td>排序</td>
       <td>创建时间</td>
@@ -77,7 +78,11 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_brands['id']; ?>&nbsp; </td>
+        <td><label>
+          <div align="center">
+            <input type="checkbox" name="checkbox" value="checkbox" />
+            </div>
+        </label>          <div align="center">&nbsp; </div></td>
         <td><a href="detail.php?recordID=<?php echo $row_brands['id']; ?>"> <?php echo $row_brands['name']; ?>&nbsp; </a> </td>
         <td><?php echo $row_brands['sort']; ?></td>
         <td><?php echo $row_brands['create_time']; ?>&nbsp; </td>
@@ -104,7 +109,7 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
             <?php } // Show if not last page ?>      </td>
     </tr>
   </table>
-  <p>记录 <?php echo ($startRow_brands + 1) ?> 到 <?php echo min($startRow_brands + $maxRows_brands, $totalRows_brands) ?> (总共 <?php echo $totalRows_brands ?> </p>
+  <p>记录 <?php echo ($startRow_brands + 1) ?> 到 <?php echo min($startRow_brands + $maxRows_brands, $totalRows_brands) ?> (总共 <?php echo $totalRows_brands ?> ) </p>
   </p>
  <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_brands == 0) { // Show if recordset not empty ?>

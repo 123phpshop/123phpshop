@@ -17,10 +17,10 @@
  */
 ?>
 ﻿<script type="text/javascript" src="/widget/area/jsAddress.js"></script>
-<div>
+
 <select id="province"  name="province" ></select>&nbsp;&nbsp;<select id="city"  name="city"></select>&nbsp;&nbsp;<select id="district"  name="district"></select>
 <script type="text/javascript">
  	addressInit('province', 'city', 'district', '上海', '上海', '黄浦区');
 </script>
-</div>
+
 

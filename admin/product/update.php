@@ -229,6 +229,12 @@ do {
       <td><input name="store_num" type="text" id="store_num" value="<?php echo $row_product['store_num']; ?>" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right" valign="top">标签：</td>
+      <td><label>
+        <input name="tags" type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
+      [2个标签之间请以空格隔开]</label></td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap align="right" valign="top">介绍:</td>
       <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"><?php echo $row_product['intro']; ?></script>      </td>
     </tr>

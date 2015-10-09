@@ -10,11 +10,12 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>配送方式列表</p>
-<table width="100%" border="1" align="center">
+<p class="phpshop123_title">配送方式列表</p>
+<table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
     <td><div align="center">id</div></td>
     <td>name</td>

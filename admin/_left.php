@@ -31,9 +31,7 @@ body{
 	font-size:12px;
 	 
 }
-
  
-
 #menu_div div{
 	padding:10px;
 	border-bottom:1px solid #C4C4C4;
@@ -49,11 +47,16 @@ body{
 
 #menu_div div:hover{
 	cursor:pointer;
+	background-color:#999999 ;
 } 
 
-div a {
+a {
 	text-decoration:none;
 	color:white;
+}
+
+.menu_item_active{
+	background-color:#999999 !important;
 }
 </style>
 </head>
@@ -61,36 +64,45 @@ div a {
 <body>
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:26px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
-<div class="menu_item" ><a href="catalog/index.php" target="_main">产品分类</a></div>
-<div class="menu_item" ><a href="product_type/index.php" target="_main">产品类型</a></div>
-<div class="menu_item" ><a href="product/index.php" target="_main">产品管理</a></div>
-<div class="menu_item" ><a href="product/recycled.php" target="_main">产品回收站</a></div>
-<div class="menu_item" ><a href="order/index.php" target="_main">订单管理</a></div>
-<div class="menu_item" ><a href="order/index.php" target="_main">发货订单</a></div>
- <div class="menu_item" ><a href="order/index.php" target="_main">退货订单</a></div>
- <div class="menu_item" ><a href="order/recycle.php" target="_main">订单回收站</a></div>
-<div class="menu_item" ><a href="brands/index.php" target="_main">品牌管理</a></div>
-<div class="menu_item" ><a href="brands/add.php" target="_main">添加品牌</a></div>
-<div class="menu_item" ><a href="shipping_method/index.php" target="_main">配送方式</a></div>
-<div class="menu_item" ><a href="shipping_method/add.php" target="_main">添加配送</a></div>
-<div class="menu_item" ><a href="ad/index.php" target="_main">广告管理</a></div>
-<div class="menu_item" ><a href="ad/add.php" target="_main">添加广告</a></div>
- 
-<div class="menu_item" ><a href="users/index.php" target="_main">用户列表</a></div>
-<div class="menu_item" ><a href="users/add.php" target="_main">添加用户</a></div> 
-<div class="menu_item" ><a href="pay_method/index.php" target="_main">支付方式</a></div>
-<div class="menu_item" ><a href="pay_method/add.php" target="_main">添加支付</a></div>
-<div class="menu_item" ><a href="admin/update_password.php" target="_main">密码设置</a></div>
-<div class="menu_item" ><a href="user_comments/index.php" target="_main">评论管理</a></div>
-<div class="menu_item" ><a href="user_consult/index.php" target="_main">咨询管理</a></div>
-<div class="menu_item" ><a href="news_catalog/index.php " target="_main">文章分类</a></div>
-<div class="menu_item" ><a href="news/index.php" target="_main">文章管理</a></div>
-<div class="menu_item" ><a href="news/recycled.php" target="_main">文章回收站</a></div>
-<div class="menu_item" ><a href="admin/index.php" target="_main">管理员列表</a></div>
-<div class="menu_item" ><a href="admin/add.php" target="_main">添加管理员</a></div>
-<div class="menu_item" ><a href="info.php" target="_main">店铺信息</a></div>
-<div class="menu_item" ><a href="area/index.php" target="_main">区域管理</a></div>
-<div class="menu_item" ><a href="http://www.123phpshop.com/client_portal/" target="_main">家族软件</a></div>
+<a href="catalog/index.php" target="main"><div class="menu_item" >产品分类</div></a>
+<a href="product_type/index.php" target="main"><div class="menu_item" >产品类型</div></a>
+<a href="product/index.php" target="main"><div class="menu_item" >产品管理</div></a>
+<a href="product/recycled.php" target="main"><div class="menu_item" >产品回收站</div></a>
+<a href="order/index.php" target="main"><div class="menu_item" >订单管理</div></a>
+<a href="order/index.php" target="main"><div class="menu_item" >发货订单</div></a>
+<a href="order/index.php" target="main"><div class="menu_item" >退货订单</div></a>
+<a href="order/recycle.php" target="main"><div class="menu_item" >订单回收站</div></a>
+<a href="brands/index.php" target="main"><div class="menu_item" >品牌管理</div></a>
+<a href="brands/add.php" target="main"><div class="menu_item" >添加品牌</div></a>
+<a href="shipping_method/index.php" target="main"><div class="menu_item" >配送方式</div></a>
+<a href="shipping_method/add.php" target="main"><div class="menu_item" >添加配送</div></a>
+<a href="ad/index.php" target="main"><div class="menu_item" >广告管理</div></a>
+<a href="ad/add.php" target="main"><div class="menu_item" >添加广告</div></a>
+<a href="users/index.php" target="main"><div class="menu_item" >用户列表</div></a>
+<a href="users/add.php" target="main"><div class="menu_item" >添加用户</div></a> 
+<a href="pay_method/index.php" target="main"><div class="menu_item">支付方式</div></a>
+<a href="pay_method/add.php" target="main"><div class="menu_item" >添加支付</div></a>
+<a href="express_company/index.php" target="main"><div class="menu_item" >快递公司</div></a>
+<a href="admin/update_password.php" target="main"><div class="menu_item" >密码设置</div></a>
+<a href="user_comments/index.php" target="main"><div class="menu_item" >评论管理</div></a>
+<a href="user_consult/index.php" target="main"><div class="menu_item" >咨询管理</div></a>
+<a href="news_catalog/index.php " target="main"><div class="menu_item" >文章分类</div></a>
+<a href="news/index.php" target="main"><div class="menu_item" >文章管理</div></a>
+<a href="news/recycled.php" target="main"><div class="menu_item" >文章回收站</div></a>
+<a href="admin/index.php" target="main"><div class="menu_item" >管理员列表</div></a>
+<a href="admin/add.php" target="main"><div class="menu_item" >添加管理员</div></a>
+<a href="info.php" target="main"><div class="menu_item" >店铺信息</div></a>
+<a href="area/index.php" target="main"><div class="menu_item" >区域管理</div></a>
+<a href="http://www.123phpshop.com/client_portal/" target="main"><div class="menu_item" >家族软件</div></a>
 </div>
+<script language="JavaScript" type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+<script>
+$().ready(function(){
+ $(".menu_item").click(function(){
+ 	$(".menu_item").removeClass("menu_item_active");
+ 	$(this).addClass("menu_item_active");
+ });
+});
+</script>
 </body>
 </html>

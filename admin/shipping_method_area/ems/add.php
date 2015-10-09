@@ -26,11 +26,10 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 mysql_select_db($database_localhost, $localhost);
-$query_shipping_method = sprintf("SELECT * FROM shipping_method WHERE config_file_path = 'daodian'");
+$query_shipping_method = sprintf("SELECT * FROM shipping_method WHERE config_file_path = 'ems'");
 $shipping_method = mysql_query($query_shipping_method, $localhost) or die(mysql_error());
 $row_shipping_method = mysql_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
-
 
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -38,23 +37,23 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, name) VALUES (%s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method_area (name, shipping_method_id, shipping_by_quantity, single_product_fee, half_kg_fee, continue_half_kg_fee, free_quota, area) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($row_shipping_method['id'], "int"),
-                       GetSQLValueString($_POST['area'], "text"),
-                       GetSQLValueString($_POST['name'], "text"));
+                       GetSQLValueString($_POST['shipping_by_quantity'], "int"),
+                       GetSQLValueString($_POST['single_product_fee'], "double"),
+                       GetSQLValueString($_POST['half_kg_fee'], "double"),
+                       GetSQLValueString($_POST['continue_half_kg_fee'], "double"),
+                       GetSQLValueString($_POST['free_quota'], "double"),
+                       GetSQLValueString($_POST['area'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
-  $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];
+  
+    $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];
    header(sprintf("Location: %s", $insertGoTo));
+   
 }
-
-$colname_shipping_method = "-1";
-if (isset($_GET['config_file_path'])) {
-  $colname_shipping_method = (get_magic_quotes_gpc()) ? $_GET['config_file_path'] : addslashes($_GET['config_file_path']);
-}
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -64,15 +63,42 @@ if (isset($_GET['config_file_path'])) {
 </head>
 
 <body>
+<p class="phpshop123_title">EMS国内邮政快递-新建配送区域</p>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">到店自提添加配送区域</p>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">配送区域</td>
+      <td nowrap align="right">Shipping_by_quantity:</td>
+      <td valign="baseline"><table>
+        <tr>
+          <td><input name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()">
+            按重量
+              <input type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()" />
+按数量</td>
+        </tr>
+      </table></td>
+    </tr>
+    <tr valign="baseline" class="by_quantity" style="display:none;">
+      <td nowrap align="right">单件商品费用:</td>
+      <td><input type="text" name="single_product_fee" value="" size="32"></td>
+    </tr>
+    <tr valign="baseline" class="by_weight">
+      <td nowrap align="right">500克之内费用:</td>
+      <td><input type="text" name="half_kg_fee" value="" size="32"></td>
+    </tr>
+    <tr valign="baseline" class="by_weight">
+      <td nowrap align="right">续费500克费用:</td>
+      <td><input type="text" name="continue_half_kg_fee" value="" size="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">免费额度:</td>
+      <td><input type="text" name="free_quota" value="" size="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">区域：</td>
       <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>
     </tr>
     <tr valign="baseline">
@@ -80,13 +106,10 @@ if (isset($_GET['config_file_path'])) {
       <td><input type="submit" value="插入记录"></td>
     </tr>
   </table>
-<input type="hidden" name="area" value="">
-<input type="hidden" name="MM_insert" value="form1">
+   <input type="hidden" name="area" value="">
+  <input type="hidden" name="MM_insert" value="form1">
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
 </body>
 </html>
-<?php
-mysql_free_result($shipping_method);
-?>
