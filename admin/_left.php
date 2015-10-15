@@ -47,7 +47,7 @@ body{
 
 #menu_div div:hover{
 	cursor:pointer;
-	background-color:#999999 ;
+ 	border-bottom:1px solid #999999 ;
 } 
 
 a {
@@ -64,6 +64,7 @@ a {
 <body>
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:26px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
+<a href="_main.php" target="main"><div class="menu_item" >控制面板</div></a>
 <a href="catalog/index.php" target="main"><div class="menu_item" >产品分类</div></a>
 <a href="product_type/index.php" target="main"><div class="menu_item" >产品类型</div></a>
 <a href="product/index.php" target="main"><div class="menu_item" >产品管理</div></a>

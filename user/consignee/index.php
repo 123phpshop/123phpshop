@@ -49,7 +49,27 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO user_consignee (name, mobile, province, city, district, address, zip, user_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+	
+//		检查用户是否已经有了收货人记录，如果没有的话，那么自动设置为默认
+	$is_default=0;
+	$colname_consignees = "-1";
+	if (isset($_SESSION['user_id'])) {
+	  $colname_consignees = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
+	}
+	mysql_select_db($database_localhost, $localhost);
+	$query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
+	$consignees = mysql_query($query_consignees, $localhost) or die(mysql_error());
+ 	$totalRows_consignees = mysql_num_rows($consignees);
+	if($totalRows_consignees==0){
+		$is_default=1;
+	}
+	
+	$update_catalog = sprintf("update `user_consignee` set is_default=0 where user_id=%s and id != %s",$_SESSION['user_id'], $colname_consignee);
+	$update_catalog_query = mysql_query($update_catalog, $localhost);
+		
+	
+  $insertSQL = sprintf("INSERT INTO user_consignee (is_default,name, mobile, province, city, district, address, zip, user_id) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s)",
+  					   GetSQLValueString($is_default, "int"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['province'], "text"),

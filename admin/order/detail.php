@@ -153,8 +153,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <?php  } ?>
 </table>
-<?php $logistic_process_info=get_logistic_process_info($express_company_id,$express_order_sn) ;?>
-<p>收货人</p>
+ <p>收货人</p>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col">收货人姓名</th>

@@ -13,7 +13,7 @@ if (isset($_GET['product_type_id'])) {
   $colname_attr = (get_magic_quotes_gpc()) ? $_GET['product_type_id'] : addslashes($_GET['product_type_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_attr = sprintf("SELECT * FROM product_type_attr WHERE product_type_id = %s", $colname_attr);
+$query_attr = sprintf("SELECT * FROM product_type_attr WHERE product_type_id = %s and is_delete=0", $colname_attr);
 $query_limit_attr = sprintf("%s LIMIT %d, %d", $query_attr, $startRow_attr, $maxRows_attr);
 $attr = mysql_query($query_limit_attr, $localhost) or die(mysql_error());
 $row_attr = mysql_fetch_assoc($attr);
@@ -46,17 +46,18 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <table width="100%" border="0">
   <tr>
-    <td>产品分类属性列表</td>
+    <td class="phpshop123_title">产品分类属性列表</td>
     <td><div align="right"><a href="add.php?product_type_id=<?php echo $_GET['product_type_id']; ?>">添加属性</a></div></td>
   </tr>
 </table>
 <p align="right">&nbsp;</p>
-<table width="100%" border="1" align="center">
+<table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
     <td>id</td>
     <td>name</td>
@@ -72,7 +73,7 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
       <td><?php echo $row_attr['is_selectable']; ?>&nbsp; </td>
       <td><?php echo $row_attr['input_method']; ?>&nbsp; </td>
       <td><?php echo $row_attr['selectable_value']; ?>&nbsp; </td>
-      <td><a href="remove.php?id=<?php echo $row_attr['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_attr['id']; ?>">更新</a> &nbsp; </td>
+      <td><a href="remove.php?id=<?php echo $row_attr['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？');">删除</a> <a href="update.php?id=<?php echo $row_attr['id']; ?>">更新</a> &nbsp; </td>
     </tr>
     <?php } while ($row_attr = mysql_fetch_assoc($attr)); ?>
 </table>
@@ -97,8 +98,7 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
     </td>
   </tr>
 </table>
-记录 <?php echo ($startRow_attr + 1) ?> 到 <?php echo min($startRow_attr + $maxRows_attr, $totalRows_attr) ?> (总共 <?php echo $totalRows_attr ?>
-</p>
+记录 <?php echo ($startRow_attr + 1) ?> 到 <?php echo min($startRow_attr + $maxRows_attr, $totalRows_attr) ?> (总共 <?php echo $totalRows_attr ?>）
 </body>
 </html>
 <?php

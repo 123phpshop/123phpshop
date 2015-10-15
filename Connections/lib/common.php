@@ -103,3 +103,11 @@ function phpshop_log($message){
 function get_logistic_process_info(){
 	return array();
 }
+
+function get_deliver_areas(){
+	$result=array();
+	$result[]="上海";
+	$result[]="上海";
+	$result[]="黄浦区";
+	return $result;
+}

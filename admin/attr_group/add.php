@@ -65,39 +65,30 @@ $totalRows_product_type = mysql_num_rows($product_type);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p><?php echo $row_product_type['name']; ?>：添加属性  </p>
-  <table width="100%" align="center">
+  <p class="phpshop123_title"><?php echo $row_product_type['name']; ?>：添加属性  </p>
+  <table width="100%" align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Is_selectable:</td>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input name="is_selectable" type="radio" value="1" checked="checked" >
-            只是显示<input type="radio" name="is_selectable" value="2" >
-            可单选<input type="radio" name="is_selectable" value="3" >
-            可复选</td>
-        </tr>
-        
-      </table></td>
+      <td valign="baseline"><input name="is_selectable" type="radio" value="1" checked="checked" />
+只是显示
+  <input type="radio" name="is_selectable" value="2" />
+可单选</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Input_method:</td>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input name="input_method" type="radio" value="1" checked="checked" >
-            手动录<input type="radio" name="input_method" value="2" >
-            从以下列表中选<input type="radio" name="input_method" value="3" >
-            多行文本择入</td>
-        </tr>
-        
-      </table></td>
+      <td valign="baseline"><input name="input_method" type="radio" value="1" checked="checked" />
+手动录
+  <input type="radio" name="input_method" value="2" />
+从以下列表中选</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Selectable_value:</td>

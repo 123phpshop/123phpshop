@@ -148,7 +148,6 @@ function _get_order_where($get){
   <p class="phpshop123_title">订单列表</p>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th>ID</th>
       <th>订单序列号</th>
       <th>用户</th>
       <th>实际支付</th>
@@ -156,32 +155,32 @@ function _get_order_where($get){
       <th>创建的时间</th>
       <th>送货方式</th>
       <th>支付方法</th>
-      <th>需要支付票</th>
+      <th>需要支票</th>
       <th>收货人</th>
       <th>操作</th>
     </tr>
       <?php do { ?>
           <tr>
-            <td align="center"><input type="checkbox" id="order_select_<?php echo $row_orders['id']; ?>"  /></td>
             <td><a href="detail.php?recordID=<?php echo $row_orders['id']; ?>"><?php echo $row_orders['sn']; ?></a></td>
-            <td><?php echo $row_orders['username']; ?>&nbsp; </td>
-            <td>￥<?php echo $row_orders['actual_paid']; ?>&nbsp; </td>
-            <td><?php echo $order_status[$row_orders['order_status']]; ?>&nbsp; </td>
-            <td><?php echo $row_orders['create_time']; ?>&nbsp; </td>
-            <td><?php echo isset($shipping_method[$row_orders['shipping_method']])?$shipping_method[$row_orders['shipping_method']]:"未设置"; ?>&nbsp; </td>
-            <td><?php echo $pay_methomd[$row_orders['payment_method']]; ?>&nbsp; </td>
-            <td><?php echo $row_orders['invoice_is_needed']=='0'?"":"√"; ?>&nbsp; </td>
-            <td><?php echo $row_orders['consignee_name']; ?>&nbsp; </td>
-            <td> <div align="right">
-				<?php if($row_orders['order_status']==ORDER_STATUS_PAID  ){ ?>
-               <a href="delivery.php?id=<?php echo $row_orders['id']; ?>">发货</a>
-			  <?php  } ?>
-			   <?php if($row_orders['order_status']==ORDER_STATUS_RETURNED_APPLIED  ){ ?>
-			   
-			   <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a>
-			   <?php  } ?>
-			   <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> 
-			   </div></td>
+            <td><div align="center"><?php echo $row_orders['username']; ?>&nbsp; </div></td>
+            <td><div align="center">￥<?php echo $row_orders['actual_paid']; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $order_status[$row_orders['order_status']]; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $row_orders['create_time']; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo isset($shipping_method[$row_orders['shipping_method']])?$shipping_method[$row_orders['shipping_method']]:"未设置"; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $pay_methomd[$row_orders['payment_method']]; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $row_orders['invoice_is_needed']=='0'?"":"√"; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $row_orders['consignee_name']; ?>&nbsp; </div></td>
+            <td> 
+				
+			  <div align="center">
+			    <?php if($row_orders['order_status']==ORDER_STATUS_PAID  ){ ?>
+			    <a href="delivery.php?id=<?php echo $row_orders['id']; ?>">发货</a>
+		        <?php  } ?>
+			    <?php if($row_orders['order_status']==ORDER_STATUS_RETURNED_APPLIED  ){ ?>
+				    
+			    <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a>
+			    <?php  } ?>
+		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> </div></td>
           </tr>
           <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
   </table>

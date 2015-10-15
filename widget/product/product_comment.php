@@ -69,7 +69,7 @@ $totalRows_comments = mysql_num_rows($comments);
 	 <br />
 	<table style="background-color:white;border-top:2px solid red;border-bottom-width:0px" width="105" height="33" border="1" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE">
       <tr>
-        <td><div align="center">评价列表</div></td>
+        <td><a style="text-decoration:none;color:#000000;" href="javascript://" name="comment_list"><div align="center">评价列表</div></a></td>
       </tr>
     </table></td>
     <td><br /><table  style="border-bottom:1px solid #DEDFDE " width="885" height="31" border="0">

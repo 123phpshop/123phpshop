@@ -68,7 +68,6 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
   <p>
   <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
-      <td><div align="center">选择</div></td>
       <td>name</td>
       <td>排序</td>
       <td>创建时间</td>
@@ -78,11 +77,6 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
     </tr>
     <?php do { ?>
       <tr>
-        <td><label>
-          <div align="center">
-            <input type="checkbox" name="checkbox" value="checkbox" />
-            </div>
-        </label>          <div align="center">&nbsp; </div></td>
         <td><a href="detail.php?recordID=<?php echo $row_brands['id']; ?>"> <?php echo $row_brands['name']; ?>&nbsp; </a> </td>
         <td><?php echo $row_brands['sort']; ?></td>
         <td><?php echo $row_brands['create_time']; ?>&nbsp; </td>

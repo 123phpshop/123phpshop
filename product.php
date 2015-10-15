@@ -78,15 +78,29 @@ $product_image_small = mysql_query($query_product_image_small, $localhost) or di
 $row_product_image_small = mysql_fetch_assoc($product_image_small);
 $totalRows_product_image_small = mysql_num_rows($product_image_small);
 
+
+$could_deliver=false;
+ 
+$areas=get_deliver_areas();
+
+
 $colname_consignee = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_consignee = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 order by id desc limit 1", $colname_consignee);
+$query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 and is_default=1", $colname_consignee);
 $consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
+if($totalRows_consignee>0){
+	$areas=array();
+	$areas[]=$row_consignee['province']."_*_*";
+	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_*";
+	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_".$row_consignee['district'];
+}
+
+ $could_deliver=could_devliver($areas);
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = ".$row_product['catalog_id'];
@@ -99,6 +113,7 @@ $totalRows_product_catalog = mysql_num_rows($product_catalog);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $row_product['name']; ?>|<?php echo $row_product['ad_text']; ?></title>
+<link rel="stylesheet" type="text/css" href="/js/jquery-ui-1.11.4.custom/jquery-ui.css">
 <style type="text/css">
 body{
 	font-family:'microsoft yahei';
@@ -199,8 +214,11 @@ body {
     </tr>
     <tr>
       <td height="38" scope="row" style="padding-left:12px;">配送至:</td>
-      <td height="38" colspan="2" valign="middle" scope="row" style="padding:0px;"><?php include_once('widget/area/index.php')?>  有货</td>
+      <td height="38" colspan="2" valign="middle" scope="row" style="padding:0px;"><?php include_once('widget/area/index.php')?>  
+	  <span id="could_deliver" <?php if(!$could_deliver){ ?>style="color:red;"<?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
     </tr>
+	       <?php include_once('widget/product/single_choose_attr.php'); ?>
+
     <tr>
       <td scope="row" style="padding-left:12px;">      数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
       <td colspan="2" scope="row"><label>
@@ -243,28 +261,30 @@ body {
        <?php include_once('widget/view_buy.php'); ?>
       </td>
       <td valign="top" align="center"> 
-	  	
-        <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
-          <tr>
+         <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
+          <tr id="tabs">
             <th width="77" height="33" scope="col"><span class="intro_cons_comment">商品介绍</span></th>
-            <th width="77" height="33" scope="col"><a href="#consult" class="intro_cons_comment">咨询</a></th>
-            <th width="77" height="33" scope="col"><a href="#comment" class="intro_cons_comment">评价</a> </th>
+			 <th width="77" height="33" scope="col"><a href="#attr_list" class="intro_cons_comment">规格参数</th>
+             <th width="77" height="33" scope="col"><a href="#consult" class="intro_cons_comment">咨询</a></th>
+            <th width="77" height="33" scope="col"><a href="#comment_list" class="intro_cons_comment">评价</a> </th>
             <td height="33"><span class="STYLE8"></span></td>
           </tr>
-        </table><table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF" style="margin:0px auto;" >
+        </table>
+  		<table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF" style="margin:0px auto;">
         <tr>
           <th bordercolor="#DEDFDE" scope="col"><?php echo $row_product['intro']; ?></th>
           </tr>
-      </table>
-	<?php include('widget/product/product_comment.php'); ?>
-	<?php include('widget/product/product_consult.php'); ?>
+      </table >
+	 <?php include('widget/product/attrs.php'); ?> 
+ 	 <?php include('widget/product/product_comment.php'); ?> 
+	 <?php include('widget/product/product_consult.php'); ?> 
 	</td>
 </tr>
 </table>
-<script language="JavaScript" type="text/javascript" src="/js/image_slide/js/jquery-1.8.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 <script src="/js/product_image_slide/js/pic_tab.js"></script>
 <script>
-<?php if($row_consignee['province']!=''){ ?>
+ <?php if($row_consignee['province']!=''){ ?>
 addressInit('province', 'city', 'district', '<?php echo $row_consignee['province']; ?>', '<?php echo $row_consignee['city']; ?>', '<?php echo $row_consignee['district']; ?>');
  <?php } ?>
 jq('#demo1').banqh({
@@ -304,6 +324,36 @@ var change_quantity=function(quantity){
 	jq("#quantity").val(final_result);
  	return false;
   
+}
+  
+$("#province").change(function(){
+	_check_deliver();
+ });
+$("#city").change(function(){
+	_check_deliver();
+});
+$("#district").change(function(){
+	_check_deliver();
+});
+
+function _check_deliver(){
+	var url="/ajax_check_deliver.php";
+	var province=$("#province").val();
+	var city=$("#city").val();
+	var district=$("#district").val();
+	var data=new Array();
+	data.push(province+"_*_*");
+	data.push(province+"_"+city+"_*");
+	data.push(province+"_"+city+"_"+district);
+	$.post(url,data:data,function(data){
+		if(data=='true'){
+				$("#could_deliver").html("有货");
+				$("#could_deliver").style.color="";
+		}else{
+				$("#could_deliver").html("无货");
+				$("#could_deliver").style.color="red";
+		}
+ 	},'text');
 }
  
 </script>

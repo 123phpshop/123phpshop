@@ -71,7 +71,7 @@ $totalRows_consult = mysql_num_rows($consult);
 }
 
 </style>
- <?php if ($totalRows_consult > 0 &&  isset($_SESSION['user_id'])) { // Show if recordset not empty ?>
+ <?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
 <table width="990" height="31" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td>
@@ -90,7 +90,6 @@ $totalRows_consult = mysql_num_rows($consult);
   </tr>
 </table>
 <?php } // Show if recordset not empty ?>
-<br />
             <?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
             <table id="consult_list" width="990" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#ddd" style="margin:0px auto;border-bottom:1px dotted grey;" >
             <?php do { ?>
