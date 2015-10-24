@@ -79,40 +79,79 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>添加品牌</p>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
-  <table align="center">
+<p class="phpshop123_title">添加品牌</p>
+<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input type="text" name="name" value="" size="32" maxlength="32">
+      *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Image_path:</td>
+      <td nowrap align="right">图片:</td>
       <td><input type="file" name="image_path" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Url:</td>
-      <td><input type="text" name="url" value="" size="32"></td>
+      <td nowrap align="right">网址:</td>
+      <td><input name="url" type="text" value="http://" size="32" maxlength="60"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Sort:</td>
-      <td><input type="text" name="sort" value="" size="32"></td>
+      <td nowrap align="right">排序:</td>
+      <td><input name="sort" type="text" value="" size="32" maxlength="10"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Desc:</td>
+      <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="desc" cols="50" rows="5"></textarea>
       </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+			url:{
+				url:true
+			}, 
+ 			sort:{
+				digits:true
+			},
+ 			desc:{
+				minlength:100
+			}
+             
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+			url:{
+				url:"网址格式不正确"
+			}, 
+ 			sort:{
+				digits:"只能是数字哦"
+			},
+ 			desc:{
+				minlength:"最多只能100个字符哦"
+			}
+        }
+    });
+	
+});</script>
 </body>
 </html>

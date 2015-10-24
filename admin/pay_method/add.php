@@ -80,23 +80,23 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
+      <td nowrap align="right">名称:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Folder:</td>
+      <td nowrap align="right">文件夹:</td>
       <td><input type="text" name="folder" value="/admin/pay/" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_activated:</td>
+      <td nowrap align="right">激活:</td>
       <td><input type="checkbox" name="is_activated" value="" checked></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Www:</td>
+      <td nowrap align="right">网址:</td>
       <td><input type="text" name="www" value="http://www." size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Intro:</td>
+      <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="intro" cols="50" rows="5"></textarea>
       </td>
     </tr>

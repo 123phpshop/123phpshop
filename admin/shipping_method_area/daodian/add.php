@@ -37,13 +37,14 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
+
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, name) VALUES (%s, %s, %s)",
+     $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, name) VALUES (%s, %s, %s)",
                        GetSQLValueString($row_shipping_method['id'], "int"),
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['name'], "text"));
 
-  mysql_select_db($database_localhost, $localhost);
+   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
 
   $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];
@@ -64,12 +65,13 @@ if (isset($_GET['config_file_path'])) {
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">到店自提添加配送区域</p>
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
+  <p class="phpshop123_title">到店自提:新建配送区域</p>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input type="text" name="name" value="" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">配送区域</td>
@@ -77,14 +79,32 @@ if (isset($_GET['config_file_path'])) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
-<input type="hidden" name="area" value="">
+<input type="text" name="area" value="">
 <input type="hidden" name="MM_insert" value="form1">
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

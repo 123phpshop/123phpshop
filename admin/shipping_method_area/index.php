@@ -33,7 +33,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
 
   <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
-      <td width="8%">id</td>
+      <td width="8%">ID</td>
       <td width="9%">名称</td>
       <td width="14%">计费标准</td>
       <td width="61%">区域</td>

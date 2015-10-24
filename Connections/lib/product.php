@@ -17,9 +17,9 @@
  */
 ?>
 <?php
-  /**
-	返回用户是否已经评论过这个商品
- **/
+ 
+	//返回用户是否已经评论过这个商品
+ 
 function user_could_comment($user_id, $product_id) {
 	 
  

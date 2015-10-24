@@ -38,16 +38,12 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <table border="0" align="center" class="phpshop123_form_box">
   
   <tr>
-    <td>id</td>
+    <td>ID<br /></td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
   <tr>
-    <td>name</td>
+    <td>类型名称</td>
     <td><?php echo $row_DetailRS1['name']; ?> </td>
-  </tr>
-  <tr>
-    <td>pid</td>
-    <td><?php echo $row_DetailRS1['pid']; ?> </td>
   </tr>
 </table>
 

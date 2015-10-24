@@ -83,7 +83,8 @@ $totalRows_attr = mysql_num_rows($attr);
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">属性:</td>
-      <td><input type="text" name="name" value="<?php echo $row_attr['name']; ?>" size="32"></td>
+      <td><input type="text" name="name" value="<?php echo $row_attr['name']; ?>" size="32">
+      *</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">是否可选:</td>
@@ -106,14 +107,55 @@ $totalRows_attr = mysql_num_rows($attr);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="更新记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="product_type_id" value="<?php echo $row_attr['product_type_id']; ?>">
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_attr['id']; ?>">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            image_width: {
+                required: true,
+				digits:true
+				  
+            },
+            image_height: {
+                required: true,
+				digits:true
+            } ,
+            intro: {
+                 maxlength: 1000  
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            image_width: {
+                required: "必填" ,
+				digits:"必须是整数哦"
+              },
+            image_height: {
+                required: "必填",
+				digits:"必须是整数哦"
+            } ,
+            intro: {
+                 maxlength:"最多1000个字符哦"
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

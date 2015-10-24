@@ -68,19 +68,17 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
   <p>
   <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
-      <td>name</td>
+      <td>名称</td>
       <td>排序</td>
       <td>创建时间</td>
-      <td>product_num</td>
       <td>网址</td>
       <td>操作</td>
     </tr>
     <?php do { ?>
       <tr>
-        <td><a href="detail.php?recordID=<?php echo $row_brands['id']; ?>"> <?php echo $row_brands['name']; ?>&nbsp; </a> </td>
+        <td><div align="left"><a href="detail.php?recordID=<?php echo $row_brands['id']; ?>"> <?php echo $row_brands['name']; ?>&nbsp; </a> </div></td>
         <td><?php echo $row_brands['sort']; ?></td>
         <td><?php echo $row_brands['create_time']; ?>&nbsp; </td>
-        <td><?php echo $row_brands['product_num']; ?>&nbsp; </td>
         <td><?php echo $row_brands['url']; ?></td>
         <td><a href="remove.php?id=<?php echo $row_brands['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_brands['id']; ?>">更新</a></td>
       </tr>

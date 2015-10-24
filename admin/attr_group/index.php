@@ -59,19 +59,19 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
 <p align="right">&nbsp;</p>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td>id</td>
-    <td>name</td>
-    <td>is_selectable</td>
-    <td>input_method</td>
-    <td>selectable_value</td>
+    <td>ID</td>
+    <td>名称</td>
+    <td>是否可选</td>
+    <td>输入方法</td>
+    <td>可选的值</td>
     <td>操作</td>
   </tr>
   <?php do { ?>
     <tr>
       <td><?php echo $row_attr['id']; ?>&nbsp; </td>
       <td><a href="detail.php?recordID=<?php echo $row_attr['id']; ?>"> <?php echo $row_attr['name']; ?>&nbsp; </a> </td>
-      <td><?php echo $row_attr['is_selectable']; ?>&nbsp; </td>
-      <td><?php echo $row_attr['input_method']; ?>&nbsp; </td>
+      <td><?php echo $product_type_selectable[$row_attr['is_selectable']]; ?>&nbsp; </td>
+      <td><?php echo $product_type_input_method[$row_attr['input_method']]; ?>&nbsp; </td>
       <td><?php echo $row_attr['selectable_value']; ?>&nbsp; </td>
       <td><a href="remove.php?id=<?php echo $row_attr['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？');">删除</a> <a href="update.php?id=<?php echo $row_attr['id']; ?>">更新</a> &nbsp; </td>
     </tr>

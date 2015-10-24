@@ -59,27 +59,45 @@ $totalRows_product_type = mysql_num_rows($product_type);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p>更新商品类型</p>
-  <table align="center">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
+  <p class="phpshop123_title">更新商品类型:<?php echo $row_product_type['name']; ?></p>
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_product_type['name']; ?>" size="32"></td>
+      <td nowrap align="right">商品类型名称:</td>
+      <td><input name="name" type="text" value="<?php echo $row_product_type['name']; ?>" size="32" maxlength="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="更新记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_product_type['id']; ?>">
 </form>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp; </p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

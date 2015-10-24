@@ -134,7 +134,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
   
   //	如果参数正确的话，那么进行数据插入
   foreach($cart_products as $product){
-  	$sql="insert into order_item(product_id,quantity,should_pay_price,actual_pay_price,order_id)values('".$product['product_id']."','".$product['quantity']."','".$product['product_price']."','".$product['product_price']."','".$order_id."')";
+  	$sql="insert into order_item(attr_value,product_id,quantity,should_pay_price,actual_pay_price,order_id)values('".$product['attr_value']."','".$product['product_id']."','".$product['quantity']."','".$product['product_price']."','".$product['product_price']."','".$order_id."')";
   	mysql_query($sql);
   }
   
@@ -384,6 +384,8 @@ mysql_query($order_log_sql, $localhost);
                   <td height="102" rowspan="2" align="center" valign="top"><a href="/product.php?id=<?php echo $cart_products_item['product_id'];?>"><img style="border:1px solid #ddd;padding:1px;" src="<?php echo $row_product_image['image_files']==NULL?"/uploads/default_product.png":$row_product_image['image_files']; ?>" alt="正在下载..." width="82" height="82" /></a></td>
                   <td width="240" height="102" valign="top"><?php
 					echo $cart_products_item ['product_name'];
+					?><br /><?php
+					echo str_replace(";"," ",$cart_products_item ['attr_value']);
 					?></td>
                   <td width="100" height="102" valign="top"><span style="color:#FF0000;font-weight:bold;">￥<?php
 					echo $cart_products_item ['product_price'];
@@ -445,7 +447,7 @@ mysql_query($order_log_sql, $localhost);
   </tr>
   <tr>
     <td><div align="right">运费：</div></td>
-    <td><div align="right">￥0.00</div></td>
+    <td><div align="right">￥<?php echo  $_SESSION['cart']['shipping_fee']['shipping_fee'];?></div></td>
   </tr>
   <tr>
     <td><div align="right"> 应付总额：</div></td>
@@ -467,13 +469,11 @@ mysql_query($order_log_sql, $localhost);
 </form>
 <table width="990" border="0" align="center" cellpadding="0" bgcolor="#F4F4F4">
   <tr>
-    <td height="110"><div align="right">
+    <td height="110">
+	<div align="right">
       <table width="100%" border="0">
-        <tr>
-          <td height="40"</td>
-          </tr>
-         
-      </table>
+        <tr><td height="40"></td></tr>
+       </table>
     </div></td>
   </tr>
 </table>

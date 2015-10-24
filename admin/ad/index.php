@@ -81,7 +81,7 @@ $queryString_ads = sprintf("&totalRows_ads=%d%s", $totalRows_ads, $queryString_a
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_ads['id']; ?>&nbsp; </td>
+        <td><div align="center"><?php echo $row_ads['id']; ?>&nbsp; </div></td>
         <td><a href="detail.php?recordID=<?php echo $row_ads['id']; ?>"> <?php echo $row_ads['name']; ?>&nbsp; </a> </td>
         <td><?php echo $row_ads['intro']; ?>&nbsp; </td>
         <td><?php echo $row_ads['create_time']; ?></td>

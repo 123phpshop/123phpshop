@@ -39,7 +39,6 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	public function add($product) {
-	
 		// 获取默认收货地址
 		
 		// 如果用户已经登录的话，那么获取用户的默认收货地址
@@ -106,16 +105,16 @@ class Cart {
 	 * @param unknown_type $product_id
 	 * @param unknown_type $quantity
 	 */
-	public function change_quantity($product_id, $quantity) {
+	public function change_quantity($product_id, $quantity,$attr_value) {
 		
 		//		检查产品是否存在，如果不存在，那么告知重新刷新页面
-		$product = $this->_get_product_by_id ( $product_id );
+		$product = $this->_get_product_by_id_attr_value ( $product_id ,$attr_value);
 		if (! $product) {
 			throw new Exception ( "产品不存在，请刷新页面后重试" );
 		}
 		
 		//		如果都ok的话，那么这个产品的数量+1，然后返回更新后的数据
-		if (!$this->_do_change_quantity ( $product_id, $quantity )) {
+		if (!$this->_do_change_quantity ( $product_id, $quantity,$attr_value )) {
 			throw new Exception ( "系统错误，请稍后重试" );
 		}
 		
@@ -131,7 +130,7 @@ class Cart {
 		return true;
 	}
 	
-	private function _do_change_quantity($product_id, $quantity) {
+	private function _do_change_quantity($product_id, $quantity,$attr_value) {
 		
 		//		如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
@@ -140,7 +139,7 @@ class Cart {
 		
 		//		循环里面的每一个产品
 		for($i = 0; $i < count ( $_SESSION ['cart'] ['products'] ); $i ++) {
-			if (( int ) $_SESSION ['cart'] ['products'] [$i] ['product_id'] == ( int ) $product_id) {
+			if (( int ) $_SESSION ['cart'] ['products'] [$i] ['product_id'] == ( int ) $product_id && $_SESSION ['cart'] ['products'] [$i] ['attr_value'] == $attr_value) {
 				$_SESSION ['cart'] ['products'] [$i] ['quantity'] =$quantity;
 				return true;
 			}
@@ -183,7 +182,7 @@ class Cart {
 				
 				continue;
 			}
-			if (( int ) $item ['product_id'] == ( int ) $product ['product_id']) {
+			if (( int ) $item ['product_id'] == ( int ) $product ['product_id'] && $item ['attr_value']==  $product ['attr_value'] ) {
 				return true;
 			}
 		}
@@ -211,6 +210,22 @@ class Cart {
 		return false;
 	}
 	
+	private function _is_product_exits_in_cart_by_id_attr_value($product_id,$attr_value) {
+		
+		//		如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
+		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
+			return false;
+		}
+		
+		//		循环里面的每一个产品
+		foreach ( $_SESSION ['cart'] ['products'] as $item ) {
+			if ($item ['product_id'] == $product_id && $item ['attr_value'] == $attr_value) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private function _get_product_by_id($product_id) {
 		//		如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
@@ -226,6 +241,22 @@ class Cart {
 		return false;
 	}
 	
+	private function _get_product_by_id_attr_value($product_id,$attr_value) {
+		//		如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
+		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
+			return false;
+		}
+		
+		//		循环里面的每一个产品
+		foreach ( $_SESSION ['cart'] ['products'] as $item ) {
+			if ($item ['product_id'] == $product_id && $item ['attr_value'] == $attr_value) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * 正式添加
 	 * Enter description here ...
@@ -233,12 +264,15 @@ class Cart {
 	 */
 	private function _do_add_product($product) {
  //			这里需要根据product的id获取相应的产品的价格
-		$price=$this->_get_product_from_db_by_id($product ['product_id']);
+		$price=$this->_get_product_price_from_db_by_id($product ['product_id']);
 		$product['product_price']=$price;
-		$_SESSION ['cart'] ['products'] [] = $product;
+ 		$_SESSION ['cart'] ['products'] [] = $product;
 	}
 	
-	private function _get_product_from_db_by_id($product_id){
+	// 从数据库里面获取产品的价格
+	private function _get_product_price_from_db_by_id($product_id){
+	
+//			这里还是需要获取是否有优惠价格
 		require_once ($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
 
 		mysql_select_db($database_localhost);
@@ -255,22 +289,28 @@ class Cart {
 	 */
 	private function _update_product_quantity($product) {
 		
+		// 检查session中是否有产品，如果没有的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || count ( $_SESSION ['cart'] ['products'] ) == 0) {
 			return false;
 		}
 		
+		
+		// 如果session中有产品，那么循环这些产品
 		for($i = 0; $i < count ( $_SESSION ['cart'] ['products'] ); $i ++) {
 			
+			// 如果这个产品没有产品id的属性
 			if (! isset ( $_SESSION ['cart'] ['products'] [$i] ['product_id'] )) {
 				continue;
 			}
 			
-			if ($_SESSION ['cart'] ['products'] [$i] ['product_id'] == $product ['product_id']) {
+			// 如果这个产品的id和循环中的产品的id相同
+			if ($_SESSION ['cart'] ['products'] [$i] ['product_id'] == $product ['product_id'] && $_SESSION ['cart'] ['products'] [$i] ['attr_value'] == $product ['attr_value']) {
 				$_SESSION ['cart'] ['products'] [$i] ['quantity'] = ( int ) $_SESSION ['cart'] ['products'] [$i] ['quantity'] + ( int ) $product ['quantity'];
 				return true;
 			}
 		}
 		
+//			如果找不到这个产品的话，那么直接返回false
 		return false;
 	}
 	
@@ -278,14 +318,14 @@ class Cart {
 	 * 删除这个产品
 	 * @param unknown_type $product
 	 */
-	public function remove($product_id) {
+	public function remove($product_id,$attr_value) {
 		//		检查这个产品是否在cart中，如果在的话，那么将这个产品从购物车中移除
-		if (! $this->_is_product_exits_in_cart_by_id ( $product_id )) {
+		if (! $this->_is_product_exits_in_cart_by_id_attr_value ( $product_id ,$attr_value)) {
  			return true;
 		}
 		
 		//		如果不在的话，那么直接返回true
-		$this->_do_remove_from_cart ( $product_id );
+		$this->_do_remove_from_cart ( $product_id,$attr_value );
 		
 		//		更新产品总价
 		$this->_update_products_total ();
@@ -301,10 +341,10 @@ class Cart {
 	 * 从购物车中删除某个产品。
 	 * @param unknown_type $product_id
 	 */
-	private function _do_remove_from_cart($product_id) {
+	private function _do_remove_from_cart($product_id,$attr_value) {
 		//		循环购物车中的所有产品，然后检查他们的产品id，如果当前的产品id和我们所需要的产品id是一致的话删除。
 		for($i = 0; $i < count ( $_SESSION ['cart'] ['products'] ); $i ++) {
-			if ((int)$_SESSION ['cart'] ['products'] [$i] ['product_id'] == (int)$product_id) {
+			if ((int)$_SESSION ['cart'] ['products'] [$i] ['product_id'] == (int)$product_id &&$_SESSION ['cart'] ['products'] [$i] ['attr_value']== $attr_value) {
 				unset ( $_SESSION ['cart'] ['products'] [$i]);
 				break;
 			}
@@ -378,7 +418,8 @@ class Cart {
 	}
 	// 更新运费
 	private function _update_shipping_fee() {
-		$_SESSION ['cart'] ['shipping_fee'] = 0.00;
+		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");
+		$_SESSION ['cart'] ['shipping_fee'] = get_shipping_fee();
 		return true;
 	}
 	

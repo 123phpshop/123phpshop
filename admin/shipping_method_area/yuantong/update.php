@@ -48,15 +48,15 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE shipping_method_area SET area=%s, shipping_by_quantity=%s, free_quota=%s, name=%s, cod_fee=%s, single_product_fee=%s, first_weight_fee=%s, continue_weight_fee=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE shipping_method_area SET area=%s, shipping_by_quantity=%s, free_quota=%s, name=%s, cod_fee=%s, single_product_fee=%s, first_kg_fee=%s, continue_kg_fee=%s WHERE id=%s",
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
                        GetSQLValueString($_POST['free_quota'], "double"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['cod_fee'], "double"),
                        GetSQLValueString($_POST['single_product_fee'], "double"),
-                       GetSQLValueString($_POST['first_weight_fee'], "double"),
-                       GetSQLValueString($_POST['continue_weight_fee'], "double"),
+                       GetSQLValueString($_POST['first_kg_fee'], "double"),
+                       GetSQLValueString($_POST['continue_kg_fee'], "double"),
                        GetSQLValueString($colname_shipping_method_area, "int"));
 
   mysql_select_db($database_localhost, $localhost);
@@ -80,16 +80,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 <p class="phpshop123_title">圆通：更新配送区域</p>
 <p>&nbsp; </p>
 
-<form method="POST" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table width="100%" align="center">
     <tr valign="baseline">
       <td nowrap align="right">名称：</td>
       <td valign="baseline"><label>
         <input name="name" type="text" id="name" value="<?php echo $row_shipping_method_area['name']; ?>" />
-      </label></td>
+      *</label></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">根据数量计算:</td>
+      <td nowrap align="right">运费计算:</td>
       <td valign="baseline"><table width="100%">
         <tr>
           <td><input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"0"))) {echo "checked=\"checked\"";} ?> name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()" >
@@ -101,24 +101,28 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">首重费用:</td>
-      <td><input type="text" name="first_weight_fee" value="<?php echo $row_shipping_method_area['first_weight_fee']; ?>" size="32"></td>
+      <td><input type="text" name="first_kg_fee" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">续重费用:</td>
-      <td><input type="text" name="continue_weight_fee" value="<?php echo $row_shipping_method_area['continue_weight_fee']; ?>" size="32"></td>
+      <td><input type="text" name="continue_kg_fee" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_quantity" style="display:none;">
       <td nowrap align="right">单个商品费用:</td>
-      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32"></td>
+      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32"></td>
+      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">到付费用:</td>
-      <td><input type="text" name="cod_fee" value="<?php echo $row_shipping_method_area['cod_fee']; ?>" size="32">  
-</td>
+      <td><input type="text" name="cod_fee" value="<?php echo $row_shipping_method_area['cod_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">区域：</td>
@@ -126,7 +130,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="area" value="<?php echo $row_shipping_method_area['area']; ?>">
@@ -134,6 +138,55 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            first_weight_fee: {
+                required: true,
+				number:true
+				  
+            },
+            continue_weight_fee: {
+                required: true,
+				number:true
+            } ,
+            single_product_fee: {
+                required: true,
+				number:true
+            },
+            free_quota: {
+                number:true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            first_weight_fee: {
+                required: "必填" ,
+				number:"必须是数字"
+              },
+            continue_weight_fee: {
+                required: "必填",
+				number:"必须是数字"
+            } ,
+            single_product_fee: {
+                required: "必填",
+				number:"必须是数字"
+            },
+            free_quota: {
+                 number:"必须是数字"  
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

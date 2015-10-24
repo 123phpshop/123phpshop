@@ -74,15 +74,15 @@ $totalRows_pay_method = mysql_num_rows($pay_method);
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
+      <td nowrap align="right">名称:</td>
       <td><input type="text" name="name" value="<?php echo $row_pay_method['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Folder:</td>
+      <td nowrap align="right">文件夹:</td>
       <td><input type="text" name="folder" value="<?php echo $row_pay_method['folder']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_activated:</td>
+      <td nowrap align="right">激活:</td>
       <td valign="baseline"><table>
         <tr>
           <td><input type="radio" name="is_activated" value="1" <?php if (!(strcmp($row_pay_method['is_activated'],"1"))) {echo "CHECKED";} ?>>
@@ -93,7 +93,7 @@ $totalRows_pay_method = mysql_num_rows($pay_method);
       </table></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Www:</td>
+      <td nowrap align="right">网址:</td>
       <td><input type="text" name="www" value="<?php echo $row_pay_method['www']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
@@ -101,7 +101,7 @@ $totalRows_pay_method = mysql_num_rows($pay_method);
       <td><input type="file" name="logo" value="<?php echo $row_pay_method['logo']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Intro:</td>
+      <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="intro" cols="50" rows="5"><?php echo $row_pay_method['intro']; ?></textarea>
       </td>
     </tr>

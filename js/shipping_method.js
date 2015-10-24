@@ -7,6 +7,7 @@ function by_weight(){
 	$(".by_weight").show();
 }
 
+ 
 /**
 	选择省份
 **/
@@ -47,6 +48,12 @@ function select_city(city_name){
  
 function add_area_selected_row(row_class_selected,area_name){
  	//	检查是否已经添加了，如果已经添加了，那么退出
+	//	如果没有添加，那么添加
+	if(row_class_selected=='country_selected'){
+		province_selected_value='*';
+		city_selected_value='*';
+		district_selected_value='*';
+ 	} 
 	
 	//	如果没有添加，那么添加
 	if(row_class_selected=='province_selected'){
@@ -78,8 +85,14 @@ function add_area_selected_row(row_class_selected,area_name){
 
 	//	在选择的区域列表中删除所选择的区域
 function remove_area_selected_row(row_class_selected,area_name){
-		
+	
+	
+	if(row_class_selected=='country_selected'){
+			$(".selected_area_row").remove();
+ 	} 
+	
 	//	检查是否已经删除了，如果已经删除了，那么退出
+	
 	
 	//	如果没有删除，那么删除
 	if(row_class_selected=='province_selected'){
@@ -103,6 +116,12 @@ function add_area_to_hidden_input(row_class_selected,area_name){
 	//	检查是否已经添加了，如果已经添加了，那么退出
 	
 	//	如果没有添加，那么添加
+	
+	if(row_class_selected=='country_selected'){
+		var area_string="*_*_*;";
+		$("input[name=area]").val(area_string);
+		return;
+ 	} 
 	
 	if(row_class_selected=='province_selected'){
 			para_name='province_name';
@@ -160,7 +179,12 @@ function remove_area_to_hidden_input(row_class_selected,area_name){
 	//	检查是否已经删除了，如果已经删除了，那么退出
 	
 	//	如果没有删除，那么删除
-	if(row_class_selected=='province_selected'){
+	
+	if(row_class_selected=='country_selected'){
+			$("input[name=area]").val('');
+ 	}
+	
+ 	if(row_class_selected=='province_selected'){
 			para_name='province_name';
  	} 
 	
@@ -199,13 +223,18 @@ function remove_area_to_hidden_input(row_class_selected,area_name){
 	}
 	
 	
-	$("input[name=area]").val(newstr)
+	$("input[name=area]").val(newstr);
 	
 }
 
 function _remove_same_level_areas(row_class_selected,area_name){
 	
 	// 如果是省份的话，那么检查已经选择的地区之中有没有这个省份的，如果的话，那么删除所有的这个省份的城市或区县
+	
+	if(row_class_selected=="country_selected"){
+		$(".selected_area_row").remove();	
+	}
+	
 	if(row_class_selected=="province_selected"){
 		$(".selected_area_row[province_name="+area_name+"]").remove();	
 	}
@@ -231,11 +260,16 @@ function select_district(district_name){
 }
 
 function select_all(){
-	if($("#country").is(':checked')){
- 		 $("#areas_box input[id!=country]").attr("checked",'true');	
+ 	if($("#country").is(':checked')==true){
+   		 $("#areas_box input[type=checkbox][id!=country]").attr("checked",'true');
+		 	add_area_selected_row('country_selected');
+			add_area_to_hidden_input('country_selected');
+		    return;
 	}
 	
-	 $("#areas_box input[id!=country]").removeAttr("checked");
+	 $("#areas_box input[type=checkbox][id!=country]").removeAttr("checked");
+	 remove_area_to_hidden_input('country_selected');
+  	 remove_area_selected_row('country_selected');
 }
 
 

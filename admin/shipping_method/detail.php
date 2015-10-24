@@ -10,37 +10,38 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 		
-<p>配送方式详细</p>
-<table width="100%" border="1" align="center">
+<p class="phpshop123_title">配送方式详细</p>
+<table width="100%" border="0" align="center" class="phpshop123_form_box">
   
   <tr>
-    <td>name</td>
+    <td>名称</td>
     <td><?php echo $row_DetailRS1['name']; ?> </td>
   </tr>
   <tr>
-    <td>config_file_path</td>
+    <td>配置文件夹</td>
     <td><?php echo $row_DetailRS1['config_file_path']; ?> </td>
   </tr>
   
   <tr>
-    <td>is_activated</td>
-    <td><?php echo $row_DetailRS1['is_activated']; ?> </td>
+    <td>是否激活</td>
+    <td><?php echo $row_DetailRS1['is_activated']==1?"√":"否"; ?> </td>
   </tr>
 
   <tr>
-    <td>is_cod</td>
-    <td><?php echo $row_DetailRS1['is_cod']; ?> </td>
+    <td>是否货到付款</td>
+    <td><?php echo $row_DetailRS1['is_cod']==1?"√":"否"; ?> </td>
   </tr>
  <tr>
-	<td>create_time</td>
+	<td>创建时间</td>
 	<td><?php echo $row_DetailRS1['create_time']; ?> </td>
 </tr>
 <tr>
-    <td>desc</td>
+    <td>介绍</td>
     <td><?php echo $row_DetailRS1['desc']; ?> </td>
   </tr>
   

@@ -108,7 +108,7 @@ $totalRows_catalog = mysql_num_rows($catalog);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="更新记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_update" value="form1">

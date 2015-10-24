@@ -20,10 +20,9 @@
 require_once ('Connections/localhost.php');
 ?>
 <?php
-
 $result = array ('code' => '0', 'message' => 'SUCCEED', 'data' => array () );
 $cart_obj = new Cart ();
-$cart = $cart_obj->remove ( (int)$_POST ['product_id'] );
+$cart = $cart_obj->remove ( (int)$_POST ['product_id'],$_POST['attr_value'] );
 if (! $cart) {
 	$result = array ('code' => '1', 'message' => '删除失败，请稍后再试' );
 } else {

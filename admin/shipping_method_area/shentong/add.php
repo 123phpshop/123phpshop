@@ -64,14 +64,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">申通快递：添加配送区域</p>
+<p class="phpshop123_title">申通:添加配送区域</p>
 <p>&nbsp; </p>
 
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td><input type="text" name="name" value="" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">运费计算:</td>
@@ -81,19 +82,23 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">首重费用:</td>
-      <td><input type="text" name="first_kg_fee" value="15" size="32"></td>
+      <td><input type="text" name="first_kg_fee" value="15" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">续重费用:</td>
-      <td><input type="text" name="continue_kg_fee" value="5" size="32"></td>
+      <td><input type="text" name="continue_kg_fee" value="5" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_quantity" style="display:none;">
       <td nowrap="nowrap" align="right">单商品费用:</td>
-      <td><input type="text" name="single_product_fee" value="15" size="32" /></td>
+      <td><input type="text" name="single_product_fee" value="15" size="32" />
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="0" size="32"></td>
+      <td><input type="text" name="free_quota" value="0" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -101,7 +106,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
   <input type="hidden" name="area" value="">
@@ -109,6 +114,55 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            first_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+            continue_kg_fee: {
+                required: true,
+				number:true
+            } ,
+			single_product_fee: {
+                required: true,
+				number:true
+            } ,
+            free_quota: {
+                 number:true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            first_kg_fee: {
+                required: "必填" ,
+				number:"必须是数字哦"
+             },
+            continue_kg_fee: {
+                required: "必填",
+				number:"必须是数字哦"
+            } ,
+            single_product_fee: {
+                required: "必填",
+				number:"必须是数字哦"
+            },
+            free_quota: {
+                 number:"必须是数字哦"
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

@@ -75,39 +75,44 @@ header(sprintf("Location: %s", $insertGoTo));
 </head>
 
 <body>
-<p class="phpshop123_title">中通：更新配送区域配置</p>
+<p class="phpshop123_title">中通:更新配送区域</p>
 <p>&nbsp; </p>
 
-<form method="POST" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_shipping_method_area['name']; ?>" size="32"> </td>
+      <td nowrap align="right">名称:</td>
+      <td><input name="name" type="text" value="<?php echo $row_shipping_method_area['name']; ?>" size="32" maxlength="32">
+* </td>
     </tr>
       
      <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
+      <td nowrap align="right">运费计算:</td>
       <td valign="baseline"><input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"0"))) {echo "checked=\"checked\"";} ?> name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()">
 按重量
   <input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"1"))) {echo "checked=\"checked\"";} ?> type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()"/>
 按数量</td>
      </tr>
     <tr valign="baseline" class="by_weight">
-      <td nowrap align="right">First_kg_fee:</td>
-      <td><input type="text" name="first_kg_fee" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32"></td>
+      <td nowrap align="right">首公斤费用:</td>
+      <td><input name="first_kg_fee" type="text" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32" maxlength="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
-      <td nowrap align="right">Continue_kg_fee:</td>
-      <td><input type="text" name="continue_kg_fee" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32"></td>
+      <td nowrap align="right">续重费用:</td>
+      <td><input name="continue_kg_fee" type="text" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32" maxlength="32">
+*</td>
     </tr>
    
     <tr valign="baseline" class="by_quantity" style="display:none;">
-      <td nowrap align="right">Single_product_fee:</td>
-      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32"></td>
+      <td nowrap align="right">单个商品费用:</td>
+      <td><input name="single_product_fee" type="text" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32" maxlength="32">
+*</td>
     </tr>
 	 <tr valign="baseline">
-      <td nowrap align="right">Free_quota:</td>
-      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32"></td>
+      <td nowrap align="right">免费额度:</td>
+      <td><input name="free_quota" type="text" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32" maxlength="32">
+*</td>
     </tr>
 	
     <tr valign="baseline">
@@ -116,7 +121,7 @@ header(sprintf("Location: %s", $insertGoTo));
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="area" value="<?php echo $row_shipping_method_area['area']; ?>" >
@@ -124,6 +129,55 @@ header(sprintf("Location: %s", $insertGoTo));
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            first_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+            continue_kg_fee: {
+                required: true,
+				number:true
+            } ,
+            single_product_fee: {
+                required: true,
+				number:true
+            },
+            free_quota: {
+                number:true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            first_kg_fee: {
+                required: "必填" ,
+				number:"必须是数字"
+              },
+            continue_kg_fee: {
+                required: "必填",
+				number:"必须是数字"
+            } ,
+            single_product_fee: {
+                required: "必填",
+				number:"必须是数字"
+            },
+            free_quota: {
+                 number:"必须是数字"  
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

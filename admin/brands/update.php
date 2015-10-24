@@ -120,48 +120,87 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
-  <p>更新品牌信息：<?php echo $row_brand['name']; ?></p>
-  <table align="center">
+<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <p class="phpshop123_title">更新品牌信息：<?php echo $row_brand['name']; ?></p>
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_brand['name']; ?>" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input name="name" type="text" value="<?php echo $row_brand['name']; ?>" size="32" maxlength="32">
+      *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Url:</td>
-      <td><input type="text" name="url" value="<?php echo $row_brand['url']; ?>" size="32"></td>
+      <td nowrap align="right">网址:</td>
+      <td><input name="url" type="text" value="<?php echo $row_brand['url']; ?>" size="32" maxlength="60"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Sort:</td>
-      <td><input type="text" name="sort" value="<?php echo $row_brand['sort']; ?>" size="32"></td>
+      <td nowrap align="right">排序:</td>
+      <td><input name="sort" type="text" value="<?php echo $row_brand['sort']; ?>" size="32" maxlength="10"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Image_path:</td>
+      <td nowrap align="right">图片:</td>
       <td> 
 	  	<?php if($row_brand['image_path']!=""){ ?>
 	  <img src="<?php echo $row_brand['image_path']; ?>" />
          <?php } ?>
 		<p>
           <input type="file" name="image_path" value="<?php echo $row_brand['image_path']; ?>" size="32">
-         </td>
+      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Desc:</td>
+      <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="desc" cols="50" rows="5"><?php echo $row_brand['desc']; ?></textarea>
       </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="更新记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_brand['id']; ?>">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+			url:{
+				url:true
+			}, 
+ 			sort:{
+				digits:true
+			},
+ 			desc:{
+				maxlength:100
+			}
+             
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+			url:{
+				url:"网址格式不正确"
+			}, 
+ 			sort:{
+				digits:"只能是数字哦"
+			},
+ 			desc:{
+				minlength:"最多只能100个字符哦"
+			}
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

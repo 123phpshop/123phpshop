@@ -54,43 +54,78 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p>添加配送方式</p>
-  <table align="center">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
+  <p class="phpshop123_title">添加配送方式</p>
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input name="name" type="text" value="" size="32" maxlength="32">
+*</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_activated:</td>
+      <td nowrap align="right">激活:</td>
       <td><input name="is_activated" type="checkbox" value="" checked="checked" ></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">配送区域配置文件位置:</td>
-      <td><input name="config_file_path" type="text" id="config_file_path" value="" size="32" /></td>
+      <td nowrap align="right">配置文件夹:</td>
+      <td><input name="config_file_path" type="text" id="config_file_path" value="" size="32" maxlength="100" />
+*</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">是否为货到付款:</td>
+      <td nowrap align="right">货到付款:</td>
       <td><input type="checkbox" name="is_cod" value="" ></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_free:</td>
+      <td nowrap align="right">免费:</td>
       <td><input type="checkbox" name="is_free" value="" ></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Desc:</td>
+      <td nowrap align="right" valign="top">介绍:</td>
       <td><textarea name="desc" cols="50" rows="5"></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            config_file_path: {
+				 required: true,
+ 				maxlength:100
+             },
+            desc: {
+                maxlength:100
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            config_file_path: {
+				 required: "必填",
+                maxlength:"最多100个字符哦"
+              },
+            desc: {
+                maxlength:"最多100个字符哦"
+            } 
+        }
+    });
+	
+});</script>
 </body>
 </html>

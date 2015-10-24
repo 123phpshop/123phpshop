@@ -104,8 +104,7 @@ include_once ('widget/logo_search.php');
 <?php
 		} else {
 			?>
-<p>&nbsp;</p>
-<form id="cart_form" name="cart_form" method="post" action="confirm.php">
+ <form id="cart_form" name="cart_form" method="post" action="confirm.php">
 <table width="990" height="37" border="0" align="center">
 	<tr>
 		<td height="37"><span class="STYLE5">全部商品 </span></td>
@@ -136,7 +135,7 @@ include_once ('widget/logo_search.php');
 		id="product_<?php
 					echo $cart_products_item ['product_id'];
 					?>">
-		<td width="133" height="107">
+		<td width="133" height="107" >
 		<div align="center"><a style="border:0px;"
 			href="product.php?id=<?php
 					echo $cart_products_item ['product_id'];
@@ -152,14 +151,16 @@ include_once ('widget/logo_search.php');
 					?>">
 	    <?php
 					echo $cart_products_item ['product_name'];
-					?> 
+					?> <br />
 	    <?php
-					echo $cart_products_item ['ad_text'];
+					echo str_replace(";"," ",$cart_products_item ['attr_value']);
 					?>	    
 	    &nbsp;</a></td>
 		<td width="171" height="107"><span
-			id="product_price_<?php
+			class="product_price_<?php
 					echo $cart_products_item ['product_id'];
+					?>" attr_value="<?php
+					echo $cart_products_item ['attr_value'];
 					?>"><?php
 					echo $cart_products_item ['product_price'];
 					?></span></td>
@@ -168,44 +169,53 @@ include_once ('widget/logo_search.php');
 		<div name="increase_quantity" style="cursor:pointer;float:left;height:20px;line-height:20px;width:20px;border:1px solid #e54346;background-color:red;color:#FFFFFF;text-align:center;"
 			onclick="return change_quantity(<?php
 					echo $cart_products_item ['product_id'];
-					?>,1)"
+					?>,1,'<?php
+					echo $cart_products_item ['attr_value'];
+					?>')"
 			id="increase_quantity_product_quantity_<?php
 					echo $cart_products_item ['product_id'];
 					?>">+</div>
 		<input readOnly="true"  style="float: left; text-align: center;height:18px;line-height:18px;border:1px solid #e54346;border-left:0px;border-right:0px;margin-top:0px;"
-			id="product_quantity_<?php
+			class="product_quantity_<?php
 					echo $cart_products_item ['product_id'];
 					?>"
 			value="<?php
 					echo $cart_products_item ['quantity'];
 					?>"
-			size="2" maxlength="10" />
+			size="2" maxlength="10" attr_value="<?php
+					echo $cart_products_item ['attr_value'];
+					?>"/>
 		<div height="15" width="15"   name="decrease_quantity" style="cursor:pointer;line-height:20px;border:1px solid #e54346;float: left;height:20px;width:20px;background-color:red;color:#FFFFFF;backgroun-color:red;color:#FFFFFF;text-align:center;"
 			onclick="return change_quantity(<?php
 					echo $cart_products_item ['product_id'];
-					?>,-1)"
+					?>,-1,'<?php
+					echo $cart_products_item ['attr_value'];
+					?>')"
 			id="decrease_quantity_product_quantity_<?php
 					echo $cart_products_item ['product_id'];
 					?>">-</div>
 					 
 		</td>
 		<td width="140" height="107"><strong
-			id="sub_total_<?php
+			class="sub_total_<?php
 					echo $cart_products_item ['product_id'];
+					?>" attr_value="<?php
+					echo $cart_products_item ['attr_value'];
 					?>"><?php
 					echo $cart_products_item ['quantity'] * $cart_products_item ['product_price'];
 					?></strong></td>
 		<td width="170" height="107"><a href="javascript://"
 			onClick="delete_cart_product(<?php
 					echo $cart_products_item ['product_id'];
-					?>);">删除</a></td>
+					?>,'<?php
+					echo $cart_products_item ['attr_value'];
+					?>');">删除</a></td>
 	</tr>
     <?php
 				}
 			}
 			?>
   </table>
-<br />
 <table width="990" height="50" border="1" align="center" cellpadding="0"
 	cellspacing="0" bordercolor="#ddd">
 	<tr>
@@ -241,14 +251,14 @@ include_once ('widget/logo_search.php');
 <script language="JavaScript" type="text/javascript"
 	src="../../js/jquery.validate.min.js"></script>
 <script>
-function delete_cart_product(product_id){
+function delete_cart_product(product_id,attr_value){
 	
 	if(!confirm("您确实要删除此商品么？")){
 		return false;
 	}
 	
 	var url="/ajax_remove_cart_product.php";
-	$.post(url,{product_id:product_id},function(data){
+	$.post(url,{product_id:product_id,attr_value:attr_value},function(data){
 		if(data.code=='0'){
 			location.href="/cart.php"
 			return true;
@@ -257,28 +267,27 @@ function delete_cart_product(product_id){
 	},'json');
 }
 
- var change_quantity=function(product_id,quantity){
+ var change_quantity=function(product_id,quantity,attr_value){
 	
-	var now_quantity=$("#product_quantity_"+product_id).val();
-	
-//			获取box中的产品数量的值。如果产品数量为1，但是需要减去一个话，那么告知需要最少要有一件产品
+	var now_quantity=$(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val();
+ //			获取box中的产品数量的值。如果产品数量为1，但是需要减去一个话，那么告知需要最少要有一件产品
 	if(now_quantity==1 && quantity==-1){
 		alert("至少需要留1件商品,如果需要删除这个商品，请点击旁边的删除按钮");return false;
 	}
 
 //	更新这个产品的数量
-	var final_quantity=parseInt($("#product_quantity_"+product_id).val())+parseInt(quantity);
-	$("#product_quantity_"+product_id).val(final_quantity);
+	var final_quantity=parseInt($(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val())+parseInt(quantity);
+	$(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val(final_quantity);
 
 //	调用ajax文件进行更新
- 	$.post('/ajax_adjust_cart_quantity.php',{product_id:product_id,quantity:final_quantity},function(data){
-		if(data.code!="0"){
-			alert(data.message);return false;
-		}
+ 	$.post('/ajax_adjust_cart_quantity.php',{product_id:product_id,quantity:final_quantity,attr_value:attr_value},function(data){
+	if(data.code!="0"){
+		alert(data.message);return false;
+	}
 
 //		更新总价
 	_update_total_price(data.data.total_price);
-	_update_sub_total(product_id);
+	_update_sub_total(product_id,attr_value);
 	return false;
  	},'json');
  	return false;
@@ -287,12 +296,12 @@ function delete_cart_product(product_id){
 function _update_total_price(total_price){
 	$("#cart_total_price").html(total_price);
 }
-function _update_sub_total(product_id){
+function _update_sub_total(product_id,attr_value){
 	//获取产品的id
-	var quantity=parseInt($("#product_quantity_"+product_id).val());
-	var price=parseFloat($("#product_price_"+product_id).html()).toFixed(2);
+	var quantity=parseInt($(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val());
+	var price=parseFloat($(".product_price_"+product_id+"[attr_value='"+attr_value+"']").html()).toFixed(2);
  	var sub_total=parseFloat(quantity*price).toFixed(2);
- 	$("#sub_total_"+product_id).html(sub_total);
+ 	$(".sub_total_"+product_id+"[attr_value='"+attr_value+"']").html(sub_total);
 }
 
 </script>

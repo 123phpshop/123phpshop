@@ -17,17 +17,13 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 <p class="phpshop123_title">配送方式列表</p>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td><div align="center">id</div></td>
-    <td>name</td>
-    <td>desc</td>
-    <td><div align="center">is_activated</div></td>
+    <td>名称</td>
+    <td>介绍</td>
+    <td><div align="center">是否被激活</div></td>
     <td>操作</td>
   </tr>
   <?php do { ?>
     <tr>
-      <td><div align="center">
-        <input type="checkbox" name="checkbox" value="checkbox" />
-      </div></td>
       <td><label></label>
       <a href="detail.php?recordID=<?php echo $row_shipping_methods['id']; ?>"> <?php echo $row_shipping_methods['name']; ?>&nbsp; </a> </td>
       <td><?php echo $row_shipping_methods['desc']; ?>&nbsp; </td>
@@ -37,8 +33,7 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
     <?php } while ($row_shipping_methods = mysql_fetch_assoc($shipping_methods)); ?>
 </table>
 <div align="right"><br>
-  <?php echo $totalRows_shipping_methods ?> 记录 总数
-  </p>
+  记录总数：<?php echo $totalRows_shipping_methods ?></p>
 </div>
 </body>
 </html>

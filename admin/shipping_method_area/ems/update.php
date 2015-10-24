@@ -77,15 +77,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">EMS国内邮政快递：更新配送区域</p>
-<form method="POST" name="form1" action="<?php echo $editFormAction; ?>">
+<p class="phpshop123_title">EMS:更新配送区域</p>
+<form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_shipping_method_area['name']; ?>" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input type="text" name="name" value="<?php echo $row_shipping_method_area['name']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
+      <td nowrap align="right">运费计算:</td>
       <td valign="baseline"><input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"0"))) {echo "checked=\"checked\"";} ?> name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()" />
 按重量
   <input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"1"))) {echo "checked=\"checked\"";} ?> type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()" />
@@ -93,19 +94,23 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     </tr>
     <tr valign="baseline" class="by_quantity" style="display:none;">
       <td nowrap align="right">单件商品费用:</td>
-      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32"></td>
+      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">500克之内费用:</td>
-      <td><input type="text" name="half_kg_fee" value="<?php echo $row_shipping_method_area['half_kg_fee']; ?>" size="32"></td>
+      <td><input type="text" name="half_kg_fee" value="<?php echo $row_shipping_method_area['half_kg_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">续费500克费用:</td>
-      <td><input type="text" name="continue_half_kg_fee" value="<?php echo $row_shipping_method_area['continue_half_kg_fee']; ?>" size="32"></td>
+      <td><input type="text" name="continue_half_kg_fee" value="<?php echo $row_shipping_method_area['continue_half_kg_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32"></td>
+      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">区域：</td>
@@ -113,7 +118,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="更新"></td>
     </tr>
   </table>
    <input name="area" type="text" value="<?php echo $row_shipping_method_area['area']; ?>" size="150">
@@ -122,6 +127,68 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+			half_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+			continue_half_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+            single_product_fee: {
+                required: true,
+				number:true
+				  
+            },
+            half_kg_fee: {
+                required: true,
+				number:true
+            } ,
+            free_quota: {
+                number:true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+			half_kg_fee: {
+                required: "必填" ,
+				 number:"必须是数字哦"
+				  
+            },
+			continue_half_kg_fee: {
+                required: "必填" ,
+				 number:"必须是数字哦"
+				  
+            },
+            single_product_fee: {
+               required: "必填" ,
+			   number:"必须是数字哦"
+				  
+            },
+            half_kg_fee: {
+                required: "必填" ,
+				 number:"必须是数字哦"
+            } ,
+            free_quota: {
+				number:"必须是数字哦"
+             }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

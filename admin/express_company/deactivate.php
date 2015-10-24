@@ -18,35 +18,33 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$colname_admin = "-1";
 $could_delete=1;
-$remove_succeed_url="index.php";
+$colname_product = "-1";
 if (isset($_GET['id'])) {
-  $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+  $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_admin = sprintf("SELECT * FROM brands WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) or die(mysql_error());
-$row_admin = mysql_fetch_assoc($admin);
-$totalRows_admin = mysql_num_rows($admin);
- if($totalRows_admin==0){
+$query_product = sprintf("SELECT * FROM express_company WHERE id = %s", $colname_product);
+$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$row_product = mysql_fetch_assoc($product);
+$totalRows_product = mysql_num_rows($product);
+
+if($row_product==0){
 	$could_delete=0;
-}
+} 
+
 if($could_delete==1){
-	
-	if($row_admin['is_delete']=='1'){
-		header("Location: " . $remove_succeed_url );
-	}
-	
-	$update_catalog = sprintf("update `brands` set is_delete=1 where id = %s", $colname_admin);
+
+	$update_catalog = sprintf("update `express_company` set disabled='true' where id = %s", $colname_product);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
 		$could_delete=0;
 	}else{
+		$remove_succeed_url='index.php';
 		header("Location: " . $remove_succeed_url );
  	}
-	
 }
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -58,16 +56,15 @@ if($could_delete==1){
 <body>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <p>由于以下原因，您不能删除这个品牌：</p>
-  <p>1. 记录不存在，请检查参数之后再试。</p>
-  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
+  <p>由于以下原因，您不能激活这个快递公司</p>
+  <p>1.	快递公司不存在，请检查参数之后再试。</p>
+  <p>2. 系统错误，无法激活，请示稍后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。
-    
+    <?php } ?>
     </p>
 </div>
-<?php } ?>
 </body>
 </html>
 <?php
-mysql_free_result($admin);
+mysql_free_result($product);
 ?>

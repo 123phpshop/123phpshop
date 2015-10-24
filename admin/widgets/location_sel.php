@@ -2,8 +2,9 @@
  
 //	将配送区域用；隔开
 
-$area=explode(";",$row_shipping_method_area['area']);
-
+ if(isset($row_shipping_method_area['area'])){
+	$area=explode(";",$row_shipping_method_area['area']);
+ }
  
 mysql_select_db($database_localhost, $localhost);
 $query_areas = "SELECT id, name FROM area WHERE pid = 0";
@@ -46,7 +47,7 @@ function show_disticts(city_name){
    $(".district_list_item[city_name!="+city_name+"]").hide();
 }
 </script>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 
   <p>选择的列表</p>
   <table width="100%" border="0" class="phpshop123_list_box" id="area_selected">
@@ -55,13 +56,14 @@ function show_disticts(city_name){
       <td>市</td>
       <td>区县</td>
     </tr>
+	<?php if(isset($area)){ ?>
 	<?php foreach($area as $area_item){ if($area_item!=''){ $location_array=explode('_',$area_item);if($area_item!=''){?>
 	 <tr class="selected_area_row" province_name="<?php echo $location_array[0];?>" city_name="<?php echo $location_array[1];?>" district_name="<?php echo $location_array[2];?>">
       <td class="province_selected"><?php echo $location_array[0];?></td>
       <td class="city_selected"><?php echo $location_array[1];?></td>
       <td class="district_selected"><?php echo $location_array[2];?></td>
     </tr>
-	<?php } } } ?>
+	<?php } } }} ?>
   </table>
   <p>&nbsp;</p>
   <table width="33%" border="0" id="areas_box">
@@ -70,12 +72,12 @@ function show_disticts(city_name){
   
     <tr>
       <td width="108" valign="top" > 
-	  <input value="*" name="area[]"  type="checkbox" id="country" onchange="select_all()" />
+	  <input value="*" type="checkbox" id="country" onChange="select_all()" />
 	  <span>全国</span></br>
 	  <?php do { ?>
         <div style="cursor:pointer;" onMouseOver="show_city('<?php echo $row_areas['name']; ?>')">
-<input type="checkbox" name="area[]"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')" <?php if(in_array($row_areas['name']."_*_*",$area) || should_check($row_areas['name']."_",$area)){ ?> checked <?php } ?>>
-<span area_pos="<?php echo should_check($row_areas['name']."_",$area);?>"><?php echo $row_areas['name']; ?></span></br>
+<input type="checkbox"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')" <?php if(isset($area) && (in_array($row_areas['name']."_*_*",$area) || should_check($row_areas['name']."_",$area))){ ?> checked <?php } ?>>
+<span area_pos="<?php if(isset($area)){echo should_check($row_areas['name']."_",$area);};?>"><?php echo $row_areas['name']; ?></span></br>
 </div>
 		 <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
 		</td>
@@ -92,7 +94,7 @@ function show_disticts(city_name){
 			$totalRows_cities = mysql_num_rows($cities);
 			while($row_cities = mysql_fetch_assoc($cities)){
 		?>
-       	<input type="checkbox" class="city" name="area[]" province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')"  <?php if(in_array($row_areas_for_city['name']."_".$row_cities['name']."_*",$area) || in_array($row_areas_for_city['name']."_*_*",$area) || should_check($row_areas['name']."_".$row_cities['name']."_",$area)){ ?> checked <?php } ?>><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
+       	<input type="checkbox" class="city"  province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')"  <?php if(isset($area) && (in_array($row_areas_for_city['name']."_".$row_cities['name']."_*",$area) || in_array($row_areas_for_city['name']."_*_*",$area) || should_check($row_areas['name']."_".$row_cities['name']."_",$area))){ ?> checked <?php } ?>><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
  	 	<?php } ?>
 	  </div>
 	<?php } ?>	</td><td width="255" valign="top">
@@ -113,7 +115,7 @@ function show_disticts(city_name){
 				$totalRows_distict = mysql_num_rows($disticties);?>
 				<div class="district_list_item" city_name="<?php echo $row_cities['name'];?>" style="display:none;" >
  				<?php 	while($row_distict = mysql_fetch_assoc($disticties)){?>
-						<input class="district" name="area[]" type="checkbox" province_name="<?php echo $row_areas_for_district['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" district_name="<?php echo $row_distict['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('<?php echo $row_distict['name']; ?>')"  <?php if(in_array($row_areas_for_district['name']."_".$row_cities['name']."_".$row_distict['name'],$area) || in_array($row_areas_for_district['name']."_*_*",$area) || in_array($row_areas_for_district['name']."_".$row_cities['name']."_*",$area) ){ ?> checked <?php } ?>><?php echo $row_distict['name'];?></br>
+						<input class="district" type="checkbox" province_name="<?php echo $row_areas_for_district['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" district_name="<?php echo $row_distict['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('<?php echo $row_distict['name']; ?>')"  <?php if(isset($area) && (in_array($row_areas_for_district['name']."_".$row_cities['name']."_".$row_distict['name'],$area) || in_array($row_areas_for_district['name']."_*_*",$area) || in_array($row_areas_for_district['name']."_".$row_cities['name']."_*",$area)) ){ ?> checked <?php } ?>><?php echo $row_distict['name'];?></br>
  				<?php 	} ?>
  				</div>
 				<?php 	}

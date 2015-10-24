@@ -99,7 +99,6 @@ table{
     <td valign="top"><?php include('/widget/product/search.php'); ?></td>
   </tr>
 </table>
-<?php include('widget/1020_guess_you_may_like.php'); ?>
 <?php include('widget/footer.php'); ?>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
 </body>

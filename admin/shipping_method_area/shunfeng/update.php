@@ -74,39 +74,44 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">顺丰配：更新送区域</p>
+<p class="phpshop123_title">顺丰：更新送区域</p>
 <p>&nbsp; </p>
 
-<form method="POST" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_shipping_method_area['name']; ?>" size="32"></td>
+      <td nowrap align="right">名称:</td>
+      <td><input type="text" name="name" value="<?php echo $row_shipping_method_area['name']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Shipping_by_quantity:</td>
+      <td nowrap align="right">运费计算:</td>
       <td valign="baseline"><input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"0"))) {echo "checked=\"checked\"";} ?> name="shipping_by_quantity" type="radio" value="0" checked="checked" onchange="by_weight()" />
 按重量
   <input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"1"))) {echo "checked=\"checked\"";} ?> type="radio" name="shipping_by_quantity" value="1"  onchange="by_quantity()"/>
 按数量</td>
     </tr>
     <tr valign="baseline" class="by_weight">
-      <td nowrap align="right" >首公斤费用:</td>
-      <td><input type="text" name="first_kg_fee" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32"></td>
+      <td nowrap align="right" >首重费用:</td>
+      <td><input type="text" name="first_kg_fee" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32">
+*</td>
     </tr>
     <tr valign="baseline" class="by_weight">
-      <td nowrap align="right" >续公斤费用:</td>
-      <td><input type="text" name="continue_kg_fee" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32"></td>
+      <td nowrap align="right" >续重费用:</td>
+      <td><input type="text" name="continue_kg_fee" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32">
+*</td>
     </tr>
 	
 	<tr valign="baseline" class="by_quantity">
       <td nowrap align="right">单商品费用:</td>
-      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32"></td>
+      <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32">
+*</td>
     </tr>
 	
     <tr valign="baseline">
       <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32"></td>
+      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32">
+*</td>
     </tr>
    
     <tr valign="baseline">
@@ -124,6 +129,57 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/shipping_method.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            first_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+            continue_kg_fee: {
+                required: true,
+				number:true
+				  
+            },
+			single_product_fee: {
+                required: true,
+				number:true
+				  
+            },
+            free_quota: {
+                 number:true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            first_kg_fee: {
+                required: "必填" ,
+				number:"必须是数字哦"
+              },
+           continue_kg_fee: {
+                required: "必填" ,
+				number:"必须是数字哦"
+              },
+			  single_product_fee: {
+                required: "必填" ,
+				number:"必须是数字哦"
+              },
+            free_quota: {
+                 number:"必须是数字哦"
+            }
+        }
+    });
+	
+});</script>
  
 </body>
 </html>

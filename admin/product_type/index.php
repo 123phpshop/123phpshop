@@ -92,18 +92,19 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <p class="phpshop123_title">添加产品类型</p>
 <p>&nbsp; </p>
 
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
       <td nowrap align="right">产品类型:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td><input type="text" name="name" value="" size="32" maxlength="32">
+      *</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -136,17 +137,11 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 <p>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td width="3%"><div align="center">选择</div></td>
-    <td width="46%">名称</td>
-    <td width="51%"><div align="right">操作</div></td>
+    <td width="19%">名称</td>
+    <td width="81%"><div align="right">操作</div></td>
   </tr>
   <?php do { ?>
     <tr>
-      <td><label>
-        <div align="center">
-          <input type="checkbox" name="checkbox" value="checkbox" />
-          </div>
-      </label> </td>
       <td><a href="detail.php?recordID=<?php echo $row_product_type['id']; ?>"> <?php echo $row_product_type['name']; ?>&nbsp; </a> </td>
       <td><div align="right"><a href="remove.php?id=<?php echo $row_product_type['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？')">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">更新</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></div></td>
     </tr>
@@ -175,6 +170,24 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 </table>
 记录 <?php echo ($startRow_product_type + 1) ?> 到 <?php echo min($startRow_product_type + $maxRows_product_type, $totalRows_product_type) ?> (总共 <?php echo $totalRows_product_type ?>
 </p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

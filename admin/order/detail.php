@@ -137,7 +137,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <?php do { ?>
     <tr>
-      <td scope="col"><?php echo $row_products['product_name']; ?></td>
+      <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
       <td scope="col"><?php echo $row_products['quantity']; ?></td>
       <td scope="col">￥<?php echo $row_products['actual_pay_price']; ?></td>
       <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>

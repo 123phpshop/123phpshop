@@ -164,6 +164,7 @@ form{
 	     <td>类型</td>
 	     <td><?php echo $row_DetailRS1['product_type_name']; ?></td>
       </tr>
+	  
 	   <tr>
         <td>品牌</td>
         <td><a href="../brands/detail.php?recordID=<?php echo $row_DetailRS1['brand_id']; ?>"><?php echo $row_DetailRS1['brand_name']; ?></a> </td>
@@ -177,7 +178,10 @@ form{
         <td>市场价</td>
         <td><?php echo $row_DetailRS1['market_price']; ?> </td>
       </tr>
-      
+      <tr>
+        <td>重量</td>
+        <td><?php echo $row_DetailRS1['weight']; ?> </td>
+      </tr>
       <tr>
         <td>评论数</td>
         <td><?php echo $row_DetailRS1['commented_num']; ?> </td>

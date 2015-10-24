@@ -38,27 +38,27 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <table border="0" align="center" class="phpshop123_form_box">
   
   <tr>
-    <td>id</td>
+    <td>ID</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
   <tr>
-    <td>name</td>
+    <td>属性名称</td>
     <td><?php echo $row_DetailRS1['name']; ?> </td>
   </tr>
   <tr>
-    <td>is_selectable</td>
-    <td><?php echo $row_DetailRS1['is_selectable']; ?> </td>
+    <td>是否可选</td>
+    <td><?php echo $product_type_selectable[$row_DetailRS1['is_selectable']]; ?> </td>
   </tr>
   <tr>
-    <td>input_method</td>
-    <td><?php echo $row_DetailRS1['input_method']; ?> </td>
+    <td>输入方式</td>
+    <td><?php echo $product_type_input_method[$row_DetailRS1['input_method']]; ?> </td>
   </tr>
   <tr>
-    <td>selectable_value</td>
+    <td>可选的值</td>
     <td><?php echo $row_DetailRS1['selectable_value']; ?> </td>
   </tr>
   <tr>
-    <td>product_type_id</td>
+    <td>产品类型ID</td>
     <td><?php echo $row_DetailRS1['product_type_id']; ?> </td>
   </tr>
   

@@ -22,9 +22,10 @@ $result=array('code'=>'0','message'=>'SUCCEED','data'=>array());
 $cart_obj = new Cart ();
 $product_id=(int)($_POST['product_id']);
 $quantity= (int)($_POST['quantity']);
+$attr_value=$_POST['attr_value'];
 try{
 	if($quantity!=0){
-		$cart_obj->change_quantity($product_id, $quantity);
+		$cart_obj->change_quantity($product_id, $quantity,$attr_value);
 	}
 	
  	$result['data']['total_price']=$_SESSION ['cart'] ['order_total'];

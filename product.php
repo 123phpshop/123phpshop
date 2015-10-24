@@ -218,28 +218,26 @@ body {
 	  <span id="could_deliver" <?php if(!$could_deliver){ ?>style="color:red;"<?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
     </tr>
 	       <?php include_once('widget/product/single_choose_attr.php'); ?>
-
     <tr>
       <td scope="row" style="padding-left:12px;">      数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
       <td colspan="2" scope="row"><label>
   		 
       </label>
         <div align="left" style="height:32px;">
-          <button id="up_quantity" onClick="return change_quantity(1)" style="width:32px;height:32px;line-height:30px;font-size:20px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">+</button>
+          <div id="up_quantity" onClick="return change_quantity(1)" style="cursor:pointer;text-align:center;width:32px;height:32px;line-height:30px;font-size:20px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">+</div>
           <input readOnly="true" name="quantity" type="text" id="quantity" value="1" size="6" style="font-size:20px;height:30px;line-height:29px;text-align:center;float:left;border:1px solid #e4393c;;"/>
-          <button id="down_quantity" onClick="return change_quantity(-1)" style="line-height:30px;font-size:20px;width:32px;height:32px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">-</button>
+          <div id="down_quantity" onClick="return change_quantity(-1)" style="cursor:pointer;text-align:center;line-height:30px;font-size:20px;width:32px;height:32px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">-</div>
         </div>
         <label>
         <div align="left">
-          <input type="hidden" name="product_id" />
+          <input type="hidden" name="product_id" />  <input type="hidden" value="<?php echo trim($attr_value);?>" name="attr_value"  id="attr_value"/>
           <input name="product_name" type="hidden" id="product_name" value="<?php echo $row_product['name']; ?>" />
           <input name="product_image" type="hidden" id="product_image" value="<?php echo $row_product_images['image_files']; ?>" />
           <input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_product['ad_text']; ?>" />
            <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
         </div>        </label></td>
     </tr>
-    
-    <tr>
+     <tr>
       <th height="231" colspan="3" align="left" scope="row"><label>
         <?php if($row_product['store_num']>0){ ?>
 		<input  style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;" type="submit" name="Submit2" value="加入购物车" />
@@ -263,11 +261,11 @@ body {
       <td valign="top" align="center"> 
          <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
           <tr id="tabs">
-            <th width="77" height="33" scope="col"><span class="intro_cons_comment">商品介绍</span></th>
-			 <th width="77" height="33" scope="col"><a href="#attr_list" class="intro_cons_comment">规格参数</th>
-             <th width="77" height="33" scope="col"><a href="#consult" class="intro_cons_comment">咨询</a></th>
-            <th width="77" height="33" scope="col"><a href="#comment_list" class="intro_cons_comment">评价</a> </th>
-            <td height="33"><span class="STYLE8"></span></td>
+			<th width="77" height="33" scope="col"><span class="intro_cons_comment">商品介绍</span></th>
+			<th width="77" height="33" scope="col"><a href="#attr_list" class="intro_cons_comment">规格参数</th>
+			<th width="77" height="33" scope="col"><a href="#consult" class="intro_cons_comment">咨询</a></th>
+			<th width="77" height="33" scope="col"> <a href="#comment_list" class="intro_cons_comment">评价</a> </th>
+			<td height="33"><span class="STYLE8"></span></td>
           </tr>
         </table>
   		<table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF" style="margin:0px auto;">
@@ -313,8 +311,8 @@ jq('#demo1').banqh({
 })
  
 var change_quantity=function(quantity){
-
-	var now_quantity=jq("#quantity").val();
+ 
+ 	var now_quantity=jq("#quantity").val();
 //			获取box中的产品数量的值。如果产品数量为1，但是需要减去一个话，那么告知需要最少要有一件产品
 	if(now_quantity==1 && quantity==-1){
 		alert("至少需要留1件商品哦");return false;
@@ -322,7 +320,7 @@ var change_quantity=function(quantity){
 	
 	var final_result=parseInt(jq("#quantity").val())+parseInt(quantity);
 	jq("#quantity").val(final_result);
- 	return false;
+ 	return false; 
   
 }
   
@@ -341,11 +339,11 @@ function _check_deliver(){
 	var province=$("#province").val();
 	var city=$("#city").val();
 	var district=$("#district").val();
-	var data=new Array();
-	data.push(province+"_*_*");
-	data.push(province+"_"+city+"_*");
-	data.push(province+"_"+city+"_"+district);
-	$.post(url,data:data,function(data){
+	var idata=new Array();
+	idata.push(province+"_*_*");
+	idata.push(province+"_"+city+"_*");
+	idata.push(province+"_"+city+"_"+district);
+	 /*$.post(url,data:idata,function(data){
 		if(data=='true'){
 				$("#could_deliver").html("有货");
 				$("#could_deliver").style.color="";
@@ -353,10 +351,9 @@ function _check_deliver(){
 				$("#could_deliver").html("无货");
 				$("#could_deliver").style.color="red";
 		}
- 	},'text');
+ 	},'text'); */
 }
- 
-</script>
+ </script>
    <?php include('/widget/footer.php'); ?>
 </body>
 </html>

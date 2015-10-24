@@ -35,28 +35,28 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
   
   <tr>
-    <td>id</td>
+    <td>ID</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
   <tr>
-    <td>name</td>
+    <td>名称</td>
     <td><?php echo $row_DetailRS1['name']; ?> </td>
   </tr>
   <tr>
-    <td>image_path</td>
+    <td>图片</td>
     <td><img src="<?php echo $row_DetailRS1['image_path'] ;?>"/> </td>
   </tr>
   <tr>
-    <td>create_time</td>
+    <td>创建时间</td>
     <td><?php echo $row_DetailRS1['create_time']; ?> </td>
   </tr>
   <tr>
-    <td>product_num</td>
+    <td>产品数量</td>
     <td><?php echo $row_DetailRS1['product_num']; ?> </td>
   </tr>
   <tr>
-    <td>is_delete</td>
-    <td><?php echo $row_DetailRS1['is_delete']; ?> </td>
+    <td>是否被删除</td>
+    <td><?php echo $row_DetailRS1['is_delete']=="0"?"否":"√"; ?> </td>
   </tr>
   <tr>
     <td>网址</td>

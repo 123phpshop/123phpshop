@@ -41,12 +41,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
   
-   $insertGoTo = "index.php?product_type_id=".$_POST['product_type_id'];
+    $insertGoTo = "index.php?product_type_id=".$_POST['product_type_id'];
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
   }
-  header(sprintf("Location: %s", $insertGoTo));
+  header(sprintf("Location: %s", $insertGoTo)); 
   
   
 }
@@ -73,36 +73,79 @@ $totalRows_product_type = mysql_num_rows($product_type);
   <p class="phpshop123_title"><?php echo $row_product_type['name']; ?>：添加属性  </p>
   <table width="100%" align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td nowrap align="right">属性名称:</td>
+      <td><input type="text" name="name" value="" size="32">
+      *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_selectable:</td>
+      <td nowrap align="right">是否可选:</td>
       <td valign="baseline"><input name="is_selectable" type="radio" value="1" checked="checked" />
 只是显示
   <input type="radio" name="is_selectable" value="2" />
 可单选</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Input_method:</td>
+      <td nowrap align="right">输入方法:</td>
       <td valign="baseline"><input name="input_method" type="radio" value="1" checked="checked" />
-手动录
+手动录入
   <input type="radio" name="input_method" value="2" />
 从以下列表中选</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Selectable_value:</td>
+      <td nowrap align="right">可选值:</td>
       <td><textarea name="selectable_value" cols="50" rows="5"></textarea>
-	  <input type="hidden" name="product_type_id" value="<?php echo $_GET['product_type_id']; ?>" /></td>
+	  <input type="hidden" name="product_type_id" value="<?php echo $_GET['product_type_id']; ?>" />
+	  [每个可选的值之间请用空格隔开，例如手机支持网络的可选值为：电信 联通]</td>
     </tr>
      <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加属性"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#form1").validate({
+        rules: {
+            name: {
+                required: true
+            },
+            image_width: {
+                required: true,
+				digits:true
+				  
+            },
+            image_height: {
+                required: true,
+				digits:true
+            } ,
+            intro: {
+                 maxlength: 1000  
+            }
+        },
+        messages: {
+            name: {
+                required: "必填" 
+            },
+            image_width: {
+                required: "必填" ,
+				digits:"必须是整数哦"
+              },
+            image_height: {
+                required: "必填",
+				digits:"必须是整数哦"
+            } ,
+            intro: {
+                 maxlength:"最多1000个字符哦"
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
 <?php

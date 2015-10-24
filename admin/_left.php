@@ -47,7 +47,7 @@ body{
 
 #menu_div div:hover{
 	cursor:pointer;
- 	border-bottom:1px solid #999999 ;
+ 	background-color:#666666;
 } 
 
 a {

@@ -99,7 +99,7 @@ div{
 		$totalRows_order_product = mysql_num_rows($order_product);
   	  ?>
         <tr>
-          <td height="31" scope="row"><div align="left" style="padding-left:20px;"><a style="text-decoration:none;color:#005ea7;" href="/product.php?id=<?php echo $row_order_product['id']; ?>" target="_blank"><?php echo $row_order_product['name']; ?></a></div></td>
+          <td height="31" scope="row"><div align="left" style="padding-left:20px;"><a style="text-decoration:none;color:#005ea7;" href="/product.php?id=<?php echo $row_order_product['id']; ?>" target="_blank"><?php echo $row_order_product['name']; ?></a> <span style="color:#CCCCCC"><?php echo str_replace(";"," ",$row_order_items['attr_value']); ?></span></div></td>
           <td><div align="center"><strong class="STYLE1">￥<?php echo $row_order_items['actual_pay_price']; ?></strong></div></td>
           <td><div align="center"><?php echo $row_order_items['quantity']; ?></div></td>
           <td><form id="form1" name="form1" method="post" action="/cart.php" target="_parent">
@@ -111,7 +111,7 @@ div{
 			<input name="product_price" type="hidden"  value="<?php echo $row_order_items['actual_pay_price']; ?>">
 			<input name="product_id" type="hidden"  value="<?php echo $row_order_product['id']; ?>">
 			<input name="quantity" type="hidden"  value="<?php echo $row_order_items['quantity']; ?>">
-               <input type="submit" name="Submit" value="放入购物车" />
+			<input type="submit" name="Submit" value="放入购物车" />
             </div>
             </label>
                     </form>          </td>

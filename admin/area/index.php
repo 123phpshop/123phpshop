@@ -14,23 +14,22 @@ $totalRows_areas = mysql_num_rows($areas);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>地址列表</p>
-<table width="100%" border="1" align="center">
+<p class="phpshop123_title">地址列表</p>
+<table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td>id</td>
-    <td>name</td>
-    <td>level_depth</td>
-    <td>操作</td>
+    <td><p>ID</p>    </td>
+    <td>名称</td>
+    <td>深度</td>
   </tr>
   <?php do { ?>
     <tr>
       <td><?php echo $row_areas['id']; ?>&nbsp; </td>
       <td><a href="detail.php?recordID=<?php echo $row_areas['id']; ?>"> <?php echo $row_areas['name']; ?>&nbsp; </a> </td>
       <td><?php echo $row_areas['level_depth']; ?>&nbsp; </td>
-      <td><a href="remove.php?id=<?php echo $row_areas['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_areas['id']; ?>">更新</a> <a href="index.php?pid=<?php echo $row_areas['id']; ?>">子区域列表</a> <a href="add.php?pid=<?php echo $row_areas['id']; ?>">添加子区域</a></td>
     </tr>
     <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
 </table>
