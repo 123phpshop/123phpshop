@@ -419,13 +419,15 @@ class Cart {
 	// 更新运费
 	private function _update_shipping_fee() {
 		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");
-		$_SESSION ['cart'] ['shipping_fee'] = get_shipping_fee();
+		$shipping_fee=get_shipping_fee();
+		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee['shipping_fee'];
+		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee['shipping_method_id'];
 		return true;
 	}
 	
 	//		更新订单总价
 	private function _update_order_total() {
-		$_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['products_total'] );
-		return;
+		return $_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['products_total'] );
+		 
 	}
 }

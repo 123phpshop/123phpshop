@@ -75,11 +75,7 @@ function _add_db_view_history($product_id){
 	}
 }
 
-// 计算运费
-function get_shipping_fee($shipping_detination){
-	
-	
-}
+ 
 
 /**
 	检查是否在运送范围之内
@@ -90,12 +86,12 @@ function could_devliver($areas){
 			return false;
 		}
 		
-		$query_area = "SELECT area from shipping_method_area where is_delete=0";
+		$query_area = "SELECT * from shipping_method_area where is_delete=0";
 		$area = mysql_query ( $query_area ) or die ( mysql_error () );
 		while($order_area=mysql_fetch_assoc($area)){
 			foreach($areas as $area_item){
 				if(strpos($order_area['area'],$area_item)>-1){
- 					return true;
+  					return true;
 				}	
 			}
 		}

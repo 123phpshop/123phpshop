@@ -70,8 +70,8 @@ a {
 <a href="product/index.php" target="main"><div class="menu_item" >产品管理</div></a>
 <a href="product/recycled.php" target="main"><div class="menu_item" >产品回收站</div></a>
 <a href="order/index.php" target="main"><div class="menu_item" >订单管理</div></a>
-<a href="order/index.php" target="main"><div class="menu_item" >发货订单</div></a>
-<a href="order/index.php" target="main"><div class="menu_item" >退货订单</div></a>
+<a href="order/index.php?status=100" target="main"><div class="menu_item" >发货订单</div></a>
+<a href="order/index.php?status=-150" target="main"><div class="menu_item" >退货订单</div></a>
 <a href="order/recycle.php" target="main"><div class="menu_item" >订单回收站</div></a>
 <a href="brands/index.php" target="main"><div class="menu_item" >品牌管理</div></a>
 <a href="brands/add.php" target="main"><div class="menu_item" >添加品牌</div></a>

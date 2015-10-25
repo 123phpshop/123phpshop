@@ -24,6 +24,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
+$error=array();
 
 $colname_brand = "-1";
 if (isset($_GET['id'])) {

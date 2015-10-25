@@ -93,11 +93,17 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and 
 $consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
-if($totalRows_consignee>0){
+if($totalRows_consignee>0 && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district']) ){
 	$areas=array();
 	$areas[]=$row_consignee['province']."_*_*";
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_*";
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_".$row_consignee['district'];
+}else{
+
+	$areas=array();
+	$areas[]=$_SESSION['user']['province']."_*_*";
+	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_*";
+	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_".$_SESSION['user']['district'];
 }
 
  $could_deliver=could_devliver($areas);
@@ -239,11 +245,9 @@ body {
     </tr>
      <tr>
       <th height="231" colspan="3" align="left" scope="row"><label>
-        <?php if($row_product['store_num']>0){ ?>
-		<input  style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;" type="submit" name="Submit2" value="加入购物车" />
-		<?php }else{ ?>
-		 <button  disabled style="margin-left:12px;cursor:pointer;height:38px;width:137px;background-color:#FFFFFF;" />库存不足</button> 
-		 <?php  }?>
+        
+		<input  style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button"/>
+ 		 <div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>">库存不足</div> 		 
       </label></th>
       </tr>
 		</table>
@@ -282,9 +286,11 @@ body {
 <script language="JavaScript" type="text/javascript" src="js/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 <script src="/js/product_image_slide/js/pic_tab.js"></script>
 <script>
- <?php if($row_consignee['province']!=''){ ?>
+ <?php if($row_consignee['province']!='' && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district'])){ ?>
 addressInit('province', 'city', 'district', '<?php echo $row_consignee['province']; ?>', '<?php echo $row_consignee['city']; ?>', '<?php echo $row_consignee['district']; ?>');
- <?php } ?>
+ <?php } else{?>
+ addressInit('province', 'city', 'district', '<?php echo $_SESSION['user']['province']; ?>', '<?php echo $_SESSION['user']['city']; ?>', '<?php echo $_SESSION['user']['distict']; ?>');
+  <?php }?>
 jq('#demo1').banqh({
 	box:"#demo1",//总框架
 	pic:"#ban_pic1",//大图框架
@@ -324,12 +330,13 @@ var change_quantity=function(quantity){
   
 }
   
-$("#province").change(function(){
-	_check_deliver();
- });
 $("#city").change(function(){
 	_check_deliver();
 });
+$("#province").change(function(){
+	_check_deliver();
+});
+
 $("#district").change(function(){
 	_check_deliver();
 });
@@ -340,18 +347,20 @@ function _check_deliver(){
 	var city=$("#city").val();
 	var district=$("#district").val();
 	var idata=new Array();
-	idata.push(province+"_*_*");
+ 	idata.push(province+"_*_*");
 	idata.push(province+"_"+city+"_*");
 	idata.push(province+"_"+city+"_"+district);
-	 /*$.post(url,data:idata,function(data){
+	 $.post(url,{data:idata},function(data){
 		if(data=='true'){
 				$("#could_deliver").html("有货");
-				$("#could_deliver").style.color="";
-		}else{
+				$("#could_buy_button").show();
+ 				$("#could_not_buy_button").hide();
+ 		}else{
 				$("#could_deliver").html("无货");
-				$("#could_deliver").style.color="red";
-		}
- 	},'text'); */
+				$("#could_buy_button").hide();
+  				$("#could_not_buy_button").show();
+ 		}
+ 	},'text');  
 }
  </script>
    <?php include('/widget/footer.php'); ?>

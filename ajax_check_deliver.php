@@ -1,10 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-</head>
-
-<body>
-</body>
-</html>
+<?php 
+require_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");
+$locations=explode("_",$_POST['data'][2]);
+$_SESSION['user']['province']=$locations[0];
+$_SESSION['user']['city']=$locations[1];
+$_SESSION['user']['distict']=$locations[2];
+echo could_devliver($_POST['data'])?"true":"false";

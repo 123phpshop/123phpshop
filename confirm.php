@@ -148,8 +148,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	
 	//	记录进入日志操作
 	  
-$order_log_sql="insert into order_log(order_id,message)values('".$order_id."','创建订单成功')";
-mysql_query($order_log_sql, $localhost);
+	$order_log_sql="insert into order_log(order_id,message)values('".$order_id."','创建订单成功')";
+	mysql_query($order_log_sql, $localhost);
 	//	  如果成功，那么跳转到付款页面
 	$MM_redirectLoginSuccess="payoff.php?order_sn=".$sn;
 	header("Location: " . $MM_redirectLoginSuccess );
@@ -439,7 +439,7 @@ mysql_query($order_log_sql, $localhost);
 <table width="990" height="116" border="0" align="center" cellpadding="0">
   <tr>
     <td><div align="right">件商品，总商品金额：</div></td>
-    <td width="100"><div align="right">￥<?php echo  $_SESSION['cart']['order_total'];?></div></td>
+    <td width="100"><div align="right">￥<?php echo  $_SESSION['cart']['products_total'];?></div></td>
   </tr>
   <tr>
     <td><div align="right">返现：</div></td>
@@ -447,7 +447,7 @@ mysql_query($order_log_sql, $localhost);
   </tr>
   <tr>
     <td><div align="right">运费：</div></td>
-    <td><div align="right">￥<?php echo  $_SESSION['cart']['shipping_fee']['shipping_fee'];?></div></td>
+    <td><div align="right">￥<?php echo  $_SESSION['cart']['shipping_fee'];?></div></td>
   </tr>
   <tr>
     <td><div align="right"> 应付总额：</div></td>

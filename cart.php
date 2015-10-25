@@ -96,8 +96,7 @@ include_once ('widget/logo_search.php');
 </p>
 <div id="empty_cart">
 <div align="center">
-<p><a href="index.php"><img src="uploads/default_product.png"
-	alt="123phpshop.com" width="350" height="350" /></a></p>
+<p><a href="index.php"><img src="uploads/default_product.png" alt="123phpshop.com" width="350" height="350" /></a></p>
 <p><a href="index.php">购物车里面空空如也，赶紧把他填满吧。</a></p>
 </div>
 </div>
@@ -237,8 +236,9 @@ include_once ('widget/logo_search.php');
 			type="submit" name="Submit" value="去结算" /></td>
 	</tr>
 </table>
-<p>&nbsp;</p>
 </form>
+
+
 <?php
 		}
 		?>
@@ -247,9 +247,9 @@ include_once ('widget/logo_search.php');
 		include_once ('widget/footer.php');
 		?>
 <script language="JavaScript" type="text/javascript"
-	src="../../js/jquery-1.7.2.min.js"></script>
+	src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript"
-	src="../../js/jquery.validate.min.js"></script>
+	src="/js/jquery.validate.min.js"></script>
 <script>
 function delete_cart_product(product_id,attr_value){
 	
@@ -305,6 +305,5 @@ function _update_sub_total(product_id,attr_value){
 }
 
 </script>
-
 </body>
 </html>

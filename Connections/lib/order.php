@@ -37,8 +37,8 @@ function get_shipping_fee(){
 	$quantity=_get_order_quantity();
 	
 	$shipping_methods=_get_shipping_methods();
-	
- 	if(count($shipping_methods)==0){
+ 
+  	if(count($shipping_methods)==0){
 		throw new Exception("不能运送");
 	}
 	
@@ -182,7 +182,7 @@ function _could_devliver_shipping_methods($areas){
 		while($order_area=mysql_fetch_assoc($area)){
 			foreach($areas as $area_item){
 				if(strpos($order_area['area'],$area_item)>-1){
- 					$result[]=$area_item;
+ 					$result[]=$order_area;
 				}	
 			}
 		}

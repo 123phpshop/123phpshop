@@ -5,7 +5,7 @@ if (isset($_GET['shipping_method_id'])) {
   $colname_shipping_method = (get_magic_quotes_gpc()) ? $_GET['shipping_method_id'] : addslashes($_GET['shipping_method_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_shipping_method = sprintf("SELECT id, shipping_method_id, area, shipping_by_quantity, name FROM shipping_method_area WHERE shipping_method_id = %s", $colname_shipping_method);
+$query_shipping_method = sprintf("SELECT id, shipping_method_id, area, shipping_by_quantity, name FROM shipping_method_area WHERE shipping_method_id = %s and is_delete=0", $colname_shipping_method);
 $shipping_method = mysql_query($query_shipping_method, $localhost) or die(mysql_error());
 $row_shipping_method = mysql_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
