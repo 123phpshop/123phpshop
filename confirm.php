@@ -17,6 +17,8 @@
  */
 ?>
 <?php require_once('Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
+
 <?php
 
 if(!isset($_SESSION['user_id'])){
@@ -52,7 +54,6 @@ if(!isset($_SESSION['user_id'])){
 $cart_obj = new Cart ();
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
-
 
 //	检查购物车是否有产品，如果没有产品的话，那么直接跳转到购物车页面
 if(count($cart_products)==0){
@@ -457,7 +458,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
   <tr>
     <td height="90"><div align="right">
       <span style="font-size:14px;">应付总额：</span><span style="color:#e4393c;font-size:20px;font-weight:700;">￥<?php echo  $_SESSION['cart']['order_total'];?></span>
+	  <?php 
+	  	$could_deliver=false;
+ 		$areas[]=trim($_SESSION['consignee']['province'])."_*_*";
+		$areas[]=trim($_SESSION['consignee']['province'])."_".trim($_SESSION['consignee']['s'])."_*";
+		$areas[]=trim($_SESSION['consignee']['province'])."_".trim($_SESSION['consignee']['city'])."_".trim($_SESSION['consignee']['district']);
+ 	  	if(could_devliver($areas)){
+	  ?>
           <input id="new_order_button" style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="提交" />
+		  <?php }else{ ?>
+		  
+		  <input id="new_order_button" style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="此地址无货" disabled="true"/>
+		  <?php } ?>
 		  <input name="shipping_method" type="hidden" id="shipping_method" value="100" />
 		  <input name="MM_insert" type="hidden" id="MM_insert" value="order_form" />
      	<input name="consignee_id" type="hidden" id="consignee_id" value="" />
