@@ -215,7 +215,7 @@ body {
     </tr>
     <tr>
       <td height="38" scope="row" style="padding-left:12px;">品&nbsp;&nbsp;&nbsp;&nbsp;牌:</td>
-      <td height="38" colspan="2" scope="row"><?php echo $row_product['brand_name']; ?></td>
+      <td height="38" colspan="2" scope="row"><?php echo $row_product['brand_name']==""?"未设置":$row_product['brand_name']; ?></td>
     </tr>
     <tr>
       <td height="38" scope="row" style="padding-left:12px;">配送至:</td>

@@ -29,7 +29,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_comment") && $colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product) && isset($_POST['captcha']) && ($_POST['captcha']==$_SESSION['captcha']) ) {
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_comment") && $colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product) && isset($_POST['captcha']) && ($_POST['captcha']==$_SESSION['comment_captcha']) ) {
   $insertSQL = sprintf("INSERT INTO product_comment (message, product_id, user_id) VALUES (%s, %s, %s)",
                        GetSQLValueString($_POST['message'], "text"),
                        GetSQLValueString($colname_product, "text"),
@@ -119,7 +119,7 @@ $totalRows_comments = mysql_num_rows($comments);
            <tr valign="middle" >
 	  <td style="padding-top:10px;"><label>
 	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
-	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"  ><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="发表评论" /></td>
+	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/comment_captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"  ><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="发表评论" /></td>
     </tr>
   </table>
             <input type="hidden" name="MM_insert" value="new_comment" />
