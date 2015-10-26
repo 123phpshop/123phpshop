@@ -391,11 +391,12 @@ class Cart {
 			    session_start ();
 				
 		}
-			//		如果开启的话，那么检查是否已经初始化了cart，如果没有的话 ，那么进行初始化
-			$_SESSION ['cart'] ['products'] =  array ();
-			$_SESSION ['cart'] ['products_total'] =0.00;
-			$_SESSION ['cart'] ['shipping_fee'] = 0.00;
-			$_SESSION ['cart'] ['order_total'] = 0.00;
+		
+		//		如果开启的话，那么检查是否已经初始化了cart，如果没有的话 ，那么进行初始化
+		$_SESSION ['cart'] ['products'] =  array ();
+		$_SESSION ['cart'] ['products_total'] =0.00;
+		$_SESSION ['cart'] ['shipping_fee'] = 0.00;
+		$_SESSION ['cart'] ['order_total'] = 0.00;
 			
  	}
 	
@@ -424,6 +425,16 @@ class Cart {
 		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee['shipping_fee_plan'];
 		return true;
 	}
+	
+	// 更新运费
+	private function update_shipping_fee() {
+		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");
+		$shipping_fee=get_shipping_fee();
+		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee['shipping_fee'];
+		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee['shipping_fee_plan'];
+		return true;
+	}
+	
 	
 	//		更新订单总价
 	private function _update_order_total() {

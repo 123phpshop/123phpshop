@@ -229,7 +229,7 @@ a{
 		
 		?>		</td>
         <td width="484"><div align="center"><?php echo $row_orders['consignee_name']=='NULL'?"未知":$row_orders['consignee_name']; ?></div></td>
-        <td width="116">&nbsp;</td>
+        <td width="116">￥<?php echo $row_orders['should_paid'];?></td>
         <td width="242"><div align="center"><?php echo isset($order_status[$row_orders['order_status']])?$order_status[$row_orders['order_status']]:"未知"; ?></div></td>
         <td width="354"><div align="center"><a href="detail.php?sn=<?php echo $row_orders['sn']; ?>">[订单详细]</a> 
               <?php if(should_pay($row_orders['order_status'])){?>

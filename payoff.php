@@ -81,7 +81,7 @@ margin:0px 3px;
 <table width="990" height="46" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:10px auto;">
   <tr>
     <td width="50%" height="26" style="font-size:14px;">订单提交成功，请尽快付款，订单号：<strong><?php echo $row_order['sn']; ?></strong></td>
-    <td height="26"><div align="right" style="font-size:12px;">应付金额<span class="need_pay"><?php echo $row_order['actual_paid']; ?></span>元</div></td>
+    <td height="26"><div align="right" style="font-size:12px;">应付金额<span class="need_pay"><?php echo $row_order['should_paid']; ?></span>元</div></td>
   </tr>
   <tr>
     <td style="font-size:12px;" height="20"> 请您在添加订单后24小时内完成支付</td>
@@ -109,7 +109,7 @@ margin:0px 3px;
       <input name="WIDshow_url" type="hidden" value="http://<?php echo  $_SERVER['SERVER_NAME'];?>" size="30" />
       <input name="WIDout_trade_no" type="hidden" value="<?php echo $row_order['sn']; ?>" size="30" />
       <input name="WIDsubject"  type="hidden" value="订单号：<?php echo $row_order['sn']; ?>" size="30" />
-      <input name="WIDtotal_fee"  type="hidden" value="<?php echo $row_order['actual_paid']; ?>" size="30" />
+      <input name="WIDtotal_fee"  type="hidden" value="<?php echo $row_order['should_paid']; ?>" size="30" />
     <?php $checked=false;} while ($row_pay_method = mysql_fetch_assoc($pay_method)); ?>
 	        </form>
 
@@ -120,8 +120,3 @@ margin:0px 3px;
  </div>
 </body>
 </html>
-<?php
-mysql_free_result($order);
-
-mysql_free_result($pay_method);
-?>

@@ -196,7 +196,7 @@ a{
             <td width="23%"><?php echo $row_recent_orders['sn']; ?></td>
             <td width="16%"><?php echo $row_recent_orders['username']; ?></td>
             <td width="30%"><?php echo $row_recent_orders['create_time']; ?></td>
-            <td width="17%"><?php echo $row_recent_orders['actual_paid']; ?></td>
+            <td width="17%"><?php echo $row_recent_orders['should_paid']; ?></td>
             <td width="14%"><a href="/admin/order/detail.php?recordID=<?php echo $row_recent_orders['id']; ?>">查看</a></td>
           </tr>
         </table></td>

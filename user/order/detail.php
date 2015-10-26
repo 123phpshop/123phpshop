@@ -107,6 +107,7 @@ div{
              <div align="center">
 			<input name="product_name" type="hidden"  value="<?php echo $row_order_product['name']; ?>">
 			<input name="product_image" type="hidden"  value="">
+			<input name="attr_value" type="hidden"  value="<?php echo isset($row_order_items['attr_value'])?str_replace(";"," ",$row_order_items['attr_value']):""; ?>">
 			<input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_order_product['ad_text']; ?>">
 			<input name="product_price" type="hidden"  value="<?php echo $row_order_items['actual_pay_price']; ?>">
 			<input name="product_id" type="hidden"  value="<?php echo $row_order_product['id']; ?>">
@@ -126,7 +127,7 @@ div{
       <th height="38" scope="row"><div align="left" style="padding-left:20px;">订单信息</div></th>
     </tr>
     <tr>
-      <td scope="row"> <table width="97%" height="379" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
+      <td scope="row"> <table width="97%" height="350" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
           <tr>
             <td width="110" height="29" scope="row" ><div align="left" style="padding-left:20px;">订单编号</div></td>
             <td height="29"><div align="left" style="padding-left:20px;"><?php echo $row_order['sn']; ?></div></td>
@@ -135,17 +136,15 @@ div{
             <td height="29" scope="row"><div align="left" style="padding-left:20px;">支付方式</div></td>
             <td><div align="left" style="padding-left:20px;"><?php echo $pay_methomd[$row_order['payment_method']]; ?></div></td>
           </tr>
-          <tr>
-            <td height="29" scope="row"><div align="left" style="padding-left:20px;">配送方式</div></td>
-            <td height="29"><div align="left" style="padding-left:20px;"><?php echo $shipping_method[$row_order['shipping_method']]; ?></div></td>
-          </tr>
+         
+        
           <tr>
             <td height="29" scope="row"><div align="left" style="padding-left:20px;">应付</div></td>
             <td height="29"><div align="left" style="padding-left:20px;">￥<?php echo $row_order['should_paid']; ?></div></td>
           </tr>
-          <tr>
-            <td height="29" scope="row"><div align="left" style="padding-left:20px;">实付</div></td>
-            <td height="29"><div align="left" style="padding-left:20px;">￥<?php echo $row_order['actual_paid']; ?></div></td>
+		   <tr>
+            <td height="29" scope="row"><div align="left" style="padding-left:20px;">运费</div></td>
+            <td height="29"><div align="left" style="padding-left:20px;">￥<?php echo $row_order['shipping_fee']; ?></div></td>
           </tr>
           <tr>
             <td height="29" scope="row"><div align="left" style="padding-left:20px;">状态</div></td>

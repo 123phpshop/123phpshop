@@ -150,7 +150,8 @@ function _get_order_where($get){
     <tr>
       <th>订单序列号</th>
       <th>用户</th>
-      <th>实际支付</th>
+      <th>总计</th>
+      <th>运费</th>
       <th>状态</th>
       <th>创建的时间</th>
       <th>送货方式</th>
@@ -163,7 +164,8 @@ function _get_order_where($get){
           <tr>
             <td><a href="detail.php?recordID=<?php echo $row_orders['id']; ?>"><?php echo $row_orders['sn']; ?></a></td>
             <td><div align="center"><?php echo $row_orders['username']; ?>&nbsp; </div></td>
-            <td><div align="center">￥<?php echo $row_orders['actual_paid']; ?>&nbsp; </div></td>
+            <td><div align="center">￥<?php echo $row_orders['should_paid']; ?>&nbsp; </div></td>
+            <td>￥<?php echo $row_orders['shipping_fee']; ?></td>
             <td><div align="center"><?php echo $order_status[$row_orders['order_status']]; ?>&nbsp; </div></td>
             <td><div align="center"><?php echo $row_orders['create_time']; ?>&nbsp; </div></td>
             <td><div align="center"><?php echo isset($shipping_method[$row_orders['shipping_method']])?$shipping_method[$row_orders['shipping_method']]:"未设置"; ?>&nbsp; </div></td>

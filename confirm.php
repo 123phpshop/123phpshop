@@ -91,9 +91,6 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and 
 $consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
-
-
-
  
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	
@@ -104,13 +101,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	 
 	$sn=date('YmdHis').rand(0,9999);
 	$should_paid=$_SESSION['cart']['order_total'];
-	$actual_paid=$_SESSION['cart']['order_total'];
-    echo $insertSQL = sprintf("INSERT INTO orders (sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile) VALUES (%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s, %s, %s)",
- 					   GetSQLValueString($sn, "text"),
+	$actual_paid="0.00";
+    $insertSQL = sprintf("INSERT INTO orders (products_total,shipping_fee,sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s,%s, %s, %s)",
+					   GetSQLValueString($_SESSION['cart']['products_total'], "double"),
+ 					   GetSQLValueString($_SESSION['cart']['shipping_fee'], "double"),
+					   GetSQLValueString($sn, "text"),
                        GetSQLValueString($_SESSION['user_id'], "text"),
                        GetSQLValueString($should_paid, "text"),
                        GetSQLValueString($actual_paid, "text"),
-                       GetSQLValueString($_POST['shipping_method'], "int"),
+                       GetSQLValueString($_SESSION['cart']['shipping_method_id'], "int"),
                        GetSQLValueString($_POST['payment_method'], "int"),
                        GetSQLValueString(isset($_POST['invoice_is_needed'])?1:0, "int"),
 					   GetSQLValueString($_POST['invoice_title'], "text"),
@@ -127,7 +126,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
  					   );
   
    $Result1 = mysql_query($insertSQL) or die(mysql_error());
-   
   	$order_id=mysql_insert_id();
   
   //	检查参数，如果参数不正确的话，能否告知？
@@ -361,7 +359,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
                   <td height="33">&nbsp;</td>
                 </tr>
                 <tr>
-                  <td>包邮</td>
+                  <td></td>
                 </tr>
               </table></td>
               <td height="187" valign="top" bgcolor="#f3fbfe"><table width="576" height="102" border="0" align="center" cellpadding="0" cellspacing="0">

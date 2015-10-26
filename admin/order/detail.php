@@ -36,7 +36,7 @@ $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id WHERE orders.id = $recordID";
+$query_DetailRS1 = "SELECT orders.*,shipping_method.name as shipping_method_name,user.username FROM `orders` inner join user on user.id=orders.user_id left join shipping_method on orders.shipping_method=shipping_method.id WHERE orders.id = $recordID ";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
 $DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
@@ -84,8 +84,12 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <td>￥<?php echo $row_DetailRS1['should_paid']; ?> </td>
   </tr>
   <tr>
-    <td>实付</td>
-    <td>￥<?php echo $row_DetailRS1['actual_paid']; ?> </td>
+    <td>商品总额</td>
+    <td>￥<?php echo $row_DetailRS1['products_total']; ?> </td>
+  </tr>
+  <tr>
+    <td>运费</td>
+    <td>￥<?php echo $row_DetailRS1['shipping_fee']; ?> </td>
   </tr>
   <tr>
     <td>订单状态</td>
@@ -97,7 +101,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <tr>
     <td>快递方式</td>
-    <td><?php echo $shipping_method[$row_DetailRS1['shipping_method']]; ?> </td>
+    <td><?php echo $row_DetailRS1['shipping_method_name']; ?> </td>
   </tr>
   <tr>
     <td>支付方式</td>
