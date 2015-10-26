@@ -140,7 +140,7 @@ function _calc_shipping_fee_by_weight($weight,$shipping_methods_item){
 	if($shipping_methods_item['first_kg_fee']!=null && $shipping_methods_item['continue_kg_fee']!=null){
 		//	如果重量>=1kg的话
 		if($weight>=1000){
-			$shipping_fee=($weight-1000)*$shipping_methods_item['continue_kg_fee']+$shipping_methods_item['first_kg_fee'];
+			$shipping_fee=ceil($weight/1000-1)*floatval($shipping_methods_item['continue_kg_fee'])+$shipping_methods_item['first_kg_fee'];
 		}else{
 			//如果重量<1kg的话
 			$shipping_fee=$shipping_methods_item['first_kg_fee'];
@@ -151,7 +151,7 @@ function _calc_shipping_fee_by_weight($weight,$shipping_methods_item){
 	if($shipping_methods_item['half_kg_fee']!=null && $shipping_methods_item['continue_half_kg_fee']!=null){
 		//	如果重量>=1kg的话
 		if($weight>=500){
-			$shipping_fee=($weight-500)*$shipping_methods_item['continue_kg_fee']+$shipping_methods_item['first_kg_fee'];
+			$shipping_fee=ceil($weight/500-1)*floatval($shipping_methods_item['continue_half_kg_fee'])+$shipping_methods_item['half_kg_fee'];
 		}else{
 			//如果重量<1kg的话
 			$shipping_fee=$shipping_methods_item['half_kg_fee'];

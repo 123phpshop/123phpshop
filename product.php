@@ -350,7 +350,7 @@ function _check_deliver(){
 	idata.push(province+"_"+city+"_*");
 	idata.push(province+"_"+city+"_"+district);
 	 $.post(url,{data:idata},function(data){
-		if(data=='true'){
+		if(data.trim()=='true'){
 				$("#could_deliver").html("有货");
 				$("#could_buy_button").show();
  				$("#could_not_buy_button").hide();
