@@ -21,7 +21,7 @@ class Captcha {
   for ($i=0;$i<$this->codelen;$i++) {
    $this->code .= $this->charset[mt_rand(0,$_len)];
   }
- }
+  }
  //生成背景
  private function createBg() {
   $this->img = imagecreatetruecolor($this->width, $this->height);
@@ -51,9 +51,9 @@ class Captcha {
  }
  //输出
  private function outPut() {
-  header('Content-type:image/png');
-  imagepng($this->img);
-  imagedestroy($this->img);
+	  header('Content-type:image/png');
+	  imagepng($this->img);
+	  imagedestroy($this->img);
  }
  //对外生成
  public function doimg() {
@@ -61,7 +61,7 @@ class Captcha {
   $this->createCode();
   $this->createLine();
   $this->createFont();
-  $this->outPut();
+  $this->outPut(); 
  }
  //获取验证码
  public function getCode() {
