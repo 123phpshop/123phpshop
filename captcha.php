@@ -6,7 +6,5 @@ $_vc->doimg();
 if (!isset($_SESSION)) {
   session_start();
 }
- 
 $_SESSION['captcha'] = $_vc->getCode();
-//var_export($_SESSION);
 ?>

@@ -421,7 +421,7 @@ class Cart {
 		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");
 		$shipping_fee=get_shipping_fee();
 		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee['shipping_fee'];
-		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee['shipping_method_id'];
+		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee['shipping_fee_plan'];
 		return true;
 	}
 	

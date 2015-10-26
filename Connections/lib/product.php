@@ -37,11 +37,9 @@ function user_could_comment($user_id, $product_id) {
 	$product_comment_num=mysql_fetch_assoc($product_comment_num_query);
 	//	 检查用户购买这个商品的数目，如果这个数目是0的话，那么直接返回false
 	if((int)$product_comment_num['comment_num']==0){
-		 
-		return true;
+ 		return true;
 	}
-	
-	 
+ 	 
 // 检查2个数目，如果购买的数目>评论的数目的话，那么可以直接返回tru不能评论了
 	return $totalRows_order>(int)$product_comment_num['comment_num'];
 }

@@ -598,10 +598,3 @@ function check_consignee(){
 
 </script>
 </html>
-<?php
-mysql_free_result($consignee);
-
-mysql_free_result($pay_method);
-
-mysql_free_result($product_image);
-?>

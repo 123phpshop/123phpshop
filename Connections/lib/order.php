@@ -1,9 +1,7 @@
-<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+mysql_select_db($database_localhost);
 
-?>
-<?php
 
 /*function get_logistic_process_info($express_company_id,$express_order_sn){
 	$result=array();
@@ -34,14 +32,17 @@ function get_shipping_fee(){
 	$shipping_fee=0.00;
  	$shipping_fee_plan=1;
 	$weight=_get_order_weight();
+	$is_first_shipping_fee =true;
 	$quantity=_get_order_quantity();
-	
 	$shipping_methods=_get_shipping_methods();
  
+  
+// 	如果找不到相应的配送方式的话
   	if(count($shipping_methods)==0){
-		throw new Exception("不能运送");
+		//throw new Exception("不能运送");
 	}
 	
+ 	
 	// 获取所有激活的没有被删除的快递方式
 	//	 循环这些快递方式，获取相应的运费
 	foreach($shipping_methods as $shipping_methods_item){
@@ -61,11 +62,11 @@ function get_shipping_fee(){
 				}
 				
 				//	如果这里是第一个运费方案的话，那么直接设置为这里的运费
-		if($is_first_shipping_fee==true || $shipping_fee_now>$shipping_fee){
+		if($is_first_shipping_fee==true || $shipping_fee_now<$shipping_fee){
 			$is_first_shipping_fee=false;
 			$shipping_fee=$shipping_fee_now;
-			$shipping_fee_plan=$shipping_methods_item['shipping_methods_id'];
- 		} 
+ 			$shipping_fee_plan=$shipping_methods_item['shipping_method_id'];
+  		} 
  	}
 	
 	 $result['shipping_fee']=$shipping_fee;
@@ -78,12 +79,12 @@ function get_shipping_fee(){
 **/
 function _get_order_weight(){
 	$result=0;
-	foreach($_SESSION['cart']['product'] as $product){
-		$weight=_get_product_by_id($product['product_id']);
-		if(false==$weight){
+	foreach($_SESSION['cart']['products'] as $product){
+		$product_obj=_get_product_by_id($product['product_id']);
+		if(false==$product_obj){
 			throw new Excaption("产品不存在或者已经删除");
 		}
-		$result+=$weight*(int)$product['quantity'];
+		$result+=$product_obj['weight']*$product['quantity'];
 	}
 	return $result;
 }
@@ -93,7 +94,7 @@ function _get_order_weight(){
 **/
 function _get_order_quantity(){
 	$result=0;
-	foreach($_SESSION['cart']['product'] as $product){
+	foreach($_SESSION['cart']['products'] as $product){
 		$result+=$product['quantity'];
 	}
  	return $result;
@@ -104,16 +105,21 @@ function _get_order_quantity(){
 **/
 function _get_shipping_methods(){
 	$result=array();
-	$province	=$_SESSION[0]['province'];
-	$city		=$_SESSION[0]['city'];
-	$district	=$_SESSION[0]['district'];
-	
+ 	if($_SESSION['cart']['products'][0]['province']!='' && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district'])){
+		$province	=$_SESSION['cart']['products'][0]['province'];
+		$city		=$_SESSION['cart']['products'][0]['city'];
+		$district	=$_SESSION['cart']['products'][0]['district'];
+	}else{
+		$province	=$_SESSION['user']['province'];
+		$city		=$_SESSION['user']['city'];
+		$district	=$_SESSION['user']['district'];
+	}
 	$location[]=$province."_*_*";
 	$location[]=$province."_".$city."_*";
 	$location[]=$province."_".$city."_".$district;
 	
 	// 这里需要根据用户的收货地址来选择可以供货的配送方式
-   	return	$could_devliver_shipping_methods=_could_devliver_shipping_methods($location);
+   	return	_could_devliver_shipping_methods($location);
  }
 /**
 通过数量来计算运费
@@ -156,7 +162,7 @@ function _calc_shipping_fee_by_weight($weight,$shipping_methods_item){
 }
 
 function _get_product_by_id($product_id){
-	$query_express_company = "SELECT * FROM products WHERE id = '".$product_id."'";
+	$query_express_company = "SELECT * FROM product WHERE id = '".$product_id."'";
 	$express_company = mysql_query($query_express_company) or die(mysql_error());
 	$row_express_company = mysql_fetch_assoc($express_company);
 	$totalRows_express_company = mysql_num_rows($express_company);
@@ -177,16 +183,16 @@ function _could_devliver_shipping_methods($areas){
  		$result=array();
 		
  		// 获取所有已经激活的且没有被删除的配送方式的未删除配送区域
-		$query_area = "SELECT shipping_method_area.*,shipping_method.is_free,shipping_method.is_cod,shipping_method.name as shipping_method_name from shipping_method_area left join shipping_method on shipping_method_area.shipping_method_id=shipping_method_area.id where shipping_method_area.is_delete=0 and shipping_method.is_delete=0 and shipping_method.is_activated=1";
+		$query_area = "SELECT shipping_method_area.*,shipping_method.is_free,shipping_method.is_delete as shipping_method_is_delete,shipping_method.is_activated as shipping_method_is_activated,shipping_method.is_cod,shipping_method.name as shipping_method_name from shipping_method_area left join shipping_method on shipping_method_area.shipping_method_id=shipping_method.id where shipping_method_area.is_delete=0";
 		$area = mysql_query ( $query_area ) or die ( mysql_error () );
+		
 		while($order_area=mysql_fetch_assoc($area)){
-			foreach($areas as $area_item){
-				if(strpos($order_area['area'],$area_item)>-1){
+ 			foreach($areas as $area_item){
+ 				if($order_area['shipping_method_is_delete']=='0' && $order_area['shipping_method_is_activated']=='1' && strpos($order_area['area'],$area_item)>-1){
  					$result[]=$order_area;
 				}	
 			}
 		}
-		
-		return $result;
+  		return $result;
 }
 ?>

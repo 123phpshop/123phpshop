@@ -93,15 +93,14 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and 
 $consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
+$areas=array();
 if($totalRows_consignee>0 && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district']) ){
-	$areas=array();
+	
 	$areas[]=$row_consignee['province']."_*_*";
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_*";
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_".$row_consignee['district'];
 }else{
-
-	$areas=array();
-	$areas[]=$_SESSION['user']['province']."_*_*";
+ 	$areas[]=$_SESSION['user']['province']."_*_*";
 	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_*";
 	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_".$_SESSION['user']['district'];
 }
@@ -240,7 +239,7 @@ body {
           <input name="product_name" type="hidden" id="product_name" value="<?php echo $row_product['name']; ?>" />
           <input name="product_image" type="hidden" id="product_image" value="<?php echo $row_product_images['image_files']; ?>" />
           <input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_product['ad_text']; ?>" />
-           <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
+          <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
         </div>        </label></td>
     </tr>
      <tr>
