@@ -17,6 +17,7 @@
  */
 ?>
 <?php require_once('Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
 <?php
 $result=array('code'=>'0','message'=>'SUCCEED','data'=>array());
 $colname_consignee = "-1";
@@ -41,11 +42,13 @@ if($totalRows_consignee==0){
 	$_SESSION['consignee']['address']=$_POST['consignee_address'];
 	$_SESSION['consignee']['zip']=$_POST['consignee_zip'];
 	$result['data']=$_SESSION['consignee'];
+	$areas[]=trim($_POST['consignee_province'])."_*_*";
+	$areas[]=trim($_POST['consignee_province'])."_".trim($_POST['consignee_city'])."_*";
+	$areas[]=trim($_POST['consignee_province'])."_".trim($_POST['consignee_city'])."_".trim($_POST['consignee_district']);
+	$result['could_deliver']=could_devliver($areas)?"1":"0";
 }
 
 ?>
 <?php
-mysql_free_result($consignee);
-
 die(json_encode($result));
 ?>

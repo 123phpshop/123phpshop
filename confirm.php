@@ -457,7 +457,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
   <tr>
     <td height="90"><div align="right">
       <span style="font-size:14px;">应付总额：</span><span style="color:#e4393c;font-size:20px;font-weight:700;">￥<?php echo  $_SESSION['cart']['order_total'];?></span>
-          <input style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="提交" />
+          <input id="new_order_button" style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="提交" />
 		  <input name="shipping_method" type="hidden" id="shipping_method" value="100" />
 		  <input name="MM_insert" type="hidden" id="MM_insert" value="order_form" />
      	<input name="consignee_id" type="hidden" id="consignee_id" value="" />
@@ -555,6 +555,13 @@ function select_consignee(id){
 			//		更新ui
 			_set_consignee_as_selected(id); // 将这个收货人地址设为选中
 			_set_consignee_as_unselected(id);	//	将其余收货人地址设为未选中
+			if(data.could_deliver=="0"){
+				$("#new_order_button").attr("disabled","true");
+				$("#new_order_button").val("此地址无货");
+			}else{
+				$("#new_order_button").removeAttr("disabled");
+				$("#new_order_button").val("提交");
+			}	
 			return;
 		}
 		alert(data.message);return;

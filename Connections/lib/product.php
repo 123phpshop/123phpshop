@@ -93,6 +93,5 @@ function could_devliver($areas){
 				}	
 			}
 		}
-		
 		return false;
 }
