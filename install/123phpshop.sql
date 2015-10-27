@@ -408,7 +408,9 @@ CREATE TABLE `shipping_method` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='配送方式表';
 
-insert  into `shipping_method`(`id`,`name`,`desc`,`config_file_path`,`is_activated`,`is_cod`,`is_free`,`create_time`,`is_delete`) values (1,'运费到付','货到付款\r\n',NULL,0,0,0,'2015-09-28 09:50:08',1),(2,'货到付款','货到付款，不收取运费','daodian',0,1,1,'2015-09-28 09:51:17',1),(3,'顺丰速递','顺丰速递','shunfeng',1,0,0,'2015-09-28 09:53:11',0),(4,'圆通速递','圆通速递','yuantong',1,0,0,'2015-09-29 10:28:57',0),(5,'申通速递','申通速递','shentong',1,0,0,'2015-09-29 10:34:58',0),(6,'中通速递','中通速递','zhongtong',1,0,0,'2015-09-29 10:35:17',0),(7,'EMS快递','EMS','EMS',1,0,0,'2015-10-07 09:31:58',0);
+/*Data for the table `shipping_method` */
+
+insert  into `shipping_method`(`id`,`name`,`desc`,`config_file_path`,`is_activated`,`is_cod`,`is_free`,`create_time`,`is_delete`) values (3,'顺丰速递','顺丰速递','shunfeng',1,0,0,'2015-09-28 09:53:11',0),(4,'圆通速递','圆通速递','yuantong',1,0,0,'2015-09-29 10:28:57',0),(5,'申通速递','申通速递','shentong',1,0,0,'2015-09-29 10:34:58',0),(6,'中通速递','中通速递','zhongtong',1,0,0,'2015-09-29 10:35:17',0),(7,'EMS快递','EMS','EMS',1,0,0,'2015-10-07 09:31:58',0);
 
 DROP TABLE IF EXISTS `shipping_method_area`;
 
