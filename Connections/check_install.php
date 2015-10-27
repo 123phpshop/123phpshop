@@ -1,5 +1,5 @@
-
 <?php
+
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -18,24 +18,28 @@
  */
 ?>
 <?php
-# FileName="Connection_php_mysql.htm"
-# Type="MYSQL"
-# HTTP="true"
-error_reporting(0); 
-//	error_reporting(E_ALL); 
-//$hostname_localhost = "localhost";
-$database_localhost = "123phpshop_test";
-$username_localhost = "root";
-$password_localhost = "";
-$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR); 
-mysql_query("set names utf8");
-if (!isset($_SESSION)) {
-  session_start();
+$install_url = '/install/';
+$home_url = '/index.php';
+
+//	检查当前是不属于安装区域
+if (!_is_install_area ()) {
+ 
+  	//	检查是否已经安装，如果没有安装，那么跳转到安装区域
+ 	 if(!isset($hostname_localhost) || trim($hostname_localhost)=="") {
+	 	header ( sprintf ( "Location: %s", $install_url ) );
+	 }
+}else{
+//	检查是否已经安装，如果没有安装，那么跳转到安装区域
+ 	 if(isset($hostname_localhost) && trim($hostname_localhost)!="") {
+	 	header ( sprintf ( "Location: %s", $home_url ) );
+	 }
+
 }
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/common.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
-?>
+
+/**
+ * 检查当前页面是否属于管理员页面。
+ */
+function _is_install_area() {
+	$curr_url = $_SERVER ['REQUEST_URI'];
+	return strpos ( $curr_url, '/install/' ) > - 1;
+}

@@ -1,5 +1,4 @@
 <?php
-	
 include_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");	 
 
 //	这里需要检查是否已经安装过了，如果已经安装过了，那么直接跳转到首页
@@ -9,6 +8,7 @@ $config_folder	=$_SERVER['DOCUMENT_ROOT']."/Connections";
 $index_path		=$_SERVER['DOCUMENT_ROOT']."/index.php";
 
 if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POST['db_username']) && isset($_POST['db_password']) && isset($_POST['db_name'])){
+	return;
 	if(trim($hostname_localhost)!=''){
 		// _to_index();
 		//	return;
@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POS
 		// 如果所有的操作都成功，那么直接跳转到首页，
 		_to_index();
 	}
- }
+}
 
 // 导入sql
 function _import_sql($admin_username,$admin_password){
@@ -117,6 +117,7 @@ mysql_query("set names utf8");
 if (!isset($_SESSION)) {
   session_start();
 }
+require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/common.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
@@ -165,8 +166,8 @@ tr{
 }
 -->
 </style>
-</head>
 
+</head>
 <body>
 <?php if(count($error)>0){ ?>
   <p class="phpshop123_infobox">
@@ -175,29 +176,29 @@ tr{
   	  } ?>
   </p>
 <?php } ?>
-<form id="install" name="install" method="post" action="">
+<form id="install_form" name="install" method="post" action="">
   <h1 align="center" class="phpshop123_title">上海序程信息科技有限公司123PHPSHOP安装程序</h1>
   <table width="957" border="0" cellpadding="0" cellspacing="0" class="phpshop123_form_box">
     <tr>
-      <th colspan="2" scope="row" align="center"><div align="center" class="STYLE1">安装完毕之后请务必删除服务器上的install安装文件夹</div></th>
+      <th colspan="2" scope="row" align="center"><div align="center" class="STYLE1">安装完毕之后请务必删除服务器上的install安装文件夹!</div></th>
     </tr>
     <tr>
       <th width="163" scope="row"><div align="right">数据库地址：</div></th>
       <td width="778"><label>
-        <input name="db_host" type="text" value="localhost" maxlength="32" />
+        <input name="db_host"  id="db_host"  type="text" value="localhost" maxlength="32" />
       </label></td>
     </tr>
     <tr>
       <th scope="row"><div align="right">数据库名称：</div></th>
-      <td><input name="db_name" type="text" value="123phpshop_test" maxlength="32" /></td>
+      <td><input name="db_name" id="db_name"  type="text" value="123phpshop" maxlength="32" /></td>
     </tr>
     <tr>
       <th scope="row"><div align="right">数据库账户：</div></th>
-      <td><input name="db_username" type="text" value="root" maxlength="32" /></td>
+      <td><input name="db_username" id="db_username"  type="text" value="root" maxlength="32" /></td>
     </tr>
     <tr>
       <th scope="row"><div align="right">数据库密码：</div></th>
-      <td><input name="db_password" type="text" maxlength="32" /></td>
+      <td><input name="db_password" id="db_password" type="text" maxlength="32" /></td>
     </tr>
     <tr style="border-top:2px solid #CCCCCC;">
       <th scope="row"><div align="right">后台管理员账户：</div></th>
@@ -223,5 +224,61 @@ tr{
   </table>
   <p align="center">上海序程信息科技有限公司，版权所有，违者必究</p>
 </form>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+ 	$("#install_form").validate({
+        rules: {
+            db_host: {
+                required: true
+            },
+            db_name: {
+                required: true
+             },
+            db_username: {
+                required: true
+             },
+			 
+			 admin_username: {
+				required: true
+             },
+            admin_password: {
+				required: true,
+                 minlength: 8  
+            },
+            admin_passconf: {
+				required: true,
+                minlength: 8 ,
+				equalTo:"#admin_password"
+            }
+        },
+        messages: {
+            db_host: {
+                required: "必填" 
+            },
+            db_name: {
+                required: "必填" 
+               },
+            db_username: {
+                required: "必填"
+             },
+			 admin_username: {
+			 	required: "必填"
+             },
+            admin_password: {
+			 	required: "必填",
+                minlength: "至少要8个字符哦" 
+            },
+            admin_passconf: {
+			 required: "必填",
+                 minlength:  "至少要8个字符哦",
+				 equalTo:"管理员密码不一致" 
+            }
+        }
+    });
+	
+});</script>
 </body>
 </html>
