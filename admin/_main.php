@@ -174,36 +174,37 @@ a{
   </tr>
 </table>
 <br />
-<table   width="100%" border="1" style="border-collapse:collapse;border-top:2px solid #bfbfbf;" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
-  <tr >
-    <td height="44" style="padding-left:20px;" >最新订单</td>
-  </tr>
-  <tr style="border-top-width:0px;">
-    <td height="33"><table style="padding-left:20px;" width="100%" border="0">
-      <tr>
-        <td width="23%">订单ID</td>
-        <td width="16%">会员</td>
-        <td width="30%">创建日期</td>
-        <td width="17%">总计</td>
-        <td width="14%">操作</td>
-      </tr>
-    </table></td>
-  </tr>
-  <?php do { ?>
+<?php if ($totalRows_recent_orders > 0) { // Show if recordset not empty ?>
+  <table   width="100%" border="1" style="border-collapse:collapse;border-top:2px solid #bfbfbf;" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
+    <tr >
+      <td height="44" style="padding-left:20px;" >最新订单</td>
+    </tr>
     <tr style="border-top-width:0px;">
-      <td height="52"><table  style="padding-left:20px;"  height="52" width="100%" border="0">
+      <td height="33"><table style="padding-left:20px;" width="100%" border="0">
+        <tr>
+          <td width="23%">订单ID</td>
+            <td width="16%">会员</td>
+            <td width="30%">创建日期</td>
+            <td width="17%">总计</td>
+            <td width="14%">操作</td>
+          </tr>
+      </table></td>
+    </tr>
+    <?php do { ?>
+      <tr style="border-top-width:0px;">
+        <td height="52"><table  style="padding-left:20px;"  height="52" width="100%" border="0">
           <tr>
             <td width="23%"><?php echo $row_recent_orders['sn']; ?></td>
-            <td width="16%"><?php echo $row_recent_orders['username']; ?></td>
-            <td width="30%"><?php echo $row_recent_orders['create_time']; ?></td>
-            <td width="17%"><?php echo $row_recent_orders['should_paid']; ?></td>
-            <td width="14%"><a href="/admin/order/detail.php?recordID=<?php echo $row_recent_orders['id']; ?>">查看</a></td>
-          </tr>
+              <td width="16%"><?php echo $row_recent_orders['username']; ?></td>
+              <td width="30%"><?php echo $row_recent_orders['create_time']; ?></td>
+              <td width="17%"><?php echo $row_recent_orders['should_paid']; ?></td>
+              <td width="14%"><a href="/admin/order/detail.php?recordID=<?php echo $row_recent_orders['id']; ?>">查看</a></td>
+            </tr>
         </table></td>
-    </tr>
-    <?php } while ($row_recent_orders = mysql_fetch_assoc($recent_orders)); ?>
-</table>
-<br />
+      </tr>
+      <?php } while ($row_recent_orders = mysql_fetch_assoc($recent_orders)); ?>
+      </table>
+  <?php } // Show if recordset not empty ?><br />
 <table  width="100%" border="1" style="border-collapse:collapse;border-top:2px solid #bfbfbf;" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
   <tr >
     <td height="44" style="padding-left:20px;">订单统计信息</td>
