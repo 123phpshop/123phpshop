@@ -69,11 +69,10 @@ if (isset($_SERVER['QUERY_STRING'])) {
 ?>
 <?php
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE shipping_method_area SET area=%s, shipping_by_quantity=%s, free_quota=%s, name=%s, single_product_fee=%s, half_kg_fee=%s, continue_half_kg_fee=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE shipping_method_area SET area=%s, shipping_by_quantity=%s, name=%s, single_product_fee=%s, half_kg_fee=%s, continue_half_kg_fee=%s WHERE id=%s",
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['name'], "text"),
+                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['single_product_fee'], "double"),
                        GetSQLValueString($_POST['half_kg_fee'], "double"),
                        GetSQLValueString($_POST['continue_half_kg_fee'], "double"),
@@ -110,26 +109,22 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
   <input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"1"))) {echo "checked=\"checked\"";} ?> type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()" />
 按数量</td>
     </tr>
-    <tr valign="baseline" class="by_quantity" style="display:none;">
+    <tr valign="baseline" class="by_quantity" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'0'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">单件商品费用:</td>
       <td><input type="text" name="single_product_fee" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32">
 *</td>
     </tr>
-    <tr valign="baseline" class="by_weight">
+    <tr valign="baseline" class="by_weight" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'1'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">500克之内费用:</td>
       <td><input type="text" name="half_kg_fee" value="<?php echo $row_shipping_method_area['half_kg_fee']; ?>" size="32">
 *</td>
     </tr>
-    <tr valign="baseline" class="by_weight">
+    <tr valign="baseline" class="by_weight" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'1'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">续费500克费用:</td>
       <td><input type="text" name="continue_half_kg_fee" value="<?php echo $row_shipping_method_area['continue_half_kg_fee']; ?>" size="32">
 *</td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32">
-*</td>
-    </tr>
+        </tr>
     <tr valign="baseline">
       <td nowrap align="right">区域：</td>
       <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>

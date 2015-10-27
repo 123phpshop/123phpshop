@@ -56,14 +56,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, shipping_by_quantity, free_quota, name, cod_fee, single_product_fee, first_kg_fee, continue_kg_fee) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area, shipping_by_quantity, name, single_product_fee, first_kg_fee, continue_kg_fee) VALUES (%s, %s,    %s, %s, %s, %s, %s)",
                        GetSQLValueString($row_shipping_method['id'], "int"),
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['name'], "text"),
-                       GetSQLValueString($_POST['cod_fee'], "double"),
-                       GetSQLValueString($_POST['single_product_fee'], "double"),
+                        GetSQLValueString($_POST['name'], "text"),
+                        GetSQLValueString($_POST['single_product_fee'], "double"),
                        GetSQLValueString($_POST['first_kg_fee'], "double"),
                        GetSQLValueString($_POST['first_kg_fee'], "double"));
 
@@ -119,15 +117,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input type="text" name="single_product_fee" value="" size="32">
 *</td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免费额度:</td>
-      <td><input type="text" name="free_quota" value="" size="32">
-*</td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">到付费用:</td>
-      <td><input type="text" name="cod_fee" value="0.00" size="32">
-*</td>
+    
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">区域：</td>

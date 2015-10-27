@@ -55,15 +55,14 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method_area (name, shipping_method_id, shipping_by_quantity, single_product_fee, half_kg_fee, continue_half_kg_fee, free_quota, area) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method_area (name, shipping_method_id, shipping_by_quantity, single_product_fee, half_kg_fee, continue_half_kg_fee, area) VALUES (%s, %s, %s, %s, %s,  %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($row_shipping_method['id'], "int"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
                        GetSQLValueString($_POST['single_product_fee'], "double"),
                        GetSQLValueString($_POST['half_kg_fee'], "double"),
                        GetSQLValueString($_POST['continue_half_kg_fee'], "double"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['area'], "text"));
+                        GetSQLValueString($_POST['area'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -109,11 +108,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline" class="by_weight">
       <td nowrap align="right">续费500克费用:</td>
       <td><input name="continue_half_kg_fee" type="text" value="" size="32" maxlength="32">
-*</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免费额度:</td>
-      <td><input name="free_quota" type="text" value="" size="32" maxlength="32">
 *</td>
     </tr>
     <tr valign="baseline">

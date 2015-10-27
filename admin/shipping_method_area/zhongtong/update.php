@@ -66,14 +66,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE shipping_method_area SET shipping_method_id=%s, area=%s, shipping_by_quantity=%s, first_kg_fee=%s, continue_kg_fee=%s, free_quota=%s, name=%s, single_product_fee=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE shipping_method_area SET shipping_method_id=%s, area=%s, shipping_by_quantity=%s, first_kg_fee=%s, continue_kg_fee=%s,  name=%s, single_product_fee=%s WHERE id=%s",
                        GetSQLValueString($row_shipping_method ['id'], "int"),
                        GetSQLValueString($_POST['area'], "text"),
                        GetSQLValueString($_POST['shipping_by_quantity'], "int"),
                        GetSQLValueString($_POST['first_kg_fee'], "double"),
                        GetSQLValueString($_POST['continue_kg_fee'], "double"),
-                       GetSQLValueString($_POST['free_quota'], "double"),
-                       GetSQLValueString($_POST['name'], "text"),
+                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['single_product_fee'], "double"),
                        GetSQLValueString($colname_shipping_method_area, "int"));
 
@@ -111,29 +110,22 @@ header(sprintf("Location: %s", $insertGoTo));
   <input <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],"1"))) {echo "checked=\"checked\"";} ?> type="radio" name="shipping_by_quantity" value="1" onchange="by_quantity()"/>
 按数量</td>
      </tr>
-    <tr valign="baseline" class="by_weight">
+    <tr valign="baseline" class="by_weight" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'1'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">首公斤费用:</td>
       <td><input name="first_kg_fee" type="text" value="<?php echo $row_shipping_method_area['first_kg_fee']; ?>" size="32" maxlength="32">
 *</td>
     </tr>
-    <tr valign="baseline" class="by_weight">
+    <tr valign="baseline" class="by_weight" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'1'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">续重费用:</td>
       <td><input name="continue_kg_fee" type="text" value="<?php echo $row_shipping_method_area['continue_kg_fee']; ?>" size="32" maxlength="32">
 *</td>
     </tr>
    
-    <tr valign="baseline" class="by_quantity" style="display:none;">
+    <tr valign="baseline" class="by_quantity" <?php if (!(strcmp($row_shipping_method_area['shipping_by_quantity'],'0'))) { ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">单个商品费用:</td>
       <td><input name="single_product_fee" type="text" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32" maxlength="32">
 *</td>
-    </tr>
-	 <tr valign="baseline">
-      <td nowrap align="right">免费额度:</td>
-      <td><input name="free_quota" type="text" value="<?php echo $row_shipping_method_area['free_quota']; ?>" size="32" maxlength="32">
-*</td>
-    </tr>
-	
-    <tr valign="baseline">
+      <tr valign="baseline">
       <td nowrap align="right">区域设置</td>
       <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>
     </tr>
