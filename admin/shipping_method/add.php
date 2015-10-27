@@ -49,13 +49,11 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO shipping_method (name, `desc`, config_file_path, is_activated, is_cod, is_free) VALUES (%s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO shipping_method (name, `desc`, config_file_path, is_activated) VALUES (%s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['desc'], "text"),
                        GetSQLValueString($_POST['config_file_path'], "text"),
-                       GetSQLValueString(isset($_POST['is_activated']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString(isset($_POST['is_cod']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString(isset($_POST['is_free']) ? "true" : "", "defined","1","0"));
+                       GetSQLValueString(isset($_POST['is_activated']) ? "true" : "", "defined","1","0"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -92,14 +90,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td nowrap align="right">配置文件夹:</td>
       <td><input name="config_file_path" type="text" id="config_file_path" value="" size="32" maxlength="100" />
 *</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">货到付款:</td>
-      <td><input type="checkbox" name="is_cod" value="" ></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免费:</td>
-      <td><input type="checkbox" name="is_free" value="" ></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">介绍:</td>

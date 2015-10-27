@@ -48,13 +48,11 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE shipping_method SET name=%s, config_file_path=%s, is_activated=%s, is_cod=%s, is_free=%s, `desc`=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE shipping_method SET name=%s, config_file_path=%s, is_activated=%s, `desc`=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['config_file_path'], "text"),
                        GetSQLValueString(isset($_POST['is_activated']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString(isset($_POST['is_cod']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString(isset($_POST['is_free']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString($_POST['desc'], "text"),
+                        GetSQLValueString($_POST['desc'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
@@ -107,19 +105,8 @@ $totalRows_shipping_method = mysql_num_rows($shipping_method);
 *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">到付:</td>
-      <td><input type="checkbox" name="is_cod" value=""  <?php if ($row_shipping_method['is_cod']==1) {echo "checked";} ?>>
-*</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免费:</td>
-      <td><input type="checkbox" name="is_free" value=""  <?php if ($row_shipping_method['is_free']==1) {echo "checked";} ?>>
-*</td>
-    </tr>
-    <tr valign="baseline">
       <td nowrap align="right" valign="top">简介:</td>
-      <td><textarea name="desc" cols="50" rows="5"><?php echo $row_shipping_method['desc']; ?></textarea>
-      </td>
+      <td><textarea name="desc" cols="50" rows="5"><?php echo $row_shipping_method['desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
