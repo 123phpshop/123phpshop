@@ -177,13 +177,7 @@
 </table>
 <hr width="1210"  style="border:none;border-bottom:1px solid #E5E5E5; overflow:hidden;margin:20px auto;" />
 <table width="1210" height="72" border="0" align="center" style="margin:0 auto;font-family:SimSun;font-size:12px;">
-  <tr>
-    <td height=""><div align="center">北京市公安局朝阳分局备案编号XXXXXXX  |  京ICP证XXXXXXX号  |  互联网药品信息服务资格证编号(京)-经营性-XXXXXXX  |  新出发京零 字第大XXXXXXX号</div></td>
-  </tr>
-  <tr>
-    <td height=""><div align="center">音像制品经营许可证苏宿批XXXXXXX号  |  出版物经营许可证编号新出发(苏)批字第XXXXXXX号  |  互联网出版许可证编号新出网证(京)字XXXXXXX号</div></td>
-  </tr>
-  <tr>
-    <td height=""><div align="center">网络文化经营许可证京网文XXXXX号  违法和不良信息举报电话：XXXXX  Copyright © XXXXX 123PHPSHOP.com 版权所有</div></td>
+   <tr>
+    <td height=""><div align="center">本系统由上海序程信息科技有限公司提供技术支持 Powered By 123phpshop.com</div></td>
   </tr>
 </table>
