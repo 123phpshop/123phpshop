@@ -123,7 +123,7 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
   </p>
  <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_brands == 0) { // Show if recordset not empty ?>
-        <p><a href="add.php">没有记录，欢迎添加！</a></p>
+        <p><a href="add.php" class="phpshop123_infobox">没有记录，欢迎添加！</a></p>
     <?php } // Show if recordset not empty ?>
 </body>
 </html>

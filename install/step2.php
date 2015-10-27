@@ -26,8 +26,7 @@ $config_folder	=$_SERVER['DOCUMENT_ROOT']."/Connections";
 $index_path		=$_SERVER['DOCUMENT_ROOT']."/index.php";
 
 if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POST['db_username']) && isset($_POST['db_password']) && isset($_POST['db_name'])){
-	return;
-	if(trim($hostname_localhost)!=''){
+ 	if(trim($hostname_localhost)!=''){
 		// _to_index();
 		//	return;
 	}
