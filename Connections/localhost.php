@@ -1,4 +1,3 @@
-
 <?php
 /**
  * 123PHPSHOP
@@ -17,6 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
+
 <?php
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"

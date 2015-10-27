@@ -1,4 +1,4 @@
-<?php require_once('../../Connections/localhost.php'); ?><?php
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); 
+<?php require_once('../../Connections/localhost.php'); ?><?php require_once('../../Connections/localhost.php'); 
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) or die(mysql_error());
