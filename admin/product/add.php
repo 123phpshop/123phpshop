@@ -253,7 +253,7 @@ do {
     <tr valign="baseline">
       <th nowrap align="right" valign="top">标签:</th>
       <td><label>
-        <input name="tags" type="text" id="tags" size="32" maxlength="50" />
+        <input name="tags"  id="tags" type="text" id="tags" size="32" maxlength="50" />
       [2个标签之间请以空格隔开]</label></td>
     </tr>
     <tr valign="baseline">
@@ -277,8 +277,7 @@ do {
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
 <script>
 $().ready(function(){
-	CKEDITOR.replace('intro');
-	$("#form1").validate({
+ 	$("#form1").validate({
         rules: {
             name: {
                 required: true,
@@ -301,7 +300,10 @@ $().ready(function(){
             },
             store_num: {
 				 digits:true    				 
-            } 
+            },
+            tags: {
+				 required: true   				 
+            }
         },
         messages: {
 			name: {
