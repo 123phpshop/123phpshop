@@ -231,7 +231,7 @@ do {
     <tr valign="baseline">
       <td nowrap align="right" valign="top">标签：</td>
       <td><label>
-        <input name="tags" type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
+        <input name="tags"   id="tags" type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
       [2个标签之间请以空格隔开]</label></td>
     </tr>
     <tr valign="baseline">
@@ -254,8 +254,7 @@ do {
 
 <script>
 $().ready(function(){
-	CKEDITOR.replace('intro');
-	$("#form1").validate({
+ 	$("#form1").validate({
         rules: {	
             name: {
                 required: true,
@@ -277,6 +276,9 @@ $().ready(function(){
 				 required: true,
 				 number:true 					 
             },
+			tags{
+				required: true
+			},
             store_num: {
 				 digits:true    				 
             } 
