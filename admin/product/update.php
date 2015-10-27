@@ -276,7 +276,7 @@ $().ready(function(){
 				 required: true,
 				 number:true 					 
             },
-			tags{
+			tags:{
 				required: true
 			},
             store_num: {
