@@ -85,7 +85,11 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 
 //	如果需要上架的话
- $updateSQL = sprintf("UPDATE product SET product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
+ $updateSQL = sprintf("UPDATE product SET is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
+						GetSQLValueString($_POST['is_shipping_free'], "int"),
+						GetSQLValueString($_POST['meta_keywords'], "text"),
+						GetSQLValueString($_POST['meta_desc'], "text"),
+						GetSQLValueString($_POST['description'], "text"),
 					   GetSQLValueString($_POST['product_type_id'], "text"),
  					   GetSQLValueString($_POST['unit'], "text"),
                        GetSQLValueString($_POST['weight'], "double"),
@@ -103,15 +107,10 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "int"),
                        GetSQLValueString($_POST['id'], "int"));
- 
+
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
-
   $updateGoTo = "../product/index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
-  }
   header(sprintf("Location: %s", $updateGoTo));
 }
 ?>
@@ -225,13 +224,34 @@ do {
   否</td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right">免运费:</td>
+      <td><input type="radio" name="is_shipping_free" value="1" <?php if (!(strcmp($row_product['is_shipping_free'],"1"))) {echo "CHECKED";} ?> />
+是
+  <input type="radio" name="is_shipping_free" value="0" <?php if (!(strcmp($row_product['is_shipping_free'],"0"))) {echo "CHECKED";} ?> />
+否</td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">meta关键词:</td>
+      <td><label>
+        <input type="text" name="meta_keywords" id="meta_keywords" value="<?php echo $row_product['meta_keywords']; ?>" />
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">meta介绍:</td>
+      <td><input type="text" name="meta_desc" id="meta_desc" value="<?php echo $row_product['meta_desc']; ?>"/></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">备注:</td>
+      <td><input type="text" name="description" id="description" value="<?php echo $row_product['description']; ?>"/></td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap align="right">库存:</td>
       <td><input name="store_num" type="text" id="store_num" value="<?php echo $row_product['store_num']; ?>" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">标签：</td>
       <td><label>
-        <input name="tags"   id="tags" type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
+        <input name="tags"  type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
       [2个标签之间请以空格隔开]</label></td>
     </tr>
     <tr valign="baseline">

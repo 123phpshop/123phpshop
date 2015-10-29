@@ -57,7 +57,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO product (is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					   GetSQLValueString($_POST['is_shipping_free'], "int"),
+					   GetSQLValueString($_POST['meta_keywords'], "text"),
+					   GetSQLValueString($_POST['meta_desc'], "text"),
+					   GetSQLValueString($_POST['description'], "text"),
 					   GetSQLValueString($_POST['tags'], "text"),
 					   GetSQLValueString($_POST['unit'], "text"),
 					   GetSQLValueString($_POST['is_virtual'], "int"),
@@ -76,7 +80,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s)",
+ $insertSQL = sprintf("INSERT INTO product (is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s)",
+					   GetSQLValueString($_POST['is_shipping_free'], "int"),
+					   GetSQLValueString($_POST['meta_keywords'], "text"),
+					   GetSQLValueString($_POST['meta_desc'], "text"),
+					   GetSQLValueString($_POST['description'], "text"),
  					   GetSQLValueString($_POST['tags'], "text"),
   					   GetSQLValueString($_POST['unit'], "text"),
 					   GetSQLValueString($_POST['is_virtual'], "int"),
@@ -244,6 +252,31 @@ do {
 否</td>
         </tr>
       </table></td>
+    </tr>
+	<tr valign="baseline">
+      <th nowrap align="right">免运费:</th>
+      <td valign="baseline"><table>
+        <tr>
+          <td><input type="radio"  name="is_shipping_free" value="1" >
+            是
+              <input type="radio" checked name="is_shipping_free" value="0" checked/>
+否</td>
+        </tr>
+      </table></td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">meta关键词:</th>
+      <td><label>
+        <input type="text" name="meta_keywords" id="meta_keywords"  />
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">meta介绍:</th>
+      <td><input type="text" name="meta_desc" id="meta_desc"/></td>
+    </tr>
+    <tr valign="baseline">
+      <th nowrap align="right">备注:</th>
+      <td><input type="text" name="description" id="description" /></td>
     </tr>
     <tr valign="baseline">
       <th nowrap align="right">库存:</th>
