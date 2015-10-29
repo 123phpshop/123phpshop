@@ -117,6 +117,8 @@ $totalRows_product_catalog = mysql_num_rows($product_catalog);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="<?php echo $row_product['meta_keywords']; ?>">
+<meta name="Description" content="<?php echo $row_product['meta_desc']; ?>">
 <title><?php echo $row_product['name']; ?>|<?php echo $row_product['ad_text']; ?></title>
 <link rel="stylesheet" type="text/css" href="/js/jquery-ui-1.11.4.custom/jquery-ui.css">
 <style type="text/css">

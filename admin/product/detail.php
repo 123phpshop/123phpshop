@@ -208,6 +208,22 @@ form{
         <td><?php echo $row_DetailRS1['is_recommanded']==0?"否":"是"; ?> </td>
       </tr>
        <tr>
+         <td>免运费</td>
+         <td><?php echo $row_DetailRS1['is_shipping_free']==0?"否":"是"; ?></td>
+       </tr>
+       <tr>
+         <td>meta关键词</td>
+         <td><?php echo $row_DetailRS1['meta_keywords']; ?></td>
+       </tr>
+       <tr>
+         <td>meta描述</td>
+         <td><?php echo $row_DetailRS1['meta_desc']; ?></td>
+       </tr>
+       <tr>
+         <td>备注</td>
+         <td><?php echo $row_DetailRS1['description']; ?></td>
+       </tr>
+       <tr>
         <td>库存数目</td>
         <td><?php echo $row_DetailRS1['store_num']; ?> </td>
       </tr>
