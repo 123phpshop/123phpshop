@@ -79,37 +79,52 @@ a[parent] .menu_item_row{
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
 <a href="_main.php" target="main"  id="dashboard"><div class="menu_item_row" style="border-top:1px solid #515151;"><div class="menu_item">控制面板</div><div class="right_indicator"></div></div></a>
-<a href="catalog/index.php" target="main" id="goods_catalogs"><div class="menu_item_row" ><div class="menu_item">商品分类</div><div class="right_indicator" style=""></div></div></a>
-<a href="product_type/index.php" target="main"  id="goods_types"><div class="menu_item_row"><div class="menu_item">商品类型</div><div class="right_indicator" style=""></div></div></a>
 <a href="product/index.php" target="main"  id="goods"><div class="menu_item_row"><div class="menu_item" >商品管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="catalog/index.php" target="main" id="goods_catalogs" parent="goods"><div class="menu_item_row" ><div class="menu_item">》 商品分类</div><div class="right_indicator" style=""></div></div></a>
+<a href="product_type/index.php" target="main"  id="goods_types" parent="goods"><div class="menu_item_row"><div class="menu_item">》 商品类型</div><div class="right_indicator" style=""></div></div></a>
+
+<a href="brands/index.php" target="main" id="brands" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 品牌管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="brands/add.php" target="main" id="brand_add" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 添加品牌</div><div class="right_indicator" style="">></div></div></a>
 <a href="product/recycled.php" target="main" id="goods_recycled" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品回收站</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="user_comments/index.php" target="main" id="comments" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品评论</div><div class="right_indicator" style=""></div></div></a>
+<a href="user_consult/index.php" target="main" id="consults" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品咨询</div><div class="right_indicator" style=""></div></div></a>
+
+
 <a href="order/index.php" target="main" id="orders"><div class="menu_item_row" ><div class="menu_item" >订单管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/index.php?status=100" target="main" id="order_delivery"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 发货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/index.php?status=-150" target="main" id="order_return"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 退货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/recycle.php" target="main" id="order_recycled"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 订单回收站</div><div class="right_indicator" style="">></div></div></a>
-<a href="brands/index.php" target="main" id="brands"><div class="menu_item_row" ><div class="menu_item" >品牌管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="brands/add.php" target="main" id="brand_add"  parent="brands"><div class="menu_item_row" ><div class="menu_item" >》 添加品牌</div><div class="right_indicator" style="">></div></div></a>
-<a href="shipping_method/index.php" target="main" id="shipping_methods"><div class="menu_item_row" ><div class="menu_item" >配送方式</div><div class="right_indicator" style="">></div></div></a>
-<a href="shipping_method/add.php" target="main" id="shipping_methods_add"  parent="shipping_methods"><div class="menu_item_row" ><div class="menu_item" >》 添加配送方式</div><div class="right_indicator" style="">></div></div></a>
+
+
 <a href="ad/index.php" target="main"  id="ads"><div class="menu_item_row"><div class="menu_item" >广告管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="ad/add.php" target="main" id="ad_add"   parent="ads"><div class="menu_item_row" ><div class="menu_item">》 添加广告</div><div class="right_indicator" style="">></div></div></a>
-<a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="users/add.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 添加用户</div><div class="right_indicator" style="">></div></div></a> 
-<a href="pay_method/index.php" target="main" id="payments"><div class="menu_item_row" ><div class="menu_item">支付方式</div><div class="right_indicator" style="">></div></div></a>
-<a href="pay_method/add.php" target="main" id="payment_add"   parent="payments"><div class="menu_item_row" ><div class="menu_item">》 添加支付</div><div class="right_indicator" style="">></div></div></a>
-<a href="express_company/index.php" target="main" id="logistics"><div class="menu_item_row" ><div class="menu_item" >快递公司</div><div class="right_indicator" style=""></div></div></a>
-<a href="user_comments/index.php" target="main" id="comments"><div class="menu_item_row" ><div class="menu_item" >评论管理</div><div class="right_indicator" style=""></div></div></a>
-<a href="user_consult/index.php" target="main" id="consults"><div class="menu_item_row" ><div class="menu_item" >咨询管理</div><div class="right_indicator" style=""></div></div></a>
-<a href="news_catalog/index.php " target="main" id="article_catalogs"><div class="menu_item_row" ><div class="menu_item" >文章分类</div><div class="right_indicator" style=""></div></div></a>
+
+
+
+
 <a href="news/index.php" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="news_catalog/index.php " target="main" id="article_catalogs" parent="articles"><div class="menu_item_row" ><div class="menu_item" >》 文章分类</div><div class="right_indicator" style=""></div></div></a>
 <a href="news/recycled.php" target="main" id="article_recycled"   parent="articles"><div class="menu_item_row" ><div class="menu_item">》 文章回收站</div><div class="right_indicator" style="">></div></div></a>
 <a href="admin/index.php" target="main"  id="admins"><div class="menu_item_row"><div class="menu_item" >管理员列表</div><div class="right_indicator" style="">></div></div></a>
 <a href="admin/add.php" target="main"  id="admin_add"   parent="admins"><div class="menu_item_row"><div class="menu_item">》 添加管理员</div><div class="right_indicator" style="">></div></div></a>
 <a href="admin/update_password.php" target="main" id="password"   parent="admins"><div class="menu_item_row" ><div class="menu_item">》 密码设置</div><div class="right_indicator" style="">></div></div></a>
-<a href="info.php" target="main"  id="shop_info"><div class="menu_item_row"><div class="menu_item">店铺信息</div><div class="right_indicator" style="">></div></div></a>
-<a href="/admin/mail/" target="main" id="smtp" parent="shop_info"><div class="menu_item_row"><div class="menu_item">邮件服务器</div><div class="right_indicator" style="">></div></div></a>
-<a href="area/index.php" target="main" id="areas"  parent="shop_info"><div class="menu_item_row" ><div class="menu_item">区域管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >家族软件</div><div class="right_indicator" style=""></div></div></a>
+
+<a href="info.php" target="main"  id="system"><div class="menu_item_row"><div class="menu_item">系统设置</div><div class="right_indicator" style="">></div></div></a>
+<a href="pay_method/index.php" target="main" id="pay_methods" parent="system"><div class="menu_item_row" ><div class="menu_item">》 支付方式</div><div class="right_indicator" style="">></div></div></a>
+<a href="pay_method/add.php" target="main" id="pay_methods_add"   parent="system"><div class="menu_item_row" ><div class="menu_item">》 添加支付</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="shipping_method/index.php" target="main" id="shipping_methods" parent="system"><div class="menu_item_row" ><div class="menu_item" >》 配送方式</div><div class="right_indicator" style="">></div></div></a>
+<a href="shipping_method/add.php" target="main" id="shipping_methods_add"  parent="system"><div class="menu_item_row" ><div class="menu_item" >》 添加配送方式</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="express_company/index.php" target="main" id="logistics" parent="system"><div class="menu_item_row" ><div class="menu_item" >》 快递公司</div><div class="right_indicator" style=""></div></div></a>
+
+<a href="info.php" target="main"  id="shop_info" parent="system"><div class="menu_item_row"><div class="menu_item">》 店铺信息</div><div class="right_indicator" style="">></div></div></a>
+<a href="/admin/mail/" target="main" id="smtp" parent="system"><div class="menu_item_row"><div class="menu_item">》 邮件服务器</div><div class="right_indicator" style="">></div></div></a>
+<a href="area/index.php" target="main" id="areas"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 区域管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style=""></div></div></a>
 </div>
 <script>
 $().ready(function(){
@@ -117,7 +132,14 @@ $().ready(function(){
 	$("a[parent] .right_indicator").hide();
 	
 $("a").click(function(){
- 	$("a[parent="+$(this).attr('id')+"]").toggle();
+  	$("a[parent="+$(this).attr('id')+"]").each(function(){
+ 		if($(this).attr("style")=="display: none;"){
+			$(this).attr("style","display: inline;");
+ 		}else{
+			$(this).attr("style","display: none;");
+		}
+		
+	});
 });
  
 $(".menu_item_row").click(function(){

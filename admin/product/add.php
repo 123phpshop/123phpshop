@@ -125,191 +125,37 @@ $totalRows_product_types = mysql_num_rows($product_types);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/js/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p class="phpshop123_title">添加商品 </p>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-  <table width="100%" align="center" class="phpshop123_form_box">
-    <tr valign="baseline">
-      <th nowrap align="right">名称:</th>
-      <td><input name="name" type="text" class="required" id="name"  value="" size="32" maxlength="50">
-      *</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">广告语:</th>
-      <td><input  name="ad_text" type="text" id="ad_text"  value="" size="32" maxlength="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">价格:</th>
-      <td><input  name="price" type="text" class="required" id="price" value="" size="32" maxlength="13">
-      *</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">市场价:</th>
-      <td><input  name="market_price" type="text" class="required" id="market_price" value="" size="32" maxlength="13">
-      *</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">品牌：</th>
-      <td><label>
-        <select name="brand_id" id="brand_id">
-          <option value="0">未设置</option>
-          <?php
-do {  
-?>
-          <option value="<?php echo $row_brands['id']?>"><?php echo $row_brands['name']?></option>
-          <?php
-} while ($row_brands = mysql_fetch_assoc($brands));
-  $rows = mysql_num_rows($brands);
-  if($rows > 0) {
-      mysql_data_seek($brands, 0);
-	  $row_brands = mysql_fetch_assoc($brands);
-  }
-?>
-        </select>
-      </label></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">商品类型：</th>
-      <td><select name="product_type_id" id="product_type_id">
-        <option value="0">未设置</option>
-        <?php
-do {  
-?>
-        <option value="<?php echo $row_product_types['id']?>"><?php echo $row_product_types['name']?></option>
-        <?php
-} while ($row_product_types = mysql_fetch_assoc($product_types));
-  $rows = mysql_num_rows($product_types);
-  if($rows > 0) {
-      mysql_data_seek($product_types, 0);
-	  $row_product_types = mysql_fetch_assoc($product_types);
-  }
-?>
-      </select></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">重量：</th>
-      <td><input  name="weight" type="text" class="required" id="weight" value="" size="32" maxlength="13" />
-      克</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">单位：</th>
-      <td><input  name="unit" type="text" class="required" id="unit" value="" size="32" maxlength="5" />
-      如盒，箱或支...</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">虚拟产品:</th>
-      <td><table>
-        <tr>
-          <td><input type="radio" name="is_virtual" value="1">
-            是
-            <input  name="is_virtual" type="radio" value="0" checked="checked" />
-            否</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">是否上架:</th>
-      <td><table>
-        <tr>
-          <td><input type="radio"  checked name="is_on_sheft" value="1" >
-            是
-            <input type="radio"  name="is_on_sheft" value="0" />
-否</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">热销产品:</th>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input type="radio"  name="is_hot" value="1" >
-            是
-              <input type="radio" checked name="is_hot" value="0" />
-否</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">当季产品:</th>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input type="radio" name="is_season" value="1" >
-            是
-              <input type="radio"  checked name="is_season" value="0" />
-否</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">推荐产品:</th>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input type="radio" name="is_recommanded" value="1" >
-            是
-              <input type="radio" checked  name="is_recommanded" value="0" />
-否</td>
-        </tr>
-      </table></td>
-    </tr>
-	<tr valign="baseline">
-      <th nowrap align="right">免运费:</th>
-      <td valign="baseline"><table>
-        <tr>
-          <td><input type="radio"  name="is_shipping_free" value="1" >
-            是
-              <input type="radio" checked name="is_shipping_free" value="0" checked/>
-否</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">meta关键词:</th>
-      <td><label>
-        <input type="text" name="meta_keywords" id="meta_keywords"  />
-      </label></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">meta介绍:</th>
-      <td><input type="text" name="meta_desc" id="meta_desc"/></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">备注:</th>
-      <td><input type="text" name="description" id="description" /></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right">库存:</th>
-      <td><input name="store_num" type="text"  class="" id="store_num" value="100" size="32" maxlength="11">
-      *</td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right" valign="top">标签:</th>
-      <td><label>
-        <input name="tags"  id="tags" type="text" id="tags" size="32" maxlength="50" />
-      [2个标签之间请以空格隔开]</label></td>
-    </tr>
-    <tr valign="baseline">
-      <th nowrap align="right" valign="top">介绍:</th>
-      <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"></script>
-      *      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
-    </tr>
-  </table>
+<p class="phpshop123_title" style="display:inline;">添加商品 
+  <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
+</p>
+  <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
+	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
+		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-9" aria-selected="false" aria-expanded="false"><a href="#tabs-2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-9">详细介绍</a></li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-3" aria-labelledby="ui-id-10" aria-selected="false" aria-expanded="false"><a href="#tabs-3" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-10">其他信息</a></li>
+	</ul>
+	<div id="tabs-1" aria-labelledby="ui-id-8" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="false" style="background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/common.php'); ?></div>
+	<div id="tabs-2" aria-labelledby="ui-id-9" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/intro.php'); ?></div>
+	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/other_info.php'); ?></div>
+</div>
   <input type="hidden" name="catalog_id" value="<?php echo $_GET['catalog_id']; ?>">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 <script>
 $().ready(function(){
+	
+	$( "#tabs" ).tabs();
  	$("#form1").validate({
         rules: {
             name: {

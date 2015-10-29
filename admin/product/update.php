@@ -121,159 +121,35 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/js/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <form method="post" name="form1"  id="form1"  action="<?php echo $editFormAction; ?>">
   <p class="phpshop123_title">更新产品信息</p>
-  <table align="center" class="phpshop123_form_box">
-    <tr valign="baseline">
-      <td nowrap align="right">名称:</td>
-      <td><input name="name" type="text" id="name" value="<?php echo $row_product['name']; ?>" size="32" maxlength="50"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">广告语:</td>
-      <td><input name="ad_text" type="text" id="ad_text"  value="<?php echo $row_product['ad_text']; ?>" size="32" maxlength="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">价格:</td>
-      <td><input name="price" type="text" id="price" value="<?php echo $row_product['price']; ?>" size="32" maxlength="13"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">市场价:</td>
-      <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13">	</td>
-    </tr>
-	<tr valign="baseline">
-      <td nowrap align="right">品牌:</td>
-      <td><select name="brand_id" id="brand_id">
-        <option value="0" <?php if (!(strcmp(0, $row_product['brand_id']))) {echo "selected=\"selected\"";} ?>>未设置</option>
-        <?php
-do {  
-?>
-        <option value="<?php echo $row_brands['id']?>"<?php if (!(strcmp($row_brands['id'], $row_product['brand_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_brands['name']?></option>
-        <?php
-} while ($row_brands = mysql_fetch_assoc($brands));
-  $rows = mysql_num_rows($brands);
-  if($rows > 0) {
-      mysql_data_seek($brands, 0);
-	  $row_brands = mysql_fetch_assoc($brands);
-  }
-?>
-      </select></td>
-    </tr>
-	
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">商品类型：</td>
-      <td><select name="product_type_id" id="product_type_id">
-        <option value="0" <?php if (!(strcmp(0, $row_product['product_type_id']))) {echo "selected=\"selected\"";} ?>>未设置</option>
-        <?php
-do {  
-?>
-        <option value="<?php echo $row_product_types['id']?>"<?php if (!(strcmp($row_product_types['id'], $row_product['product_type_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_product_types['name']?></option>
-        <?php
-} while ($row_product_types = mysql_fetch_assoc($product_types));
-  $rows = mysql_num_rows($product_types);
-  if($rows > 0) {
-      mysql_data_seek($product_types, 0);
-	  $row_product_types = mysql_fetch_assoc($product_types);
-  }
-?>
-      </select></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">重量：</td>
-      <td valign="baseline"><input name="weight" type="text"  id="weight" value="<?php echo $row_product['weight']; ?>" size="32" maxlength="13" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">单位：</td>
-      <td valign="baseline"><input name="unit" type="text"  id="unit" value="<?php echo $row_product['unit']; ?>" size="32" maxlength="13" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">虚拟物品：</td>
-      <td valign="baseline"><input type="radio" name="is_virtual" value="1" <?php if (!(strcmp($row_product['is_virtual'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0"))) {echo "CHECKED";} ?> />
-否</td>
-    </tr> 
-    <tr valign="baseline">
-      <td nowrap align="right">上架:</td>
-      <td valign="baseline"><input type="radio" name="is_on_sheft" value="1" <?php if (!(strcmp($row_product['is_on_sheft'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_on_sheft" value="0" <?php if (!(strcmp($row_product['is_on_sheft'],"0"))) {echo "CHECKED";} ?> />
-  否</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">热门商品:</td>
-      <td valign="baseline"><input type="radio" name="is_hot" value="1" <?php if (!(strcmp($row_product['is_hot'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_hot" value="0" <?php if (!(strcmp($row_product['is_hot'],"0"))) {echo "CHECKED";} ?> />
-  否</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">当季商品:</td>
-      <td valign="baseline"><input type="radio" name="is_season" value="1" <?php if (!(strcmp($row_product['is_season'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_season" value="0" <?php if (!(strcmp($row_product['is_season'],"0"))) {echo "CHECKED";} ?> />
-  否</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">推荐商品:</td>
-      <td valign="baseline"><input type="radio" name="is_recommanded" value="1" <?php if (!(strcmp($row_product['is_recommanded'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_recommanded" value="0" <?php if (!(strcmp($row_product['is_recommanded'],"0"))) {echo "CHECKED";} ?> />
-  否</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">免运费:</td>
-      <td><input type="radio" name="is_shipping_free" value="1" <?php if (!(strcmp($row_product['is_shipping_free'],"1"))) {echo "CHECKED";} ?> />
-是
-  <input type="radio" name="is_shipping_free" value="0" <?php if (!(strcmp($row_product['is_shipping_free'],"0"))) {echo "CHECKED";} ?> />
-否</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">meta关键词:</td>
-      <td><label>
-        <input type="text" name="meta_keywords" id="meta_keywords" value="<?php echo $row_product['meta_keywords']; ?>" />
-      </label></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">meta介绍:</td>
-      <td><input type="text" name="meta_desc" id="meta_desc" value="<?php echo $row_product['meta_desc']; ?>"/></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">备注:</td>
-      <td><input type="text" name="description" id="description" value="<?php echo $row_product['description']; ?>"/></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">库存:</td>
-      <td><input name="store_num" type="text" id="store_num" value="<?php echo $row_product['store_num']; ?>" size="32" maxlength="11"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right" valign="top">标签：</td>
-      <td><label>
-        <input name="tags"  type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
-      [2个标签之间请以空格隔开]</label></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right" valign="top">介绍:</td>
-      <td><script id="editor" type="text/plain" name="intro" style="width:1024px;height:500px;"><?php echo $row_product['intro']; ?></script>      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="更新记录"></td>
-    </tr>
-  </table>
+    <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;"/></div>
+   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
+	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
+		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-9" aria-selected="false" aria-expanded="false"><a href="#tabs-2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-9">详细介绍</a></li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-3" aria-labelledby="ui-id-10" aria-selected="false" aria-expanded="false"><a href="#tabs-3" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-10">其他信息</a></li>
+	</ul>
+	<div id="tabs-1" aria-labelledby="ui-id-8" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="false" style="background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/common.php'); ?></div>
+	<div id="tabs-2" aria-labelledby="ui-id-9" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/intro.php'); ?></div>
+	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/other_info.php'); ?></div>
+</div>
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
- <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
-
+<script language="JavaScript" type="text/javascript" src="/js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 <script>
 $().ready(function(){
+	$("#tabs" ).tabs();
  	$("#form1").validate({
         rules: {	
             name: {
