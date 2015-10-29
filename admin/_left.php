@@ -93,6 +93,7 @@ a {
 <a href="admin/index.php" target="main"><div class="menu_item" >管理员列表</div></a>
 <a href="admin/add.php" target="main"><div class="menu_item" >添加管理员</div></a>
 <a href="info.php" target="main"><div class="menu_item" >店铺信息</div></a>
+<a href="/admin/mail/" target="main"><div class="menu_item" >邮件服务器</div></a>
 <a href="area/index.php" target="main"><div class="menu_item" >区域管理</div></a>
 <a href="http://www.123phpshop.com/client_portal/" target="main"><div class="menu_item" >家族软件</div></a>
 </div>
