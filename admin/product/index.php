@@ -140,14 +140,14 @@ function _get_product_where($get){
 </head>
 
 <body>
-<p class="phpshop123_title">产品搜索</p>
+<p class="phpshop123_title">商品搜索</p>
 <form id="product_search" name="product_search" method="get" action="">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
       <td width="5%" scope="col">名称：</td>
       <td width="27%" scope="col"><input value="<?php echo isset($_GET['name'])?$_GET['name']:''; ?>" name="name" type="text" id="name" maxlength="50" /></td>
       <td width="3%" scope="col">热销：</td>
-      <td width="26%" scope="col"><input  type="radio" <?php if(isset($_GET['is_hot']) && $_GET['is_hot']=='1'){ ?>checked<?php } ?> name="is_hot" value="1" />
+      <td width="26%" scope="col"><input name="is_hot"  type="radio" value="1" checked="checked" <?php if(isset($_GET['is_hot']) && $_GET['is_hot']=='1'){ ?>checked<?php } ?> />
         是
           <input type="radio" name="is_hot" value="0"  <?php if(isset($_GET['is_hot']) && $_GET['is_hot']=='0'){ ?>checked<?php } ?> />
       否</td>
@@ -157,11 +157,11 @@ function _get_product_where($get){
     </tr>
     <tr>
       <td><label> 上架 ： </label></td>
-      <td><input type="radio" name="is_on_sheft" id="is_on_sheft" value="1" <?php if(isset($_GET['is_on_sheft']) && $_GET['is_on_sheft']=='1'){ ?>checked<?php } ?> />
+      <td><input name="is_on_sheft" type="radio" id="is_on_sheft" value="1" checked="checked" <?php if(isset($_GET['is_on_sheft']) && $_GET['is_on_sheft']=='1'){ ?>checked<?php } ?> />
       是<input type="radio" name="is_on_sheft"  id="is_on_sheft"  value="0" <?php if(isset($_GET['is_on_sheft']) && $_GET['is_on_sheft']=='0'){ ?>checked<?php } ?> />
       否</td>
       <td>推荐:</td>
-      <td><input type="radio" name="is_recommanded" value="1" <?php if(isset($_GET['is_recommanded']) && $_GET['is_recommanded']=='1'){ ?>checked<?php } ?> />
+      <td><input name="is_recommanded" type="radio" value="1" checked="checked" <?php if(isset($_GET['is_recommanded']) && $_GET['is_recommanded']=='1'){ ?>checked<?php } ?> />
         是
           <input type="radio" name="is_recommanded" value="0" <?php if(isset($_GET['is_recommanded']) && $_GET['is_recommanded']=='0'){ ?>checked<?php } ?> />
       否</td>
@@ -175,7 +175,7 @@ function _get_product_where($get){
 </form>
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <br />
-    <span class="phpshop123_title">产品列表</span><br />
+    <span class="phpshop123_title">商品列表</span><br />
   <br />
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>
@@ -193,9 +193,9 @@ function _get_product_where($get){
         <td> <div align="center"><?php echo $row_products['id']; ?>&nbsp;  </div></td>
         <td><a href="detail.php?recordID=<?php echo $row_products['id']; ?>"><?php echo $row_products['name']; ?>&nbsp;</a> </td>
         <td>￥<?php echo $row_products['price']; ?>&nbsp; </td>
-        <td><?php echo $row_products['is_on_sheft']=='1'?"√":""; ?>&nbsp; </td>
-        <td><?php echo $row_products['is_hot']=='1'?"√":""; ?>&nbsp; </td>
-        <td><?php echo $row_products['is_recommanded']=='1'?"√":""; ?>&nbsp; </td>
+        <td><div align="center"><?php echo $row_products['is_on_sheft']=='1'?"√":""; ?>&nbsp; </div></td>
+        <td><div align="center"><?php echo $row_products['is_hot']=='1'?"√":""; ?>&nbsp; </div></td>
+        <td><div align="center"><?php echo $row_products['is_recommanded']=='1'?"√":""; ?>&nbsp; </div></td>
         <td><?php echo $row_products['store_num']; ?></td>
         <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">更新  </a> <?php if($row_products['product_type_id']>0){ ?><a href="set_attr.php?product_id=<?php echo $row_products['id']; ?>">设置属性</a><?php } ?></div></td>
       </tr>

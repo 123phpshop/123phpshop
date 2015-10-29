@@ -128,7 +128,7 @@ $totalRows_product_types = mysql_num_rows($product_types);
 </head>
 
 <body>
-<p class="phpshop123_title">添加产品 </p>
+<p class="phpshop123_title">添加商品 </p>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table width="100%" align="center" class="phpshop123_form_box">
     <tr valign="baseline">

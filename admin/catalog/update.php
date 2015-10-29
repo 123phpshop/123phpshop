@@ -96,7 +96,7 @@ $totalRows_catalog = mysql_num_rows($catalog);
 <body>
 <p class="phpshop123_title">
   
-更新产品分类</p>
+更新商品分类</p>
 <p>&nbsp; </p>
 
 <form method="post" name="form1"  id="form1"action="<?php echo $editFormAction; ?>">

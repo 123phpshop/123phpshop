@@ -108,7 +108,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
 </head>
 
 <body>
-<p class="phpshop123_title">产品分类 </p>
+<p class="phpshop123_title">商品分类 </p>
 <form method="post" name="new_catalog_form" id="new_catalog_form"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
@@ -131,7 +131,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
       <tr>
         <td><div align="center"><?php echo $row_catalogs['id']; ?></div></td>
         <td><?php echo $row_catalogs['name']; ?></td>
-        <td><div align="right"><a onClick="return confirm('您确认要删除这个分类吗？')" href="remove.php?id=<?php echo $row_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_catalogs['id']; ?>">更新</a> <a href="index.php?pid=<?php echo $row_catalogs['id']; ?>">子分类列表</a> <a href="../product/index.php?catalog_id=<?php echo $row_catalogs['id']; ?>">产品列表</a> <a href="../product/add.php?catalog_id=<?php echo $row_catalogs['id']; ?>">添加产品</a></div></td>
+        <td><div align="right"><a onClick="return confirm('您确认要删除这个分类吗？')" href="remove.php?id=<?php echo $row_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_catalogs['id']; ?>">更新</a> <a href="index.php?pid=<?php echo $row_catalogs['id']; ?>">子分类列表</a> <a href="../product/index.php?catalog_id=<?php echo $row_catalogs['id']; ?>">商品列表</a> <a href="../product/add.php?catalog_id=<?php echo $row_catalogs['id']; ?>">添加商品</a></div></td>
       </tr>
         <?php } while ($row_catalogs = mysql_fetch_assoc($catalogs)); ?>
   </table>

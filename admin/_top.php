@@ -88,7 +88,7 @@ body {
 
 <body style="font-family:微软雅黑;">
  <div id="admin_top">
-	 <div id='admin_top_left'>123PHPSHOP</div>
+	 <div id='admin_top_left'>123PHPSHOP V1.4 </div>
 	 <div id="admin_logout"><a href="<?php echo $logoutAction ?>" target="_parent">安全退出</a></div>
  </div>
 

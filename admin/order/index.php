@@ -208,8 +208,8 @@ function _get_order_where($get){
   
   <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_orders == 0) { // Show if recordset empty ?>
-    暂无记录！
-    <?php } // Show if recordset empty ?>
+      <span class="phpshop123_infobox">暂无记录！</span>
+  <?php } // Show if recordset empty ?>
 	
 	<link rel="stylesheet" href="../../js/jquery-ui-1.11.4.custom/jquery-ui.min.css">
 	<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
