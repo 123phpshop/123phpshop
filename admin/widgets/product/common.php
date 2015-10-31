@@ -1,7 +1,8 @@
 <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
-      <td><input name="name" type="text" id="name" value="<?php echo $row_product['name']; ?>" size="32" maxlength="50"></td>
+      <td><input name="name" type="text" id="name" value="<?php echo $row_product['name']; ?>" size="32" maxlength="50">
+      *</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">广告语:</td>
@@ -9,16 +10,18 @@
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">价格:</td>
-      <td><input name="price" type="text" id="price" value="<?php echo $row_product['price']; ?>" size="32" maxlength="13"></td>
+      <td><input name="price" type="text" id="price" value="<?php echo $row_product['price']; ?>" size="32" maxlength="13" onchange="market_price()">
+      *</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">市场价:</td>
-      <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13">	</td>
+      <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13">
+      *	</td>
     </tr>
 	<tr valign="baseline">
       <td nowrap align="right">品牌:</td>
       <td><select name="brand_id" id="brand_id">
-        <option value="0" <?php if (!(strcmp(0, $row_product['brand_id']))) {echo "selected=\"selected\"";} ?>>未设置</option>
+        <option value="0" <?php if (!(strcmp(0, $row_product['brand_id'])) || !isset($row_product['brand_id'])) {echo "selected=\"selected\"";} ?>>未设置</option>
         <?php
 do {  
 ?>
@@ -64,6 +67,28 @@ do {
   <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0"))) {echo "CHECKED";} ?> />
 否</td>
     </tr> 
+	
+	<tr valign="baseline">
+      <td nowrap align="right">赠送点数:</td>
+      <td><input type="text" name="pointers" id="pointers" value="<?php echo isset($row_product['pointers'])?$row_product['pointers']:1; ?>"/>
+      *[默认是1，也就是按照商品价格提供点数，如果商品的价格是小数，那么去上值]</td>
+    </tr>
+	
+	<tr valign="baseline">
+      <td nowrap align="right">优惠价:</td>
+      <td><input name="promotion_price" type="text" id="promotion_price" value="<?php echo $row_product['promotion_price']; ?>" maxlength="50"/></td>
+    </tr>
+	
+	<tr valign="baseline">
+      <td nowrap align="right">优惠开始时间:</td>
+      <td><input name="promotion_start" type="text" id="promotion_start" value="<?php echo $row_product['promotion_start']; ?>" maxlength="10"/></td>
+    </tr>
+ 	
+	<tr valign="baseline">
+      <td nowrap align="right">优惠结束时间:</td>
+      <td><input name="promotion_end" type="text" id="promotion_end" value="<?php echo $row_product['promotion_end']; ?>" maxlength="10"/></td>
+    </tr>
+	
     
     <tr valign="baseline">
       <td nowrap align="right">备注:</td>
@@ -76,6 +101,4 @@ do {
         <input name="tags"  type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
       [2个标签之间请以空格隔开]</label></td>
     </tr>
-   
-   
-  </table>
+    </table>

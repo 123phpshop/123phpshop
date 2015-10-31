@@ -90,26 +90,27 @@ a[parent] .menu_item_row{
 <a href="user_comments/index.php" target="main" id="comments" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品评论</div><div class="right_indicator" style=""></div></div></a>
 <a href="user_consult/index.php" target="main" id="consults" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品咨询</div><div class="right_indicator" style=""></div></div></a>
 
-
-<a href="order/index.php" target="main" id="orders"><div class="menu_item_row" ><div class="menu_item" >订单管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="order/index.php" target="main" id="orders"><div class="menu_item_row" ><div class="menu_item" >订单管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/index.php?status=100" target="main" id="order_delivery"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 发货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/index.php?status=-150" target="main" id="order_return"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 退货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/recycle.php" target="main" id="order_recycled"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 订单回收站</div><div class="right_indicator" style="">></div></div></a>
 
-
-<a href="ad/index.php" target="main"  id="ads"><div class="menu_item_row"><div class="menu_item" >广告管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="ad/index.php" target="main"  id="ads"><div class="menu_item_row"><div class="menu_item" >广告管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="ad/add.php" target="main" id="ad_add"   parent="ads"><div class="menu_item_row" ><div class="menu_item">》 添加广告</div><div class="right_indicator" style="">></div></div></a>
 <a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="users/add.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 添加用户</div><div class="right_indicator" style="">></div></div></a> 
-
-
-
-
-<a href="news/index.php" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="news/index.php" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="news_catalog/index.php " target="main" id="article_catalogs" parent="articles"><div class="menu_item_row" ><div class="menu_item" >》 文章分类</div><div class="right_indicator" style=""></div></div></a>
 <a href="news/recycled.php" target="main" id="article_recycled"   parent="articles"><div class="menu_item_row" ><div class="menu_item">》 文章回收站</div><div class="right_indicator" style="">></div></div></a>
-<a href="admin/index.php" target="main"  id="admins"><div class="menu_item_row"><div class="menu_item" >管理员列表</div><div class="right_indicator" style="">></div></div></a>
-<a href="admin/add.php" target="main"  id="admin_add"   parent="admins"><div class="menu_item_row"><div class="menu_item">》 添加管理员</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="javascript://" target="main"  id="privileges_manage"><div class="menu_item_row"><div class="menu_item" >权限管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="admin/index.php" target="main"  id="admins" parent="privileges_manage"><div class="menu_item_row"><div class="menu_item" >》 管理员列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="admin/add.php" target="main"  id="admin_add"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 添加管理员</div><div class="right_indicator" style="">></div></div></a>
+<a href="roles/index.php" target="main"  id="roles"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 角色列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="roles/add.php" target="main"  id="roles_add"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 添加角色</div><div class="right_indicator" style="">></div></div></a>
+<a href="privileges/index.php" target="main"  id="privileges"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 权限列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="privileges/add.php" target="main"  id="privileges_add"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 添加权限</div><div class="right_indicator" style="">></div></div></a>
+
 <a href="admin/update_password.php" target="main" id="password"   parent="admins"><div class="menu_item_row" ><div class="menu_item">》 密码设置</div><div class="right_indicator" style="">></div></div></a>
 
 <a href="info.php" target="main"  id="system"><div class="menu_item_row"><div class="menu_item">系统设置</div><div class="right_indicator" style="">></div></div></a>

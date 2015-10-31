@@ -149,13 +149,15 @@ $totalRows_product_types = mysql_num_rows($product_types);
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 <script>
 $().ready(function(){
 	
-	$( "#tabs" ).tabs();
+	$( "#tabs" ).tabs();		// 初始化tabs
+	$( "#promotion_start" ).datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
+	$( "#promotion_end" ).datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
  	$("#form1").validate({
         rules: {
             name: {
@@ -303,6 +305,13 @@ $().ready(function(){
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
     }
+	
+		 
+	function market_price(){
+		var market_price_float=parseFloat($("#price").val())*1.2
+		$("#market_price").val(market_price_float);
+	}
+	 
 
 </script>
 
