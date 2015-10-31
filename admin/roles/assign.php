@@ -100,7 +100,7 @@ function check_children(item){
 <form id="form1" name="form1" method="post" action="">
 <input name="" value="更新权限" type="submit" />
 <input type="hidden" name="updated" value="updated">
-  <table width="200" border="1" class="phpshop123_list_box">
+  <table width="200%" border="1" class="phpshop123_list_box">
     <?php foreach ($final_privileges_array as $row_privileges ){ ?>
       <tr>
         <td><input <?php if(in_array($row_privileges['id'],$privileges_id_array)){?>checked<?php }?> type="checkbox" name="privielges[]" value="<?php echo $row_privileges['id']; ?>" onclick="check_children(this)" />

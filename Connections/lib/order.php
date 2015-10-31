@@ -55,7 +55,7 @@ function get_shipping_fee(){
 	$shipping_methods=_get_shipping_methods();
  
   
-// 	如果找不到相应的配送方式的话
+	// 	如果找不到相应的配送方式的话
   	if(count($shipping_methods)==0){
 		//throw new Exception("不能运送");
 	}
@@ -76,6 +76,7 @@ function get_shipping_fee(){
 				if($shipping_methods_item['shipping_by_quantity']==1){
 					$shipping_fee_now=_calc_shipping_fee_by_quantity($quantity,$shipping_methods_item);
 				}else{
+					//	如果这个运费送方式是通过产品重量来计算的话，那么计算出运费
 					$shipping_fee_now=_calc_shipping_fee_by_weight($weight,$shipping_methods_item);
 				}
 				
@@ -98,11 +99,14 @@ function get_shipping_fee(){
 function _get_order_weight(){
 	$result=0;
 	foreach($_SESSION['cart']['products'] as $product){
-		$product_obj=_get_product_by_id($product['product_id']);
-		if(false==$product_obj){
-			throw new Excaption("产品不存在或者已经删除");
+ 		if($product['is_shipping_free']=='0'){
+			$product_obj=_get_product_by_id($product['product_id']);
+			if(false==$product_obj){
+				throw new Excaption("产品不存在或者已经删除");
+			}
+			$result+=$product_obj['weight']*$product['quantity'];
 		}
-		$result+=$product_obj['weight']*$product['quantity'];
+		
 	}
 	return $result;
 }
@@ -112,8 +116,10 @@ function _get_order_weight(){
 **/
 function _get_order_quantity(){
 	$result=0;
-	foreach($_SESSION['cart']['products'] as $product){
-		$result+=$product['quantity'];
+ 	foreach($_SESSION['cart']['products'] as $product){
+ 		if($product['is_shipping_free']=='0'){
+			$result+=$product['quantity'];
+		}
 	}
  	return $result;
 }

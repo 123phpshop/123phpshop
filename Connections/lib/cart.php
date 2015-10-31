@@ -282,8 +282,16 @@ class Cart {
 	 */
 	private function _do_add_product($product) {
  //			这里需要根据product的id获取相应的产品的价格
-		$price=$this->_get_product_price_from_db_by_id($product ['product_id']);
-		$product['product_price']=$price;
+		$product_obj=$this->_get_product_from_db_by_id($product ['product_id']);
+ 		
+  		$product['is_shipping_free']	=$product_obj['is_shipping_free'];
+		$product['is_promotion']		=$product_obj['is_promotion'];
+ 		$product['product_price']		=$product_obj['product_price'];
+		$product['promotion_start']		=$product_obj['promotion_start'];
+		$product['promotion_end']		=$product_obj['promotion_end'];
+		$product['product_price']		=$product_obj['price'];
+		
+		
  		$_SESSION ['cart'] ['products'] [] = $product;
 	}
 	
@@ -300,6 +308,24 @@ class Cart {
 		//$totalRows_product = mysql_num_rows($product);
 		return $row_product['price'];
 	}
+	
+	
+	// 从数据库里面获取产品的价格
+	private function _get_product_from_db_by_id($product_id){
+	
+//			这里还是需要获取是否有优惠价格
+		require_once ($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
+
+		mysql_select_db($database_localhost);
+		$query_product = "SELECT id,price,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = ".$product_id;
+		$product = mysql_query($query_product) or die(mysql_error());
+		$row_product = mysql_fetch_assoc($product);
+		//$totalRows_product = mysql_num_rows($product);
+		return $row_product;
+	}
+	
+	
+	
 	
 	/**
 	 * 更新购物车里面这个产品的数量
@@ -430,7 +456,15 @@ class Cart {
 			if (! isset ( $product ['product_price'] )) {
 				continue;
 			}
-			$product_total += floatval ( $product ['product_price'] ) * $product ['quantity'];
+			
+			// 这里需要检查是否在促销区间之内，如果在促销期间之内那么商品的价格将会是促销价格
+			if($product['is_promotion']!="0" && (date('Y-m-d')>=$product['promotion_start']) && (date('Y-m-d')<=$product['promotion_end'])){
+				$price=$product ['promotion_price'];
+ 			}else{
+				$price=$product ['product_price'];
+			}
+			
+			$product_total += floatval ( $price ['product_price'] ) * $product ['quantity'];
 		}
 		
 		$_SESSION ['cart'] ['products_total'] = $product_total;

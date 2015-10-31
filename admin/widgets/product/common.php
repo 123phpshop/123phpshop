@@ -58,25 +58,34 @@ do {
     
     <tr valign="baseline">
       <td nowrap align="right">单位：</td>
-      <td valign="baseline"><input name="unit" type="text"  id="unit" value="<?php echo $row_product['unit']; ?>" size="32" maxlength="13" /></td>
+      <td valign="baseline"><input name="unit" type="text"  id="unit" value="<?php echo $row_product['unit']; ?>" size="32" maxlength="13" />
+      * </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">虚拟物品：</td>
       <td valign="baseline"><input type="radio" name="is_virtual" value="1" <?php if (!(strcmp($row_product['is_virtual'],"1"))) {echo "CHECKED";} ?> />
 是
-  <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0"))) {echo "CHECKED";} ?> />
+  <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0")) || !isset($row_product['is_virtual'])) {echo "CHECKED";} ?> />
 否</td>
     </tr> 
-	
 	<tr valign="baseline">
       <td nowrap align="right">赠送点数:</td>
-      <td><input type="text" name="pointers" id="pointers" value="<?php echo isset($row_product['pointers'])?$row_product['pointers']:1; ?>"/>
-      *[默认是1，也就是按照商品价格提供点数，如果商品的价格是小数，那么去上值]</td>
+      <td><input type="text" name="pointers" id="pointers" value="<?php echo isset($row_product['pointers'])?$row_product['pointers']:-1; ?>"/>
+      *[默认是-1，也就是按照商品价格提供点数，如果商品的价格是小数，那么取上值，例如3.1元会给予4个积分]</td>
+    </tr>
+	
+	<tr valign="baseline">
+      <td nowrap align="right">优惠产品:</td>
+      <td><input type="radio" name="is_promotion" value="1" <?php if (!(strcmp($row_product['is_promotion'],"1"))) {echo "CHECKED";} ?> />
+是
+  <input type="radio" name="is_promotion" value="0" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo "CHECKED";} ?> />
+  否
     </tr>
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠价:</td>
-      <td><input name="promotion_price" type="text" id="promotion_price" value="<?php echo $row_product['promotion_price']; ?>" maxlength="50"/></td>
+      <td>
+      <input name="promotion_price" type="text" id="promotion_price" value="<?php echo $row_product['promotion_price']; ?>"  maxlength="50"/></td>
     </tr>
 	
 	<tr valign="baseline">
@@ -99,6 +108,6 @@ do {
       <td nowrap align="right" valign="top">标签：</td>
       <td><label>
         <input name="tags"  type="text" id="tags" size="32" value="<?php echo $row_product['tags']; ?>" maxlength="50" />
-      [2个标签之间请以空格隔开]</label></td>
+      *	[2个标签之间请以空格隔开]</label></td>
     </tr>
     </table>

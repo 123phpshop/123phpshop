@@ -134,7 +134,7 @@ form{
 	margin-top:10px;
 }
 </style>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>

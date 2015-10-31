@@ -198,18 +198,37 @@ body {
           <p class="ad_text"><?php echo $row_product['ad_text']; ?></p>
         </div>
 		<table width="98%">
-		<tr>
+		<?php if($row_product['is_promotion']!=0 && (date('Y-m-d')>=$row_product['promotion_start']) && (date('Y-m-d')<=$row_product['promotion_end'])){ $is_in_promotion=true; $price_title="本店原价";?>
+	<tr>
       <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
-        <p style="margin-left:12px;"> 本店价:</p>
+        <p style="margin-left:12px;"> 本店优惠价:</p>
       </blockquote></td>
-      <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span> </div></td>
+       <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['promotion_price']; ?></span> <span style="float:right;">[优惠日为：<?php echo $row_product['promotion_start'];?> 至  <?php echo $row_product['promotion_end'];?> ]</span></div> </td>
       <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
     </tr>
-    <tr>
+	<?php }else{ $price_title="本店原价";}?>
+	<?php if(!$is_in_promotion){?> 
+		<tr>
+      <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
+        <p style="margin-left:12px;"><?php echo $price_title;?>:</p>
+      </blockquote></td>
+	  
+       <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span> </div></td>
+      <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
+	  <?php }else{?>
+	  		<tr>
+      <td width="15%" height="40" bgcolor="" scope="row"><blockquote>
+        <p style="margin-left:12px;"><?php echo $price_title;?>:</p>
+      </blockquote></td>
+	        <td height="38" colspan="2" scope="row"><div align="left"><s><strong>￥</strong><?php echo $row_product['price']; ?></s></div></td>
+ 	  <?php }?>
+	  
+    </tr>
+     <tr>
       <td height="38" scope="row"><blockquote>
         <p  style="margin-left:12px;">市场价：</p>
       </blockquote></td>
-      <td height="38" colspan="2" scope="row"><div align="left"><s><strong id="jd-price">￥</strong><?php echo $row_product['market_price']; ?></s></div></td>
+      <td height="38" colspan="2" scope="row"><div align="left"><s><strong>￥</strong><?php echo $row_product['market_price']; ?></s></div></td>
     </tr>
     <tr>
       <td height="38" scope="row"  style="padding-left:12px;">库&nbsp;&nbsp;&nbsp;&nbsp;存:</td>

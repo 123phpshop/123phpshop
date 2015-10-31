@@ -38,6 +38,15 @@ $order_status[100]='已付款';
 $order_status[200]='已发货';
 $order_status[300]='已收货';
 
+$const_promotion_types[1]="满赠";
+$const_promotion_types[2]="满减";
+$const_promotion_types[3]="满折";
+
+$const_promotion_limit[1]="全场";
+$const_promotion_limit[2]="选定分类";
+$const_promotion_limit[3]="选定品牌";
+$const_promotion_limit[4]="选定商品";
+
 $pay_way['在线支付']=100;
 $pay_methomd[100]="支付宝";
 $shipping_method[100]="免运费";

@@ -83,6 +83,11 @@ a[parent] .menu_item_row{
 <a href="catalog/index.php" target="main" id="goods_catalogs" parent="goods"><div class="menu_item_row" ><div class="menu_item">》 商品分类</div><div class="right_indicator" style=""></div></div></a>
 <a href="product_type/index.php" target="main"  id="goods_types" parent="goods"><div class="menu_item_row"><div class="menu_item">》 商品类型</div><div class="right_indicator" style=""></div></div></a>
 
+<a href="javascript://" id="promotions"><div class="menu_item_row"><div class="menu_item">促销管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="promotion/index.php" target="main"  id="promotions_index" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 优惠列表</div><div class="right_indicator" style=""></div></div></a>
+<a href="promotion/add.php" target="main"  id="promotion_add" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 添加优惠</div><div class="right_indicator" style=""></div></div></a>
+
+
 <a href="brands/index.php" target="main" id="brands" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 品牌管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="brands/add.php" target="main" id="brand_add" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 添加品牌</div><div class="right_indicator" style="">></div></div></a>
 <a href="product/recycled.php" target="main" id="goods_recycled" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品回收站</div><div class="right_indicator" style="">></div></div></a>
@@ -111,7 +116,7 @@ a[parent] .menu_item_row{
 <a href="privileges/index.php" target="main"  id="privileges"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 权限列表</div><div class="right_indicator" style="">></div></div></a>
 <a href="privileges/add.php" target="main"  id="privileges_add"   parent="privileges_manage"><div class="menu_item_row"><div class="menu_item">》 添加权限</div><div class="right_indicator" style="">></div></div></a>
 
-<a href="admin/update_password.php" target="main" id="password"   parent="admins"><div class="menu_item_row" ><div class="menu_item">》 密码设置</div><div class="right_indicator" style="">></div></div></a>
+<a href="admin/update_password.php" target="main" id="password"   parent="privileges_manage"><div class="menu_item_row" ><div class="menu_item">》 密码设置</div><div class="right_indicator" style="">></div></div></a>
 
 <a href="info.php" target="main"  id="system"><div class="menu_item_row"><div class="menu_item">系统设置</div><div class="right_indicator" style="">></div></div></a>
 <a href="pay_method/index.php" target="main" id="pay_methods" parent="system"><div class="menu_item_row" ><div class="menu_item">》 支付方式</div><div class="right_indicator" style="">></div></div></a>
