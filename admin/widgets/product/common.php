@@ -1,4 +1,11 @@
 <table align="center" class="phpshop123_form_box">
+	<?php if(!isset($_GET['catalog_id'])){ ?>
+	 <tr valign="baseline">
+      <td nowrap align="right">分类:</td>
+      <td><?php include_once($_SERVER['DOCUMENT_ROOT']."/admin/widgets/product/catalogs_menu.php");?>
+      *</td>
+    </tr>
+	<?php } ?>
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
       <td><input name="name" type="text" id="name" value="<?php echo $row_product['name']; ?>" size="32" maxlength="50">

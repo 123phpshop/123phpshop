@@ -79,30 +79,60 @@ a[parent] .menu_item_row{
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
 <a href="_main.php" target="main"  id="dashboard"><div class="menu_item_row" style="border-top:1px solid #515151;"><div class="menu_item">控制面板</div><div class="right_indicator"></div></div></a>
-<a href="product/index.php" target="main"  id="goods"><div class="menu_item_row"><div class="menu_item" >商品管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="javscript://" id="goods"><div class="menu_item_row"><div class="menu_item" >商品管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="product/index.php" target="main"  id="goods_index" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 商品列表</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="product/add.php" target="main"  id="goods_add" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 添加商品</div><div class="right_indicator" style="">></div></div></a>
 <a href="catalog/index.php" target="main" id="goods_catalogs" parent="goods"><div class="menu_item_row" ><div class="menu_item">》 商品分类</div><div class="right_indicator" style=""></div></div></a>
-<a href="product_type/index.php" target="main"  id="goods_types" parent="goods"><div class="menu_item_row"><div class="menu_item">》 商品类型</div><div class="right_indicator" style=""></div></div></a>
-
-<a href="javascript://" id="promotions"><div class="menu_item_row"><div class="menu_item">促销管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="promotion/index.php" target="main"  id="promotions_index" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 优惠列表</div><div class="right_indicator" style=""></div></div></a>
-<a href="promotion/add.php" target="main"  id="promotion_add" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 添加优惠</div><div class="right_indicator" style=""></div></div></a>
-
 
 <a href="brands/index.php" target="main" id="brands" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 品牌管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="brands/add.php" target="main" id="brand_add" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 添加品牌</div><div class="right_indicator" style="">></div></div></a>
-<a href="product/recycled.php" target="main" id="goods_recycled" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品回收站</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="brands/add.php" target="main" id="brand_add" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 添加品牌</div>
+<div class="right_indicator" style="">></div></div></a>
+<a href="product_type/index.php" target="main"  id="goods_types" parent="goods"><div class="menu_item_row"><div class="menu_item">》 商品类型</div><div class="right_indicator" style=""></div></div></a>
 
 <a href="user_comments/index.php" target="main" id="comments" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品评论</div><div class="right_indicator" style=""></div></div></a>
 <a href="user_consult/index.php" target="main" id="consults" parent="goods"><div class="menu_item_row" ><div class="menu_item" >》 商品咨询</div><div class="right_indicator" style=""></div></div></a>
 
- <a href="order/index.php" target="main" id="orders"><div class="menu_item_row" ><div class="menu_item" >订单管理</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="product/recycled.php" target="main"  id="goods_types" parent="goods"><div class="menu_item_row"><div class="menu_item">》 商品回收站</div><div class="right_indicator" style=""></div></div></a>
+
+<a href="product/export.php" target="main"  id="goods_export" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 商品导出</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="product/import.php" target="main"  id="goods_import" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 商品导入</div><div class="right_indicator" style="">></div></div></a>
+
+
+<a href="product/vindex.php" target="main"  id="goods_index" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 虚拟商品列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="product/vadd.php" target="main"  id="goods_add" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 添加虚拟商品</div><div class="right_indicator" style="">></div></div></a>
+
+ 
+
+ 
+<a href="javascript://" id="promotions"><div class="menu_item_row"><div class="menu_item">促销管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="promotion/index.php" target="main"  id="promotions_index" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 优惠列表</div><div class="right_indicator" style=""></div></div></a>
+<a href="promotion/add.php" target="main"  id="promotion_add" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 添加优惠</div><div class="right_indicator" style=""></div></div></a>
+ 
+
+
+
+ <a href="javascript://" target="main" id="orders"><div class="menu_item_row" ><div class="menu_item" >订单管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="order/index.php" target="main" id="order_index"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 订单列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="order/add.php" target="main" id="order_add"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 添加订单</div><div class="right_indicator" style="">></div></div></a>
+ <a href="order/merge.php" target="main" id="order_merge"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 订单合并</div><div class="right_indicator" style="">></div></div></a> 
+ 
 <a href="order/index.php?status=100" target="main" id="order_delivery"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 发货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/index.php?status=-150" target="main" id="order_return"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 退货订单</div><div class="right_indicator" style="">></div></div></a>
 <a href="order/recycle.php" target="main" id="order_recycled"  parent="orders"><div class="menu_item_row" ><div class="menu_item" >》 订单回收站</div><div class="right_indicator" style="">></div></div></a>
 
- <a href="ad/index.php" target="main"  id="ads"><div class="menu_item_row"><div class="menu_item" >广告管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="javascript://" id="ads"><div class="menu_item_row"><div class="menu_item" >广告管理</div><div class="right_indicator" style="">></div></div></a>
+  <a href="ad/index.php" target="main"  id="ads_index" parent="ads"><div class="menu_item_row"><div class="menu_item" >》 广告列表</div><div class="right_indicator" style="">></div></div></a>
 <a href="ad/add.php" target="main" id="ad_add"   parent="ads"><div class="menu_item_row" ><div class="menu_item">》 添加广告</div><div class="right_indicator" style="">></div></div></a>
-<a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
+
+
+<a href="javascript://" id="reports"><div class="menu_item_row"><div class="menu_item" >报表管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="ad/add.php" target="main" id="ad_add"   parent="reports"><div class="menu_item_row" ><div class="menu_item">》 访问统计</div><div class="right_indicator" style="">></div></div></a>
+ 
+ <a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="users/add.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 添加用户</div><div class="right_indicator" style="">></div></div></a> 
  <a href="news/index.php" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="news_catalog/index.php " target="main" id="article_catalogs" parent="articles"><div class="menu_item_row" ><div class="menu_item" >》 文章分类</div><div class="right_indicator" style=""></div></div></a>
@@ -130,7 +160,14 @@ a[parent] .menu_item_row{
 <a href="info.php" target="main"  id="shop_info" parent="system"><div class="menu_item_row"><div class="menu_item">》 店铺信息</div><div class="right_indicator" style="">></div></div></a>
 <a href="/admin/mail/" target="main" id="smtp" parent="system"><div class="menu_item_row"><div class="menu_item">》 邮件服务器</div><div class="right_indicator" style="">></div></div></a>
 <a href="area/index.php" target="main" id="areas"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 区域管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style=""></div></div></a>
+<a href="friend_links/index.php" target="main" id="friend_links"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 友情链接</div><div class="right_indicator" style="">></div></div></a>
+<a href="friend_links/add.php" target="main" id="friend_links_add"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 添加链接</div><div class="right_indicator" style="">></div></div></a>
+
+<a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
+<a href="http://www.123phpshop.com/register.php" target="main"  id="family_register" parent="family"><div class="menu_item_row"><div class="menu_item" >注册</div><div class="right_indicator" style=""></div></div></a>
+<a href="http://www.123phpshop.com/login.php" target="main"  id="family_login" parent="family"><div class="menu_item_row"><div class="menu_item" >登录</div><div class="right_indicator" style=""></div></div></a>
+<a href="http://www.123phpshop.com/product_list.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >APP市场</div><div class="right_indicator" style=""></div></div></a>
+
 </div>
 <script>
 $().ready(function(){

@@ -95,7 +95,7 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
         <td><?php echo $row_promotions['amount_uper_limit']; ?>&nbsp; </td>
         <td><?php echo $const_promotion_types[$row_promotions['promotion_type']]; ?>&nbsp; </td>
         <td><?php echo $row_promotions['create_time']; ?></td>
-        <td><a href="remove.php?id=<?php echo $row_promotions['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_promotions['id']; ?>">更新</a> </td>
+        <td><a href="remove.php?id=<?php echo $row_promotions['id']; ?>" onclick="return confirm('您确认要删除这项优惠活动么？');">删除</a> <a href="update.php?id=<?php echo $row_promotions['id']; ?>">更新</a> </td>
       </tr>
       <?php } while ($row_promotions = mysql_fetch_assoc($promotions)); ?>
       </table>
