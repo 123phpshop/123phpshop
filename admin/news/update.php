@@ -102,7 +102,7 @@ $totalRows_news = mysql_num_rows($news);
 
  </head>
  <body>
-<p class="phpshop123_title">文章更新</p>
+<p class="phpshop123_title">文章更新</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
  
 <form method="post" name="form1"  id="form1" action="<?php echo $editFormAction; ?>">
   <table width="100%" align="center" class="phpshop123_form_box">

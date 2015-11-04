@@ -120,7 +120,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </head>
 
 <body>
-<p class="phpshop123_title">广告详细</p>
+<p class="phpshop123_title">广告详细</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td>广告名称</td>

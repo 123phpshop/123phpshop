@@ -69,10 +69,10 @@ do {
       * </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">虚拟物品：</td>
-      <td valign="baseline"><input type="radio" name="is_virtual" value="1" <?php if (!(strcmp($row_product['is_virtual'],"1"))) {echo "CHECKED";} ?> />
+      <td nowrap align="right">虚拟物品</td>
+      <td valign="baseline"><input type="radio" name="is_virtual" value="1" <?php if (!(strcmp($row_product['is_virtual'],"1")) || $is_vproduct_add_page==true) {echo "CHECKED";} ?> />
 是
-  <input type="radio" name="is_virtual" value="0" <?php if (!(strcmp($row_product['is_virtual'],"0")) || !isset($row_product['is_virtual'])) {echo "CHECKED";} ?> />
+  <input type="radio" name="is_virtual" value="0" <?php if ($is_vproduct_add_page==false && (!(strcmp($row_product['is_virtual'],"0")) || !isset($row_product['is_virtual']))) {echo "CHECKED";} ?> />
 否</td>
     </tr> 
 	<tr valign="baseline">

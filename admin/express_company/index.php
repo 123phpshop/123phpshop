@@ -32,7 +32,7 @@ $totalRows_expresses = mysql_num_rows($expresses);
 </head>
 
 <body>
-<p class="phpshop123_title">快递公司</p>
+<p class="phpshop123_title">快递公司</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="1" align="center" class="phpshop123_list_box">
   <tr>
     <td><div align="center">ID</div></td>

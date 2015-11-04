@@ -144,7 +144,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 <body>
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <p class="phpshop123_title">更新品牌信息：<?php echo $row_brand['name']; ?></p>
+  <span class="phpshop123_title">更新品牌信息：<?php echo $row_brand['name']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
@@ -214,7 +214,7 @@ $().ready(function(){
 				digits:"只能是数字哦"
 			},
  			desc:{
-				minlength:"最多只能100个字符哦"
+				maxlength:"最多只能100个字符哦"
 			}
         }
     });

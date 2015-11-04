@@ -32,7 +32,7 @@ $totalRows_links = mysql_num_rows($links);
 </head>
 
 <body>
-  <p class="phpshop123_title">友情链接</p>
+  <p class="phpshop123_title">友情链接</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <a href="add.php">
   <?php if ($totalRows_links == 0) { // Show if recordset empty ?>
   </MM:DECORATION></MM_HIDDENREGION>

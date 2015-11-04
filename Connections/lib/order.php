@@ -219,4 +219,65 @@ function _could_devliver_shipping_methods($areas){
 		}
   		return $result;
 }
+
+function merge($from_order_sn,$to_order_sn){
+	
+	// 这里需要检查主订单和从订单是否存在，如果不存在，那么抛出错误
+		$from_order_obj=_get_order_by_sn($from_order_sn);
+		$to_order_obj=_get_order_by_sn($to_order_sn);
+		if(!$from_order_obj){
+			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+		}
+		
+		if(!$to_order_obj){
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+		
+		// 如果存在的话，那么检查是否已经被删除，如果有删除的话，那么抛出错误
+		if($from_order_obj['is_delete']==1){
+			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+		}	
+		
+		if($to_order_obj['is_delete']==1){
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+		
+		// 检查订单状态是否在退货和发货之间，如果已经发货，那么告知
+		if($from_order_obj['status']!=ORDER_STATUS_UNPAID || $form_order_obj['status']!=ORDER_STATUS_PAID ){
+			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+		}
+		
+		if($to_order_obj['status']!=ORDER_STATUS_UNPAID || $form_order_obj['status']!=ORDER_STATUS_PAID ){
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+		
+	// 将从订单的订单sn修改为订单的订单sn
+		if(!_update_order_sn($from_order_sn,$to_order_sn)){
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+		
+	// 将从订单的产品所属的订单id修改为主订单的id
+		if(!_update_child_order_product_order_id($from_order_sn,$to_order_sn)){
+			
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+		
+	// 更新主订单的价格参数
+		if(!_update_to_order_price_para($to_order_sn)){
+			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+		}
+}
+
+function _update_to_order_price_para($to_order_sn){
+	return false;
+}
+function _update_child_order_product_order_id($from_order_sn,$to_order_sn){
+	return false;
+}
+function _update_order_sn($from_order_sn,$to_order_sn){
+	return false;
+}
+function _get_order_by_id($from_order_sn){
+	return false;
+}
 ?>

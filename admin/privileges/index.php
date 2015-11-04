@@ -51,7 +51,7 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
 </head>
 
 <body>
-<p class="phpshop123_title">权限列表</p>
+<p class="phpshop123_title">权限列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getPrivileges == 0) { // Show if recordset empty ?>
   <table  class="info_box" width="100%" border="0">
     <tr>

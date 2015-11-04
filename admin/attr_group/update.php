@@ -92,7 +92,7 @@ $totalRows_attr = mysql_num_rows($attr);
 
 <body>
 <p class="phpshop123_title">属性编辑：
-  <?php echo $row_attr['name']; ?></p>
+  <?php echo $row_attr['name']; ?></p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp;</p>
 
  

@@ -114,7 +114,7 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 </head>
 
 <body>
-<p class="phpshop123_title">添加产品类型</p>
+<p class="phpshop123_title">添加产品类型</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">

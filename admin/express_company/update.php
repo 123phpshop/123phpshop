@@ -84,7 +84,7 @@ $totalRows_express_company = mysql_num_rows($express_company);
 </head>
 
 <body>
-<p class="phpshop123_title">快递公司更新</p>
+<p class="phpshop123_title">快递公司更新</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">

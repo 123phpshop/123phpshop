@@ -56,6 +56,7 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
 </head>
 
 <body>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center">
     <tr valign="baseline">

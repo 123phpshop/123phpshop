@@ -79,7 +79,7 @@ a[parent] .menu_item_row{
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
 <a href="_main.php" target="main"  id="dashboard"><div class="menu_item_row" style="border-top:1px solid #515151;"><div class="menu_item">控制面板</div><div class="right_indicator"></div></div></a>
-<a href="javscript://" id="goods"><div class="menu_item_row"><div class="menu_item" >商品管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="javascript://" id="goods"><div class="menu_item_row"><div class="menu_item" >商品管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="product/index.php" target="main"  id="goods_index" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 商品列表</div><div class="right_indicator" style="">></div></div></a>
 
 <a href="product/add.php" target="main"  id="goods_add" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 添加商品</div><div class="right_indicator" style="">></div></div></a>

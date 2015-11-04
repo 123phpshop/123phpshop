@@ -88,10 +88,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
         var_dump($up->getErrorMsg());
         echo '</pre>';
     }
-	
-	
- 
-}
+  }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -101,7 +98,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">添加品牌</p>
+<p class="phpshop123_title">添加品牌</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
@@ -133,8 +130,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script>
 $().ready(function(){
 
@@ -150,7 +147,7 @@ $().ready(function(){
 				digits:true
 			},
  			desc:{
-				minlength:100
+				maxlength:100
 			}
              
         },
@@ -165,7 +162,7 @@ $().ready(function(){
 				digits:"只能是数字哦"
 			},
  			desc:{
-				minlength:"最多只能100个字符哦"
+				maxlength:"最多只能100个字符哦"
 			}
         }
     });

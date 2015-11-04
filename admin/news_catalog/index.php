@@ -105,7 +105,7 @@ $queryString_news_catalogs = sprintf("&totalRows_news_catalogs=%d%s", $totalRows
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">添加文章分类</p>
+  <p class="phpshop123_title">添加文章分类</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
       <td nowrap align="right">分类名称:</td>

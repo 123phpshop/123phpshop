@@ -17,11 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
-mysql_select_db($database_localhost, $localhost);
-$query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
-$row_brands = mysql_fetch_assoc($brands);
-$totalRows_brands = mysql_num_rows($brands);
+
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -49,6 +45,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 $editFormAction = $_SERVER['PHP_SELF'];
+
+mysql_select_db($database_localhost, $localhost);
+$query_brands = "SELECT id, name FROM brands";
+$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$row_brands = mysql_fetch_assoc($brands);
+$totalRows_brands = mysql_num_rows($brands);
+
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
@@ -58,7 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   
   if($_POST['is_on_sheft']=='0'){
   $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,pointers,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
- 					 GetSQLValueString($_POST['is_promotion'], "int"),
+ 					   GetSQLValueString($_POST['is_promotion'], "int"),
   						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
@@ -69,7 +72,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['description'], "text"),
 					   GetSQLValueString($_POST['tags'], "text"),
 					   GetSQLValueString($_POST['unit'], "text"),
-					   GetSQLValueString($_POST['is_virtual'], "int"),
+					   GetSQLValueString(1, "int"),
 					   GetSQLValueString($_POST['weight'], "double"),
 					   GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
 					   GetSQLValueString($_POST['name'], "text"),
@@ -86,7 +89,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
  $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,pointers,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
- 					GetSQLValueString($_POST['is_promotion'], "int"),
+						GetSQLValueString($_POST['is_promotion'], "int"),
 						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
@@ -97,7 +100,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['description'], "text"),
  					   GetSQLValueString($_POST['tags'], "text"),
   					   GetSQLValueString($_POST['unit'], "text"),
-					   GetSQLValueString($_POST['is_virtual'], "int"),
+					   GetSQLValueString(1, "int"),
 					   GetSQLValueString($_POST['weight'], "double"),
 					   GetSQLValueString(date('Y-m-d H:i:s'), "date"),
                        GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
@@ -127,6 +130,7 @@ $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0
 $product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
 $row_product_types = mysql_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
+$is_vproduct_add_page=true;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -152,9 +156,9 @@ $totalRows_product_types = mysql_num_rows($product_types);
 	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/other_info.php'); ?></div>
 </div>
 <?php if(isset($_GET['catalog_id']) && trim($_GET['catalog_id'])!=""){ ?>
-  <input type="hidden" name="catalog_id" value="<?php echo $_GET['catalog_id']; ?>">
-  <?php } ?>
-  <input type="hidden" name="MM_insert" value="form1">
+	<input type="hidden" name="catalog_id" value="<?php echo $_GET['catalog_id']; ?>">
+<?php } ?>
+  	<input type="hidden" name="MM_insert" value="form1">
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>

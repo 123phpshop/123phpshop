@@ -58,6 +58,7 @@ if($could_delete==1){
 
 <body>
 <?php if($could_delete==0){ ?>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <div class="phpshop123_infobox">
   <p>由于一下原因，您不能删除这个类型属性：</p>
   <p>1. 记录不存在，请检查参数之后再试。</p>

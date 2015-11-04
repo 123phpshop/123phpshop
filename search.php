@@ -64,8 +64,8 @@ table{
 </style>
 </head>
 <body style="margin:0px;" >
-<?php include_once('/widget/top_full_nav.php'); ?>
-<?php include_once('/widget/logo_search_cart.php'); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/top_full_nav.php'); ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/logo_search_cart.php'); ?>
 <table width="1210" height="40" border="1" align="center" cellspacing="0" bordercolor="#E13335">
   <tr>
     <td width="210" height="40" bgcolor="#CD2A2C"><a class="STYLE5" href="/catalogs.php">全部商品分类</a></td>
@@ -86,17 +86,17 @@ table{
 <table width="1210" border="0" align="center">
   <tr valign="top">
     <td width="210" rowspan="2" bordercolor="#ddd">
-	<?php include_once('/widget/sub_cata.php');?>
-	<?php include_once('/widget/ad_product_verticle.php');?></td>
+	<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/sub_cata.php');?>
+	<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/ad_product_verticle.php');?></td>
     <td height="38" align="right"><table width="990" height="38" border="0" bgcolor="#F1F1F1">
       <tr valign="middle">
-        <td><?php include('/widget/product/search_sort.php'); ?></td>
+        <td><?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/search_sort.php'); ?></td>
         <td>&nbsp;</td>
         </tr>
     </table></td>
   </tr>
    <tr>
-    <td valign="top"><?php include('/widget/product/search.php'); ?></td>
+    <td valign="top"><?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/search.php'); ?></td>
   </tr>
 </table>
 <?php include('widget/footer.php'); ?>

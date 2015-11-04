@@ -32,7 +32,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 </head>
 
 <body>
-<p class="phpshop123_title">支付方式列表</p>
+<p class="phpshop123_title">支付方式列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_pay_methods == 0) { // Show if recordset empty ?>
   <p><a href="add.php">添加支付方式</a></p>
   <?php } // Show if recordset empty ?>

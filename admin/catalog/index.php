@@ -108,7 +108,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
 </head>
 
 <body>
-<p class="phpshop123_title">商品分类 </p>
+<span class="phpshop123_title">商品分类 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="new_catalog_form" id="new_catalog_form"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">

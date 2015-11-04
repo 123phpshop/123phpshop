@@ -58,7 +58,7 @@ if($could_delete==1){
 <body>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <p>由于一下原因，您不能对这个订单进行退货处理：</p>
+  <p>由于一下原因，您不能对这个订单进行退货处理：<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
   <p>1. 订单不存在，请检查参数之后再试。</p>
   <p>2. 用户没有申请退货，请检查参数之后再试。</p>
   <p>3. 系统错误，无法退货，请示稍后再试。 </p>

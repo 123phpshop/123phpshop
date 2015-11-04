@@ -7,6 +7,6 @@
 </head>
 
 <body class="phpshop123_title">
-添加订单
+添加订单<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 </body>
 </html>

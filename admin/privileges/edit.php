@@ -116,7 +116,7 @@ if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"]
 </head>
 
 <body>
-<p class="phpshop123_title">编辑权限</p>
+<p class="phpshop123_title">编辑权限</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
   <table  class="error_box" width="101%" border="0">

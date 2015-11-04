@@ -75,6 +75,7 @@ if($could_delete==1){
 
 <body>
 <div class="phpshop123_infobox">
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if($could_delete==0){ ?>
   <p>由于以下原因，您不能删除这条广告：</p>
   <p>1. 广告不存在，请检查参数之后再试。</p>

@@ -56,6 +56,7 @@ if($could_delete==1){
 </head>
 
 <body>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
   <p>由于以下原因，您不能删除这个品牌：</p>

@@ -84,7 +84,7 @@ $totalRows_links = mysql_num_rows($links);
 </head>
 
 <body>
-<p class="phpshop123_title">更新友情链接</p>
+<p class="phpshop123_title">更新友情链接</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

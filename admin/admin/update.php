@@ -91,7 +91,7 @@ $totalRows_admin = mysql_num_rows($admin);
 
 <body>
  
-<span class="phpshop123_title">管理员信息更新</span>
+<span class="phpshop123_title">管理员信息更新</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 </p>
 <p>&nbsp; </p>
 

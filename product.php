@@ -387,7 +387,7 @@ function _check_deliver(){
  	},'text');  
 }
  </script>
-   <?php include('/widget/footer.php'); ?>
+   <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/footer.php'); ?>
 </body>
 </html>
 <?php

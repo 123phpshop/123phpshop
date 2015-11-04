@@ -91,7 +91,7 @@ $totalRows_product = mysql_num_rows($product);
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p>更新产品信息：</p>
+  <p>更新产品信息：</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center">
     <tr valign="baseline">
       <td nowrap align="right">Name:</td>

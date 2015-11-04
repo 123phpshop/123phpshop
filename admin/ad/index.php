@@ -65,7 +65,7 @@ $queryString_ads = sprintf("&totalRows_ads=%d%s", $totalRows_ads, $queryString_a
 </head>
 
 <body>
-<p class="phpshop123_title">广告列表</p>
+<p class="phpshop123_title">广告列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_ads == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox"><a href="add.php">现在还没有，赶紧添加一个吧。</a></p>
   <?php } // Show if recordset empty ?>

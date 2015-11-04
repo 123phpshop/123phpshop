@@ -47,7 +47,7 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 </head>
 
 <body>
-<p class="phpshop123_title">文章回收站</p>
+<p class="phpshop123_title">文章回收站</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
   <?php if ($totalRows_news == 0) { // Show if recordset empty ?>
     <div class="phpshop123_infobox"><p>回收站中空空如也！</p></div>

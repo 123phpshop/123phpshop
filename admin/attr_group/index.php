@@ -70,7 +70,7 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
 <body>
 <table width="100%" border="0">
   <tr>
-    <td class="phpshop123_title">产品分类属性列表</td>
+    <td class="phpshop123_title">产品分类属性列表<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
     <td><div align="right"><a href="add.php?product_type_id=<?php echo $_GET['product_type_id']; ?>">添加属性</a></div></td>
   </tr>
 </table>

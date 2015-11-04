@@ -36,7 +36,7 @@ $totalRows_areas = mysql_num_rows($areas);
 </head>
 
 <body>
-<p class="phpshop123_title">地址列表</p>
+<p class="phpshop123_title">地址列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
     <td><p>ID</p>    </td>

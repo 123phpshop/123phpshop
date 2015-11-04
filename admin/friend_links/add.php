@@ -73,7 +73,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">添加链接 </p>
+<p class="phpshop123_title">添加链接 </p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

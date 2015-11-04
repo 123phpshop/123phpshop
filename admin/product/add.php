@@ -47,7 +47,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-
+$is_vproduct_add_page=false;
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -138,9 +138,9 @@ $totalRows_product_types = mysql_num_rows($product_types);
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<p class="phpshop123_title" style="display:inline;">添加商品 
+<span class="phpshop123_title" style="display:inline;">添加商品 
   <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
-</p>
+</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
 		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>

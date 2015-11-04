@@ -140,7 +140,7 @@ function _get_product_where($get){
 </head>
 
 <body>
-<p class="phpshop123_title">商品搜索</p>
+<span class="phpshop123_title">商品搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="product_search" name="product_search" method="get" action="">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
@@ -175,7 +175,7 @@ function _get_product_where($get){
 </form>
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <br />
-    <span class="phpshop123_title">商品列表</span><br />
+    <span class="phpshop123_title">商品列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?><br />
   <br />
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>

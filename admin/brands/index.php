@@ -65,7 +65,7 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
 
 <body>
 <?php if ($totalRows_brands > 0) { // Show if recordset not empty ?>
-  <p class="phpshop123_title">品牌列表</p>
+  <span class="phpshop123_title">品牌列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table border="0" width="50%" align="right">
     <tr>
       <td width="23%" align="center"><?php if ($pageNum_brands > 0) { // Show if not first page ?>

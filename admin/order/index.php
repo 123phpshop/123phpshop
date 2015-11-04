@@ -104,7 +104,7 @@ function _get_order_where($get){
 </head>
 
 <body>
-<p class="phpshop123_title">订单列表</p>
+<p class="phpshop123_title">订单列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="order_search" name="order_search" method="get">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
