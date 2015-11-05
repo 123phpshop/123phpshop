@@ -32,7 +32,7 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 </head>
 
 <body>
-<p class="phpshop123_title">配送方式列表</p>
+<p class="phpshop123_title">配送方式列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
     <td>名称</td>

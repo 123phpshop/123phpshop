@@ -62,7 +62,7 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
   <table  class="error_box" width="101%" border="0">
     <tr>
-      <th scope="row">错误：权限不存在</th>
+      <th scope="row">错误：权限不存在<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
     </tr>
       </table>
   <?php } // Show if recordset empty ?><p>&nbsp; </p>

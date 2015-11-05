@@ -24,5 +24,6 @@
 </head>
 
 <body>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 </body>
 </html>

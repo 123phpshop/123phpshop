@@ -93,7 +93,7 @@ $totalRows_replies = mysql_num_rows($replies);
 
 <body>
 <?php if ($totalRows_replies > 0) { // Show if recordset not empty ?>
-  <p class="phpshop123_title">历史回复</p>
+  <p class="phpshop123_title">历史回复<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th scope="col">内容</th>

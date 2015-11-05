@@ -78,7 +78,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">添加促销</p>
+  <p class="phpshop123_title">添加促销</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td width="14%" align="right" nowrap>Name:</td>

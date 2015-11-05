@@ -59,7 +59,7 @@ if($could_delete==1){
 <body>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <p>由于一下原因，您不能删除这个类型：</p>
+  <p>由于以下原因，您不能删除这个类型：<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
   <p>1. 记录不存在，请检查参数之后再试。</p>
   <p>2. 系统错误，无法删除，请示稍后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。

@@ -81,7 +81,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "add_user_form")) {
 <body>
 <p class="phpshop123_title">
   
-  添加用户</p>
+  添加用户</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form action="<?php echo $editFormAction; ?>" method="post" name="add_user_form" id="add_user_form">
   <p>&nbsp;</p>
   <table align="center" class="phpshop123_form_box">

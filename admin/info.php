@@ -116,7 +116,7 @@ $totalRows_info = mysql_num_rows($info);
 </head>
 
 <body>
-<p class="phpshop123_title">店铺信息</p>
+<p class="phpshop123_title">店铺信息</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
     <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
       <table align="center" class="phpshop123_form_box">

@@ -82,7 +82,7 @@ function _get_comment_where_query_string($get){
 
 <body>
 
-  <p class="phpshop123_title">评论搜索</p>
+  <p class="phpshop123_title">评论搜索</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <form id="comment_search" name="comment_search" method="get" action="">
     <table width="100%" border="0" class="phpshop123_search_box">
       <tr>

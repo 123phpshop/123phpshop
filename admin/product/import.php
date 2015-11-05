@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<p class="phpshop123_title">导入商品</p>
+<p class="phpshop123_title">导入商品</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form action="" method="post" enctype="multipart/form-data" name="import_goods_form" id="import_goods_form">
   <input type="file" name="file" />
   <label>

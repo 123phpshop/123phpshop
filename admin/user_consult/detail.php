@@ -46,7 +46,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </head>
 
 <body>
-		
+		<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="1" align="center">
   
   <tr>

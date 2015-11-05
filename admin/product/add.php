@@ -138,7 +138,7 @@ $totalRows_product_types = mysql_num_rows($product_types);
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<span class="phpshop123_title" style="display:inline;">添加商品 
+<span class="phpshop123_title" style="display:inline;">添加商品<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?> 
   <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">

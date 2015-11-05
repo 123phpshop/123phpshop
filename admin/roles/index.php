@@ -14,7 +14,7 @@ $totalRows_getRoles = mysql_num_rows($getRoles);
 </head>
 
 <body>
-<p class="phpshop123_title">角色列表</p>
+<p class="phpshop123_title">角色列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getRoles > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>

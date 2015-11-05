@@ -37,7 +37,7 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 </head>
 
 <body>
-<p class="phpshop123_title">运送区域详细</p>
+<p class="phpshop123_title">运送区域详细</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td width="13%">名称</td>

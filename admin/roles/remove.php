@@ -83,23 +83,20 @@ if($totalRows_getById>0){
 <table  class="error_box" width="100%" border="0">
   <tr>
    
-      <th scope="row">错误：角色不存在</th>
+      <th scope="row">错误：角色不存在<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
     </tr>
 </table>
 <?php } // Show if recordset empty ?>
 <table  class="error_box" width="100%" border="0">
   <tr>
-    <th scope="row">错误：角色与权限相关联，请首先删除关联关系</th>
+    <th scope="row">错误：角色与权限相关联，请首先删除关联关系 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
   </tr>
 </table>
 <table  class="error_box" width="100%" border="0">
   <tr>
-    <th scope="row">错误：有此角色的用户，请首先删除用户</th>
+    <th scope="row">错误：有此角色的用户，请首先删除用户 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
   </tr>
 </table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 </body>
 </html>
 <?php

@@ -140,7 +140,7 @@ function _get_product_where($get){
 </head>
 
 <body>
-<p class="phpshop123_title">虚拟商品搜索</p>
+<p class="phpshop123_title">虚拟商品搜索</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="product_search" name="product_search" method="get" action="">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>

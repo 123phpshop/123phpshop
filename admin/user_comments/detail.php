@@ -46,10 +46,9 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </head>
 
 <body>
-		
+		<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="1" align="center">
-  
-  <tr>
+   <tr>
     <td>id</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
@@ -69,9 +68,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
     <td>response_to</td>
     <td><?php echo $row_DetailRS1['response_to']; ?> </td>
   </tr>
-  
-  
-</table>
+  </table>
 
 </body>
 </html><?php

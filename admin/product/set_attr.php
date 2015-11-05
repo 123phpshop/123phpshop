@@ -88,7 +88,7 @@ if($totalRows_product_type_attrs>0){
 </head>
 
 <body>
-<p class="phpshop123_title"><?php echo $row_product['name']; ?>:产品属性设置</p>
+<p class="phpshop123_title"><?php echo $row_product['name']; ?>:产品属性设置</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($totalRows_product_type_attrs==0){ ?><p class="phpshop123_infobox">还没有设置属性，请到相关产品类型页面设置属性</p><?php } else{?>
 <form id="form1" name="form1" method="post" action="">
      <table width="960" border="0" class="phpshop123_form_box">

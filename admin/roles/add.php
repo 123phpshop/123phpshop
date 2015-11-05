@@ -62,7 +62,7 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">添加角色</p>
+  <p class="phpshop123_title">添加角色</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
     <table  class="error_box" width="100%" border="0">
       <tr>

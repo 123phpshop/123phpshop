@@ -142,7 +142,7 @@ $is_vproduct_add_page=true;
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<p class="phpshop123_title" style="display:inline;">添加虚拟商品 
+<p class="phpshop123_title" style="display:inline;">添加虚拟商品 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
 </p>
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
