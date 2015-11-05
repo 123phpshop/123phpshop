@@ -50,13 +50,11 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO promotion (name, start_date, end_date, promotion_limit, amount_lower_limit, amount_uper_limit, promotion_type, present_products) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO promotion (name, start_date, end_date, promotion_limit, promotion_type, present_products) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
                        GetSQLValueString($_POST['end_date'], "date"),
                        GetSQLValueString($_POST['promotion_limit'], "int"),
-                       GetSQLValueString($_POST['amount_lower_limit'], "double"),
-                       GetSQLValueString($_POST['amount_uper_limit'], "double"),
                        GetSQLValueString($_POST['promotion_type'], "int"),
                        GetSQLValueString($_POST['present_products'], "text"));
 
@@ -64,11 +62,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
 
   $insertGoTo = "index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
+   header(sprintf("Location: %s", $insertGoTo));
 }
 
 ?>
@@ -100,31 +94,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Promotion_limit:</td>
-      <td><select name="promotion_limit">
+      <td><select name="promotion_limit" id="promotion_limit" onchange="show_limit_filter()">
         <?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>"><?php echo $value;?></option>
        	<?php } ?>
       </select>
-      </td>
+         <input name="name_filter" type="text" id="name_filter" style="display:none;" onchange="do_filter()"/>         </td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Amount_lower_limit:</td>
-      <td><input type="text" name="amount_lower_limit" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Amount_uper_limit:</td>
-      <td><input type="text" name="amount_uper_limit" value="" size="32"></td>
+    <tr valign="baseline" id="filter_results_row" style="display:none;">
+      <td nowrap align="right">参与对象：</td>
+      <td id="filter_results_td">&nbsp;</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Promotion_type:</td>
-      <td><select name="promotion_type" onchange="show_prsents()">
+      <td><select name="promotion_type" id="promotion_type" ">
          <?php foreach($const_promotion_types as $key=>$value){ ?>
 		<option value="<?php echo $key;?>"><?php echo $value;?></option>
        	<?php } ?>
-      </select>
-      </td>
+      </select>      </td>
     </tr>
-    <tr valign="baseline">
+    <tr valign="baseline" id="present_products_row">
       <td nowrap align="right">Present_products:</td>
       <td><input type="text" name="present_products" value="" size="32"></td>
     </tr>
@@ -143,6 +132,41 @@ $().ready(function(){
   	$("#start_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 });
+
+function show_limit_filter(){
+	var promotion_limit_id=$("#promotion_limit").val();
+	switch(promotion_limit_id){
+		case "1":
+			$("#name_filter").hide();
+			$("#filter_results_row").hide();
+			break;
+ 		
+		default:
+			$("#name_filter").show();
+			$("#filter_results_row").show();
+ 	}
+}
+
+
+function do_filter(){
+	
+	var promotion_limit_id=$("#promotion_limit").val();
+	var name=$("#name_filter").val();
+	
+	switch(promotion_limit_id){
+		case "2": 	// 分类
+			var url='/admin/widgets/promotion/_catalog_search.php?name='+name;
+ 		break;
+		case "3":	// 品牌
+			var url='/admin/widgets/promotion/_brand_search.php?name='+name;
+ 		break;
+		case "4":	// 商品
+			var url='/admin/widgets/promotion/_goods_search.php?name='+name;
+ 		break;
+	}
+	
+	$("#filter_results_td").load(url);
+}
 </script>
 </body>
 </html>

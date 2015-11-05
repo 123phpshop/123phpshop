@@ -55,7 +55,7 @@ table{
   <?php do { ?>
  		<?php 
  	   	mysql_select_db($database_localhost, $localhost);
-		$query_get_images = "SELECT * FROM product_images WHERE product_id =". $row_buy_view['id'];
+		$query_get_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id =". $row_buy_view['id'];
 		$get_images = mysql_query($query_get_images, $localhost) or die(mysql_error());
 		$row_get_images = mysql_fetch_assoc($get_images);
 		$totalRows_get_images = mysql_num_rows($get_images);

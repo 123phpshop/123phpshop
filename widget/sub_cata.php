@@ -23,7 +23,7 @@ if (isset($_GET['catalog_id'])) {
   $colname_news_cata = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_news_cata = sprintf("SELECT * FROM `catalog` WHERE pid = %s", $colname_news_cata);
+$query_news_cata = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and pid = %s", $colname_news_cata);
 $news_cata = mysql_query($query_news_cata, $localhost) or die(mysql_error());
 $row_news_cata = mysql_fetch_assoc($news_cata);
 $totalRows_news_cata = mysql_num_rows($news_cata);

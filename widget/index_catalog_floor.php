@@ -52,7 +52,7 @@ echo $totalRows_season = mysql_num_rows($season);
      <?php 
   		while ($row_season = mysql_fetch_assoc($season)){
  			mysql_select_db($database_localhost, $localhost);
-			$query_get_images = "SELECT * FROM product_images WHERE product_id =". $row_season['id'];
+			$query_get_images = "SELECT * FROM product_images WHERE is_delete=0  and  product_id =". $row_season['id'];
 			$get_images = mysql_query($query_get_images, $localhost) or die(mysql_error());
 			$row_get_images = mysql_fetch_assoc($get_images);
 			$totalRows_get_images = mysql_num_rows($get_images);

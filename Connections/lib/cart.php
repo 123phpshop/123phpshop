@@ -436,6 +436,7 @@ class Cart {
 				
 		}
 		
+		$_SESSION ['cart'] =  array ();
 		//		如果开启的话，那么检查是否已经初始化了cart，如果没有的话 ，那么进行初始化
 		$_SESSION ['cart'] ['products'] =  array ();
 		$_SESSION ['cart'] ['products_total'] =0.00;

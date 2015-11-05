@@ -163,11 +163,14 @@ a[parent] .menu_item_row{
 <a href="friend_links/index.php" target="main" id="friend_links"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 友情链接</div><div class="right_indicator" style="">></div></div></a>
 <a href="friend_links/add.php" target="main" id="friend_links_add"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 添加链接</div><div class="right_indicator" style="">></div></div></a>
 
+<a href="javascript://"   id="db"><div class="menu_item_row"><div class="menu_item">数据库管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="db/backup.php" target="main"  id="db_bakup" parent="db"><div class="menu_item_row"><div class="menu_item">数据库导出</div><div class="right_indicator" style="">></div></div></a>
+
+
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
 <a href="http://www.123phpshop.com/register.php" target="main"  id="family_register" parent="family"><div class="menu_item_row"><div class="menu_item" >注册</div><div class="right_indicator" style=""></div></div></a>
 <a href="http://www.123phpshop.com/login.php" target="main"  id="family_login" parent="family"><div class="menu_item_row"><div class="menu_item" >登录</div><div class="right_indicator" style=""></div></div></a>
 <a href="http://www.123phpshop.com/product_list.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >APP市场</div><div class="right_indicator" style=""></div></div></a>
-
 </div>
 <script>
 $().ready(function(){

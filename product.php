@@ -77,13 +77,8 @@ $query_product_image_small = sprintf("SELECT * FROM product_images WHERE product
 $product_image_small = mysql_query($query_product_image_small, $localhost) or die(mysql_error());
 $row_product_image_small = mysql_fetch_assoc($product_image_small);
 $totalRows_product_image_small = mysql_num_rows($product_image_small);
-
-
 $could_deliver=false;
- 
 $areas=get_deliver_areas();
-
-
 $colname_consignee = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_consignee = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
@@ -201,7 +196,7 @@ body {
 		<?php if($row_product['is_promotion']!=0 && (date('Y-m-d')>=$row_product['promotion_start']) && (date('Y-m-d')<=$row_product['promotion_end'])){ $is_in_promotion=true; $price_title="本店原价";?>
 	<tr>
       <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
-        <p style="margin-left:12px;"> 本店优惠价:</p>
+        <p style="margin-left:12px;">本店优惠价:</p>
       </blockquote></td>
        <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['promotion_price']; ?></span> <span style="float:right;">[优惠日为：<?php echo $row_product['promotion_start'];?> 至  <?php echo $row_product['promotion_end'];?> ]</span></div> </td>
       <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>

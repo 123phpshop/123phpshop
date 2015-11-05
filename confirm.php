@@ -20,7 +20,6 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
 
 <?php
-
 if(!isset($_SESSION['user_id'])){
 	 $url="/login.php";
   	header("Location: " .  $url );
@@ -89,9 +88,9 @@ if (isset($_SESSION['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 order by is_default desc", $colname_consignee);
-$consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
-$row_consignee = mysql_fetch_assoc($consignee);
-$totalRows_consignee = mysql_num_rows($consignee);
+$consignee_obj = mysql_query($query_consignee, $localhost) or die(mysql_error());
+$row_consignee = mysql_fetch_assoc($consignee_obj);
+$totalRows_consignee = mysql_num_rows($consignee_obj);
  
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	
@@ -270,7 +269,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
                 <td width="11%">
 		    	<?php if($default_address==true || $totalRows_consignee==1){?>
 				<?php 
-					$_SESSION['consignee']['id']=$row_consignee['id'];
+ 					$_SESSION['consignee']['id']=$row_consignee['id'];
 					$_SESSION['consignee']['name']=$row_consignee['name'];
 					$_SESSION['consignee']['mobile']=$row_consignee['mobile'];
 					$_SESSION['consignee']['province']=$row_consignee['province'];

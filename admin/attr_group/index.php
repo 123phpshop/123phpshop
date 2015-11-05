@@ -70,11 +70,10 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
 <body>
 <table width="100%" border="0">
   <tr>
-    <td class="phpshop123_title">产品分类属性列表<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
+    <td class="phpshop123_title">产品分类属性列表</td>
     <td><div align="right"><a href="add.php?product_type_id=<?php echo $_GET['product_type_id']; ?>">添加属性</a></div></td>
   </tr>
 </table>
-<p align="left" class="phpshop123_infobox">没有记录，欢迎添加！</p>
 <?php if ($totalRows_attr > 0) { // Show if recordset not empty ?>
   <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
@@ -114,7 +113,12 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
     </tr>
       </table>
   记录 <?php echo ($startRow_attr + 1) ?> 到 <?php echo min($startRow_attr + $maxRows_attr, $totalRows_attr) ?> (总共 <?php echo $totalRows_attr ?>）
-  <?php } // Show if recordset not empty ?></body>
+  <?php }else{ // Show if recordset not empty ?>
+  <p align="left" class="phpshop123_infobox">没有记录，欢迎添加！</p>
+
+<?php } ?>
+  
+  </body>
 </html>
 <?php
 mysql_free_result($attr);

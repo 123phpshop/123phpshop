@@ -65,16 +65,19 @@ $product_type_attrs = mysql_query($query_product_type_attrs, $localhost) or die(
 $row_product_type_attrs = mysql_fetch_assoc($product_type_attrs);
 $totalRows_product_type_attrs = mysql_num_rows($product_type_attrs);
 
-// 获取这个产品的所有的属性值，如果可以获取相关记录的话，那么进行更新，如果没有记录的话，那么直接插入。
-$colname_get_product_attr_val = "-1";
-if (isset($_GET['product_id'])) {
-  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
+if($totalRows_product_type_attrs>0){
+	// 获取这个产品的所有的属性值，如果可以获取相关记录的话，那么进行更新，如果没有记录的话，那么直接插入。
+	$colname_get_product_attr_val = "-1";
+	if (isset($_GET['product_id'])) {
+	  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
+	}
+	mysql_select_db($database_localhost, $localhost);
+	$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
+	$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) or die(mysql_error());
+	$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
+	$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 }
-mysql_select_db($database_localhost, $localhost);
-$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
-$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) or die(mysql_error());
-$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
-$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
+
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -86,6 +89,7 @@ $totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 
 <body>
 <p class="phpshop123_title"><?php echo $row_product['name']; ?>:产品属性设置</p>
+<?php if($totalRows_product_type_attrs==0){ ?><p class="phpshop123_infobox">还没有设置属性，请到相关产品类型页面设置属性</p><?php } else{?>
 <form id="form1" name="form1" method="post" action="">
      <table width="960" border="0" class="phpshop123_form_box">
 	  <?php do { ?>
@@ -115,19 +119,13 @@ $totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
   <div align="left">
   	
     <input type="submit" name="Submit" value="设置" />
-     </div>
+  </div>
 	 <?php if($totalRows_get_product_attr_val>0){ ?>
 	 <input value="form1" name="MM_Update" type="hidden" />
  		<?php }else{ ?>
   	<input value="form1" name="MM_insert" type="hidden" />
  <?php } ?>
 </form>
- </body>
+ <?php } ?>
+</body>
 </html>
-<?php
-mysql_free_result($product);
-
-mysql_free_result($product_type_attrs);
-
-mysql_free_result($get_product_attr_val);
-?>
