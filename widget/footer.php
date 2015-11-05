@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -14,7 +15,29 @@
  *  作者:	123PHPSHOP团队
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
- */
+ */ 
+?>
+<?php
+$maxRows_friend_links = 10;
+$pageNum_friend_links = 0;
+if (isset($_GET['pageNum_friend_links'])) {
+  $pageNum_friend_links = $_GET['pageNum_friend_links'];
+}
+$startRow_friend_links = $pageNum_friend_links * $maxRows_friend_links;
+
+mysql_select_db($database_localhost, $localhost);
+$query_friend_links = "SELECT * FROM friend_links WHERE is_delete = 0";
+$query_limit_friend_links = sprintf("%s LIMIT %d, %d", $query_friend_links, $startRow_friend_links, $maxRows_friend_links);
+$friend_links = mysql_query($query_limit_friend_links, $localhost) or die(mysql_error());
+$row_friend_links = mysql_fetch_assoc($friend_links);
+
+if (isset($_GET['totalRows_friend_links'])) {
+  $totalRows_friend_links = $_GET['totalRows_friend_links'];
+} else {
+  $all_friend_links = mysql_query($query_friend_links);
+  $totalRows_friend_links = mysql_num_rows($all_friend_links);
+}
+$totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1;
 ?>
 <style type="text/css">
 <!--
@@ -176,8 +199,22 @@
   </tr>
 </table>
 <hr width="1210"  style="border:none;border-bottom:1px solid #E5E5E5; overflow:hidden;margin:20px auto;" />
+
+ <table width="1210" border="0" align="center">
+ <tr>
+       <td>合作网站：</td>
+ </tr>
+   <tr>
+    <?php do { ?>
+      <td><a href="<?php echo $row_friend_links['link_url']; ?>" target="_blank"><?php echo $row_friend_links['link_text']; ?></a></td>
+      <?php } while ($row_friend_links = mysql_fetch_assoc($friend_links)); ?></tr>
+</table>
+
 <table width="1210" height="72" border="0" align="center" style="margin:0 auto;font-family:SimSun;font-size:12px;">
    <tr>
     <td height=""><div align="center">本系统由上海序程信息科技有限公司提供技术支持 Powered By 123phpshop.com</div></td>
   </tr>
 </table>
+<?php
+mysql_free_result($friend_links);
+?>
