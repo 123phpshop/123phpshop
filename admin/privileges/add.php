@@ -58,6 +58,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 ?>
 <?php
 // 检查权限的名称是否重复
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $colname_getByName = "-1";
 if (isset($_POST['name'])) {
   $colname_getByName = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);

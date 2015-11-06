@@ -18,6 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $could_delete=1;
 $colname_catalog = "-1";
 $remove_succeed_url="index.php";

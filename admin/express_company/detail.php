@@ -17,6 +17,9 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); ?><?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
+
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM express_company WHERE id = $recordID";

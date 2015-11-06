@@ -19,7 +19,8 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
-
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $where_string="where is_delete=0 ";
 
 $colname_catalog = "-1";

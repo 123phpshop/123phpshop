@@ -17,6 +17,8 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) or die(mysql_error());

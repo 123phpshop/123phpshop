@@ -16,7 +16,9 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); 
+<?php require_once('../../Connections/localhost.php');
+$doc_url="ad.html#list";
+$support_email_question="广告列表"; 
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;

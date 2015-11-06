@@ -1,5 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 mysql_select_db($database_localhost, $localhost);
 $query_getRoles = "SELECT * FROM `role` ORDER BY id DESC";
 $getRoles = mysql_query($query_getRoles, $localhost) or die(mysql_error());

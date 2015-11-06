@@ -1,6 +1,8 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once('../../Connections/lib/order.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $error="";
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	try{

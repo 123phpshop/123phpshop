@@ -18,6 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_methods = "SELECT * FROM shipping_method where is_delete=0";
 $shipping_methods = mysql_query($query_shipping_methods, $localhost) or die(mysql_error());

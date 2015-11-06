@@ -17,6 +17,8 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); ?><?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
 if (isset($_GET['pageNum_DetailRS1'])) {

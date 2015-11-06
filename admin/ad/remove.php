@@ -18,8 +18,9 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $could_delete=1;
-
 $colname_news = "-1";
 
 if (isset($_GET['id'])) {

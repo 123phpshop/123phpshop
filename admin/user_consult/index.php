@@ -18,7 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 $currentPage = $_SERVER["PHP_SELF"];
 $where_query_string=_get_consult_where_query_string();
 $maxRows_consult = 50;

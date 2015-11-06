@@ -18,6 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="ad.html#list";
+$support_email_question="广告列表";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -96,7 +98,7 @@ $totalRows_logistics = mysql_num_rows($logistics);
 </head>
 
 <body>
-<span class="phpshop123_title">发货：<?php echo $row_order['sn']; ?></span<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">发货：<?php echo $row_order['sn']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" height="31" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <th scope="row">收货人</th>
