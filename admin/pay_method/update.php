@@ -86,7 +86,7 @@ $totalRows_pay_method = mysql_num_rows($pay_method);
 </head>
 
 <body>
-<p class="phpshop123_title"><?php echo $row_pay_method['name']; ?> - 编辑</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title"><?php echo $row_pay_method['name']; ?> - 编辑</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp;</p>
 
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">

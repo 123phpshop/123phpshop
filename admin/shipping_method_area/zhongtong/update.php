@@ -92,7 +92,7 @@ header(sprintf("Location: %s", $insertGoTo));
 </head>
 
 <body>
-<p class="phpshop123_title">中通:更新配送区域</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">中通:更新配送区域</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp; </p>
 
 <form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">

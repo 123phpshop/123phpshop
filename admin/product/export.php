@@ -16,7 +16,7 @@ if ((isset($_POST["phpshop_op"])) && ($_POST["phpshop_op"] == "export_goods_form
 </head>
 
 <body class="phpshop123_title">
-<p>导出商品</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span>导出商品</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="export_goods_form" name="export_goods_form" method="post" action="">
   <input type="submit" name="Submit" value="导出" />
   <input type="hidden" name="phpshop_op" value="export_goods_form" />

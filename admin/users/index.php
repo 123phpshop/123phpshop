@@ -102,7 +102,7 @@ function _get_user_where($get){
 
 <body>
 <?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
-  <p class="phpshop123_title">用户搜索</p>
+  <span class="phpshop123_title">用户搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <form id="user_search_form" name="user_search_form" method="get" action="">
     <table width="100%" class="phpshop123_search_box">
       <tr>
@@ -118,7 +118,7 @@ function _get_user_where($get){
       </tr>
     </table>
   </form>
-  <p class="phpshop123_title">用户列表</p>
+  <p class="phpshop123_title">用户列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
       <th>ID</th>

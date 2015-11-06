@@ -91,7 +91,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">顺丰：更新送区域</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">顺丰：更新送区域</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp; </p>
 
 <form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">

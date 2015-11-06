@@ -114,7 +114,7 @@ a{
 <body>
 <table width="100%" height="48" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td><span class="STYLE1">管理中心</span></td>
+    <td><span class="STYLE1">管理中心</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
   </tr>
 </table>
 <br />

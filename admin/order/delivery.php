@@ -96,7 +96,7 @@ $totalRows_logistics = mysql_num_rows($logistics);
 </head>
 
 <body>
-<p class="phpshop123_title">发货：<?php echo $row_order['sn']; ?></p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">发货：<?php echo $row_order['sn']; ?></span<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" height="31" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <th scope="row">收货人</th>

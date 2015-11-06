@@ -46,7 +46,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
 </head>
 
 <body>
-<p class="phpshop123_title">配送区域列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">配送区域列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_shipping_method > 0) { // Show if recordset not empty ?>
 
   <table width="100%" border="0" align="center" class="phpshop123_list_box">

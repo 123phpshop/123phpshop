@@ -92,7 +92,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 </head>
 
 <body >
-<p>数据库导出</p>
+<span>数据库导出</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 <form id="form_db_export" name="form_db_export" method="post" action="">
    <input type="submit" name="Submit" value="导出" />

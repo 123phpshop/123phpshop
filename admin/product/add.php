@@ -115,10 +115,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['brand_id'], "text"));
 
 }
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-   $insertGoTo = "detail.php?recordID=".mysql_insert_id();
-   header(sprintf("Location: %s", $insertGoTo));
+mysql_select_db($database_localhost, $localhost);
+$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+$insertGoTo = "detail.php?recordID=".mysql_insert_id();
+header(sprintf("Location: %s", $insertGoTo));
 }
 ?>
 <?php
@@ -138,8 +138,7 @@ $totalRows_product_types = mysql_num_rows($product_types);
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<span class="phpshop123_title" style="display:inline;">添加商品<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?> 
-  <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
+<span class="phpshop123_title" style="display:inline;">添加商品<div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">

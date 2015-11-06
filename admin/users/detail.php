@@ -48,7 +48,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 
 <body>
 		
-<p class="phpshop123_title">用户详细</p>
+<span class="phpshop123_title">用户详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="0" align="center" cellpadding="0" cellspacing="0" class="phpshop123_form_box">
   
   <tr>

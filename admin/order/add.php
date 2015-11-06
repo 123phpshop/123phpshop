@@ -7,9 +7,9 @@
 </head>
 
 <body class="phpshop123_title">
-<p>添加订单
+<span>添加订单
   <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-</p>
+</span>
 <form id="form1" name="form1" method="post" action="">
   <table width="960" border="1">
     <tr>

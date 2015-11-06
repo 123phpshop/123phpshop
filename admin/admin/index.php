@@ -65,7 +65,7 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
 </head>
 
 <body>
-<p class="phpshop123_title">管理员列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">管理员列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <div align="right">
   <?php if ($totalRows_admins > 0) { // Show if recordset not empty ?>
     

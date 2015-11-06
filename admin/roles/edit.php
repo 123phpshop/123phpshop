@@ -70,7 +70,7 @@ $totalRows_getByName = mysql_num_rows($getByName);
 </head>
 
 <body>
-<p class="phpshop123_title">更新角色</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">更新角色</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
   <table  class="error_box" width="100%" border="0">
     <tr>

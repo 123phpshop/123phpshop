@@ -86,7 +86,7 @@ $totalRows_shipping_method = mysql_num_rows($shipping_method);
 </head>
 
 <body>
-<p class="phpshop123_title"><?php echo $row_shipping_method['name']; ?>:更新<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
+<span class="phpshop123_title"><?php echo $row_shipping_method['name']; ?>:更新<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></span>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

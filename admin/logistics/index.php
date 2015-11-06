@@ -31,7 +31,7 @@ $totalRows_express_companies = mysql_num_rows($express_companies);
 </head>
 
 <body>
-<p>选择快递公司</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span>选择快递公司</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="express_companies_form" name="express_companies_form" method="post" action="">
   <p>
     <input type="submit" name="Submit" value="保存" />

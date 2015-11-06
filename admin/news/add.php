@@ -19,8 +19,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 
-ckeditor_upload();
-
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -94,7 +92,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title"><?php echo $row_news_catalog['name']; ?>-&gt;添加文章</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title"><?php echo $row_news_catalog['name']; ?>-&gt;添加文章</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp;</p>
 
 <form method="post" name="form1"  id="form1" action="<?php echo $editFormAction; ?>">

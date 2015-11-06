@@ -128,7 +128,7 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
 </head>
 
 <body>
-<p class="phpshop123_title">[添加权限]</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">[添加权限]</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
   <p class="phpshop123_infobox">错误：权限名称重复！</p>
   <?php } // Show if recordset not empty ?>

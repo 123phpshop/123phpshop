@@ -94,8 +94,7 @@ $totalRows_catalog = mysql_num_rows($catalog);
 </head>
 
 <body>
-<span class="phpshop123_title">
-   更新商品分类</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">更新商品分类</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 
 <form method="post" name="form1"  id="form1"action="<?php echo $editFormAction; ?>">

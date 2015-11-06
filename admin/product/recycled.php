@@ -47,7 +47,7 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
 </head>
 
 <body>
-<p class="phpshop123_title">商品回收站</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">商品回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_products == 0) { // Show if recordset empty ?>
     <div class="phpshop123_infobox">回收站中空空如也。</div>
   <?php } // Show if recordset empty ?>

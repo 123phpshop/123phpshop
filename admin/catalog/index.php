@@ -114,7 +114,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
     <tr valign="baseline">
       <td nowrap align="right">分类名称:</td>
       <td><input name="name" type="text" class="required" id="name" value="" size="32" maxlength="20">
-      <input name="submit" type="submit" value="添加分类" /></td>
+      <input name="submit" type="submit" value="添加分类" /><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
     </tr>
   </table>
   <input type="hidden" name="pid" value="<?php echo isset($_GET['pid'])?$_GET['pid']:0; ?>">

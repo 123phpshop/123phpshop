@@ -58,7 +58,7 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
 </head>
 
 <body>
-<p>[删除权限]</p>
+<span>[删除权限]</span>
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
   <table  class="error_box" width="101%" border="0">
     <tr>

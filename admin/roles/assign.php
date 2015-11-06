@@ -96,7 +96,7 @@ function check_children(item){
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<p class="phpshop123_title"><?php echo $row_role['name']; ?> : 分配权限</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title"><?php echo $row_role['name']; ?> : 分配权限</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="form1" name="form1" method="post" action="">
 <input name="" value="更新权限" type="submit" />
 <input type="hidden" name="updated" value="updated">

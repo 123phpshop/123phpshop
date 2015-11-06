@@ -87,7 +87,7 @@ $totalRows_password = mysql_num_rows($password);
 </head>
 
 <body>
-<p class="phpshop123_title">更新密码 </p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">更新密码 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

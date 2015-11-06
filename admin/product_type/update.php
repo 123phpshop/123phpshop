@@ -82,7 +82,7 @@ $totalRows_product_type = mysql_num_rows($product_type);
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">更新商品类型:<?php echo $row_product_type['name']; ?></p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">更新商品类型:<?php echo $row_product_type['name']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">商品类型名称:</td>

@@ -106,9 +106,7 @@ $totalRows_user = mysql_num_rows($user);
 </head>
 
 <body>
-<p class="phpshop123_title">
- 
-更新用户信息</p>
+<span class="phpshop123_title">更新用户信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <p>&nbsp; </p>
 
 <form action="<?php echo $editFormAction; ?>" method="post" name="update_user_form" id="update_user_form">

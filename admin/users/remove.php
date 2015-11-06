@@ -58,7 +58,7 @@ if($could_delete==1){
 
 <body>
 <?php if($could_delete==0){ ?>
-<p>由于一下原因，您不能删除这个分类：</p>
+<p>由于一下原因，您不能删除这个分类：<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
 	<p>1. 	分类不存在，请检查参数之后再试。</p>
 	<p>2. 	这个分类下面还有子分类，请删除子分类之后再试。</p>
 	<p>3.	这个分类下面有产品，请删除产品之后再试。</p>

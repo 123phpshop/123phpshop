@@ -36,7 +36,7 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 
 <body>
 		
-<p>区域详细:</p>
+<span>区域详细:</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="1" align="center">
   

@@ -139,7 +139,7 @@ form{
 
 <body>
 		
-<p class="phpshop123_title">产品详情</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">产品详情</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <div class="phpshop123_form_box">
    <div class="phpshop123_form_box_content">
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">

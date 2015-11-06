@@ -33,7 +33,7 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 
 <body>
 		
-<p class="phpshop123_title">管理员详细</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">管理员详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td>账户：</td>
