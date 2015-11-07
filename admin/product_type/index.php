@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); 
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看产品类型列表";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

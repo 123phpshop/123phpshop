@@ -22,7 +22,7 @@ $could_delete=1;
 $remove_succeed_url="index.php";
 $colname_news_catalog = "-1";
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="删除文章分类";
 
 if (isset($_GET['id'])) {
   $colname_news_catalog = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);

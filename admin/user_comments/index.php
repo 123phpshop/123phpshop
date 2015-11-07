@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看用户评论列表";
 $currentPage = $_SERVER["PHP_SELF"];
 $where_query_string=_get_comment_where_query_string($_GET);
 $maxRows_comments = 50;

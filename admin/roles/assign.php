@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="为角色分配权限";
 $colname_role = "-1";
 if (isset($_GET['id'])) {
   $colname_role = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);

@@ -2,7 +2,7 @@
 <?php require_once('../../Connections/lib/order.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="订单合并";
 $error="";
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	try{

@@ -22,7 +22,7 @@ $currentPage = $_SERVER["PHP_SELF"];
 $maxRows_brands = 20;
 $pageNum_brands = 0;
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看品牌列表";
 if (isset($_GET['pageNum_brands'])) {
   $pageNum_brands = $_GET['pageNum_brands'];
 }

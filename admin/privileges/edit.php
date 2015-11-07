@@ -6,7 +6,7 @@ global $global_file_list_array;
 $privielges_exceptions="";
 $privielges_biz_rule="";
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="更新权限";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?><?php
 $maxRows_DetailRS1 = 50;
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="浏览促销活动详情";
 $pageNum_DetailRS1 = 0;
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];

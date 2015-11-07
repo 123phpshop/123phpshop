@@ -18,7 +18,6 @@
 ?>
 <?php require_once('Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
-
 <?php
 if(!isset($_SESSION['user_id'])){
 	 $url="/login.php";

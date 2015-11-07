@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="激活快递公司";
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

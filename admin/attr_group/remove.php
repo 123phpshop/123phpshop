@@ -21,7 +21,7 @@
 $colname_admin = "-1";
 $could_delete=1;
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="删除属性";
 $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {
   $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);

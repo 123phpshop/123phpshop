@@ -1,13 +1,4 @@
-<?php require_once('../../Connections/localhost.php'); ?><?php
-$doc_url="ad.html#list";
-$support_email_question="广告列表";
-mysql_select_db($database_localhost, $localhost);
-$recordID = $_GET['recordID'];
-$query_DetailRS1 = "SELECT * FROM friend_links  WHERE id = $recordID";
-$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
-$totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
-
+<?php 
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -24,6 +15,18 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
+ ?>
+<?php  
+ require_once('../../Connections/localhost.php'); ?><?php
+$doc_url="ad.html#list";
+$support_email_question="查看友情链接详情";
+mysql_select_db($database_localhost, $localhost);
+$recordID = $_GET['recordID'];
+$query_DetailRS1 = "SELECT * FROM friend_links  WHERE id = $recordID";
+$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
+$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
+$totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

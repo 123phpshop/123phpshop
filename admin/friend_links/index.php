@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看友情链接列表";
 mysql_select_db($database_localhost, $localhost);
 $query_links = "SELECT * FROM friend_links WHERE is_delete = 0 ORDER BY id DESC";
 $links = mysql_query($query_links, $localhost) or die(mysql_error());

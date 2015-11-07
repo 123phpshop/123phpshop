@@ -2,7 +2,7 @@
 <?php require_once('../../Connections/lib/csv.php'); ?>
 <?php 
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="导出产品";
 if ((isset($_POST["phpshop_op"])) && ($_POST["phpshop_op"] == "export_goods_form")) {
 	export_goods();
 }

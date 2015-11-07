@@ -20,7 +20,7 @@
 <?php
 $could_delete=1;
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="删除文章";
 $colname_news = "-1";
 
 if (isset($_GET['id'])) {

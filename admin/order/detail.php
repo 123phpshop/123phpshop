@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?><?php
 $colname_products = "-1";
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看订单详细";
 if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }

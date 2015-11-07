@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="查看文章回收站";
 $maxRows_news = 50;
 $pageNum_news = 0;
 if (isset($_GET['pageNum_news'])) {

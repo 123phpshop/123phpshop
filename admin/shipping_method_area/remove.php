@@ -19,7 +19,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="广告列表";
+$support_email_question="删除配送区域";
 $could_delete=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {

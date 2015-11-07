@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php');
 $doc_url="ad.html#list";
-$support_email_question="广告列表"; 
+$support_email_question="搜索产品"; 
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;
@@ -175,7 +175,11 @@ function _get_product_where($get){
     
   </table>
 </form>
-<?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
+<?php 
+$doc_url="ad.html#list";
+$support_email_question="查看产品列表"; 
+
+if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <br />
     <span class="phpshop123_title">商品列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?><br />
   <br />
