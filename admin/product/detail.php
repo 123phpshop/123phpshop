@@ -45,7 +45,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 $editFormAction = $_SERVER['PHP_SELF'];
-$error=array();
+$error="";
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
@@ -74,11 +74,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "product_image_form"
 		  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
   
  	}else {
-	
-        echo '<pre>';
-        //获取上传失败以后的错误提示
-        var_dump($up->getErrorMsg());
-        echo '</pre>';
+          //获取上传失败以后的错误提示
+        $error=$up->getErrorMsg();
+        
     }
 }
 
@@ -141,7 +139,11 @@ form{
 
 <body>
 		
-<span class="phpshop123_title">产品详情</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<p><span class="phpshop123_title">产品详情</span>
+  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+</p><?php if($error!=''){?>
+<p class="phpshop123_infobox"><?php echo $error;?></p>
+<?php } ?>
 <div class="phpshop123_form_box">
    <div class="phpshop123_form_box_content">
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">

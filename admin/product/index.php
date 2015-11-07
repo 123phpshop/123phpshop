@@ -193,7 +193,7 @@ function _get_product_where($get){
     <?php do { ?>
       <tr>
         <td> <div align="center"><?php echo $row_products['id']; ?>&nbsp;  </div></td>
-        <td><a href="update.php?id=<?php echo $row_products['id']; ?>"><?php echo $row_products['name']; ?>&nbsp;</a> </td>
+        <td><a href="detail.php?recordID=<?php echo $row_products['id']; ?>"><?php echo $row_products['name']; ?>&nbsp;</a> </td>
         <td>￥<?php echo $row_products['price']; ?>&nbsp; </td>
         <td><div align="center"><?php echo $row_products['is_on_sheft']=='1'?"√":""; ?>&nbsp; </div></td>
         <td><div align="center"><?php echo $row_products['is_hot']=='1'?"√":""; ?>&nbsp; </div></td>

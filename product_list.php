@@ -104,7 +104,6 @@ table{
         </tr>
     </table></td>
   </tr>
-   
   <tr>
     <td valign="top"><?php include('widget/product/product_list.php'); ?></td>
   </tr>

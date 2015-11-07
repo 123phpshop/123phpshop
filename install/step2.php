@@ -208,11 +208,11 @@ tr{
     <tr>
 	
       <th scope="row"><div align="right">后台管理员密码：</div></th>
-      <td><input name="admin_password" type="text" id="admin_password" maxlength="32" /></td>
+      <td><input name="admin_password" type="text" id="admin_password" value="123phpshop" maxlength="32" /></td>
     </tr>
     <tr>
       <th scope="row"><div align="right">管理员密码确认：</div></th>
-      <td><input name="admin_passconf" type="text" id="admin_passconf" maxlength="32" /></td>
+      <td><input name="admin_passconf" type="text" id="admin_passconf" value="123phpshop" maxlength="32" /></td>
     </tr>
     <tr>
       <td scope="row">&nbsp;</td>

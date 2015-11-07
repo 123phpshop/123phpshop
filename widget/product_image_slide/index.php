@@ -43,7 +43,7 @@ if (isset($_GET['id'])) {
   $colname_big_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_big_images = sprintf("SELECT * FROM product_images WHERE product_id = %s", $colname_big_images);
+$query_big_images = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_big_images);
 $big_images = mysql_query($query_big_images, $localhost) or die(mysql_error());
 $row_big_images = mysql_fetch_assoc($big_images);
 $totalRows_big_images = mysql_num_rows($big_images);

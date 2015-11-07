@@ -37,20 +37,21 @@ if (isset($_GET['catalog_id'])) {
   $colname_catalogs = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_catalogs = sprintf("SELECT * FROM `catalog` WHERE pid = %s", $colname_catalogs);
+$query_catalogs = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalogs);
 $catalogs = mysql_query($query_catalogs, $localhost) or die(mysql_error());
 $row_catalogs = mysql_fetch_assoc($catalogs);
 $totalRows_catalogs = mysql_num_rows($catalogs);
 
-
 // 如果没有子分类的话，那么。。。
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE catalog_id = $colname_products and is_delete=0 and is_on_sheft=1 $order_by";
+
+//	如果有子分类的话
 if($totalRows_catalogs>0){
-	$query_products = "SELECT * FROM product WHERE cata_path like '%".$colname_products."%' and is_delete=0 and is_on_sheft=1 $order_by";
+	$query_products = "SELECT * FROM product WHERE cata_path like '%_".$colname_products."_%' and is_delete=0 and is_on_sheft=1 $order_by";
 }
 
-$query_products = "SELECT * FROM product WHERE catalog_id = $colname_products and is_delete=0 $order_by";
+//$query_products = "SELECT * FROM product WHERE catalog_id = $colname_products and is_delete=0 $order_by";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
 $products = mysql_query($query_limit_products, $localhost) or die(mysql_error());
 //$row_products = mysql_fetch_assoc($products);
