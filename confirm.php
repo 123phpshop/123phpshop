@@ -372,7 +372,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 							continue;
 						}	
 						mysql_select_db($database_localhost, $localhost);
-						$query_product_image = "SELECT * FROM product_images WHERE product_id = ".$cart_products_item['product_id'];
+						$query_product_image = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = ".$cart_products_item['product_id'];
 						$product_image = mysql_query($query_product_image, $localhost) or die(mysql_error());
 						$row_product_image = mysql_fetch_assoc($product_image);
 						$totalRows_product_image = mysql_num_rows($product_image);

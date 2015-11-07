@@ -208,7 +208,7 @@ a{
 		
 			while($order_item_row=mysql_fetch_object($order_items)){
  				mysql_select_db($database_localhost, $localhost);
-				$query_order_images = "SELECT * FROM product_images WHERE product_id = ".$order_item_row->product_id." limit 1";
+				$query_order_images = "SELECT * FROM product_images WHERE  is_delete=0 and product_id = ".$order_item_row->product_id." limit 1";
 				$order_images = mysql_query($query_order_images, $localhost) or die(mysql_error());
 				//	$row_order_images = mysql_fetch_assoc($order_images);
 				$totalRows_order_images = mysql_num_rows($order_images);

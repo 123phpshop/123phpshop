@@ -106,7 +106,14 @@ div{
             <label>
              <div align="center">
 			<input name="product_name" type="hidden"  value="<?php echo $row_order_product['name']; ?>">
-			<input name="product_image" type="hidden"  value="">
+			<?php 
+				mysql_select_db($database_localhost, $localhost);
+				$query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $row_order_product['id']);
+				$product_image = mysql_query($query_product_image, $localhost) or die(mysql_error());
+				$row_product_image = mysql_fetch_assoc($product_image);
+   			?>
+   
+			<input name="product_image" type="hidden"  value="<?php echo $row_product_image['image_files'];?>">
 			<input name="attr_value" type="hidden"  value="<?php echo isset($row_order_items['attr_value'])?str_replace(";"," ",$row_order_items['attr_value']):""; ?>">
 			<input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_order_product['ad_text']; ?>">
 			<input name="product_price" type="hidden"  value="<?php echo $row_order_items['actual_pay_price']; ?>">
