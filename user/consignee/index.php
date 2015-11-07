@@ -192,12 +192,12 @@ table{
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td width="70"><div align="right">固定电话：</div></td>
-                    <td>&nbsp;</td>
+                    <td width="70"><div align="right">邮编：</div></td>
+                    <td><?php echo $row_consignees['zip']; ?></td>
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td width="70"><div align="right">电子邮箱：</div></td>
+                    <td width="70"><div align="right"></div></td>
                     <td>&nbsp;</td>
                     <td><div align="right"><a href="update.php?id=<?php echo $row_consignees['id']; ?>">更新 </a> <a href="default.php?id=<?php echo $row_consignees['id']; ?>">设为默认</a></div></td>
                   </tr>

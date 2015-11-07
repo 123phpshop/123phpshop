@@ -20,7 +20,7 @@
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="ad.html#list";
-$support_email_question="查看文章分类列表";
+$support_email_question="添加文章分类";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -106,7 +106,7 @@ $queryString_news_catalogs = sprintf("&totalRows_news_catalogs=%d%s", $totalRows
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">添加文章分类</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">添加文章分类</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
       <td nowrap align="right">分类名称:</td>
