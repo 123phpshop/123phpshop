@@ -46,7 +46,7 @@ if($row_order['is_delete']=='1'){
 
 if($could_withdraw==1){
 
-	echo $update_catalog = sprintf("update `orders` set order_status='300' where id = %s", $colname_order);
+	$update_catalog = sprintf("update `orders` set order_status='300' where id = %s", $colname_order);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
 		$could_withdraw=0;

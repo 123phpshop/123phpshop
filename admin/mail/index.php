@@ -33,7 +33,9 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE shop_info SET smtp_email=%s, smtp_server=%s, smtp_port=%s, smtp_username=%s, smtp_password=%s WHERE id=%s",
+ echo  $updateSQL = sprintf("UPDATE shop_info SET smtp_ssl=%s,smtp_replay_email=%s,smtp_email=%s,smtp_email=%s, smtp_server=%s, smtp_port=%s, smtp_username=%s, smtp_password=%s WHERE id=%s",
+						GetSQLValueString($_POST['smtp_ssl'], "int"),
+						GetSQLValueString($_POST['smtp_replay_email'], "text"),
                        GetSQLValueString($_POST['smtp_email'], "text"),
                        GetSQLValueString($_POST['smtp_server'], "text"),
                        GetSQLValueString($_POST['smtp_port'], "int"),
@@ -55,12 +57,14 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+<span class="phpshop123_title">邮件服务器设置</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Smtp_email:</td>
       <td><input type="text" name="smtp_email" value="<?php echo $row_smtp_info['smtp_email']; ?>" size="32"></td>
@@ -80,6 +84,14 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
     <tr valign="baseline">
       <td nowrap align="right">Smtp_password:</td>
       <td><input type="text" name="smtp_password" value="<?php echo $row_smtp_info['smtp_password']; ?>" size="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">SSL加密</td>
+      <td><input type="checkbox" name="smtp_ssl" value="<?php echo $row_smtp_info['smtp_ssl']; ?>" <?php if($row_smtp_info['smtp_ssl']=='1'){?><?php } ?>></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">回复邮件地址</td>
+      <td><input type="text" name="smtp_replay_email" value="<?php echo $row_smtp_info['smtp_replay_email']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
