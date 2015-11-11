@@ -19,33 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="ad.html#list";
-$support_email_question="更新产品";
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
-
+$support_email_question="编辑产品";
 
 $colname_product = "-1";
 if (isset($_GET['id'])) {
@@ -307,14 +281,19 @@ $().ready(function(){
         alert("已清空草稿箱")
     }
 
+function activate_promotion_input(should_activate){
+ 		if(should_activate==1){
+			$("#promotion_price").attr("disabled",false);
+			$("#promotion_start").attr("disabled",false);
+			$("#promotion_end").attr("disabled",false);
+			return;
+		}
+			$("#promotion_price").attr("disabled",true);
+			$("#promotion_start").attr("disabled",true);
+			$("#promotion_end").attr("disabled",true);
+		
+	}
+	
 </script>
 </body>
 </html>
-<?php
-mysql_free_result($product);
-
-mysql_free_result($brands);
-
-mysql_free_result($product_types);
-?>
-

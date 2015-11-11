@@ -32,7 +32,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE promotion SET name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, amount_uper_limit=%s, promotion_type=%s, present_products=%s, create_time=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE promotion SET name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, amount_uper_limit=%s, promotion_type=%s, present_products=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
                        GetSQLValueString($_POST['end_date'], "date"),
@@ -41,9 +41,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['amount_uper_limit'], "double"),
                        GetSQLValueString($_POST['promotion_type'], "int"),
                        GetSQLValueString($_POST['present_products'], "text"),
-                       GetSQLValueString($_POST['create_time'], "date"),
                        GetSQLValueString($_POST['id'], "int"));
-
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
   $updateGoTo = "index.php";
@@ -59,6 +57,10 @@ $query_promotion = sprintf("SELECT * FROM promotion WHERE id = %s", $colname_pro
 $promotion = mysql_query($query_promotion, $localhost) or die(mysql_error());
 $row_promotion = mysql_fetch_assoc($promotion);
 $totalRows_promotion = mysql_num_rows($promotion);
+
+function load_promotion_limit_value(){
+	
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -73,11 +75,11 @@ $totalRows_promotion = mysql_num_rows($promotion);
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
-      <td><input type="text" name="name" value="<?php echo $row_promotion['name']; ?>" size="32"></td>
+      <td width="9%" align="right" nowrap>Name:</td>
+      <td width="91%"><input type="text" name="name" value="<?php echo $row_promotion['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Start_date:</td>
+      <td nowrap align="right">开始日期:</td>
       <td><input type="text" name="start_date" id="start_date"  value="<?php echo $row_promotion['start_date']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
@@ -86,38 +88,54 @@ $totalRows_promotion = mysql_num_rows($promotion);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Promotion_limit:</td>
-      <td><label>
-        <select name="promotion_limit"  id="promotion_limit">
+      <td> 
+        <select name="promotion_limit"  id="promotion_limit" onchange="show_limit_filter()">
 		 <?php foreach($const_promotion_limit as $key=>$value){ ?>
-		<option value="<?php echo $key;?>" <?php if (!(strcmp("value", $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
+		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
-        </label></td>
+         <input name="name_filter" type="text" id="name_filter" style="display:none;" onchange="do_filter()"/>         </td>
+         </td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Amount_lower_limit:</td>
-      <td><input type="text" name="amount_lower_limit" value="<?php echo $row_promotion['amount_lower_limit']; ?>" size="32"></td>
+	<?php if($row_promotion['promotion_limit']>1){ ?>
+    <tr valign="baseline" id="filter_results_row">
+      <td nowrap align="right">参与对象：</td>
+      <td id="filter_results_td"><?php
+	  switch($row_promotion['promotion_limit']){
+	  		case 2:
+				$widget_file="_catalog_load.php";
+			break;
+			case 3:
+				$widget_file="_brand_load.php";
+			break;
+			case 4:
+				$widget_file="_goods_load.php";
+			break;
+	  }
+	  include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/".$widget_file);
+	  ?></td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Amount_uper_limit:</td>
-      <td><input type="text" name="amount_uper_limit" value="<?php echo $row_promotion['amount_uper_limit']; ?>" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Promotion_type:</td>
-      <td><select name="promotion_type"  id="promotion_type">
+	<?php } ?>
+      <tr valign="baseline">
+      <td align="right">Promotion_type:</td>
+      <td>满 <input name="amount_lower_limit" maxlength="10" id="amount_lower_limit"  type="text" value="<?php echo $row_promotion['amount_lower_limit'];?>"/> 元 <select name="promotion_type"  id="promotion_type" onchange="promotion_type_filter()">
 	  	<?php foreach($const_promotion_types as $key=>$value){ ?>
-		<option value="<?php echo $key;?>" <?php if (!(strcmp("value", $row_promotion['promotion_type']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
+		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_type']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
-        </select></td>
+        </select>
+		<?php if($row_promotion['promotion_type']>1){ ?>
+		 <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="10" value="<?php echo $row_promotion['promotion_type_val']; ?>"/>[如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入满折的百分比，例如：70，就是输入70%]
+		<?php } ?>
+		</td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Present_products:</td>
-      <td><input type="text" name="present_products" value="<?php echo $row_promotion['present_products']; ?>" size="32"></td>
+      <tr valign="baseline" id="presents_tr" <?php if($row_promotion['promotion_type']>1){ ?>style="display:none;"<?php } ?>>
+      <td nowrap align="right">选择赠品:</td>
+      <td><input type="text" name="present_products" size="32"></td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">Create_time:</td>
-      <td><input type="text" name="create_time" value="<?php echo $row_promotion['create_time']; ?>" size="32"></td>
+	 <tr valign="baseline" id="presents_sel_tr" <?php if($row_promotion['promotion_type']>1){ ?>style="display:none;"<?php } ?>>
+      <td nowrap align="right">赠送商品:</td>
+      <td><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/_presents_load.php");?></td>
     </tr>
-    <tr valign="baseline">
+     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="更新记录"></td>
     </tr>
@@ -133,6 +151,9 @@ $().ready(function(){
   	$("#start_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 });
+function show_limit_filter(){
+	console.log("asdfasd");
+}
 </script>
 </body>
 </html>

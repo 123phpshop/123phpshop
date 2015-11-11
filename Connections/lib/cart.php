@@ -16,30 +16,10 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php
-
-
-/**
- * 123PHPSHOP
- * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
- * 网站地址: http://www.123PHPSHOP.com；
- * ----------------------------------------------------------------------------
- * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
- * 代码进行修改和使用；您可以对程序代码以任何形式任何目的的再发布，但一定请保留
- * 本声明和上海序程信息科技有限公司的联系方式！本软件中使用到的第三方代码版权属
- * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
- * 解释权！
- * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
- */
-?>
 <?php 
 class Cart {
 	
-	/**
+	/**  
 	 * 构造函数
 	 */
 	public function __construct() {
@@ -283,42 +263,25 @@ class Cart {
 	private function _do_add_product($product) {
  //			这里需要根据product的id获取相应的产品的价格
 		$product_obj=$this->_get_product_from_db_by_id($product ['product_id']);
- 		
-  		$product['is_shipping_free']	=$product_obj['is_shipping_free'];
+   		$product['is_shipping_free']	=$product_obj['is_shipping_free'];
 		$product['is_promotion']		=$product_obj['is_promotion'];
- 		$product['product_price']		=$product_obj['product_price'];
-		$product['promotion_start']		=$product_obj['promotion_start'];
+		$product['promotion_price']		=$product_obj['promotion_price'];
+ 		$product['promotion_start']		=$product_obj['promotion_start'];
 		$product['promotion_end']		=$product_obj['promotion_end'];
 		$product['product_price']		=$product_obj['price'];
-		
-		
- 		$_SESSION ['cart'] ['products'] [] = $product;
-	}
-	
-	// 从数据库里面获取产品的价格
-	private function _get_product_price_from_db_by_id($product_id){
-	
-//			这里还是需要获取是否有优惠价格
-		require_once ($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
 
-		mysql_select_db($database_localhost);
-		$query_product = "SELECT id, price FROM product WHERE id = ".$product_id;
-		$product = mysql_query($query_product) or die(mysql_error());
-		$row_product = mysql_fetch_assoc($product);
-		//$totalRows_product = mysql_num_rows($product);
-		return $row_product['price'];
-	}
-	
-	
+		// 这里需要检查产品是否是优惠产品，如果是优惠产品的话，那么检查产品是否还在优惠期之内，如果在优惠期之内，按么这里的价格就应该是优惠价格
+		if($product_obj['is_promotion']==1 && (date('Y-m-d')>=$product_obj['promotion_start']) && (date('Y-m-d')<=$product_obj['promotion_end']))
+   			$product['product_price']=$product_obj['promotion_price'];
+		}
+	 
 	// 从数据库里面获取产品的价格
 	private function _get_product_from_db_by_id($product_id){
 	
 //			这里还是需要获取是否有优惠价格
-		require_once ($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
-
-		mysql_select_db($database_localhost);
+		global $db_conn;
 		$query_product = "SELECT id,price,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = ".$product_id;
-		$product = mysql_query($query_product) or die(mysql_error());
+		$product = mysql_query($query_product,$db_conn) or die(mysql_error());
 		$row_product = mysql_fetch_assoc($product);
 		//$totalRows_product = mysql_num_rows($product);
 		return $row_product;

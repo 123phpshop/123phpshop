@@ -29,7 +29,7 @@ if (isset($_GET['pageNum_orders'])) {
 $startRow_orders = $pageNum_orders * $maxRows_orders;
 $where=_get_order_where($_GET);
 mysql_select_db($database_localhost, $localhost);
-$query_orders = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id where orders.is_delete=0 $where order by orders.id desc";
+$query_orders = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id where orders.is_delete=0 and merge_to=0  $where order by orders.id desc";
 $query_limit_orders = sprintf("%s LIMIT %d, %d", $query_orders, $startRow_orders, $maxRows_orders);
 $orders = mysql_query($query_limit_orders, $localhost) or die(mysql_error());
 $row_orders = mysql_fetch_assoc($orders);
@@ -183,7 +183,7 @@ function _get_order_where($get){
 				    
 			    <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a>
 			    <?php  } ?>
-		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> 更新</div></td>
+		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_orders['id']; ?>">更新</a></div></td>
           </tr>
           <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
   </table>

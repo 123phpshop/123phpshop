@@ -26,27 +26,25 @@ if (isset($_GET['accesscheck'])) {
 }
 
 if (isset($_POST['username'])) {
-
-
 	
   $loginUsername=$_POST['username'];
   $password=md5($_POST['password']);
   $MM_fldUserAuthorization = "";
   $MM_redirectLoginSuccess = "index.php";
-  $MM_redirectLoginFailed = "login.php?error=1";
+  $MM_redirectLoginFailed = "login.php?error=用户名或密码错误，请重新输入";
   $MM_redirecttoReferrer = true;
+  
   
    //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
   if(!isset($_POST['captcha']) OR $_POST['captcha']!=$_SESSION['captcha']){
-  		 header("Location: ". $MM_redirectLoginFailed );
+  		 header("Location: ". "login.php?error=验证码输入错误，请重新输入" );
 		 return;
   }
   
-  mysql_select_db($database_localhost, $localhost);
+    mysql_select_db($database_localhost, $localhost);
    $LoginRS__query=sprintf("SELECT id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
     get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password)); 
-   
-  $LoginRS = mysql_query($LoginRS__query, $localhost) or die(mysql_error());
+   $LoginRS = mysql_query($LoginRS__query, $localhost) or die(mysql_error());
   $loginFoundUser = mysql_num_rows($LoginRS);
   if ($loginFoundUser) {
      $loginStrGroup = "";
@@ -54,14 +52,12 @@ if (isset($_POST['username'])) {
 	
 	//	获取这个纪录
 	$user_rs=mysql_fetch_assoc( $LoginRS);
-		
-	
-    //declare two session variables and assign them
+      //declare two session variables and assign them
     $_SESSION['admin_username'] = $loginUsername;
   	$_SESSION['admin_id'] = $user_rs['id'];	
 	$last_login_at=date('Y-m-d H:i:s');
 	$last_login_ip=$_SERVER['REMOTE_ADDR'];
-	
+ 	
 	$update_last_login_sql="update member set last_login_at='".$last_login_at."', last_login_ip='".$last_login_ip."' where id=".$user_rs['id'];
 	mysql_query($update_last_login_sql, $localhost);
 	
@@ -106,7 +102,7 @@ table{
   <p>&nbsp;</p>
   <table  style="border-top:3px solid #bfbfbf;" width="600" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">
     <tr>
-      <td height="41" bordercolor="#e8e8e8" bgcolor="#fcfcfc">&nbsp;&nbsp;&nbsp;123PHPSHOP登陆</td>
+      <td height="41" bordercolor="#e8e8e8" bgcolor="#fcfcfc">&nbsp;&nbsp;&nbsp;123PHPSHOP登陆<?php if(isset($_GET['error'])){ ?><span style="color:#FF0000;">[<?php echo $_GET['error'];?>]</span><?php }?></td>
     </tr>
     <tr>
       <td valign="top">
@@ -129,7 +125,7 @@ table{
             <label>
             <input name="captcha" type="text" size="4" maxlength="4" style="padding-left:10px;border-radius:3px;padding-left:10px;margin-left:10px;height:33px;border:1px solid #cccccc;"/>
             </label>
-            <img height="37" style="cursor:pointer;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"></div>
+            <img height="37" style="cursor:pointer;" title="点击刷新" src="/admin/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"></div>
             </img></td>
         </tr>
         <tr>

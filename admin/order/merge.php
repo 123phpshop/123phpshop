@@ -4,10 +4,12 @@
 $doc_url="ad.html#list";
 $support_email_question="订单合并";
 $error="";
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+if ((isset($_POST["phpshop_db_op"])) && ($_POST["phpshop_db_op"] == "merge_order")) {
 	try{
-		order_merge($from_order_sn,$to_order_sn)
-	}catch(Exception $ex){
+			$from_order_sn	=$_POST['from_order_sn'];
+			$to_order_sn	=$_POST['to_order_sn'];
+			order_merge($from_order_sn,$to_order_sn);
+ 	}catch(Exception $ex){
 			$error=$ex->getMessage();
 	}
 }
@@ -21,9 +23,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body >
-<p><span class="phpshop123_title">订单合并</span>
-  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-</p>
+<span class="phpshop123_title">订单合并</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($error!=''){ ?>
 <p class="phpshop123_infobox"><?php echo $error;?></p>
 <?php } ?>
@@ -33,17 +33,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr>
       <th width="233" scope="row">将
         <label>订单:</label></th>
-      <td width="718"><input name="child_order_sn" type="text" id="child_order_sn" />
+      <td width="718"><input name="from_order_sn" type="text" id="child_order_sn" />
       [这里填写订单序列号]</td>
     </tr>
     <tr>
       <th scope="row">合并进入:</th>
-      <td><input name="main_order_sn" type="text" id="main_order_sn" />
+      <td><input name="to_order_sn" type="text" id="main_order_sn" />
 [这里填写订单序列号]</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>
       <td><label>
+	  <input type="hidden" name="phpshop_db_op" value="merge_order" />
         <input type="submit" name="Submit" value="提交" />
       </label></td>
     </tr>
@@ -52,10 +53,3 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </form>
 </body>
 </html>
-<?php
-mysql_free_result($form_order);
-
-mysql_free_result($to_order);
-
-mysql_free_result($form_order_items);
-?>

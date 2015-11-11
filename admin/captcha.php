@@ -17,10 +17,9 @@
  */
 ?>
 <?php
-require_once('Connections/lib/captcha.php');
-$_vc = new Captcha();  //实例化一个对象
+require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/captcha.php');
+$_vc = new Captcha();
 $_vc->doimg(); 
-$vc_code= $_vc->getCode();
-require_once('Connections/localhost.php');
-$_SESSION['captcha']=$vc_code;
+$_SESSION['captcha']=$_vc->getCode();
 ?>

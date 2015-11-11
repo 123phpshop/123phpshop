@@ -21,7 +21,7 @@
 //验证码类
 class Captcha {
  private $charset = 'abcdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789';//随机因子
- private $code;//验证码
+ private $code;//验证码 
  private $codelen = 4;//验证码长度
  private $width = 130;//宽度
  private $height = 50;//高度
@@ -75,12 +75,12 @@ class Captcha {
  }
  //对外生成
  public function doimg() {
-  $this->createBg();
-  $this->createCode();
-  $this->createLine();
-  $this->createFont();
-  $this->outPut(); 
- }
+ 	  $this->createBg();
+	  $this->createCode();
+	  $this->createLine();
+	  $this->createFont();
+	  $this->outPut(); 
+  }
  //获取验证码
  public function getCode() {
   return strtolower($this->code);

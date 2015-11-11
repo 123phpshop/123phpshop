@@ -31,7 +31,7 @@ $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
  <?php do { ?><tr>
     
       <td><label>
-        <input type="checkbox" name="checkbox" value="checkbox">
+        <input name="promotion_limit_value[]" type="checkbox" id="promotion_limit_value" value="<?php echo $row_goods['id']; ?>">
           </label></td>
       <td><?php echo $row_goods['name']; ?></td>
       </tr><?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>

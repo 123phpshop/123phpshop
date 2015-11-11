@@ -12,7 +12,7 @@ if (isset($_GET['name'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $_GET['name'] : addslashes($_GET['name']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_goods = "SELECT id,name FROM product WHERE name like '%".$colname_goods."%' and is_delete=0";
+$query_goods = "SELECT id,name,price FROM product WHERE name like '%".$colname_goods."%' and is_delete=0";
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
 $goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
 $row_goods = mysql_fetch_assoc($goods);
@@ -26,13 +26,13 @@ if (isset($_GET['totalRows_goods'])) {
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
 ?>
 <link href="../../../css/common_admin.css" rel="stylesheet" type="text/css">
-
 <table width="960" border="1" class="phpshop123_list_box">
  <?php do { ?> <tr>
-       <td><label>
-        <input type="checkbox" name="presents[]"  value="checkbox">
-          </label></td>
+       <td> 
+        <input name="present_products[]" type="checkbox" id="present_products[]"  value="<?php echo $row_goods['id']; ?>">
+           </td>
       <td><?php echo $row_goods['name']; ?></td>
+	  <td>￥<?php echo $row_goods['price']; ?></td>
       </tr><?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
 </table>
 <?php

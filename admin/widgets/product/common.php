@@ -83,26 +83,26 @@ do {
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠产品:</td>
-      <td><input type="radio" name="is_promotion" value="1" <?php if (!(strcmp($row_product['is_promotion'],"1"))) {echo "CHECKED";} ?> />
+      <td><input type="radio" name="is_promotion" value="1" onClick="activate_promotion_input(1)" <?php if (!(strcmp($row_product['is_promotion'],"1"))) {echo "CHECKED";} ?> />
 是
-  <input type="radio" name="is_promotion" value="0" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo "CHECKED";} ?> />
+  <input type="radio" name="is_promotion" value="0" onClick="activate_promotion_input(-1)" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo "CHECKED";} ?> />
   否
     </tr>
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠价:</td>
       <td>
-      <input name="promotion_price" type="text" id="promotion_price" value="<?php echo $row_product['promotion_price']; ?>"  maxlength="50"/></td>
+      <input name="promotion_price" type="text" id="promotion_price" value="<?php echo $row_product['promotion_price']; ?>"  maxlength="50" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo 'disabled="true"';} ?>/></td>
     </tr>
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠开始时间:</td>
-      <td><input name="promotion_start" type="text" id="promotion_start" value="<?php echo $row_product['promotion_start']; ?>" maxlength="10"/></td>
+      <td><input name="promotion_start" type="text" id="promotion_start" value="<?php echo $row_product['promotion_start']; ?>" maxlength="10" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo 'disabled="true"';} ?>/></td>
     </tr>
  	
 	<tr valign="baseline">
       <td nowrap align="right">优惠结束时间:</td>
-      <td><input name="promotion_end" type="text" id="promotion_end" value="<?php echo $row_product['promotion_end']; ?>" maxlength="10"/></td>
+      <td><input name="promotion_end" type="text" id="promotion_end" value="<?php echo $row_product['promotion_end']; ?>" maxlength="10" <?php if (!(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo 'disabled="true"';} ?>/></td>
     </tr>
 	
     
@@ -118,3 +118,5 @@ do {
       *	[2个标签之间请以空格隔开]</label></td>
     </tr>
     </table>
+	
+	

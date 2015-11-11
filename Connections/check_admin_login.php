@@ -22,7 +22,7 @@ $admin_index_url = '/admin/index.php';
 
 //	检查当前是不属于管理员区域。如果是的话那么检查用户是否已经登录。
 if (_is_admin_area ()) {
-	
+		
 	$_is_admin_login_page 	= _is_admin_login_page ();
 	$_is_admin 				= _is_admin ();
 	
@@ -59,5 +59,5 @@ function _is_admin() {
  */
 function _is_admin_login_page() {
 	$curr_url = $_SERVER ['REQUEST_URI'];
-	return strpos ( $curr_url, '/admin/login.php' ) > - 1;
+	return (strpos ( $curr_url, '/admin/login.php' ) > - 1 || strpos ( $curr_url, '/admin/captcha.php' ) > - 1);
 }

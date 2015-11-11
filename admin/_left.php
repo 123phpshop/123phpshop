@@ -105,12 +105,9 @@ a[parent] .menu_item_row{
 <a href="product/vindex.php" target="main"  id="goods_index" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 虚拟商品列表</div><div class="right_indicator" style="">></div></div></a>
 <a href="product/vadd.php" target="main"  id="goods_add" parent="goods"><div class="menu_item_row"><div class="menu_item" >》 添加虚拟商品</div><div class="right_indicator" style="">></div></div></a>
 
- 
-
- 
 <a href="javascript://" id="promotions"><div class="menu_item_row"><div class="menu_item">促销管理</div><div class="right_indicator" style="">></div></div></a>
-<a href="promotion/index.php" target="main"  id="promotions_index" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 优惠列表</div><div class="right_indicator" style=""></div></div></a>
-<a href="promotion/add.php" target="main"  id="promotion_add" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 添加优惠</div><div class="right_indicator" style=""></div></div></a>
+<a href="promotion/index.php" target="main"  id="promotions_index" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 促销列表</div><div class="right_indicator" style=""></div></div></a>
+<a href="promotion/add.php" target="main"  id="promotion_add" parent="promotions"><div class="menu_item_row"><div class="menu_item">》 添加促销</div><div class="right_indicator" style=""></div></div></a>
  
 
 
@@ -165,8 +162,7 @@ a[parent] .menu_item_row{
 
 <a href="javascript://"   id="db"><div class="menu_item_row"><div class="menu_item">数据库管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="db/backup.php" target="main"  id="db_bakup" parent="db"><div class="menu_item_row"><div class="menu_item">》 数据库导出</div><div class="right_indicator" style="">></div></div></a>
-
-
+ 
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
 <a href="http://www.123phpshop.com/register.php" target="main"  id="family_register" parent="family"><div class="menu_item_row"><div class="menu_item" >注册</div><div class="right_indicator" style=""></div></div></a>
 <a href="http://www.123phpshop.com/login.php" target="main"  id="family_login" parent="family"><div class="menu_item_row"><div class="menu_item" >登录</div><div class="right_indicator" style=""></div></div></a>

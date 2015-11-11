@@ -16,7 +16,10 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php 
+<?php
+
+ 
+
 
 function ckeditor_upload(){
 	

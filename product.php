@@ -43,7 +43,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-
+$is_in_promotion=false;
 $colname_product = "-1";
 if (isset($_GET['id'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
@@ -95,10 +95,14 @@ if($totalRows_consignee>0 && !isset($_SESSION['user']['province']) && !isset($_S
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_*";
 	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_".$row_consignee['district'];
 }else{
- 	$areas[]=$_SESSION['user']['province']."_*_*";
-	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_*";
-	$areas[]=$_SESSION['user']['province']."_".$_SESSION['user']['city']."_".$_SESSION['user']['district'];
-}
+	$_SESSION['user']=array();
+	$global_default_province="上海";
+	$global_default_city="上海";
+	$global_default_district="黄浦区";
+	$areas[]=$global_default_province."_*_*";
+	$areas[]=$global_default_province."_".$global_default_city."_*";
+	$areas[]=$global_default_province."_".$global_default_city."_".$global_default_district;
+ }
 
  $could_deliver=could_devliver($areas);
 
@@ -164,10 +168,8 @@ body {
 <body style="margin:0px;">
 <?php include_once('widget/top_full_nav.php'); ?>
 <?php include_once('widget/logo_search_cart.php'); ?>
-
 <form id="add_to_cart"  name="add_to_cart" method="post" action="cart.php">
- 
-  <table width="1210" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:0px auto;">
+   <table width="1210" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:0px auto;">
     <tr valign="middle">
       <td width="210" align="center" bgcolor="#B1191A"><a id="to_all_cata_link" href="/catalogs.php">
       <div align="left"><span class="all_cata_box">全部分类</span></div></a></td>

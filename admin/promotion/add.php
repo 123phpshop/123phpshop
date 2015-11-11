@@ -19,7 +19,7 @@
 <?php 
 require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="promotion.html#add";
 $support_email_question="添加促销活动";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -52,19 +52,22 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO promotion (name, start_date, end_date, promotion_limit, promotion_type, present_products) VALUES (%s, %s, %s, %s, %s, %s)",
+	 
+  $insertSQL = sprintf("INSERT INTO promotion (amount_lower_limit,name, start_date, end_date, promotion_limit, promotion_limit_value,promotion_type, present_products,promotion_type_val) VALUES (%s,%s, %s, %s,%s, %s, %s, %s, %s)",
+  					   GetSQLValueString($_POST['amount_lower_limit'], "double"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
                        GetSQLValueString($_POST['end_date'], "date"),
                        GetSQLValueString($_POST['promotion_limit'], "int"),
+					   GetSQLValueString(implode(",",$_POST['promotion_limit_value']), "text"),
                        GetSQLValueString($_POST['promotion_type'], "int"),
-                       GetSQLValueString($_POST['present_products'], "text"));
+                       GetSQLValueString(implode(",",$_POST['present_products']), "text"),
+					   GetSQLValueString($_POST['promotion_type_val'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
-  $insertGoTo = "index.php";
-   header(sprintf("Location: %s", $insertGoTo));
+	mysql_select_db($database_localhost, $localhost);
+	$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+	$insertGoTo = "index.php";
+	header(sprintf("Location: %s", $insertGoTo));
 }
 
 ?>
@@ -84,15 +87,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td width="14%" align="right" nowrap>Name:</td>
-      <td width="86%"><input type="text" name="name" value="" size="32"></td>
+      <td width="86%"><input name="name" type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Start_date:</td>
-      <td><input type="text" name="start_date" id="start_date" value="" size="32"></td>
+      <td><input name="start_date" type="text" id="start_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">End_date:</td>
-      <td><input type="text" name="end_date" id="end_date" value="" size="32"></td>
+      <td><input name="end_date" type="text" id="end_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Promotion_limit:</td>
@@ -109,16 +112,28 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Promotion_type:</td>
-      <td><select name="promotion_type" id="promotion_type" ">
-         <?php foreach($const_promotion_types as $key=>$value){ ?>
-		<option value="<?php echo $key;?>"><?php echo $value;?></option>
+      <td>满
+        <label>
+        <input name="amount_lower_limit" type="text" id="amount_lower_limit" size="10" maxlength="10" />
+        元
+        </label>
+        <select name="promotion_type" id="promotion_type" onchange="promotion_type_filter()">
+        <?php foreach($const_promotion_types as $key=>$value){ ?>
+			<option value="<?php echo $key;?>"><?php echo $value;?></option>
        	<?php } ?>
-      </select>      </td>
+      </select>
+         <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="32" style="display:none;"/>[如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入满折的百分比，例如：70，就是输入70%]
+      </td>
     </tr>
-    <tr valign="baseline" id="present_products_row">
-      <td nowrap align="right">Present_products:</td>
-      <td><input type="text" name="present_products" value="" size="32"></td>
+    <tr valign="baseline" id="presents_tr">
+      <td nowrap align="right">赠送产品:</td>
+      <td><input type="text" name="present_goods_name"  id="present_goods_name" size="32" onchange="filter_presents()"></td>
     </tr>
+	<tr valign="baseline" id="presents_sel_tr">
+      <td nowrap align="right">选择产品:</td>
+      <td id="presents_sel_td"></td>
+    </tr>
+	
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="插入记录"></td>
@@ -169,6 +184,28 @@ function do_filter(){
 	
 	$("#filter_results_td").load(url);
 }
+
+function promotion_type_filter(){
+ 	var promotion_type=$("#promotion_type").val();
+  	if(promotion_type=="1"){
+		console.log("1");
+		$("#presents_tr").show();
+		$("#presents_sel_tr").show();
+		$("#promotion_type_val").hide();
+		return;
+	}
+	$("#presents_tr").hide();
+	$("#presents_sel_tr").hide();
+	$("#promotion_type_val").show();
+	return;
+}
+
+function filter_presents(){
+	var name=$("#present_goods_name").val();
+	var url="/admin/widgets/promotion/_presents_search.php?name="+name;
+	$("#presents_sel_td").load(url);
+}	
+
 </script>
 </body>
 </html>

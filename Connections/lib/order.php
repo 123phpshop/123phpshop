@@ -18,7 +18,7 @@
 ?>
 <?php include_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost);
+global $db_conn;
 
 
 /*function get_logistic_process_info($express_company_id,$express_order_sn){
@@ -62,8 +62,7 @@ function get_shipping_fee(){
 	
  	
 	// 获取所有激活的没有被删除的快递方式
-	//	 循环这些快递方式，获取相应的运费
-	foreach($shipping_methods as $shipping_methods_item){
+ 	foreach($shipping_methods as $shipping_methods_item){
 				
 				//	 如果产品是货到付款的
 				if($shipping_methods_item['is_cod']==1){
@@ -99,12 +98,12 @@ function get_shipping_fee(){
 function _get_order_weight(){
 	$result=0;
 	foreach($_SESSION['cart']['products'] as $product){
- 		if($product['is_shipping_free']=='0'){
+ 		if($product['is_shipping_free']=='0'){//   如果不是免运费的话
 			$product_obj=_get_product_by_id($product['product_id']);
 			if(false==$product_obj){
 				throw new Excaption("产品不存在或者已经删除");
 			}
-			$result+=$product_obj['weight']*$product['quantity'];
+			$result+=$product_obj['weight']*$product['quantity']; // 商品总重=商品数量×商品重量
 		}
 		
 	}
@@ -117,7 +116,7 @@ function _get_order_weight(){
 function _get_order_quantity(){
 	$result=0;
  	foreach($_SESSION['cart']['products'] as $product){
- 		if($product['is_shipping_free']=='0'){
+ 		if($product['is_shipping_free']=='0'){//   如果不是免运费的话
 			$result+=$product['quantity'];
 		}
 	}
@@ -187,7 +186,8 @@ function _calc_shipping_fee_by_weight($weight,$shipping_methods_item){
 
 function _get_product_by_id($product_id){
 	$query_express_company = "SELECT * FROM product WHERE id = '".$product_id."'";
-	$express_company = mysql_query($query_express_company) or die(mysql_error());
+	global $db_conn;
+	$express_company = mysql_query($query_express_company,$db_conn) or die(mysql_error());
 	$row_express_company = mysql_fetch_assoc($express_company);
 	$totalRows_express_company = mysql_num_rows($express_company);
 	if($totalRows_express_company==0){
@@ -208,7 +208,8 @@ function _could_devliver_shipping_methods($areas){
 		
  		// 获取所有已经激活的且没有被删除的配送方式的未删除配送区域
 		$query_area = "SELECT shipping_method_area.*,shipping_method.is_free,shipping_method.is_delete as shipping_method_is_delete,shipping_method.is_activated as shipping_method_is_activated,shipping_method.is_cod,shipping_method.name as shipping_method_name from shipping_method_area left join shipping_method on shipping_method_area.shipping_method_id=shipping_method.id where shipping_method_area.is_delete=0";
-		$area = mysql_query ( $query_area ) or die ( mysql_error () );
+		global $db_conn;
+		$area = mysql_query ( $query_area,$db_conn) or die ( mysql_error () );
 		
 		while($order_area=mysql_fetch_assoc($area)){
  			foreach($areas as $area_item){
@@ -225,73 +226,81 @@ function order_merge($from_order_sn,$to_order_sn){
 	
 		// 检查主订单和从订单是否存在，如果不存在，那么抛出错误
 		$from_order_obj=_get_order_by_sn($from_order_sn);
-		$to_order_obj=_get_order_by_sn($to_order_sn);
-		
- 		if(!$from_order_obj){
-			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+ 		$to_order_obj=_get_order_by_sn($to_order_sn);
+  		if(!$from_order_obj){
+			throw new Exception("订单号为：".$from_order_sn."的订单不存在");
 		}
 		
 		if(!$to_order_obj){
-			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+			throw new Exception("订单号为".$to_order_sn."的订单不存在");
 		}
 		
 		// 如果存在的话，那么检查是否已经被删除，如果有删除的话，那么抛出错误
 		if($from_order_obj['is_delete']==1){
-			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+			throw new Exception("订单号为：$from_order_sn的订单已被删除,不能合并");
 		}	
 		
 		if($to_order_obj['is_delete']==1){
-			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+			throw new Exception("订单号为：$to_order_sn的订单已被删除,不能合并");
 		}
 		
 		//检查订单是否已经合并
-		if($from_order_obj['merge_to']==$to_order_obj['id']){
+		 if($from_order_obj['merge_to']==$to_order_obj['id']){
 			return true;
 		}
 			
-		if($from_order_obj['merge_to']!=0){
-			throw new Exception("订单号为：$from_order_sn的订单订单已经被合并，不能再次进行操作！");
+		if($from_order_obj['merge_to']!="0"){
+			throw new Exception("订单号为：".$from_order_sn."的订单订单已经被合并，不能再次进行操作");
 		}
-		
- 		if($to_order_obj['merge_to']!=0){
-			throw new Exception("订单号为：$to_order_sn的订单订单已经被合并，不能再次进行操作！");
+					
+
+ 		if($to_order_obj['merge_to']!="0"){
+			throw new Exception("订单号为：".$to_order_sn."的订单订单已经被合并，不能再次行操作");
 		}
    		
+		 
 		// 检查订单状态是否相同。是否在退货和发货之间，如果已经发货，那么告知
-		if($from_order_obj['status']==$to_order_obj['status']){
-			throw new Exception("订单号为：$from_order_sn的订单不存在！");
+		if($from_order_obj['order_status']!=$to_order_obj['order_status']){
+			throw new Exception("只有状态相同的订单才可以合并哦");
 		}
 		
-		if($to_order_obj['status']!=ORDER_STATUS_UNPAID || $to_order_obj['status']!=ORDER_STATUS_PAID){
-			throw new Exception("订单号为：$to_order_sn的订单的状态既不是创建也不是已经付款，所以不能进行合并！");
+		if($to_order_obj['order_status']!=ORDER_STATUS_UNPAID && $to_order_obj['order_status']!=ORDER_STATUS_PAID){
+			throw new Exception("订单号为：".$to_order_sn."的订单的状态既不是创建也不是已经付款，所以不能进行合并");
 		}
 		
-		if($from_order_obj['status']!=ORDER_STATUS_UNPAID|| $from_order_obj['status']!=ORDER_STATUS_PAID){
-			throw new Exception("订单号为：$from_order_obj的订单的状态既不是创建也不是已经付款，所以不能进行合并！");
+		if($from_order_obj['order_status']!=ORDER_STATUS_UNPAID && $from_order_obj['order_status']!=ORDER_STATUS_PAID){
+			throw new Exception("订单号为：".$from_order_obj."的订单的状态既不是创建也不是已经付款，所以不能进行合并");
 		}
 		
 		
 	// 将从订单的订单sn修改为订单的订单sn
 		if(!_update_merge_to($from_order_obj['id'],$to_order_obj['id'])){
-			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+ 			throw new Exception("更新从订单是否为合并订单的数据库操作失败");
 		}
 		
 	// 将从订单的产品所属的订单id修改为主订单的id
 		if(!_update_child_order_product_order_id($from_order_obj['id'],$to_order_obj['id'])){
- 			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+ 			throw new Exception("更新从订单产品的数据库操作失败");
 		}
 		
 	// 更新主订单的价格参数
 		if(!_update_to_order_price_para($from_order_obj,$to_order_obj)){
-			throw new Exception("订单号为：$to_order_sn的订单不存在！");
+			throw new Exception("更新主订单价格的数据库操作失败");
 		}
+		
+		if(!_log_order_merge($from_order_obj['id'],$to_order_obj['id'])){
+			throw new Exception("更新主订单价格的数据库操作失败");
+		}
+		
+		
 }
 
 // 通过订单序列号来获取订单记录
 function _get_order_by_sn($from_order_sn){
- 	mysql_select_db($database_localhost, $localhost);
-	$query_form_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $to_order_sn);
-	$form_order = mysql_query($query_form_order, $localhost) or die(mysql_error());
+
+ 	$query_form_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $from_order_sn);
+	global $db_conn;
+	$form_order = mysql_query($query_form_order,$db_conn) or die(mysql_error());
 	$row_form_order = mysql_fetch_assoc($form_order);
 	$totalRows_form_order = mysql_num_rows($form_order);
 	if($totalRows_form_order>0){
@@ -302,41 +311,46 @@ function _get_order_by_sn($from_order_sn){
 
 // 更新主订单的费用
 function _update_to_order_price_para($from_order_obj,$to_order_obj){
-	
-	$shipping_fee	=	$from_order_obj['shipping_fee']		+	$to_order_obj['shipping_fee'];
+ 	$shipping_fee	=	$from_order_obj['shipping_fee']		+	$to_order_obj['shipping_fee'];
 	$products_total	=	$from_order_obj['products_total']	+	$to_order_obj['products_total'];
 	$should_paid	=	$from_order_obj['should_paid']		+	$to_order_obj['should_paid'];
 	$actual_paid	=	$from_order_obj['actual_paid']		+	$to_order_obj['actual_paid'];
 	
 	// 更新主订单的运费
-	mysql_select_db($database_localhost, $localhost);
-	$query_form_order = sprintf("update order set shipping_fee='%s',products_total='%s',should_paid='%s' WHERE id = '%s'",$shipping_fee,$products_total,$total_fee, $to_order_id);
-	return  mysql_query($query_form_order, $localhost);
+	  $query_form_order = sprintf("update orders set shipping_fee='%s',products_total='%s',should_paid='%s',actual_paid='%s' WHERE id = '%s'",$shipping_fee,$products_total,$should_paid,$actual_paid, $to_order_obj['id']);
+	  global $db_conn;
+	return  mysql_query($query_form_order,$db_conn) or die(mysql_error());
 }
 
 function _update_child_order_product_order_id($from_order_id,$to_order_id){
-	mysql_select_db($database_localhost, $localhost);
-	$query_form_order = sprintf("update order_item set order_id='%s' WHERE id = '%s'",$to_order_id, $from_order_id);
-	return  mysql_query($query_form_order, $localhost);
+ 	$query_form_order = sprintf("update order_item set order_id='%s' WHERE order_id = '%s'",$to_order_id, $from_order_id);
+	global $db_conn;
+	return  mysql_query($query_form_order,$db_conn);
 }
 
 // 更新merge_to字段
 function _update_merge_to($from_order_id,$to_order_id){
-	mysql_select_db($database_localhost, $localhost);
-	$query_form_order = sprintf("update order set merge_to='%s' WHERE id = '%s'",$to_order_id, $from_order_id);
-	return  mysql_query($query_form_order, $localhost);
+ 	$query_form_order = sprintf("update orders set merge_to='%s' WHERE id = '%s'",$to_order_id, $from_order_id);
+	global $db_conn;
+	return  mysql_query($query_form_order,$db_conn) or die(mysql_error());
 }
 
 // 通过id获取订单记录
 function _get_order_by_id($order_id){
-	mysql_select_db($database_localhost, $localhost);
-	$query_form_order = sprintf("SELECT * FROM orders WHERE id = '%s'", $order_id);
-	$form_order = mysql_query($query_form_order, $localhost) or die(mysql_error());
+ 	$query_form_order = sprintf("SELECT * FROM orders WHERE id = '%s'", $order_id);
+	global $db_conn;
+	$form_order = mysql_query($query_form_order,$db_conn) or die(mysql_error());
 	$row_form_order = mysql_fetch_assoc($form_order);
 	$totalRows_form_order = mysql_num_rows($form_order);
 	if($totalRows_form_order>0){
 		return $row_form_order;
 	}
 	return false;
+}
+
+function _log_order_merge($from_order_obj,$to_order_obj){
+	global $db_conn;
+	$order_log_sql="insert into order_log(order_id,message)values('".$to_order_obj['id']."','成功将订单号为：'".$from_order_obj['sn']."'的订单合并到:".$to_order_obj['sn'].")";
+	return mysql_query($order_log_sql, $db_conn);
 }
 ?>

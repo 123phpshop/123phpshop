@@ -18,6 +18,16 @@
 ?>
 <?php
 
+global $db_hostname_localhost;
+global $db_username_localhost;
+global $db_database_localhost;
+global $db_password_localhost;
+global $db_conn;
+$db_hostname_localhost=$hostname_localhost;
+$db_username_localhost=$username_localhost;
+$db_database_localhost=$database_localhost;
+$db_password_localhost=$password_localhost;
+$db_conn=$localhost;
 define("ORDER_STATUS_REFUND",-300); 
 define("ORDER_STATUS_REFUND_APPLIED",-250); 
 define("ORDER_STATUS_RETURNED",-200); 
@@ -38,9 +48,9 @@ $order_status[100]='已付款';
 $order_status[200]='已发货';
 $order_status[300]='已收货';
 
-$const_promotion_types[1]="满赠";
-$const_promotion_types[2]="满减";
-$const_promotion_types[3]="满折";
+$const_promotion_types[1]="赠";
+$const_promotion_types[2]="减";
+$const_promotion_types[3]="折";
 
 $const_promotion_limit[1]="全场";
 $const_promotion_limit[2]="选定分类";
@@ -60,4 +70,7 @@ $product_type_selectable[2]="可单选";
 $product_type_input_method[1]="手动录入";
 $product_type_input_method[2]="列表选择";
 
+$global_default_province="上海";
+$global_default_city="上海";
+$global_default_district="黄浦区";
 ?>

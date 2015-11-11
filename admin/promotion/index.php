@@ -74,11 +74,11 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
   <p>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <td>id</td>
-      <td>name</td>
-      <td>start_date</td>
-      <td>end_date</td>
-      <td>promotion_limit</td>
+      <td>ID<br /></td>
+      <td>促销名称</td>
+      <td>起始日期</td>
+      <td>结束日期</td>
+      <td>促销范围</td>
       <td>amount_lower_limit</td>
       <td>amount_uper_limit</td>
       <td>promotion_type</td>

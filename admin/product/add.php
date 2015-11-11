@@ -25,30 +25,7 @@ $brands = mysql_query($query_brands, $localhost) or die(mysql_error());
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
 $is_vproduct_add_page=false;
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -323,7 +300,18 @@ $().ready(function(){
 		$("#market_price").val(market_price_float);
 	}
 	 
-
+function activate_promotion_input(should_activate){
+ 		if(should_activate==1){
+			$("#promotion_price").attr("disabled",false);
+			$("#promotion_start").attr("disabled",false);
+			$("#promotion_end").attr("disabled",false);
+			return;
+		}
+			$("#promotion_price").attr("disabled",true);
+			$("#promotion_start").attr("disabled",true);
+			$("#promotion_end").attr("disabled",true);
+		
+	}
 </script>
 
 </body>
