@@ -156,6 +156,8 @@ a[parent] .menu_item_row{
 
 <a href="info.php" target="main"  id="shop_info" parent="system"><div class="menu_item_row"><div class="menu_item">》 店铺信息</div><div class="right_indicator" style="">></div></div></a>
 <a href="/admin/mail/" target="main" id="smtp" parent="system"><div class="menu_item_row"><div class="menu_item">》 邮件服务器</div><div class="right_indicator" style="">></div></div></a>
+<a href="/admin/email_template" target="main" id="email_templates" parent="system"><div class="menu_item_row"><div class="menu_item">》 邮件模板列表</div><div class="right_indicator" style="">></div></div></a>
+<a href="/admin/email_template/add.php" target="main" id="email_template_add" parent="system"><div class="menu_item_row"><div class="menu_item">》 添加邮件模板</div><div class="right_indicator" style="">></div></div></a>
 <a href="area/index.php" target="main" id="areas"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 区域管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="friend_links/index.php" target="main" id="friend_links"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 友情链接</div><div class="right_indicator" style="">></div></div></a>
 <a href="friend_links/add.php" target="main" id="friend_links_add"  parent="system"><div class="menu_item_row" ><div class="menu_item">》 添加链接</div><div class="right_indicator" style="">></div></div></a>

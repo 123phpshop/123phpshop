@@ -19,6 +19,7 @@
 <?php
  
 function get_catalog_by_id($id){
+	global $db_conn;
 	
 	//mysql_select_db($database_localhost);
 	$query_get_catalog_by_id = "SELECT * FROM `catalog` WHERE id = $id";
@@ -32,6 +33,8 @@ function get_catalog_by_id($id){
 }
 
 function get_catalog_by_pid($pid){
+	global $db_conn;
+	
  	$query_get_catalog_by_id = "SELECT * FROM `catalog` WHERE pid = $pid";
 	$get_catalog_by_id = mysql_query($query_get_catalog_by_id)  or die(mysql_error()) ;
 	$row_get_catalog_by_id = mysql_fetch_assoc($get_catalog_by_id);

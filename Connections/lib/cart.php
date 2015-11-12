@@ -16,7 +16,8 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php 
+<?php
+
 class Cart {
 	
 	/**  
@@ -49,12 +50,16 @@ class Cart {
  		//	如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
 		if (! $_is_product_exits_in_cart) {
+		 
 			//		如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
 			$this->_do_add_product ( $product );
 		} else {
+		
 			// 如果没有这个产品的话，那么将这个产品更新到session中的产品中
 			$this->_update_product_quantity ( $product );
 		}
+		
+		
 		
 		//		更新产品总价
 		$this->_update_products_total ();
@@ -87,6 +92,20 @@ class Cart {
 			throw new Exception ( "系统错误，请稍后重试" );
 		}
 		//		更新产品总价
+		$this->_update_products_total ();
+		
+		// 更新运费
+		$this->_update_shipping_fee ();
+		
+		//		更新订单总价
+		$this->_update_order_total ();
+		
+		return true;
+	}
+	
+	// 更新费用信息
+	public function update_fee(){
+	//		更新产品总价
 		$this->_update_products_total ();
 		
 		// 更新运费
@@ -261,6 +280,7 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	private function _do_add_product($product) {
+	
  //			这里需要根据product的id获取相应的产品的价格
 		$product_obj=$this->_get_product_from_db_by_id($product ['product_id']);
    		$product['is_shipping_free']	=$product_obj['is_shipping_free'];
@@ -280,8 +300,8 @@ class Cart {
 	
 //			这里还是需要获取是否有优惠价格
 		global $db_conn;
-		$query_product = "SELECT id,price,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = ".$product_id;
-		$product = mysql_query($query_product,$db_conn) or die(mysql_error());
+ 		$query_product = "SELECT id,price,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = ".$product_id;
+		$product = mysql_query($query_product,$db_conn) or die(mysql_error()."_get_product_from_db_by_id");
 		$row_product = mysql_fetch_assoc($product);
 		//$totalRows_product = mysql_num_rows($product);
 		return $row_product;

@@ -47,8 +47,6 @@ $pay_method = mysql_query($query_pay_method, $localhost) or die(mysql_error());
 $row_pay_method = mysql_fetch_assoc($pay_method);
 $totalRows_pay_method = mysql_num_rows($pay_method);
 $consignee_id=0;
-
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

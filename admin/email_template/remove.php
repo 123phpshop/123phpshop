@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_news = sprintf("SELECT * FROM promotion WHERE id = %s", $colname_news);
+$query_news = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_news);
 $news = mysql_query($query_news, $localhost) or die(mysql_error());
 $row_news = mysql_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
@@ -42,7 +42,7 @@ if($could_delete==1){
 		header("Location: " . $remove_succeed_url );
 	}
 	
-	$update_catalog = sprintf("update `promotion` set is_delete=1 where id = %s", $colname_news);
+	$update_catalog = sprintf("update `email_templates` set is_delete=1 where id = %s", $colname_news);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
 		$could_delete=0;
@@ -64,8 +64,8 @@ if($could_delete==1){
 <div class="phpshop123_infobox">
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if($could_delete==0){ ?>
-  <p>由于以下原因，您不能删除这个促销：</p>
-  <p>1. 促销不存在，请检查参数之后再试。</p>
+  <p>由于以下原因，您不能删除这张模板：</p>
+  <p>1. 模板不存在，请检查参数之后再试。</p>
   <p>2. 系统错误，无法删除，请示稍后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。</p>
   <?php } ?>

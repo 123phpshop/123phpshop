@@ -24,7 +24,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-$doc_url="ad.html#list";
+$doc_url="promotion.html#update";
 $support_email_question="更新促销活动";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -58,9 +58,6 @@ $promotion = mysql_query($query_promotion, $localhost) or die(mysql_error());
 $row_promotion = mysql_fetch_assoc($promotion);
 $totalRows_promotion = mysql_num_rows($promotion);
 
-function load_promotion_limit_value(){
-	
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -93,7 +90,7 @@ function load_promotion_limit_value(){
 		 <?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
-         <input name="name_filter" type="text" id="name_filter" style="display:none;" onchange="do_filter()"/>         </td>
+          <input name="name_filter" style="margin-left:7px;" type="text" id="name_filter" <?php if($row_promotion['promotion_limit']==1){?>style="display:none;"<?php } ?> onchange="do_filter()"/>         </td>
          </td>
     </tr>
 	<?php if($row_promotion['promotion_limit']>1){ ?>

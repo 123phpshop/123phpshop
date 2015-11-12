@@ -51,6 +51,7 @@ if(!isset($_SESSION['user_id'])){
 
 $cart_obj = new Cart ();
 $cart = $cart_obj->get ();
+$cart = $cart_obj->update_fee(); //  这里可以防止用户在购物车和订单确认之间进行跳转的时候管理员更新了货物的价格所可能造成的价格错误
 $cart_products = $cart ['products'];
 
 //	检查购物车是否有产品，如果没有产品的话，那么直接跳转到购物车页面

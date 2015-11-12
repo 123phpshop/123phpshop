@@ -82,7 +82,10 @@ a:hover {
 </head>
 
 <body style="margin: 0px;">
+
 <?php
+
+var_export($_SESSION);
 include_once ('widget/top_full_nav.php');
 ?>
 <?php

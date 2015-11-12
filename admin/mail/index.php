@@ -33,16 +33,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
- echo  $updateSQL = sprintf("UPDATE shop_info SET smtp_ssl=%s,smtp_replay_email=%s,smtp_email=%s,smtp_email=%s, smtp_server=%s, smtp_port=%s, smtp_username=%s, smtp_password=%s WHERE id=%s",
-						GetSQLValueString($_POST['smtp_ssl'], "int"),
-						GetSQLValueString($_POST['smtp_replay_email'], "text"),
-                       GetSQLValueString($_POST['smtp_email'], "text"),
-                       GetSQLValueString($_POST['smtp_server'], "text"),
-                       GetSQLValueString($_POST['smtp_port'], "int"),
-                       GetSQLValueString($_POST['smtp_username'], "text"),
-                       GetSQLValueString($_POST['smtp_password'], "text"),
-                       GetSQLValueString($_POST['id'], "int"));
-
+    $updateSQL = sprintf("UPDATE shop_info SET smtp_ssl=%s,smtp_replay_email=%s,smtp_email=%s, smtp_server=%s, smtp_port=%s, smtp_username=%s, smtp_password=%s WHERE id=%s",
+				GetSQLValueString(isset($_POST['smtp_ssl'])?1:0, "int"),
+				GetSQLValueString($_POST['smtp_replay_email'], "text"),
+				GetSQLValueString($_POST['smtp_email'], "text"),
+				GetSQLValueString($_POST['smtp_server'], "text"),
+				GetSQLValueString($_POST['smtp_port'], "int"),
+				GetSQLValueString($_POST['smtp_username'], "text"),
+				GetSQLValueString($_POST['smtp_password'], "text"),
+				GetSQLValueString($_POST['id'], "int"));
+ 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
 }
@@ -66,28 +66,28 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Smtp_email:</td>
+      <td nowrap align="right">Smtp邮件地址:</td>
       <td><input type="text" name="smtp_email" value="<?php echo $row_smtp_info['smtp_email']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Smtp_server:</td>
+      <td nowrap align="right">Smtp服务器地址:</td>
       <td><input type="text" name="smtp_server" value="<?php echo $row_smtp_info['smtp_server']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Smtp_port:</td>
+      <td nowrap align="right">Smtp端口:</td>
       <td><input type="text" name="smtp_port" value="<?php echo $row_smtp_info['smtp_port']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Smtp_username:</td>
+      <td nowrap align="right">Smtp登录账户:</td>
       <td><input type="text" name="smtp_username" value="<?php echo $row_smtp_info['smtp_username']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Smtp_password:</td>
+      <td nowrap align="right">Smtp登录密码:</td>
       <td><input type="text" name="smtp_password" value="<?php echo $row_smtp_info['smtp_password']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">SSL加密</td>
-      <td><input type="checkbox" name="smtp_ssl" value="<?php echo $row_smtp_info['smtp_ssl']; ?>" <?php if($row_smtp_info['smtp_ssl']=='1'){?><?php } ?>></td>
+      <td><input type="checkbox" name="smtp_ssl"  id="smtp_ssl" value="<?php echo isset($row_smtp_info['smtp_ssl'])?:$row_smtp_info['smtp_ssl'];1 ?>" <?php if($row_smtp_info['smtp_ssl']==1){?>checked <?php } ?>></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">回复邮件地址</td>

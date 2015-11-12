@@ -19,21 +19,22 @@
 <?php
  
 	//返回用户是否已经评论过这个商品
- 
+  
 function user_could_comment($user_id, $product_id) {
 	 
- 
+ 	global $db_conn;
 //	检查用户评论过得这个商品的数目，如果这个数目是0的话，那么直接返回true
  	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON orders.id=order_item.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";
-	$order = mysql_query ( $query_order ) or die ( mysql_error () );
+	$order = mysql_query ( $query_order ,$db_conn) or die ( mysql_error () );
 	$totalRows_order = mysql_num_rows ( $order );
 	
  	if ($totalRows_order == 0) {
 		return false;
 	}
 	
+	global $db_conn;
 	$product_comment_num_sql="select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id";
-	$product_comment_num_query = mysql_query ( $product_comment_num_sql ) or die ( mysql_error () );
+	$product_comment_num_query = mysql_query ( $product_comment_num_sql,$db_conn ) or die ( mysql_error () );
 	$product_comment_num=mysql_fetch_assoc($product_comment_num_query);
 	//	 检查用户购买这个商品的数目，如果这个数目是0的话，那么直接返回false
 	if((int)$product_comment_num['comment_num']==0){
@@ -66,10 +67,11 @@ function _add_session_view_history($product_id){
 }
 
 function _add_db_view_history($product_id){
+	global $db_conn;
 	//	检查里面是否已经存在了这个产品，如果有的话，那么删除这个产品，然后
 	if(isset($_SESSION['user_id'])){
 		$sql=sprintf("insert into user_view_history (user_id,product_id) values('%s','%s')",$_SESSION['user_id'],$product_id);
-		mysql_query($sql) or die(mysql_error());
+		mysql_query($sql,$db_conn) or die(mysql_error());
 	}
 }
 
@@ -79,13 +81,13 @@ function _add_db_view_history($product_id){
 	检查是否在运送范围之内
 **/
 function could_devliver($areas){
-		
+		global $db_conn;
 		if(!is_array($areas)){
 			return false;
 		}
 		
 		$query_area = "SELECT * from shipping_method_area where is_delete=0";
-		$area = mysql_query ( $query_area ) or die ( mysql_error () );
+		$area = mysql_query ( $query_area,$db_conn ) or die ( mysql_error () );
 		while($order_area=mysql_fetch_assoc($area)){
 			foreach($areas as $area_item){
 				if(strpos($order_area['area'],$area_item)>-1){
