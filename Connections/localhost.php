@@ -2,7 +2,7 @@
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"
 # HTTP="true".
-error_reporting(E_ALL);
+error_reporting(0);
 $hostname_localhost = "localhost";
 $database_localhost = "123phpshopv14";
 $username_localhost = "root";
