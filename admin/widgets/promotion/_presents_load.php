@@ -10,7 +10,7 @@ $row_goods = mysql_fetch_assoc($goods);
 <table width="960" border="1" class="phpshop123_list_box">
  <?php do { ?> <tr>
        <td> 
-        <input name="present_products[]" type="checkbox" id="present_products[]"  value="<?php echo $row_goods['id']; ?>">
+        <input name="present_products[]" checked type="checkbox" id="present_products[]"  value="<?php echo $row_goods['id']; ?>">
            </td>
       <td><?php echo $row_goods['name']; ?></td>
 	  <td>￥<?php echo $row_goods['price']; ?></td>

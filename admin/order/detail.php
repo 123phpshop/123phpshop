@@ -66,10 +66,9 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
 
 <body>
 		
-<p class="phpshop123_title">订单详细[<a href="update.php?id=<?php echo $row_DetailRS1['id']; ?>">更新</a>]</p>
+<span class="phpshop123_title">订单详细</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
-  
   <tr>
     <td>ID</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
@@ -80,7 +79,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <tr>
     <td>用户</td>
-    <td><?php echo $row_DetailRS1['username']; ?> </td>
+    <td><?php echo $row_DetailRS1['username']; ?>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改订单用户</a>]</td>
   </tr>
   <tr>
     <td>应付</td>
@@ -111,7 +110,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <td><?php echo $pay_methomd[$row_DetailRS1['payment_method']]; ?> </td>
   </tr>
   <tr>
-    <td>需要发票</td>
+    <td>需要发票[更改发票信息]</td>
     <td><?php echo $row_DetailRS1['invoice_is_needed']=='0'?"否":"√"; ?> </td>
   </tr>
   <?php if($row_DetailRS1['invoice_is_needed']=='1'){ ?>
@@ -134,7 +133,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
 </table>
 
-<p>商品列表</p>
+<p>商品列表[<a href="add_order_item.php?order_id=<?php echo $row_DetailRS1['id']; ?>">添加商品</a>]</p>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col">名称</th>
@@ -149,7 +148,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
       <td scope="col"><?php echo $row_products['quantity']; ?></td>
       <td scope="col">￥<?php echo $row_products['actual_pay_price']; ?></td>
       <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>
-      <td scope="col"><a href="delete_goods.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_goods.php?id=<?php echo $row_products['id']; ?>">更新</a></td>
+      <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_goods.php?id=<?php echo $row_products['id']; ?>">更新</a></td>
     </tr>
     <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
 </table>

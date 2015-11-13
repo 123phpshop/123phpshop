@@ -90,11 +90,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td width="86%"><input name="name" type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Start_date:</td>
+      <td nowrap align="right">开始时间:</td>
       <td><input name="start_date" type="text" id="start_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">End_date:</td>
+      <td nowrap align="right">结束时间:</td>
       <td><input name="end_date" type="text" id="end_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
@@ -161,6 +161,8 @@ function show_limit_filter(){
 		default:
 			$("#name_filter").show();
 			$("#filter_results_row").show();
+			$("#name_filter").val("");
+			$("#filter_results_td").html("");
  	}
 }
 

@@ -6,10 +6,5 @@
 </head>
 
 <body>
-<p>更新订单产品信息：</p>
-<p>&nbsp;</p>
-<p>&nbsp; </p>
 </body>
-
-
 </html>
