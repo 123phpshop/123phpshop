@@ -190,7 +190,7 @@ body {
       </table></td>
       <td align="left" valign="top"><table width="220" height="182" border="1" cellpadding="0" cellspacing="0" bordercolor="#f2f2f2">
         <tr>
-          <td bordercolor="#f2f2f2"><div align="center">AD</div></td>
+          <td bordercolor="#f2f2f2"><img src="uploads/image/logo.png" width="218" height="180" border="0"/></td>
         </tr>
       </table></td>
     </tr>

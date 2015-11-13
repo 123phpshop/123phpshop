@@ -38,13 +38,14 @@ if (isset($_GET['accesscheck'])) {
   $password=$_POST['password'];
   $MM_fldUserAuthorization = "";
   $MM_redirectLoginSuccess = "index.php";
-  $MM_redirectLoginFailed = "login.php?error=1";
+  $MM_redirectLoginFailed = "login.php?error=用户名或密码错误，请重新输入";
+  $MM_redirectLoginFailed_captcha_error = "login.php?error=验证码错误，请重新输入";
   $MM_redirecttoReferrer = true;
   mysql_select_db($database_localhost, $localhost);
   
   //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
   if(!isset($_POST['captcha']) OR $_POST['captcha']!=$_SESSION['captcha']){
-  		 header("Location: ". $MM_redirectLoginFailed );
+  		 header("Location: ". $MM_redirectLoginFailed_captcha_error );
 		 return;
   }
   
@@ -110,7 +111,9 @@ a{
         <td><div align="right" class="STYLE2"><a href="register.php" class="STYLE3">立即注册</a></div></td>
       </tr>
       <tr>
-        <td colspan="2"><div style="text-align:center;line-height:26px;height:26px;background-color:#fff6d2;border:1px solid #ffe57d">公共场所登录建议保护密码，以防账号丢失</div></td>
+        <td colspan="2">
+		<?php if(!isset($_GET['error'])){ ?>
+		<div style="text-align:center;line-height:26px;height:26px;background-color:#fff6d2;border:1px solid #ffe57d;font-size:12px;">公共场所登录建议进行密码保护，以防账号丢失</div><?php }else{?><div style="color:#e4393c;text-align:center;line-height:26px;height:26px;font-size:12px;background-color:#ffebeb;border:1px solid #e4393c"><?php echo $_GET['error'];?></div><?php } ?></td>
         </tr>
       <tr>
         <td colspan="2" align="center"> 
@@ -129,7 +132,7 @@ a{
         </tr>
 		
       <tr>
-        <td colspan="2" align="center"><input style="color:white;border:1px solid #e85356;font-size:21px;width:302px;background-color:#e4393c;height:33px;line-height:32px;" type="submit" name="Submit"class="required"    value="提交" /></td>
+        <td colspan="2" align="center"><input style="color:white;border:1px solid #e85356;font-size:21px;width:302px;background-color:#e4393c;height:33px;line-height:28px;" type="submit" name="Submit"class="required"    value="提交" /></td>
         </tr>
     </table></td>
     <td>&nbsp;</td>

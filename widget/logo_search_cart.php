@@ -37,7 +37,7 @@ $totalRows_shopinfo = mysql_num_rows($shopinfo);
     </td>
    <td width="187" height="100" align="right"> 
       <a href="/cart.php" style="text-decoration:none;color:#000000;"><div style="background-color:#F9F9F9;border:1px solid #DFDFDF;text-align:center;height:36px;line-height:36px;width:141px;" cellpadding="0" cellspacing="0">
-         购物车&nbsp;&nbsp;&gt;
+         购物车&nbsp;&nbsp;<span style="font-family:consolas;">&gt;</span>
                 </div></a> 
     </td>
   </tr>
