@@ -18,43 +18,37 @@ $support_email_question="添加订单";
 <form id="form1" name="form1" method="post" action="">
   <table width="960" border="0" class="phpshop123_form_box">
     <tr>
-      <td width="200">用户</td>
-      <td width="744"><label>
+      <td width="155">用户</td>
+      <td width="1476"><label>
         <input name="username" type="text" id="username"  onchange="get_user()"/>
       </label></td>
     </tr>
     <tr>
-      <td>用户选择</td>
+      <td>选择用户</td>
       <td id="users_td">&nbsp;</td>
     </tr>
     <tr>
-      <td>收件人</td>
+      <td>选择收件人</td>
       <td id="consignees_td">&nbsp;</td>
     </tr>
-
     <tr>
-      <td>商品</td>
-      <td><input name="goods_name" type="text" id="goods_name" onchange="get_goods()"/></td>
-    </tr>
-    <tr>
-      <td>商品选择</td>
-      <td id="goods_td">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>支付方式</td>
-      <td><label>
-        <input type="radio" name="radiobutton" value="radiobutton" />
-      </label>
-      支付宝</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
       <td>发票信息</td>
-      <td><label>
-        <input type="radio" name="radiobutton" value="radiobutton" />
-      需要发票<br />
-      <input type="text" name="textfield3" />
-      <br />
-      <input type="text" name="textfield32" />
+      <td><input type="checkbox" name="invoice_is_needed" id="invoice_is_needed" value="1" />
+需要发票</td>
+    </tr>
+    <tr>
+      <td>发票抬头</td>
+      <td><input type="text" name="invoice_title" id="invoice_title2" /></td>
+    </tr>
+    <tr>
+      <td>发票信息</td>
+      <td><label><br />
+          <input type="text" name="invoice_message" id="invoice_title" />
+        <br />
       </label></td>
     </tr>
   </table>

@@ -15,7 +15,7 @@ $row_goods_num=mysql_num_rows($goods);
    <?php do { ?>
   <tr>
       <td width="58"> 
-        <input type="radio" name="user_id" value="<?php echo $row_goods['id']; ?>" onclick="show_consignee(<?php echo $row_goods['id']; ?>)">
+        <input type="radio" name="user_id" value="<?php echo $row_goods['id']; ?>" onclick="get_consignee(<?php echo $row_goods['id']; ?>)">
       </td>
       <td width="886"><?php echo $row_goods['username']; ?></td>
     </tr>
