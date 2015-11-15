@@ -294,6 +294,11 @@ function activate_promotion_input(should_activate){
 		
 	}
 	
+	function show_market_price(){
+	var market_price_float=(parseFloat($("#price").val())*1.15).toFixed(2);
+	$("#market_price").val(market_price_float);
+}
+	
 </script>
 </body>
 </html>

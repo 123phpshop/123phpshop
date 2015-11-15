@@ -295,10 +295,10 @@ $().ready(function(){
     }
 	
 		 
-	function market_price(){
-		var market_price_float=parseFloat($("#price").val())*1.2
-		$("#market_price").val(market_price_float);
-	}
+function show_market_price(){
+	var market_price_float=(parseFloat($("#price").val())*1.15).toFixed(2);
+	$("#market_price").val(market_price_float);
+}
 	 
 function activate_promotion_input(should_activate){
  		if(should_activate==1){
@@ -312,13 +312,7 @@ function activate_promotion_input(should_activate){
 			$("#promotion_end").attr("disabled",true);
 		
 	}
+	
 </script>
-
 </body>
-
 </html>
-<?php
-mysql_free_result($brands);
-
-mysql_free_result($product_types);
-?>

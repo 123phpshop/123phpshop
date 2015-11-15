@@ -32,13 +32,13 @@ $row_goods_num=mysql_num_rows($goods);
 }
 ?>
 <?php if($row_goods_num==1 ||$row_goods_hidden['is_default']==1 ){ ?>
-<input name="consignee_name" type="text" value="<?php echo $row_goods_hidden['name']; ?>" />
-<input name="consignee_province" type="text" value="<?php echo $row_goods_hidden['province']; ?>" />
-<input name="consignee_city" type="text" value="<?php echo $row_goods_hidden['city']; ?>" />
-<input name="consignee_district" type="text" value="<?php echo $row_goods_hidden['district']; ?>" />
-<input name="consignee_address" type="text" value="<?php echo $row_goods_hidden['address']; ?>" />
-<input name="consignee_zip" type="text" value="<?php echo $row_goods_hidden['zip']; ?>" />
-<input name="consignee_mobile" type="text" value="<?php echo $row_goods_hidden['mobile']; ?>" />
+<input name="consignee_name" id="consignee_name" type="text" value="<?php echo $row_goods_hidden['name']; ?>" />
+<input name="consignee_mobile" id="consignee_mobile" type="text" value="<?php echo $row_goods_hidden['mobile']; ?>" />
+<input name="consignee_province" id="consignee_province" type="text" value="<?php echo $row_goods_hidden['province']; ?>" />
+<input name="consignee_city" id="consignee_city" type="text" value="<?php echo $row_goods_hidden['city']; ?>" />
+<input name="consignee_district" id="consignee_district" type="text" value="<?php echo $row_goods_hidden['district']; ?>" />
+<input name="consignee_address" id="consignee_address" type="text" value="<?php echo $row_goods_hidden['address']; ?>" />
+<input name="consignee_zip" id="consignee_zip" type="text" value="<?php echo $row_goods_hidden['zip']; ?>" />
 <?php }elseif($row_goods_num>1){
 	foreach($row_goods_hidden as $row_goods_item){
  	if($row_goods_item['is_default']==0){
@@ -46,31 +46,11 @@ $row_goods_num=mysql_num_rows($goods);
 	}
 ?>
 <input name="consignee_name" id="consignee_name" type="text" value="<?php echo $row_goods_hidden['name']; ?>" />
+<input name="consignee_mobile"  id="consignee_mobile" type="text" value="<?php echo $row_goods_hidden['mobile']; ?>" />
 <input name="consignee_province" id="consignee_province" type="text" value="<?php echo $row_goods_hidden['province']; ?>" />
 <input name="consignee_city"  id="consignee_city" type="text" value="<?php echo $row_goods_hidden['city']; ?>" />
 <input name="consignee_district"  id="consignee_district" type="text" value="<?php echo $row_goods_hidden['district']; ?>" />
 <input name="consignee_address"  id="consignee_address" type="text" value="<?php echo $row_goods_hidden['address']; ?>" />
 <input name="consignee_zip"  id="consignee_zip" type="text" value="<?php echo $row_goods_hidden['zip']; ?>" />
-<input name="consignee_mobile"  id="consignee_mobile" type="text" value="<?php echo $row_goods_hidden['mobile']; ?>" />
 <?php } ?>
 <?php }?>
-<script>
-function set_consignee(that){
-	console.log(that);
-	var consignee_name=$(that).attr("consignee_name");
-	var consignee_province=$(that).attr("consignee_province");
-	var consignee_city=$(that).attr("consignee_city");
-	var consignee_district=$(that).attr("consignee_district");
-	var consignee_address=$(that).attr("consignee_address");
-	var consignee_zip=$(that).attr("consignee_zip");
-	var consignee_mobile=$(that).attr("consignee_mobile");
-	
-	$("#consignee_name").val(consignee_name);
-	$("#consignee_province").val(consignee_province);
-	$("#consignee_city").val(consignee_city);
-	$("#consignee_district").val(consignee_district);
-	$("#consignee_address").val(consignee_address);
-	$("#consignee_zip").val(consignee_zip);
-	$("#consignee_mobile").val(consignee_mobile);
- }
-</script>

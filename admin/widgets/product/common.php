@@ -17,13 +17,13 @@
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">价格:</td>
-      <td><input name="price" type="text" id="price" value="<?php echo $row_product['price']; ?>" size="32" maxlength="13" onchange="market_price()">
+      <td><input name="price" type="text" id="price" onInput="show_market_price()" value="<?php echo $row_product['price']; ?>" size="32" maxlength="13">
       *</td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">市场价:</td>
       <td><input name="market_price" type="text"  id="market_price" value="<?php echo $row_product['market_price']; ?>" size="32" maxlength="13">
-      *	</td>
+      [自动设置为比价格贵15%]* 	</td>
     </tr>
 	<tr valign="baseline">
       <td nowrap align="right">品牌:</td>
@@ -78,7 +78,7 @@ do {
 	<tr valign="baseline">
       <td nowrap align="right">赠送点数:</td>
       <td><input type="text" name="pointers" id="pointers" value="<?php echo isset($row_product['pointers'])?$row_product['pointers']:-1; ?>"/>
-      *[默认是-1，也就是按照商品价格提供点数，如果商品的价格是小数，那么取上值，例如3.1元会给予4个积分]</td>
+      [默认是-1，也就是按照商品价格提供点数，如果商品的价格是小数，那么取上值，例如3.1元会给予4个积分]*</td>
     </tr>
 	
 	<tr valign="baseline">

@@ -18,6 +18,12 @@
 ?>
 <?php include_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
+
+function gen_order_sn(){
+	$sn=date("YmdHis").rand(10000000,99999999);
+	return $sn;
+}
+
 global $db_conn;
 
 

@@ -133,26 +133,27 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
 </table>
 
-<p>商品列表[<a href="add_order_item.php?order_id=<?php echo $row_DetailRS1['id']; ?>">添加商品</a>]</p>
-<table width="100%" border="1" class="phpshop123_list_box">
-  <tr>
-    <th scope="col">名称</th>
-    <th scope="col">数量</th>
-    <th scope="col">实付</th>
-    <th scope="col">应付</th>
-    <th scope="col">操作</th>
-  </tr>
-  <?php do { ?>
+<p><span class="phpshop123_title">商品列表</span>[<a href="add_order_item.php?order_id=<?php echo $row_DetailRS1['id']; ?>">添加商品</a>]</p>
+<?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
+  <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
-      <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
-      <td scope="col"><?php echo $row_products['quantity']; ?></td>
-      <td scope="col">￥<?php echo $row_products['actual_pay_price']; ?></td>
-      <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>
-      <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_goods.php?id=<?php echo $row_products['id']; ?>">更新</a></td>
+      <th scope="col">名称</th>
+      <th scope="col">数量</th>
+      <th scope="col">实付</th>
+      <th scope="col">应付</th>
+      <th scope="col">操作</th>
     </tr>
-    <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
-</table>
-<p>订单处理过程</p>
+    <?php do { ?>
+      <tr>
+        <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
+        <td scope="col"><?php echo $row_products['quantity']; ?></td>
+        <td scope="col">￥<?php echo $row_products['actual_pay_price']; ?></td>
+        <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>
+        <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_goods.php?id=<?php echo $row_products['id']; ?>">更新</a></td>
+      </tr>
+      <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
+      </table>
+  <?php } // Show if recordset not empty ?><p class="phpshop123_title">订单处理过程</p>
 <table width="100%" border="1"  class="phpshop123_list_box">
  <?php while ($row_log_DetailRS1 = mysql_fetch_assoc($log_DetailRS1)){ ?>
   <tr  >
@@ -161,7 +162,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <?php  } ?>
 </table>
- <p>收货人[<a href="update_consignee.php?id=<?php echo $row_DetailRS1['id']; ?>">更新</a>]</p>
+ <p><span class="phpshop123_title">收货人</span>[<a href="update_consignee.php?id=<?php echo $row_DetailRS1['id']; ?>">更新</a>]</p>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col">收货人姓名</th>

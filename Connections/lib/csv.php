@@ -83,8 +83,15 @@ function export_csv($filename,$data)
 }  
 
 function impor_csv(){
+
+	// 获取这个文件，如果文件
 	
-	// 解析
+	// 获取文件内容
+	
+	
+	// 按照分行符号分割数据
+	
+	// 循环这个
 	
 }
  

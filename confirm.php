@@ -99,7 +99,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	//	如果只有1个收货人信息的话，那么默认就是这个
  	//	插入订单信息，().
 	 
-	$sn=date('YmdHis').rand(0,9999);
+	require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php');
+	$sn=gen_order_sn();
 	$should_paid=$_SESSION['cart']['order_total'];
 	$actual_paid="0.00";
     $insertSQL = sprintf("INSERT INTO orders (products_total,shipping_fee,sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s,%s, %s, %s)",
