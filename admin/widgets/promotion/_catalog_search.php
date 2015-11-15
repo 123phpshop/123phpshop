@@ -16,7 +16,7 @@ $query_goods = "SELECT id,name FROM catalog WHERE name like '%".$colname_goods."
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
 $goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
 $row_goods = mysql_fetch_assoc($goods);
-
+$row_goods_num = mysql_num_rows($goods);
 if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = $_GET['totalRows_goods'];
 } else {
@@ -25,6 +25,7 @@ if (isset($_GET['totalRows_goods'])) {
 }
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
 ?>
+<?php if($row_goods_num>0){ ?>
 <link href="../../../css/common_admin.css" rel="stylesheet" type="text/css">
 
 <?php if ($totalRows_goods > 0) { // Show if recordset not empty ?>
@@ -41,5 +42,6 @@ $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
 </table>
 <?php } // Show if recordset not empty ?>
 <?php
-mysql_free_result($goods);
+}
 ?>
+

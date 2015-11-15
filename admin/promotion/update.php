@@ -32,15 +32,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE promotion SET name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, amount_uper_limit=%s, promotion_type=%s, present_products=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE promotion SET name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, promotion_limit_value=%s, promotion_type=%s, promotion_type_val=%s,present_products=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
                        GetSQLValueString($_POST['end_date'], "date"),
                        GetSQLValueString($_POST['promotion_limit'], "int"),
                        GetSQLValueString($_POST['amount_lower_limit'], "double"),
-                       GetSQLValueString($_POST['amount_uper_limit'], "double"),
+                       GetSQLValueString(implode(",",$_POST['promotion_limit_value']), "text"),
                        GetSQLValueString($_POST['promotion_type'], "int"),
-                       GetSQLValueString($_POST['present_products'], "text"),
+					   GetSQLValueString($_POST['promotion_type_val'], "int"),
+                       GetSQLValueString(implode(",",$_POST['present_products']), "text"),
                        GetSQLValueString($_POST['id'], "int"));
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
@@ -90,12 +91,11 @@ $totalRows_promotion = mysql_num_rows($promotion);
 		 <?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
-           <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php } ?>" type="text" id="name_filter"  onchange="do_filter()"/>         
+           <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php } ?>" type="text" id="name_filter"  oninput="do_filter()"/>         
  		  </td>
          </td>
     </tr>
-	
-    <tr valign="baseline" id="filter_results_row" <?php if($row_promotion['promotion_limit']==1){ ?>style="display:none;"<?php } ?>>
+     <tr valign="baseline" id="filter_results_row" <?php if($row_promotion['promotion_limit']==1){ ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">参与对象：</td>
       <td id="filter_results_td"><?php
 	  if($row_promotion['promotion_limit']>1){ 
@@ -122,21 +122,21 @@ $totalRows_promotion = mysql_num_rows($promotion);
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_type']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
         </select>
-		<?php if($row_promotion['promotion_type']>1){ ?>
-		 <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="10" value="<?php echo $row_promotion['promotion_type_val']; ?>"/>[如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入满折的百分比，例如：70，就是输入70%]
-		<?php } ?>
+		
+		 <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="10" value="<?php echo $row_promotion['promotion_type_val']; ?>" <?php if($row_promotion['promotion_type']==1){ ?>style="display:none;"<?php } ?>/>[如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入满折的百分比，例如：70，就是输入70%]
+		
 		</td>
     </tr>
       <tr valign="baseline" id="presents_tr" <?php if($row_promotion['promotion_type']>1){ ?>style="display:none;"<?php } ?>>
       <td nowrap align="right">选择赠品:</td>
-      <td><input type="text" name="present_products" size="32"></td>
+      <td><input type="text" name="present_goods_name"  id="present_goods_name" size="32" oninput="filter_presents()"></td>
     </tr>
 	 <tr valign="baseline" id="presents_sel_tr" <?php if($row_promotion['promotion_type']>1){ ?>style="display:none;"<?php } ?>>
-      <td nowrap align="right">赠送商品:</td>
-      <td><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/_presents_load.php");?></td>
+      <td nowrap align="right">赠送商品:<?php var_export($row_promotion['present_products']);?></td>
+      <td id="presents_sel_td"><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/_presents_load.php");?></td>
     </tr>
      <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
+      <td nowrap align="right" >&nbsp;</td>
       <td><input type="submit" value="更新记录"></td>
     </tr>
   </table>
@@ -152,7 +152,7 @@ $().ready(function(){
 	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 });
 function show_limit_filter(){
-	var promotion_limit_id=$("#promotion_limit").val();
+	 var promotion_limit_id=$("#promotion_limit").val();
 	switch(promotion_limit_id){
 		case "1":
 			$("#name_filter").hide();
@@ -164,15 +164,12 @@ function show_limit_filter(){
 			$("#filter_results_row").show();
 			$("#name_filter").val("");
 			$("#filter_results_td").html("");
-			
-   	}
+    	} 
 }
 
-
-function do_filter(){
-	
-	var promotion_limit_id=$("#promotion_limit").val();
-	var name=$("#name_filter").val();
+ function do_filter(){
+  	var promotion_limit_id=$("#promotion_limit").val();
+ 	var name=$("#name_filter").val();
 	
 	switch(promotion_limit_id){
 		case "2": 	// 分类
@@ -186,14 +183,13 @@ function do_filter(){
  		break;
 	}
 	
-	$("#filter_results_td").load(url);
+	$("#filter_results_td").load(url); 
 }
 
 function promotion_type_filter(){
  	var promotion_type=$("#promotion_type").val();
   	if(promotion_type=="1"){
-		console.log("1");
-		$("#presents_tr").show();
+ 		$("#presents_tr").show();
 		$("#presents_sel_tr").show();
 		$("#promotion_type_val").hide();
 		return;
@@ -205,13 +201,11 @@ function promotion_type_filter(){
 }
 
 function filter_presents(){
+	
 	var name=$("#present_goods_name").val();
-	var url="/admin/widgets/promotion/_presents_search.php?name="+name;
+ 	var url="/admin/widgets/promotion/_presents_search.php?name="+name;
 	$("#presents_sel_td").load(url);
 }	
 </script>
 </body>
 </html>
-<?php
-mysql_free_result($promotion);
-?>

@@ -16,7 +16,7 @@ $query_goods = "SELECT id,name,price FROM product WHERE name like '%".$colname_g
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
 $goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
 $row_goods = mysql_fetch_assoc($goods);
-
+$row_goods_num = mysql_num_rows($goods);
 if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = $_GET['totalRows_goods'];
 } else {
@@ -24,7 +24,9 @@ if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = mysql_num_rows($all_goods);
 }
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
+
 ?>
+<?php if($row_goods_num>0){ ?>
 <link href="../../../css/common_admin.css" rel="stylesheet" type="text/css">
 <table width="960" border="1" class="phpshop123_list_box">
  <?php do { ?> <tr>
@@ -36,5 +38,6 @@ $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
       </tr><?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
 </table>
 <?php
-mysql_free_result($goods);
+}
 ?>
+

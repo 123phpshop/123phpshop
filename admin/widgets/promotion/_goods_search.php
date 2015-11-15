@@ -16,9 +16,10 @@ $query_goods = "SELECT id,name FROM product WHERE name like '%".$colname_goods."
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
 $goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
 $row_goods = mysql_fetch_assoc($goods);
+$row_goods_num = mysql_num_rows($goods);
 ?>
+<?php if($row_goods_num>0){ ?>
 <link href="../../../css/common_admin.css" rel="stylesheet" type="text/css">
-
 <table width="960" border="1" class="phpshop123_list_box">
    <?php do { ?>
   <tr>
@@ -31,5 +32,6 @@ $row_goods = mysql_fetch_assoc($goods);
 	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
 </table>
 <?php
-mysql_free_result($goods);
+}
 ?>
+

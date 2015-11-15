@@ -12,4 +12,7 @@ session_set_save_handler(array($session, 'open'),
                          array($session, 'gc'));
 
 register_shutdown_function('session_write_close');
-session_start();
+if(!isset($_SESSION)){
+	session_start();
+}
+
