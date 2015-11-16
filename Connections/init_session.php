@@ -15,4 +15,3 @@ register_shutdown_function('session_write_close');
 if(!isset($_SESSION)){
 	session_start();
 }
-

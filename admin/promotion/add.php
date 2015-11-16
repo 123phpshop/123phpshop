@@ -86,7 +86,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   <span class="phpshop123_title">添加促销</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td width="14%" align="right" nowrap>Name:</td>
+      <td width="14%" align="right" nowrap>名称:</td>
       <td width="86%"><input name="name" type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
@@ -98,7 +98,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input name="end_date" type="text" id="end_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Promotion_limit:</td>
+      <td nowrap align="right">促销范围:</td>
       <td><select name="promotion_limit" id="promotion_limit" onchange="show_limit_filter()">
         <?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>"><?php echo $value;?></option>
@@ -111,7 +111,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td id="filter_results_td">&nbsp;</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Promotion_type:</td>
+      <td nowrap align="right">促销类型:</td>
       <td>满
         <label>
         <input name="amount_lower_limit" type="text" id="amount_lower_limit" size="10" maxlength="10" />

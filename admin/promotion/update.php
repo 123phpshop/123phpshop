@@ -201,8 +201,7 @@ function promotion_type_filter(){
 }
 
 function filter_presents(){
-	
-	var name=$("#present_goods_name").val();
+ 	var name=$("#present_goods_name").val();
  	var url="/admin/widgets/promotion/_presents_search.php?name="+name;
 	$("#presents_sel_td").load(url);
 }	
