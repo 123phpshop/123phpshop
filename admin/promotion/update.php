@@ -132,7 +132,7 @@ $totalRows_promotion = mysql_num_rows($promotion);
       <td><input type="text" name="present_goods_name"  id="present_goods_name" size="32" oninput="filter_presents()"></td>
     </tr>
 	 <tr valign="baseline" id="presents_sel_tr" <?php if($row_promotion['promotion_type']>1){ ?>style="display:none;"<?php } ?>>
-      <td nowrap align="right">赠送商品:<?php var_export($row_promotion['present_products']);?></td>
+      <td nowrap align="right">赠送商品:</td>
       <td id="presents_sel_td"><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/_presents_load.php");?></td>
     </tr>
      <tr valign="baseline">

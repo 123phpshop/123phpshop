@@ -3,7 +3,7 @@ if($row_promotion['promotion_limit_value']==''){
 	return;
 }
 mysql_select_db($database_localhost, $localhost);
-echo $query_goods = "SELECT id,name FROM catalog WHERE id in (".$row_promotion['promotion_limit_value'].")";
+$query_goods = "SELECT id,name FROM catalog WHERE id in (".$row_promotion['promotion_limit_value'].")";
 $goods = mysql_query($query_goods, $localhost) or die(mysql_error());
 $row_goods = mysql_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
