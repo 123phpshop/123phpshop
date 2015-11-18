@@ -301,6 +301,32 @@ function order_merge($from_order_sn,$to_order_sn){
 		
 }
 
+// 更新订单的费用
+function update_order_fee($order_id){
+	
+	$products=array();
+	$product_fee=0.00;
+	$shipping_fee=0.00;
+	$promotion_fee=0.00;
+	$order_total=0.00;
+	
+	$products=_get_products_by_order_id($order_id);
+	$product_fee=_get_product_fee($products);
+	$shipping_fee=_get_shipping_fee($products);
+	$promotion_fee=_get_promotion_fee($products);
+	$order_total=_get_order_total($products);
+	_do_update_order_fee($product_fee,$shipping_fee,$promotion_fee,$order_total);
+}
+
+
+function _do_update_order_fee($product_fee,$shipping_fee,$promotion_fee,$order_total){
+	$sql="";
+	$result=mysql_query($sql);
+	if(!$result){
+		throw new Exeption("订单费用更新错误，请重试！");
+	}
+ }
+
 // 通过订单序列号来获取订单记录
 function _get_order_by_sn($from_order_sn){
 
@@ -354,6 +380,7 @@ function _get_order_by_id($order_id){
 	return false;
 }
 
+// 将订单合并信息添加到订单日志之中
 function _log_order_merge($from_order_obj,$to_order_obj){
 	global $db_conn;
 	$order_log_sql="insert into order_log(order_id,message)values('".$to_order_obj['id']."','成功将订单号为：'".$from_order_obj['sn']."'的订单合并到:".$to_order_obj['sn'].")";

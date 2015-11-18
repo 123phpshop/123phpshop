@@ -61,7 +61,7 @@ $totalRows_product = mysql_num_rows($product);
 
 // 根据类型的id获取相关的属性
 mysql_select_db($database_localhost, $localhost);
-$query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_id = ".$row_product['product_type_id']." and is_selectable=1";
+$query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_id = ".$row_product['product_type_id']." and is_delete=0 and input_method!=2";
 $product_type_attrs = mysql_query($query_product_type_attrs, $localhost) or die(mysql_error());
 $row_product_type_attrs = mysql_fetch_assoc($product_type_attrs);
 $totalRows_product_type_attrs = mysql_num_rows($product_type_attrs);
@@ -98,8 +98,7 @@ if($totalRows_product_type_attrs>0){
         <td width="10%" scope="row"><?php echo $row_product_type_attrs['name']; ?></td>
         <td width="90%"> 
 			<?php 
-			
-			// 获取这个产品的所有的属性值
+ 			// 获取这个产品的所有的属性值
 			$colname_get_product_attr_val = "-1";
 			if (isset($_GET['product_id'])) {
 			  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
@@ -111,7 +110,11 @@ if($totalRows_product_type_attrs>0){
 			$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 			
 			?>
+		<?php if($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==1){ ?>
           <input type="text" name="attr_<?php echo $row_product_type_attrs['id']; ?>" value="<?php echo $row_get_product_attr_val['product_type_attr_value'];?>"/>
+		  <?php }elseif($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==2){ ?> <textarea type="text" cols="50" rows="5" name="attr_<?php echo $row_product_type_attrs['id']; ?>" /><?php echo $row_get_product_attr_val['product_type_attr_value'];?></textarea>
+		  	
+		  <?php  } ?>
          </td>
       </tr>
 	      <?php } while ($row_product_type_attrs = mysql_fetch_assoc($product_type_attrs)); ?>

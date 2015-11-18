@@ -24,7 +24,7 @@ if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_products = sprintf("SELECT order_item.*,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s", $colname_products);
+$query_products = sprintf("SELECT order_item.*,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete = 0", $colname_products);
 $products = mysql_query($query_products, $localhost) or die(mysql_error());
 $row_products = mysql_fetch_assoc($products);
 $totalRows_products = mysql_num_rows($products);
@@ -162,7 +162,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <?php  } ?>
 </table>
- <p><span class="phpshop123_title">收货人</span>[<a href="update_consignee.php?id=<?php echo $row_DetailRS1['id']; ?>">更新</a>]</p>
+ <p><span class="phpshop123_title">收货人</span>[<a href="update_consignee.php?user_id=<?php echo $row_DetailRS1['user_id']; ?>&order_id=<?php echo $row_DetailRS1['id']; ?>">更新</a>]</p>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col">收货人姓名</th>

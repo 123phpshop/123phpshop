@@ -1,4 +1,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once('../../Connections/lib/order.php'); ?>
+
 <?php
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -60,14 +62,77 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	$totalRows_check_product = mysql_num_rows($check_product);
 	
 	
-	// 如果这张订单中已经有了相同的产品，而且当前需要添加的产品不是赠品，那么直接将这个订单产品的记录+1		 
- 	if($totalRows_check_product>0 && !isset($_POST['is_present']){	
+	// 如果这张订单中么有这个产品，而且这个产品是赠品的话，那么直接插入即可,也不需要更新任何费用信息
+	if($totalRows_check_product==0 && isset($_POST['is_present'])){	
+	
+  		$insertSQL = sprintf("INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)",
+					   GetSQLValueString(0.00, "double"),
+                       GetSQLValueString($colname_order, "int"),
+					   GetSQLValueString($_POST['product_id'], "int"),
+                       GetSQLValueString($_POST['quantity'], "int"),
+                       GetSQLValueString($_POST['attr_value'], "text"),
+                       GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
+
+		 	// 如果一切都ok，那么进行跳转		
+		  $insertGoTo = "detail.php?recordID=" . $colname_order;
+		  header(sprintf("Location: %s", $insertGoTo));
+ 	}
+	
+	//	 如果订单中没有这个产品，而且用户想要添加的产品页不属于的话，那么直接插入，但是需要更新产品的费用信息
+	if($totalRows_check_product==0 && !isset($_POST['is_present'])){	
+		
+		$insertSQL = sprintf("INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)",
+					   GetSQLValueString(0.00, "double"),
+                       GetSQLValueString($colname_order, "int"),
+					   GetSQLValueString($_POST['product_id'], "int"),
+                       GetSQLValueString($_POST['quantity'], "int"),
+                       GetSQLValueString($_POST['attr_value'], "text"),
+                       GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
+
+		 	// 如果一切都ok，那么进行跳转		
+		  $insertGoTo = "detail.php?recordID=" . $colname_order;
+		  header(sprintf("Location: %s", $insertGoTo));
+		  
+		  update_order_fee($colname_order);
+	}
+	
+	
+	
+	// 如果这张订单中已经有了相同的产品，而且当前需要添加的产品不是赠品	 
+ 	if($totalRows_check_product>0 && !isset($_POST['is_present'])){	
+	
+		// 这里需要检查前面的那个产品是否是赠品，
+		
+		// 如果前面那个商品是赠品，那么直接插入，然后更新价格信息
+		
+		// 如果前面那个商品不属于赠品，那么检查是否需要享受优惠
+		
+		// 如果需要享受优惠，那么获取优惠价格，然后更新订单费用信息
+			
+		// 如果不需要享受优惠，那么直接更新订单费用即可
+		
+   		// 如果是赠品，那么直接添加即可，然后进行跳转		
+ 		
+		// 这里需要获取已有产品的产品的价格
+		$price=$row_check_product['should_pay_price'];
+		$quantity=$row_check_product['quantity'];
+		
+		// 如果是优惠价怎么办？
+		
  		$update_quantity_sql="";
 		mysql_query($update_quantity_sql, $localhost);
   	}
 	
 	// 如果这张订单中已经有了相同的产品，而且当前需要添加的产品是赠品，那么直接添加即可，然后进行跳转即可
-	if(isset($_POST['is_present']){	
+	if($totalRows_check_product>0 && isset($_POST['is_present'])){	
+		
+		// 这里需要检查前面的那个产品是否是赠品，
+		
+		// 如果前面那个商品也是赠品，那么直接将其数量+1即可，不用更新产品费用信息
+		
+		
+		// 如果前面的那个产品不属于赠品，那么直接插入即可，不用更新费用信息
+		
 		
    		// 如果是赠品，那么直接添加即可，然后进行跳转
  		$insertSQL = sprintf("INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)",
