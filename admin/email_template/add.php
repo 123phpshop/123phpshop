@@ -84,7 +84,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline">
       <td nowrap align="right">Code:</td>
       <td><select name="code">
-	  	<?php foreach($global_email_send_time as $key=>$value){ ?>
+	  	<?php foreach($global_phpshop123_email_send_time as $key=>$value){ ?>
         <option value="<?php echo $key;?>" ><?php echo $value;?></option>
 		<?php } ?>
        </select>

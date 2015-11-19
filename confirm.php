@@ -149,6 +149,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	  
 	$order_log_sql="insert into order_log(order_id,message)values('".$order_id."','创建订单成功')";
 	mysql_query($order_log_sql, $localhost);
+	
+	// 发送邮件通知
+	$email_template_code=200;
+	require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+	
 	//	  如果成功，那么跳转到付款页面
 	$MM_redirectLoginSuccess="payoff.php?order_sn=".$sn;
 	header("Location: " . $MM_redirectLoginSuccess );

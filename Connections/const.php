@@ -74,7 +74,8 @@ $global_default_province="上海";
 $global_default_city="上海";
 $global_default_district="黄浦区";
 
-$global_email_send_time[100]="订单支付完成";
-$global_email_send_time[200]="订单创建";
-$global_email_send_time[300]="订单撤销";
+$global_phpshop123_email_send_time[100]="订单支付完成";
+$global_phpshop123_email_send_time[200]="订单创建";
+$global_phpshop123_email_send_time[300]="订单撤销";
+$global_phpshop123_email_send_time_array=array(100,200,300);
 ?>

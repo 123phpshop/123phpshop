@@ -128,7 +128,8 @@ $totalRows_info = mysql_num_rows($info);
         </tr>
         <tr valign="baseline">
           <td nowrap align="right">邮件:</td>
-          <td><input name="email" type="text" value="<?php echo isset($row_info['email'])?$row_info['email']:''; ?>" size="32" maxlength="50"></td>
+          <td><input name="email" type="text" value="<?php echo isset($row_info['email'])?$row_info['email']:''; ?>" size="32" maxlength="50">
+          [订单通知会发送到这个邮件地址]</td>
         </tr>
         <tr valign="baseline">
           <td nowrap align="right">手机:</td>

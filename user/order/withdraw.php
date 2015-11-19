@@ -56,6 +56,11 @@ if($could_withdraw==1){
 		$order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','用户撤销订单')";
 		mysql_query($order_log_sql, $localhost);
 		
+		
+		// 发送邮件通知
+		$email_template_code=300; // 撤销订单
+		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+	
 		$remove_succeed_url="index.php";
 		header("Location: " . $remove_succeed_url );
  	}

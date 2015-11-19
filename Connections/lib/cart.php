@@ -22,7 +22,7 @@ class Cart {
 	
 	/**  
 	 * 构造函数
-	 */
+	 */ 
 	public function __construct() {
  	
 		//		这里检查session是否开启，如果没有开启，那么开启
@@ -49,15 +49,17 @@ class Cart {
 		
  		//	如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
+		
+		
 		if (! $_is_product_exits_in_cart) {
 		 
 			//		如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
 			$this->_do_add_product ( $product );
 		} else {
-		
-			// 如果没有这个产品的话，那么将这个产品更新到session中的产品中
+ 			// 如果没有这个产品的话，那么将这个产品更新到session中的产品中
 			$this->_update_product_quantity ( $product );
 		}
+		
 		
 		
 		
@@ -291,9 +293,15 @@ class Cart {
 		$product['product_price']		=$product_obj['price'];
 
 		// 这里需要检查产品是否是优惠产品，如果是优惠产品的话，那么检查产品是否还在优惠期之内，如果在优惠期之内，按么这里的价格就应该是优惠价格
-		if($product_obj['is_promotion']==1 && (date('Y-m-d')>=$product_obj['promotion_start']) && (date('Y-m-d')<=$product_obj['promotion_end']))
-   			$product['product_price']=$product_obj['promotion_price'];
-		}
+		if($product_obj['is_promotion']==1 && (date('Y-m-d')>=$product_obj['promotion_start']) && (date('Y-m-d')<=$product_obj['promotion_end'])){
+   				$product['product_price']=$product_obj['promotion_price'];
+			}
+			 
+			
+			// 将产品信息添加到产品列表中
+ 			$_SESSION['cart']['products'][]=$product;
+ 		}
+		
 	 
 	// 从数据库里面获取产品的价格
 	private function _get_product_from_db_by_id($product_id){
@@ -419,12 +427,15 @@ class Cart {
 				
 		}
 		
-		$_SESSION ['cart'] =  array ();
+		$_SESSION['cart'] =  array ();	//	初始化购物车
+		$_SESSION['cart']['present_products']=array();//	初始化赠送的产品
+		$_SESSION['cart']['promotion_type_id']=0;//	初始化可以享受的促销类型
+		$_SESSION['cart']['promotion_type_value']=array();//	
 		//		如果开启的话，那么检查是否已经初始化了cart，如果没有的话 ，那么进行初始化
-		$_SESSION ['cart'] ['products'] =  array ();
-		$_SESSION ['cart'] ['products_total'] =0.00;
-		$_SESSION ['cart'] ['shipping_fee'] = 0.00;
-		$_SESSION ['cart'] ['order_total'] = 0.00;
+		$_SESSION ['cart'] ['products'] =  array ();//	初始化购物车
+		$_SESSION ['cart'] ['products_total'] =0.00;//	初始化购物车
+		$_SESSION ['cart'] ['shipping_fee'] = 0.00;//	初始化购物车
+		$_SESSION ['cart'] ['order_total'] = 0.00;//	初始化购物车
 			
  	}
 	
