@@ -90,15 +90,15 @@ $totalRows_links = mysql_num_rows($links);
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Link_text:</td>
+      <td nowrap align="right">连接文字:</td>
       <td><input type="text" name="link_text" value="<?php echo $row_links['link_text']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Link_url:</td>
+      <td nowrap align="right">连接网址:</td>
       <td><input type="text" name="link_url" value="<?php echo $row_links['link_url']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Sort:</td>
+      <td nowrap align="right">排序:</td>
       <td><input type="text" name="sort" value="<?php echo $row_links['sort']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">

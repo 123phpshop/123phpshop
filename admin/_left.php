@@ -127,7 +127,7 @@ a[parent] .menu_item_row{
 
 
 <a href="javascript://" id="reports"><div class="menu_item_row"><div class="menu_item" >报表管理</div><div class="right_indicator" style="">></div></div></a>
- <a href="ad/add.php" target="main" id="ad_add"   parent="reports"><div class="menu_item_row" ><div class="menu_item">》 访问统计</div><div class="right_indicator" style="">></div></div></a>
+ <a href="audistat/" target="main" id="ad_add"   parent="reports"><div class="menu_item_row" ><div class="menu_item">》 访问统计</div><div class="right_indicator" style="">></div></div></a>
  
  <a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
 <a href="users/add.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 添加用户</div><div class="right_indicator" style="">></div></div></a> 
@@ -167,9 +167,13 @@ a[parent] .menu_item_row{
 <a href="db/backup.php" target="main"  id="db_bakup" parent="db"><div class="menu_item_row"><div class="menu_item">》 数据库导出</div><div class="right_indicator" style="">></div></div></a>
  
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
+<a href="http://www.123phpshop.com/services.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >服务</div><div class="right_indicator" style=""></div></div></a>
+<a href="http://www.123phpshop.com/doc/v1.4/" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >文档</div><div class="right_indicator" style=""></div></div></a>
+
 <a href="http://www.123phpshop.com/register.php" target="main"  id="family_register" parent="family"><div class="menu_item_row"><div class="menu_item" >注册</div><div class="right_indicator" style=""></div></div></a>
 <a href="http://www.123phpshop.com/login.php" target="main"  id="family_login" parent="family"><div class="menu_item_row"><div class="menu_item" >登录</div><div class="right_indicator" style=""></div></div></a>
 <a href="http://www.123phpshop.com/product_list.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >插件</div><div class="right_indicator" style=""></div></div></a>
+<a href="http://tieba.baidu.com/f?ie=utf-8&kw=123phpshop" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >论坛</div><div class="right_indicator" style=""></div></div></a>
 </div>
 <script>
 $().ready(function(){

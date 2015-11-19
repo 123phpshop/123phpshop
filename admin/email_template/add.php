@@ -75,14 +75,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <p class="phpshop123_title">添加邮件列表</p>
+  <p class="phpshop123_title">添加邮件模板</p>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
+      <td nowrap align="right">模板名称:</td>
       <td><input type="text" name="name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Code:</td>
+      <td nowrap align="right">发送时间:</td>
       <td><select name="code">
 	  	<?php foreach($global_phpshop123_email_send_time as $key=>$value){ ?>
         <option value="<?php echo $key;?>" ><?php echo $value;?></option>
@@ -91,11 +91,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Title:</td>
+      <td nowrap align="right">标题:</td>
       <td><input type="text" name="title" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Content:</td>
+      <td nowrap align="right" valign="top">内容:</td>
       <td><textarea name="content" cols="50" rows="5"></textarea>
       </td>
     </tr>

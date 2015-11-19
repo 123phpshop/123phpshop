@@ -33,7 +33,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php');
 	$sn=gen_order_sn();
-  $insertSQL = sprintf("INSERT INTO orders (sn,user_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,invoice_is_needed, invoice_title, invoice_message,please_delivery_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO orders (sn,user_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,invoice_is_needed, invoice_title, invoice_message,please_delivery_at,payment_method) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s)",
   						GetSQLValueString($sn, "text"),
   						GetSQLValueString($_POST['user_id'], "int"),
 						GetSQLValueString($_POST['consignee_name'], "text"),
@@ -46,7 +46,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString(isset($_POST['invoice_is_needed']) ? "true" : "", "defined","1","0"),
                        GetSQLValueString($_POST['invoice_title'], "text"),
                        GetSQLValueString($_POST['invoice_message'], "text"),
-                       GetSQLValueString($_POST['please_delivery_at'], "int"));
+                       GetSQLValueString($_POST['please_delivery_at'], "int"),
+                       GetSQLValueString(100, "int"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -76,7 +77,7 @@ $support_email_question="添加订单";
     <tr>
       <td width="155">用户</td>
       <td width="1476"><label>
-        <input name="username" type="text" id="username"  onchange="get_user()"/>
+        <input name="username" type="text" id="username"  oninput="get_user()"/>
       </label></td>
     </tr>
     <tr>
@@ -90,6 +91,12 @@ $support_email_question="添加订单";
     <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>支付方式</td>
+      <td><label>
+        <input name="payment_method" type="radio" value="100" checked="checked" />
+      支付宝</label></td>
     </tr>
     <tr>
       <td>收货时间:</td>
@@ -151,8 +158,7 @@ function set_consignee(that){
 	var consignee_zip=$(that).attr("consignee_zip");
 	var consignee_mobile=$(that).attr("consignee_mobile");
 	
-	console.log(consignee_name);
-	$("#consignee_name").val(consignee_name);
+ 	$("#consignee_name").val(consignee_name);
 	$("#consignee_province").val(consignee_province);
 	$("#consignee_city").val(consignee_city);
 	$("#consignee_district").val(consignee_district);
@@ -160,8 +166,6 @@ function set_consignee(that){
 	$("#consignee_zip").val(consignee_zip);
 	$("#consignee_mobile").val(consignee_mobile);
  }
- 
-
 </script>
 </body>
 </html>

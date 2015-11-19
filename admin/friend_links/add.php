@@ -81,15 +81,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Link_text:</td>
+      <td nowrap align="right">连接文字:</td>
       <td><input type="text" name="link_text" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Link_url:</td>
+      <td nowrap align="right">连接网址:</td>
       <td><input type="text" name="link_url" value="http://www." size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Sort:</td>
+      <td nowrap align="right">排序:</td>
       <td><input type="text" name="sort" value="" size="32"></td>
     </tr>
     <tr valign="baseline">

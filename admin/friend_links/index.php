@@ -34,7 +34,7 @@ $totalRows_links = mysql_num_rows($links);
 </head>
 
 <body>
-  <p class="phpshop123_title">友情链接</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">友情链接</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <a href="add.php">
   <?php if ($totalRows_links == 0) { // Show if recordset empty ?>
   </MM:DECORATION></MM_HIDDENREGION>
@@ -45,30 +45,24 @@ $totalRows_links = mysql_num_rows($links);
   <?php if ($totalRows_links > 0) { // Show if recordset not empty ?>
     <table width="100%" border="1" align="center" class="phpshop123_list_box">
       <tr>
-        <td>id</td>
-        <td>link_text</td>
-        <td>link_url</td>
-        <td>link_image</td>
-        <td>create_time</td>
-        <td>is_delete</td>
-        <td>sort</td>
+        <td>连接文字</td>
+        <td>连接网址</td>
+        <td>创建时间</td>
+        <td>排序</td>
         <td>操作</td>
       </tr>
       <?php do { ?>
       <tr>
-        <td><?php echo $row_links['id']; ?>&nbsp; </td>
-        <td><a href="detail.php?recordID=<?php echo $row_links['id']; ?>"> <?php echo $row_links['link_text']; ?>&nbsp; </a> </td>
+        <td><a href="update.php?id=<?php echo $row_links['id']; ?>"> <?php echo $row_links['link_text']; ?>&nbsp; </a> </td>
         <td><?php echo $row_links['link_url']; ?>&nbsp; </td>
-        <td><?php echo $row_links['link_image']; ?>&nbsp; </td>
         <td><?php echo $row_links['create_time']; ?>&nbsp; </td>
-        <td><?php echo $row_links['is_delete']; ?>&nbsp; </td>
         <td><?php echo $row_links['sort']; ?></td>
         <td><a onclick="return confirm('请确定要删除这个友情链接吗？');" href="remove.php?id=<?php echo $row_links['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_links['id']; ?>">更新</a> </td>
       </tr>
       <?php } while ($row_links = mysql_fetch_assoc($links)); ?>
   </table>
     <br />
-    <?php echo $totalRows_links ?> 记录 总数
+     记录总数:<?php echo $totalRows_links ?>
     <?php } // Show if recordset not empty ?>
 </body>
 </html>

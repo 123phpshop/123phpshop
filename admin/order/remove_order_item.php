@@ -43,7 +43,7 @@ if($could_delete==1){
 		$could_delete=0;
 	}else{
 			try{
-				update_order_fee($row_news['order_id']));
+				//	update_order_fee($row_news['order_id']);
 				$could_delete=1;
 			}catch(Exception $e){
 				$could_delete=0;

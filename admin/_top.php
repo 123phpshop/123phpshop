@@ -89,8 +89,14 @@ body {
 <body style="font-family:微软雅黑;">
  <div id="admin_top">
 	 <div id='admin_top_left'>123PHPSHOP V1.4 </div>
-	 <div id="admin_logout"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1718101117:51" alt="联系123phpshop" title="联系123phpshop"/></a>
-<a href="<?php echo $logoutAction ?>" target="_parent">安全退出</a></div>
+	 <div id="admin_logout">
+	   <table width="0" border="0">
+         <tr>
+           <td><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1718101117:51" alt="联系123phpshop" title="联系123phpshop"/></a></td>
+           <td><a href="<?php echo $logoutAction ?>" target="_parent">安全退出</a></td>
+         </tr>
+       </table>
+   </div>
  </div>
 
 </body>

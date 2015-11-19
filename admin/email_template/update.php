@@ -73,11 +73,11 @@ $totalRows_email_template = mysql_num_rows($email_template);
     <p class="phpshop123_title">更新邮件模板</p>
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
-        <td nowrap align="right">Name:</td>
+        <td nowrap align="right">模板名称:</td>
         <td><input type="text" name="name" value="<?php echo $row_email_template['name']; ?>" size="32"></td>
       </tr>
       <tr valign="baseline">
-        <td nowrap align="right">Code:</td>
+        <td nowrap align="right">发送时间:</td>
         <td><select name="code">
 			<?php foreach($global_phpshop123_email_send_time as $key=>$value){ ?>
           	<option value="<?php echo $key;?>" <?php if ($key==$row_email_template['code']) {echo "SELECTED";} ?>><?php echo $value;?></option>
@@ -85,11 +85,11 @@ $totalRows_email_template = mysql_num_rows($email_template);
            </select>        </td>
       </tr>
       <tr valign="baseline">
-        <td nowrap align="right">Title:</td>
+        <td nowrap align="right">标题:</td>
         <td><input type="text" name="title" value="<?php echo $row_email_template['title']; ?>" size="32"></td>
       </tr>
       <tr valign="baseline">
-        <td nowrap align="right" valign="top">Content:</td>
+        <td nowrap align="right" valign="top">内容:</td>
         <td><textarea name="content" cols="50" rows="5"><?php echo $row_email_template['content']; ?></textarea>        </td>
       </tr>
       <tr valign="baseline">

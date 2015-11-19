@@ -35,22 +35,24 @@ $ad_images = mysql_query($query_ad_images, $localhost) or die(mysql_error());
 $row_ad_images=mysql_fetch_assoc($ad_images);
 $totalRows_ad_images = mysql_num_rows($ad_images);
 if($totalRows_ad_images==0){
-	$could_delete=0;
+ 	$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
+	header("Location: " . $remove_succeed_url );
 } 
 
+ 
 if($could_delete==1){
 	
-	$if_result=unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
-	if($if_result){
-		$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
-		$update_catalog_query = mysql_query($update_catalog, $localhost);
-		if(!$update_catalog_query){
-			$could_delete=0;
-		}else{
- 			$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
-			header("Location: " . $remove_succeed_url );
-		}
+	$if_result=@unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
+	 
+	$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
+	$update_catalog_query = mysql_query($update_catalog, $localhost) or die(mysql_error());
+	if(!$update_catalog_query){
+		$could_delete=0;
+	}else{
+		$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
+		header("Location: " . $remove_succeed_url );
 	}
+	 
 	
 }
 
@@ -64,21 +66,13 @@ if($could_delete==1){
 </head>
 
 <body>
+<?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <?php if($could_delete==0){ ?>
-  <p>由于以下原因，您不能删除这张图片：</p>
-  <p>1. 图片不存在，请检查参数之后再试。</p>
-  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
-  <p>您也可以<a href="index.php">点击这里返回</a>。</p>
-  <?php } ?>
+	  <p>由于以下原因，您不能删除这张图片：</p>
+	  <p>1. 图片不存在，请检查参数之后再试。</p>
+	  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
+	  <p>您也可以<a href="index.php">点击这里返回</a>。</p>
 </div>
-
+<?php } ?>
 </body>
 </html>
-<?php
-mysql_free_result($news);
-
-mysql_free_result($ad_images);
-?>
-
-

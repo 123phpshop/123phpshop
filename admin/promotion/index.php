@@ -57,26 +57,22 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
   <p>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <td>ID<br /></td>
       <td>促销名称</td>
       <td>起始日期</td>
       <td>结束日期</td>
       <td>促销范围</td>
-      <td>amount_lower_limit</td>
-      <td>amount_uper_limit</td>
-      <td>promotion_type</td>
-      <td>create_time</td>
+      <td>参与最低金额</td>
+      <td>类型</td>
+      <td>创建时间</td>
       <td>操作</td>
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_promotions['id']; ?>&nbsp; </td>
         <td><a href="update.php?id=<?php echo $row_promotions['id']; ?>"> <?php echo $row_promotions['name']; ?>&nbsp; </a> </td>
         <td><?php echo $row_promotions['start_date']; ?>&nbsp; </td>
         <td><?php echo $row_promotions['end_date']; ?>&nbsp; </td>
         <td><?php echo $const_promotion_limit[$row_promotions['promotion_limit']]; ?>&nbsp; </td>
         <td><?php echo $row_promotions['amount_lower_limit']; ?>&nbsp; </td>
-        <td><?php echo $row_promotions['amount_uper_limit']; ?>&nbsp; </td>
         <td><?php echo $const_promotion_types[$row_promotions['promotion_type']]; ?>&nbsp; </td>
         <td><?php echo $row_promotions['create_time']; ?></td>
         <td><a href="remove.php?id=<?php echo $row_promotions['id']; ?>" onclick="return confirm('您确认要删除这项优惠活动么？');">删除</a> <a href="update.php?id=<?php echo $row_promotions['id']; ?>">更新</a> </td>
@@ -99,7 +95,7 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
           <a href="<?php printf("%s?pageNum_promotions=%d%s", $currentPage, $totalPages_promotions, $queryString_promotions); ?>">最后一页</a>
           <?php } // Show if not last page ?>      </td>
     </tr>
-      </table>
+  </table>
   记录 <?php echo ($startRow_promotions + 1) ?> 到 <?php echo min($startRow_promotions + $maxRows_promotions, $totalRows_promotions) ?> (总共 <?php echo $totalRows_promotions ?>)
       <?php } // Show if recordset not empty ?></body>
 </html>

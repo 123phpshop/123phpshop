@@ -1,3 +1,4 @@
+<?php require_once('../../Connections/localhost.php'); ?>
 <?php
 /**
  * 123PHPSHOP
@@ -228,7 +229,7 @@ function _could_devliver_shipping_methods($areas){
 }
 
 // 订单合并
-function order_merge($from_order_sn,$to_order_sn){
+function phpshop123_order_merge($from_order_sn,$to_order_sn){
 	
 		// 检查主订单和从订单是否存在，如果不存在，那么抛出错误
 		$from_order_obj=_get_order_by_sn($from_order_sn);
@@ -250,16 +251,19 @@ function order_merge($from_order_sn,$to_order_sn){
 			throw new Exception("订单号为：$to_order_sn的订单已被删除,不能合并");
 		}
 		
-		//检查订单是否已经合并
+		//检查2张订单是否已经合并,如果已经合并过了的话，那么直接返回true
 		 if($from_order_obj['merge_to']==$to_order_obj['id']){
 			return true;
 		}
-			
+		
+		
+		// 检查订单是否已经被合并到其他订单，如果已经合并过了，那么告知	
 		if($from_order_obj['merge_to']!="0"){
 			throw new Exception("订单号为：".$from_order_sn."的订单订单已经被合并，不能再次进行操作");
 		}
 					
 
+		// 检查主订单是否已经被合并到其他订单，如果已经合并过了，那么告知
  		if($to_order_obj['merge_to']!="0"){
 			throw new Exception("订单号为：".$to_order_sn."的订单订单已经被合并，不能再次行操作");
 		}
@@ -270,26 +274,28 @@ function order_merge($from_order_sn,$to_order_sn){
 			throw new Exception("只有状态相同的订单才可以合并哦");
 		}
 		
+		//	检查主订单的状态
 		if($to_order_obj['order_status']!=ORDER_STATUS_UNPAID && $to_order_obj['order_status']!=ORDER_STATUS_PAID){
 			throw new Exception("订单号为：".$to_order_sn."的订单的状态既不是创建也不是已经付款，所以不能进行合并");
 		}
 		
+		// 检查从订单的状态
 		if($from_order_obj['order_status']!=ORDER_STATUS_UNPAID && $from_order_obj['order_status']!=ORDER_STATUS_PAID){
 			throw new Exception("订单号为：".$from_order_obj."的订单的状态既不是创建也不是已经付款，所以不能进行合并");
 		}
 		
 		
-	// 将从订单的订单sn修改为订单的订单sn
+		// 将从订单的订单sn修改为订单的订单sn
 		if(!_update_merge_to($from_order_obj['id'],$to_order_obj['id'])){
  			throw new Exception("更新从订单是否为合并订单的数据库操作失败");
 		}
 		
-	// 将从订单的产品所属的订单id修改为主订单的id
+		// 将从订单的产品所属的订单id修改为主订单的id
 		if(!_update_child_order_product_order_id($from_order_obj['id'],$to_order_obj['id'])){
  			throw new Exception("更新从订单产品的数据库操作失败");
 		}
 		
-	// 更新主订单的价格参数
+		// 更新主订单的价格参数
 		if(!_update_to_order_price_para($from_order_obj,$to_order_obj)){
 			throw new Exception("更新主订单价格的数据库操作失败");
 		}
@@ -301,21 +307,65 @@ function order_merge($from_order_sn,$to_order_sn){
 		
 }
 
-// 更新订单的费用
-function update_order_fee($order_id){
+// 更新订单的费用，这里面有个问题，现在的合并用户是不能享受优惠的
+function phpshop123_update_order_fee($order_id){
 	
+	// 初始化这个订单的费用
 	$products=array();
 	$product_fee=0.00;
 	$shipping_fee=0.00;
 	$promotion_fee=0.00;
 	$order_total=0.00;
 	
+	// 获取订单的费用
 	$products=_get_products_by_order_id($order_id);
-	$product_fee=_get_product_fee($products);
-	$shipping_fee=_get_shipping_fee($products);
-	$promotion_fee=_get_promotion_fee($products);
-	$order_total=_get_order_total($products);
-	_do_update_order_fee($product_fee,$shipping_fee,$promotion_fee,$order_total);
+	$product_fee=_get_product_fee($products);	// 获取所有的产品配用
+	$shipping_fee=_get_shipping_fee($products);	// 获取运费费用
+	$promotion_fee=_get_promotion_fee($products);	// 获取促销费用
+	$order_total=_get_order_total($products);	// 获取订单的总费用
+	_do_update_order_fee($product_fee,$shipping_fee,$promotion_fee,$order_total); // 更新db中的数据
+}
+
+function _get_products_by_order_id($order_id){
+	$result=array();
+	mysql_select_db($database_localhost, $localhost);
+	$query_order_items = "SELECT * FROM order_item WHERE order_id = '".$order_id."'";
+	$order_items = mysql_query($query_order_items, $localhost) or die(mysql_error());
+ 	$totalRows_order_items = mysql_num_rows($order_items);
+	if($totalRows_order_items ==0){
+		return $result;
+	}
+	while($item=$row_order_items = mysql_fetch_assoc($order_items)){
+		$result[]=$item;
+	}
+	return $result;
+}
+
+function _get_product_fee($products){
+	$result=0.00;
+	
+	return $result;
+}
+function _get_shipping_fee($products){
+	$result=0.00;
+	foreach($products as $product){
+	
+	}
+	return $result;
+}
+function _get_promotion_fee($products){
+	$result=0.00;
+	foreach($products as $product){
+	
+	}
+	return $result;
+}
+function _get_order_total($products){
+	$result=0.00;
+	foreach($products as $product){
+	
+	}
+	return $result;
 }
 
 
@@ -354,6 +404,7 @@ function _update_to_order_price_para($from_order_obj,$to_order_obj){
 	return  mysql_query($query_form_order,$db_conn) or die(mysql_error());
 }
 
+// 更新从订单产品的订单id
 function _update_child_order_product_order_id($from_order_id,$to_order_id){
  	$query_form_order = sprintf("update order_item set order_id='%s' WHERE order_id = '%s'",$to_order_id, $from_order_id);
 	global $db_conn;
@@ -383,7 +434,7 @@ function _get_order_by_id($order_id){
 // 将订单合并信息添加到订单日志之中
 function _log_order_merge($from_order_obj,$to_order_obj){
 	global $db_conn;
-	$order_log_sql="insert into order_log(order_id,message)values('".$to_order_obj['id']."','成功将订单号为：'".$from_order_obj['sn']."'的订单合并到:".$to_order_obj['sn'].")";
+	$order_log_sql="insert into order_log(order_id,message)values('".$to_order_obj['id']."','成功将订单号为：'".	$from_order_obj['sn']."'的订单合并到:".$to_order_obj['sn'].")";
 	return mysql_query($order_log_sql, $db_conn);
 }
 ?>

@@ -215,6 +215,4 @@ $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1
     <td height=""><div align="center">本系统由上海序程信息科技有限公司提供技术支持 Powered By 123phpshop.com</div></td>
   </tr>
 </table>
-<?php
-mysql_free_result($friend_links);
-?>
+<?php require($_SERVER['DOCUMENT_ROOT'] . "/stat/stats.php"); ?>

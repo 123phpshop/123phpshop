@@ -61,8 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	$row_check_product = mysql_fetch_assoc($check_product);
 	$totalRows_check_product = mysql_num_rows($check_product);
 	
-	
-	// 如果这张订单中么有这个产品，而且这个产品是赠品的话，那么直接插入即可,也不需要更新任何费用信息
+ 	// 如果这张订单中么有这个产品，而且这个产品是赠品的话，那么直接插入即可,也不需要更新任何费用信息
 	if($totalRows_check_product==0 && isset($_POST['is_present'])){	
 	
   		$insertSQL = sprintf("INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)",
@@ -101,7 +100,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	// 如果这张订单中已经有了相同的产品，而且当前需要添加的产品不是赠品	 
  	if($totalRows_check_product>0 && !isset($_POST['is_present'])){	
 	
-		// 这里需要检查前面的那个产品是否是赠品，
+		// 这里需要检查前面的那个产品是否是赠品
+		
 		
 		// 如果前面那个商品是赠品，那么直接插入，然后更新价格信息
 		
@@ -168,15 +168,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
   
-  // 	更新订单的产品总价，运费总价和订单总额
+  	// 	更新订单的产品总价，运费总价和订单总额
 	$products_total_fee="";
 	$shipping_fee="";
 	$order_total="";
 		
 		
 	// 如果一切都ok，那么进行跳转		
-  $insertGoTo = "detail.php?recordID=" . $colname_order;
-  header(sprintf("Location: %s", $insertGoTo));
+  	$insertGoTo = "detail.php?recordID=" . $colname_order;
+  	header(sprintf("Location: %s", $insertGoTo));
 }
 
 
@@ -195,7 +195,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">产品:</td>
-      <td><input name="product_name" type="text" id="product_name" onChange="show_products()" value="" size="32"></td>
+      <td><input name="product_name" type="text" id="product_name" oninput="show_products()" value="" size="32"></td>
     </tr>
     <tr valign="baseline" id="goods_select_tr">
       <td nowrap align="right">选择商品</td>
@@ -208,7 +208,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Attr_value:</td>
-      <td><input type="text" name="attr_value" value="" size="32"></td>
+      <td id="attr_valu_td"><input type="text" name="attr_value" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Is_present:</td>
@@ -224,9 +224,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 <p>&nbsp;</p>
 </body>
 </html>
-<?php
-mysql_free_result($check_product);
-?>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script>
 function show_products(){
@@ -237,4 +234,11 @@ function show_products(){
 	}
 	$("#goods_select_td").load(url);
 }
+
+function load_attr(product_id){
+	var url="/admin/widgets/order/_attr_filter.php?product_id="+product_id;
+	$("#attr_valu_td").load(url);	
+}
+
+
 </script>

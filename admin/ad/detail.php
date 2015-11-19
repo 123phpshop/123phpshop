@@ -20,6 +20,7 @@
 <?php
 $doc_url="ad.html#list";
 $support_email_question="查看广告详细";
+$error='';
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -74,10 +75,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
 	  
     } else {
-        echo '<pre>';
-        //获取上传失败以后的错误提示
-        var_dump($up->getErrorMsg());
-        echo '</pre>';
+         //获取上传失败以后的错误提示
+        $error=$up->getErrorMsg();
     }
 }
 
@@ -122,7 +121,10 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </head>
 
 <body>
-<p class="phpshop123_title">广告详细</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">广告详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<?php if($error!=''){ ?>
+<p class="phpshop123_infobox"><?php echo $error;?></p>
+<?php } ?>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td>广告名称</td>

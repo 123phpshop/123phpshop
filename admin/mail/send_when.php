@@ -59,11 +59,11 @@ if($totalRows_send_when>0){
 </head>
 
 <body>
-<p class="phpshop123_title">发送邮件设置</p>
+<p class="phpshop123_title">邮件发送设置</p>
 <form id="form1" name="form1" method="POST" action="<?php echo $editFormAction; ?>">
   <p>&nbsp;</p>
   <table width="200" border="0" class="phpshop123_form_box">
-  	<?php foreach($global_email_send_time as $key=>$value){ ?>
+  	<?php foreach($global_phpshop123_email_send_time as $key=>$value){ ?>
     <tr>
       <td width="4%"> 
         <input type="checkbox" name="send_when[]" value="<?php echo $key;?>" <?php if(in_array((string)$key,$send_when_array)){ ?> checked <?php } ?>/>

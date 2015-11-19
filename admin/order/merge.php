@@ -8,7 +8,7 @@ if ((isset($_POST["phpshop_db_op"])) && ($_POST["phpshop_db_op"] == "merge_order
 	try{
 			$from_order_sn	=$_POST['from_order_sn'];
 			$to_order_sn	=$_POST['to_order_sn'];
-			order_merge($from_order_sn,$to_order_sn);
+			phpshop123_order_merge($from_order_sn,$to_order_sn);
  	}catch(Exception $ex){
 			$error=$ex->getMessage();
 	}
