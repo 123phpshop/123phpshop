@@ -101,7 +101,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
    <input type="hidden" name="MM_insert" value="form_db_export" />
 </form>
 
-<?php if(str_length($backup_info)>0){?>
+<?php if(strlen($backup_info)>0){?>
 <p class="phpshop123_infobox">
  	<?php echo $backup_info;?>
  </p>
