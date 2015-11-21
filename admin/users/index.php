@@ -120,7 +120,7 @@ function _get_user_where($get){
       </tr>
     </table>
   </form>
-  <p class="phpshop123_title">用户列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">用户列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
       <th>ID</th>

@@ -1,4 +1,4 @@
-<?php 
+<?php require_once('../../Connections/localhost.php'); ?><?php 
 require_once('../../Connections/localhost.php'); 
 //require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/privileges.php');
 
@@ -75,19 +75,15 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 ?>
+
 <?php
-// 检查上一级权限是否存在
+
 $colname_getParent = "0";
 if ( isset($_GET['parent_id']) && $_GET['parent_id']!="") {
   $colname_getParent = (get_magic_quotes_gpc()) ? $_GET['parent_id'] : addslashes($_GET['parent_id']);
 }
-mysql_select_db($database_localhost, $localhost);
-$query_getParent = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getParent);
-$getParent = mysql_query($query_getParent, $localhost) or die(mysql_error());
-$row_getParent = mysql_fetch_assoc($getParent);
-$totalRows_getParent = mysql_num_rows($getParent);
-?>
-<?php
+
+
 // 如果权限名称不重复的话，那么正式创建权限
 if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  
@@ -116,10 +112,34 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
 	
 	 if($add_privielges_exception==""){
 		    $insertGoTo = "../privileges/index.php?parent=" . $colname_getParent;
-		    header(sprintf("Location: %s", $insertGoTo));
+		   // header(sprintf("Location: %s", $insertGoTo));
 	 }
   }
 ?>
+
+<?php
+// 检查上一级权限是否存在
+$colname_getParent = "0";
+if ( isset($_GET['parent_id']) && $_GET['parent_id']!="") {
+  $colname_getParent = (get_magic_quotes_gpc()) ? $_GET['parent_id'] : addslashes($_GET['parent_id']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_getParent = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getParent);
+$getParent = mysql_query($query_getParent, $localhost) or die(mysql_error());
+$row_getParent = mysql_fetch_assoc($getParent);
+$totalRows_getParent = mysql_num_rows($getParent);
+
+$colname_privileges = "-1";
+if (isset($_GET['parent_id'])) {
+  $colname_privileges = (get_magic_quotes_gpc()) ? $_GET['parent_id'] : addslashes($_GET['parent_id']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_privileges = sprintf("SELECT * FROM privilege WHERE pid = %s  and is_delete=0 ORDER BY id DESC", $colname_privileges);
+$privileges = mysql_query($query_privileges, $localhost) or die(mysql_error());
+$row_privileges = mysql_fetch_assoc($privileges);
+$totalRows_privileges = mysql_num_rows($privileges);
+?>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -130,7 +150,7 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
 </head>
 
 <body>
-<span class="phpshop123_title">[添加权限]</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">添加权限</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
   <p class="phpshop123_infobox">错误：权限名称重复！</p>
   <?php } // Show if recordset not empty ?>
@@ -174,11 +194,18 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
   <input type="hidden" name="parent_id" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<p class="phpshop123_title"><?php echo isset($row_getParent['name'])?$row_getParent['name'].":":"";?> 权限列表</p>
+ <table width="100%" border="1" class="phpshop123_list_box">
+  <tr>
+    <th width="17%" scope="col">权限名称</th>
+    <th width="83%" scope="col">操作</th>
+  </tr>
+  <?php do { ?>
+    <tr>
+      <td><?php echo $row_privileges['name']; ?></td>
+      <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
+    </tr>
+    <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
+</table>
 </body>
 </html>
-<?php
-mysql_free_result($getByName);
-
-mysql_free_result($getParent);
-?>

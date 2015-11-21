@@ -265,13 +265,28 @@ body {
         
 		<input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/>
  		 <div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div> 		 
-      </label></th>
+      </label>
+	  
+	  <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32" style="float:right;">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+	  </th>
       </tr>
+	  
 		</table>
 		</td>
       </tr>
-    
-  </table>
+   </table>
 </form>
    </div>
   <table width="1210" border="0" align="center" style="margin:0px auto;">

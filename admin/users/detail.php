@@ -71,11 +71,11 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
   </tr>
   <tr>
     <td>手机是否验证</td>
-    <td><?php echo $row_DetailRS1['mobile_confirmed']; ?> </td>
+    <td><?php echo "未"; ?> </td>
   </tr>
   <tr>
     <td>短信验证码</td>
-    <td><?php echo $row_DetailRS1['sms_code']; ?> </td>
+    <td>无</td>
   </tr>
   <tr>
     <td>注册时间</td>

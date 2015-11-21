@@ -105,7 +105,7 @@ function _get_order_where($get){
 </head>
 
 <body>
-<p class="phpshop123_title">订单列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">订单列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="order_search" name="order_search" method="get">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
@@ -176,7 +176,7 @@ function _get_order_where($get){
             <td> 
 				
 			  <div align="center">
-			    <?php if($row_orders['order_status']==ORDER_STATUS_PAID  ){ ?>
+			    <?php if($row_orders['order_status']!=ORDER_STATUS_PAID  ){ ?>
 			    <a href="delivery.php?id=<?php echo $row_orders['id']; ?>">发货</a>
 		        <?php  } ?>
 			    <?php if($row_orders['order_status']==ORDER_STATUS_RETURNED_APPLIED  ){ ?>

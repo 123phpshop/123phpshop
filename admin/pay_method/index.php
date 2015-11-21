@@ -58,7 +58,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 		    <?php if($row_pay_methods['is_activated']==0){ ?>
 		      <a href="activate.php?id=<?php echo $row_pay_methods['id']; ?>">激活</a>
 	        <?php }else{ ?>
-		      <a href="deactivate.php?id=<?php echo $row_pay_methods['id']; ?>">失效</a>
+		      <a href="deactivate.php?id=<?php echo $row_pay_methods['id']; ?>">停用</a>
 	        <?php }?> <a href="update.php?id=<?php echo $row_pay_methods['id']; ?>">编辑</a></div></td>
       </tr>
       <?php } while ($row_pay_methods = mysql_fetch_assoc($pay_methods)); ?>

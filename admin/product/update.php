@@ -130,7 +130,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 </head>
 
 <body>
-<form method="post" name="form1"  id="form1"  action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">更新产品信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
     <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;"/></div>
    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
@@ -138,10 +138,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>
 		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-9" aria-selected="false" aria-expanded="false"><a href="#tabs-2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-9">详细介绍</a></li>
 		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-3" aria-labelledby="ui-id-10" aria-selected="false" aria-expanded="false"><a href="#tabs-3" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-10">其他信息</a></li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-4" aria-labelledby="ui-id-11" aria-selected="false" aria-expanded="false"><a href="#tabs-4" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-11">图片列表</a></li>
 	</ul>
 	<div id="tabs-1" aria-labelledby="ui-id-8" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="false" style="background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/common.php'); ?></div>
 	<div id="tabs-2" aria-labelledby="ui-id-9" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/intro.php'); ?></div>
+	
 	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/other_info.php'); ?></div>
+	
+	<div id="tabs-4" aria-labelledby="ui-id-11" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/images.php'); ?></div>
+	
+	
 </div>
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">

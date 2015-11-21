@@ -43,7 +43,7 @@ if($could_delete==1){
 		$could_delete=0;
 	}else{
 		unlink($_SERVER['DOCUMENT_ROOT'].$row_product['image_files']);
-		$remove_succeed_url="/admin/product/detail.php?recordID=".$row_product['product_id'];
+		$remove_succeed_url="/admin/product/update.php?id=".$row_product['product_id'];
 		header("Location: " . $remove_succeed_url );
  	}
 }

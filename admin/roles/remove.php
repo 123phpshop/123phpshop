@@ -40,11 +40,11 @@ $getById = mysql_query($query_getById, $localhost) or die(mysql_error());
 $row_getById = mysql_fetch_assoc($getById);
 $totalRows_getById = mysql_num_rows($getById);
 
-//	检查是否有用户是这个角色
+// 检查是否有用户是这个角色,如果有的话，那么将用户更新到相关的角色
 
+// 检查是否有管理员是否是这个角色，如果是的话
 
-// 检查是否有管理员是否是这个角色
-
+// 
 
 // 正式删除
 if($totalRows_getById>0){
@@ -57,20 +57,6 @@ if($totalRows_getById>0){
 	  mysql_select_db($database_localhost, $localhost);
 	  $Result1 = mysql_query($deleteSQL, $localhost) or die(mysql_error());
 	}
-	
-//		删除角色权限表中的记录
- if ((isset($_GET['id'])) && ($_GET['id'] != "")) {
- 
-  $deleteSQL = sprintf("DELETE FROM role_privilege WHERE role_id=%s",
-                       GetSQLValueString($_GET['id'], "int"));
-
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($deleteSQL, $localhost) or die(mysql_error());
-
-  $deleteGoTo = "index.php";
-  header(sprintf("Location: %s", $deleteGoTo));
-}
-
 }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -112,7 +112,7 @@ $queryString_news_catalogs = sprintf("&totalRows_news_catalogs=%d%s", $totalRows
       <td nowrap align="right">分类名称:</td>
       <td><input type="text" class="required" name="name" value="" size="32">
       *
-      <input name="submit" type="submit" value="插入记录" /></td>
+      <input name="submit" type="submit" value="添加" /></td>
     </tr>
   </table>
   <input type="hidden" name="MM_insert" value="form1">

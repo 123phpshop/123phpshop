@@ -81,7 +81,7 @@ if (isset($_GET['id'])) {
   $colname_replies = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_replies = sprintf("SELECT * FROM product_consult WHERE to_question = %s", $colname_replies);
+$query_replies = sprintf("SELECT product_consult.*,member.username as username FROM product_consult inner join member on member.id= product_consult.user_id WHERE product_consult.to_question = %s", $colname_replies);
 $replies = mysql_query($query_replies, $localhost) or die(mysql_error());
 $row_replies = mysql_fetch_assoc($replies);
 $totalRows_replies = mysql_num_rows($replies);
@@ -106,7 +106,7 @@ $totalRows_replies = mysql_num_rows($replies);
       <tr>
         <td><?php echo $row_replies['content']; ?></td>
         <td><?php echo $row_replies['create_time']; ?></td>
-        <td><?php echo $row_replies['user_id']; ?></td>
+        <td><?php echo $row_replies['username']; ?></td>
       </tr>
       <?php } while ($row_replies = mysql_fetch_assoc($replies)); ?>
       </table>

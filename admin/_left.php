@@ -129,9 +129,13 @@ a[parent] .menu_item_row{
 <a href="javascript://" id="reports"><div class="menu_item_row"><div class="menu_item" >报表管理</div><div class="right_indicator" style="">></div></div></a>
  <a href="audistat/" target="main" id="ad_add"   parent="reports"><div class="menu_item_row" ><div class="menu_item">》 访问统计</div><div class="right_indicator" style="">></div></div></a>
  
- <a href="users/index.php" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="javascript://" target="main" id="users"><div class="menu_item_row" ><div class="menu_item" >用户管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="users/index.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 用户列表</div><div class="right_indicator" style="">></div></div></a> 
+ 
 <a href="users/add.php" target="main" id="user_add"  parent="users" ><div class="menu_item_row" ><div class="menu_item">》 添加用户</div><div class="right_indicator" style="">></div></div></a> 
- <a href="news/index.php" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
+ <a href="javascript://" target="main" id="articles"><div class="menu_item_row" ><div class="menu_item" >文章管理</div><div class="right_indicator" style="">></div></div></a>
+<a href="news_catalog/index.php " target="main" id="article_list" parent="articles"><div class="menu_item_row" ><div class="menu_item" >》 文章列表</div><div class="right_indicator" style=""></div></div></a>
+  
 <a href="news_catalog/index.php " target="main" id="article_catalogs" parent="articles"><div class="menu_item_row" ><div class="menu_item" >》 文章分类</div><div class="right_indicator" style=""></div></div></a>
 <a href="news/recycled.php" target="main" id="article_recycled"   parent="articles"><div class="menu_item_row" ><div class="menu_item">》 文章回收站</div><div class="right_indicator" style="">></div></div></a>
 
