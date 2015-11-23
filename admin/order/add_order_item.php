@@ -207,11 +207,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
         *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Attr_value:</td>
-      <td id="attr_valu_td"><input type="text" name="attr_value" value="" size="32"></td>
+      <td nowrap align="right">设置属性:</td>
+      <td id="attr_valu_td"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Is_present:</td>
+      <td nowrap align="right">是否为赠送礼物:</td>
       <td><input type="checkbox" name="is_present" value="" ></td>
     </tr>
     <tr valign="baseline">
@@ -219,6 +219,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
       <td><input type="submit" value="添加"></td>
     </tr>
   </table>
+  <input type="hidden" name="attr_value" id="attr_value" value="" >
    <input type="hidden" name="MM_insert" value="order_add_product_form">
 </form>
 <p>&nbsp;</p>
@@ -238,6 +239,12 @@ function show_products(){
 function load_attr(product_id){
 	var url="/admin/widgets/order/_attr_filter.php?product_id="+product_id;
 	$("#attr_valu_td").load(url);	
+}
+
+function set_attr_val(that){
+ 	var attr_name=$(that).attr("attr_name");	
+	var attr_val=$(that).val().trim();
+ 	$("#attr_value").val(attr_name+":"+attr_val);
 }
 
 

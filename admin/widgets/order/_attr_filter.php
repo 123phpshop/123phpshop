@@ -56,6 +56,8 @@ if($totalRows_product_type_attrs>0){
 
 
 ?> 
+
+<?php if($totalRows_product_type_attrs>0){ ?>
 <table width="960" border="0" class="phpshop123_form_box">
 <?php do { ?>
 <?php
@@ -79,10 +81,11 @@ $totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 if($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==2){ ?> 
 <?php $attr_item=explode("\r",$row_get_product_attr_val['product_type_attr_value']);?>
 <?php foreach($attr_item as $attr){  ?>
-	<input type="radio" name="attr_<?php echo $row_product_type_attrs['id']; ?>"  value="<?php echo $attr;?>"/><?php echo $attr;?>
+	<input type="radio" onClick="set_attr_val(this)" attr_name="<?php echo $row_product_type_attrs['name']; ?>" name="attr_<?php echo $row_product_type_attrs['id']; ?>"  value="<?php echo $attr;?>"/><?php echo $attr;?>
 <?php  } }?>
 </td>
 </tr>
 <?php } ?>
 <?php } while ($row_product_type_attrs = mysql_fetch_assoc($product_type_attrs)); ?>
 </table>
+<?php } ?>

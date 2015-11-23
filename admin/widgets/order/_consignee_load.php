@@ -31,7 +31,7 @@ $row_goods_num=mysql_num_rows($goods);
 <?php
 }
 ?>
-<?php if($row_goods_num==1 ||$row_goods_hidden['is_default']==1 ){ ?>
+<?php if($row_goods_num==1 || $row_goods_hidden['is_default']==1 ){ ?>
 <input name="consignee_name" id="consignee_name" type="hidden" value="<?php echo $row_goods_hidden['name']; ?>" />
 <input name="consignee_mobile" id="consignee_mobile" type="hidden" value="<?php echo $row_goods_hidden['mobile']; ?>" />
 <input name="consignee_province" id="consignee_province" type="hidden" value="<?php echo $row_goods_hidden['province']; ?>" />
