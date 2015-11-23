@@ -17,7 +17,7 @@
  */
 ?>
 <?php
-
+	
 class Cart {
 	
 	/**  
@@ -38,6 +38,7 @@ class Cart {
 	 * @param unknown_type $product
 	 */
 	public function add($product) {
+	
 		// 获取默认收货地址
 		
 		// 如果用户已经登录的话，那么获取用户的默认收货地址
@@ -45,21 +46,19 @@ class Cart {
 		// 如果用户没有登录的话，那么获取系统的默认收货区域
 		
 		// 检查商品是否可以配送到这个区域，如果不能配送到这个区域，那么返回false
-		
-		
+ 		
  		//	如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
 		
-		
-		if (! $_is_product_exits_in_cart) {
+ 		if (! $_is_product_exits_in_cart) {
 		 
 			//		如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
 			$this->_do_add_product ( $product );
+			
 		} else {
  			// 如果没有这个产品的话，那么将这个产品更新到session中的产品中
 			$this->_update_product_quantity ( $product );
 		}
-		
 		
 		
 		
@@ -71,8 +70,94 @@ class Cart {
 		
 		//		更新订单总价
 		$this->_update_order_total ();
+		
+		// 更新购物车中的促销信息
+ 		$this->_update_promotion_info();
+ 	}
 	
-	}
+	//	更新购物车中的促销信息
+	function _update_promotion_info(){
+		
+	//	获取所有可用的促销计划
+		$promotion_plans=$this->_get_promotion_plan();
+		
+	// 	如果促销计划是0的话，那么直接返回
+		if(!is_array($promotion_plans) || count($promotion_plans)==0){
+			return;
+		}
+		
+	// 	如果有促销计划的话，那么开始循环这些促销计划
+		foreach($promotion_plans as $promotion_plan){
+					// 	如果当前计划符合的话，那么将这个促销计划推入可享受的促销的列表汇总
+ 				//	如果是满增的话，那么不更新产品价格信息，但是需要把赠送商品推入列表
+				if($promotion_plan['promotion_type']==1){
+						$this->_update_promotion_presents($promotion_plan);
+						continue;
+				}
+				// 如果是满减，满折的话，那么这里需要计算享受优惠之后的金额，然后减之
+				$promotion_fee=$this->_get_promotion_fee($promotion_plan);
+				$this->_update_promotion_fee($promotion_plan);
+ 		}
+ 	}
+	
+	private function _get_promotion_plan(){
+	
+		$results=array();
+		
+		// 获取所有当前可用的促销计划
+ 			//			这里还是需要获取是否有优惠价格
+		global $db_conn;
+ 		$sql = "SELECT * from promotion WHERE is_delete = 0";
+		$promotions = mysql_query($sql,$db_conn);
+		$promotion_plans = mysql_fetch_assoc($promotions);
+		if(mysql_num_rows($product)==0){
+			return $results;
+		}
+		
+		// 循环这些计划，检查当前的促销是否适合当前的购物车
+ 		foreach($promotion_plans as $promotion_plan){
+			// 如果当前购物车中的商品总额满足享受促销的最低金额的话
+			if($_SESSION['cart']['products_total']>$promotion_plan['amount_lower_limit']){
+				$results[]=	$promotion_plan;
+			}
+		}
+		
+	 	return $results;
+ 	}
+	
+	 
+	  
+	private function _update_promotion_presents($promotion_plan){
+ 		
+		// 获取产品id的数组
+		$products_id_array=explode(",",$promotion_plan['present_products']);
+		if(count(products_id_array)==0){
+			return;
+		}
+		
+		// 循环这些数组
+		foreach($products_id_array as $products_id){
+					// 从数据中获取这些赠品的信息
+			$product=$this->_get_product_from_db_by_id($products_id);
+			if($product!=null){
+				$_SESSION['cart']['promotion_presents'][]=$product;
+			}
+		}
+ 	}
+ 	
+	// 更新购物车中的促销费用
+	private function _update_promotion_fee($promotion_plan){
+			
+			//	如果是满减的话，那么直接+即可
+			if($promotion_plan['promotion_type']==2){
+				$_SESSION['cart']['promotion_fee']+=$promotion_plan['promotion_type_val'];
+			}
+			
+			// 如果是满折扣的话，那么需要计算产品的金额，然后计算折扣的金额
+			if($promotion_plan['promotion_type']==3){
+				$_SESSION['cart']['promotion_fee']+=$_SESSION['cart']['products_total']* $promotion_plan['promotion_type_val']/100;
+			}
+  	}
 	
 	/**
 	 * 减少购物车中某产品的数量
@@ -101,6 +186,9 @@ class Cart {
 		
 		//		更新订单总价
 		$this->_update_order_total ();
+		
+		
+		// 更新促销信息
 		
 		return true;
 	}
@@ -146,6 +234,8 @@ class Cart {
 		//		更新订单总价
 		$this->_update_order_total ();
 		
+		
+		 
 		return true;
 	}
 	
@@ -287,18 +377,15 @@ class Cart {
 		$product_obj=$this->_get_product_from_db_by_id($product ['product_id']);
    		$product['is_shipping_free']	=$product_obj['is_shipping_free'];
 		$product['is_promotion']		=$product_obj['is_promotion'];
-		$product['promotion_price']		=$product_obj['promotion_price'];
- 		$product['promotion_start']		=$product_obj['promotion_start'];
-		$product['promotion_end']		=$product_obj['promotion_end'];
-		$product['product_price']		=$product_obj['price'];
+		$product['preferential_price']	=$product_obj['promotion_price'];
+ 		$product['product_price']		=$product_obj['price'];
 
 		// 这里需要检查产品是否是优惠产品，如果是优惠产品的话，那么检查产品是否还在优惠期之内，如果在优惠期之内，按么这里的价格就应该是优惠价格
 		if($product_obj['is_promotion']==1 && (date('Y-m-d')>=$product_obj['promotion_start']) && (date('Y-m-d')<=$product_obj['promotion_end'])){
    				$product['product_price']=$product_obj['promotion_price'];
 			}
 			 
-			
-			// 将产品信息添加到产品列表中
+ 			// 将产品信息添加到产品列表中
  			$_SESSION['cart']['products'][]=$product;
  		}
 		
@@ -314,10 +401,7 @@ class Cart {
 		//$totalRows_product = mysql_num_rows($product);
 		return $row_product;
 	}
-	
-	
-	
-	
+ 	
 	/**
 	 * 更新购物车里面这个产品的数量
 	 * @param unknown_type $product
@@ -426,16 +510,14 @@ class Cart {
 			    session_start ();
 				
 		}
-		
-		$_SESSION['cart'] =  array ();	//	初始化购物车
-		$_SESSION['cart']['present_products']=array();//	初始化赠送的产品
-		$_SESSION['cart']['promotion_type_id']=0;//	初始化可以享受的促销类型
-		$_SESSION['cart']['promotion_type_value']=array();//	
-		//		如果开启的话，那么检查是否已经初始化了cart，如果没有的话 ，那么进行初始化
-		$_SESSION ['cart'] ['products'] =  array ();//	初始化购物车
-		$_SESSION ['cart'] ['products_total'] =0.00;//	初始化购物车
-		$_SESSION ['cart'] ['shipping_fee'] = 0.00;//	初始化购物车
-		$_SESSION ['cart'] ['order_total'] = 0.00;//	初始化购物车
+  		$_SESSION ['cart'] =  array ();	//	初始化购物车
+		$_SESSION ['cart'] ['present_products']=array();//	初始化赠送的产品
+		$_SESSION ['cart'] ['promotions']=array();//	初始化可以享受的促销类型
+		$_SESSION ['cart'] ['promotion_fee']=0.00;//	初始化可以享受的促销类型
+ 		$_SESSION ['cart'] ['products'] =  array ();//	初始化购物车中的商品
+		$_SESSION ['cart'] ['products_total'] =0.00;//	初始化购物车中的商品总额
+		$_SESSION ['cart'] ['shipping_fee'] = 0.00;//	初始化购物车运费费用
+		$_SESSION ['cart'] ['order_total'] = 0.00;//	初始化购物车订单总额
 			
  	}
 	
@@ -458,11 +540,12 @@ class Cart {
  			}else{
 				$price=$product ['product_price'];
 			}
-			
+  			
 			$product_total += floatval ( $price ['product_price'] ) * $product ['quantity'];
 		}
 		
-		$_SESSION ['cart'] ['products_total'] = $product_total;
+		
+ 		$_SESSION ['cart'] ['products_total'] = $product_total;
 	}
 	// 更新运费
 	private function _update_shipping_fee() {

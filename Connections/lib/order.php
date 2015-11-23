@@ -1,4 +1,4 @@
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 /**
  * 123PHPSHOP

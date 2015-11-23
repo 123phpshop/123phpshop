@@ -30,7 +30,7 @@ $totalRows_shopinfo = mysql_num_rows($shopinfo);
     <td align="center">
  		<form  align="center" id="product_search_form" name="product_search_form" method="get" action="/search.php">
   	 	  <div align="center" style="margin:auto 0;">
-  	 	    <input style="float:left;height:24px;line-height:24px;padding:4px;border-style:solid;outline:0;width:446px;border-color:#B61D1D;" name="keywords" type="text" id="keywords" />
+  	 	    <input style="float:left;line-height:24px;<?php if(strpos($_SERVER['PHP_SELF'],"index.php")!=1){?>height:24px;<?php }else{ ?>height:36px;<?php } ?>padding:4px;border-style:solid;outline:0;width:446px;border-color:#B61D1D;" name="keywords" type="text" id="keywords" />
   	 	    <input type="submit" style="float:left;padding:6px;width:82px;height:36px;background-color:#B61D1D;color:white;border:none;font-size:16px;cursor:pointer;" name="Submit" value="搜索" />
           </div>
 		</form>
