@@ -110,7 +110,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <td><?php echo $pay_methomd[$row_DetailRS1['payment_method']]; ?> </td>
   </tr>
   <tr>
-    <td>需要发票[更改发票信息]</td>
+    <td>需要发票[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改发票信息</a>]</td>
     <td><?php echo $row_DetailRS1['invoice_is_needed']=='0'?"否":"√"; ?> </td>
   </tr>
   <?php if($row_DetailRS1['invoice_is_needed']=='1'){ ?>

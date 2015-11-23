@@ -36,7 +36,7 @@ $totalRows_order_id = mysql_num_rows($order_id);
       <th width="24%" scope="col">收货人</th>
       <th width="12%" scope="col">省份</th>
       <th width="12%" scope="col">城市</th>
-      <th width="12%" scope="col">曲线</th>
+      <th width="12%" scope="col">区县</th>
       <th width="12%" scope="col">地址</th>
       <th width="12%" scope="col">手机</th>
       <th width="12%" scope="col">邮编</th>
@@ -60,8 +60,3 @@ $totalRows_order_id = mysql_num_rows($order_id);
 </form>
 </body>
 </html>
-<?php
-mysql_free_result($consignees);
-
-mysql_free_result($order_id);
-?>

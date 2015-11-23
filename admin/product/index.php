@@ -203,7 +203,7 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
         <td><div align="center"><?php echo $row_products['is_hot']=='1'?"√":""; ?>&nbsp; </div></td>
         <td><div align="center"><?php echo $row_products['is_recommanded']=='1'?"√":""; ?>&nbsp; </div></td>
         <td><?php echo $row_products['store_num']; ?></td>
-        <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">更新  </a> <?php if($row_products['product_type_id']>0){ ?><a href="set_attr.php?product_id=<?php echo $row_products['id']; ?>">设置属性</a><?php } ?> <a href="/product.php?id=<?php echo $row_products['id']; ?>" target="_blank">前台</a></div></td>
+        <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">编辑  </a> <a href="/product.php?id=<?php echo $row_products['id']; ?>" target="_blank">前台浏览</a></div></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
