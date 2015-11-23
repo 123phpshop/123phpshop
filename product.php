@@ -261,14 +261,13 @@ body {
         </div>        </label></td>
     </tr>
      <tr>
-      <th height="231" colspan="3" align="left" scope="row"><label>
+      <th height="231" colspan="3" align="left" scope="row"> 
         
-		<input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/>
- 		 <div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div> 		 
-      </label>
+		<input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/><div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div> 		 
+       <p>
 	  
-	  <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_32x32" style="float:right;">
+ 	  <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32" style="clear:left;display:inline;float:left;margin:14px;">
 	<a class="jiathis_button_qzone"></a>
 	<a class="jiathis_button_tsina"></a>
 	<a class="jiathis_button_tqq"></a>
@@ -279,11 +278,9 @@ body {
 </div>
 <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 <!-- JiaThis Button END -->
-
-	  </th>
+ 	  </th>
       </tr>
-	  
-		</table>
+ 		</table>
 		</td>
       </tr>
    </table>

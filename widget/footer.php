@@ -200,13 +200,13 @@ $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1
 </table>
 <hr width="1210"  style="border:none;border-bottom:1px solid #E5E5E5; overflow:hidden;margin:20px auto;" />
 
- <table width="1210" border="0" align="center">
+ <table width="1210" border="0" align="center" style="margin:0 auto;">
  <tr>
-       <td>合作网站：</td>
+       <td class="footer_link_title">合作站点</td>
  </tr>
    <tr>
     <?php do { ?>
-      <td><a href="<?php echo $row_friend_links['link_url']; ?>" target="_blank"><?php echo $row_friend_links['link_text']; ?></a></td>
+      <td height="25"><a style="text-decoration:none;color:#000000;" href="<?php echo $row_friend_links['link_url']; ?>" target="_blank"><?php echo $row_friend_links['link_text']; ?></a></td>
       <?php } while ($row_friend_links = mysql_fetch_assoc($friend_links)); ?></tr>
 </table>
 
