@@ -37,13 +37,15 @@ if($totalRows_news==0){
 } 
 
 if($could_delete==1){
+	// 更新订单中的这个产品为删除
  	$update_catalog = sprintf("update order_item set is_delete=1 where id = %s", $colname_news);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
 		$could_delete=0;
 	}else{
 			try{
-				//	update_order_fee($row_news['order_id']);
+				//	更新订单费用和促销信息
+				phpshop123_order_update_fee_promotion($row_news['order_id']);
 				$could_delete=1;
 			}catch(Exception $e){
 				$could_delete=0;

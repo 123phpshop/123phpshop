@@ -125,7 +125,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   <?php } ?>
   <tr>
     <td>可收货时间</td>
-    <td><?php echo $row_DetailRS1['please_delivery_at']==null?"未设置":$please_deliver_at[$row_DetailRS1['please_delivery_at']]; ?> </td>
+    <td><?php echo $row_DetailRS1['please_delivery_at']==0?"未设置":$please_deliver_at[$row_DetailRS1['please_delivery_at']]; ?> </td>
   </tr>
   <tr>
     <td>备注</td>
@@ -139,7 +139,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <tr>
       <th scope="col">名称</th>
       <th scope="col">数量</th>
-      <th scope="col">实付</th>
+      <th scope="col">是否赠品</th>
       <th scope="col">应付</th>
       <th scope="col">操作</th>
     </tr>
@@ -147,9 +147,9 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
       <tr>
         <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
         <td scope="col"><?php echo $row_products['quantity']; ?></td>
-        <td scope="col">￥<?php echo $row_products['actual_pay_price']; ?></td>
+        <td scope="col"><div align="center"><?php echo $row_products['is_present']==1?"√":""; ?></div></td>
         <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>
-        <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>">更新</a></td>
+        <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>"></a></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>

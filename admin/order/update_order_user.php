@@ -93,10 +93,7 @@ $totalRows_user = mysql_num_rows($user);
       <td>选择用户</td>
       <td id="users_td"><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/order/_user_load.php');?></td>
     </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">收货人:</td>
-      <td><input type="text" name="consignee_id" value="<?php echo $row_order['consignee_id']; ?>" size="32"></td>
-    </tr>
+    
     <tr valign="baseline">
       <td nowrap align="right">是否需要发票:</td>
       <td><input type="radio" name="invoice_is_needed" <?php if($row_order['invoice_is_needed']=1){ ?>checked <?php } ?>value="<?php echo $row_order['invoice_is_needed']; ?>" size="32"></td>
@@ -111,10 +108,13 @@ $totalRows_user = mysql_num_rows($user);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">收货时间:</td>
-      <td><select name="please_delivery_at">
-        <option value="menuitem1" <?php if (!(strcmp("menuitem1", $row_order['please_delivery_at']))) {echo "SELECTED";} ?>>[ 标签 ]</option>
-       
-      </select>      </td>
+      <td><label>
+        <select name="please_delivery_at" id="please_delivery_at">
+			<?php foreach($please_deliver_at as $key=>$value){ ?>
+          	<option value="<?php echo $key;?>" <?php if($key==$row_order['please_delivery_at']){ ?>selected <?php } ?> ><?php echo $value;?></option>
+		  <?php } ?>
+         </select>
+      </label></td>
     </tr>
 	
 	<tr>
@@ -126,6 +126,7 @@ $totalRows_user = mysql_num_rows($user);
       <td><input type="submit" value="更新记录"></td>
     </tr>
   </table>
+  <input type="hidden" name="consignee_id" value="<?php echo $row_order['consignee_id']; ?>" size="32">
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_order['id']; ?>">
 </form>
@@ -150,6 +151,7 @@ function get_goods(){
 
  
 function set_consignee(that){
+	var consignee_id=$(that).val();
  	var consignee_name=$(that).attr("consignee_name");
 	var consignee_province=$(that).attr("consignee_province");
 	var consignee_city=$(that).attr("consignee_city");
@@ -158,6 +160,7 @@ function set_consignee(that){
 	var consignee_zip=$(that).attr("consignee_zip");
 	var consignee_mobile=$(that).attr("consignee_mobile");
 	
+	$("#consignee_id").val(consignee_id);
  	$("#consignee_name").val(consignee_name);
 	$("#consignee_province").val(consignee_province);
 	$("#consignee_city").val(consignee_city);

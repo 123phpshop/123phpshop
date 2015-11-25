@@ -33,13 +33,13 @@ if ((isset($_POST["phpshop_db_op"])) && ($_POST["phpshop_db_op"] == "merge_order
     <tr>
       <th width="233" scope="row">将
         <label>订单:</label></th>
-      <td width="718"><input name="from_order_sn" type="text" id="child_order_sn" />
-      [这里填写订单序列号]</td>
+      <td width="718"><input name="from_order_sn" type="text" id="child_order_sn" placeholder="订单序列号"/>
+      </td>
     </tr>
     <tr>
       <th scope="row">合并进入:</th>
-      <td><input name="to_order_sn" type="text" id="main_order_sn" />
-[这里填写订单序列号]</td>
+      <td><input name="to_order_sn" type="text" id="main_order_sn" placeholder="订单序列号"/>
+</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>

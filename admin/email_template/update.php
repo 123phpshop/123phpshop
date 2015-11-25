@@ -25,6 +25,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
+$doc_url="email_template.html#update";
+$support_email_question="更新邮件模板";
+
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -70,7 +73,7 @@ $totalRows_email_template = mysql_num_rows($email_template);
 <body>
 <?php if ($totalRows_email_template > 0) { // Show if recordset not empty ?>
   <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-    <p class="phpshop123_title">更新邮件模板</p>
+    <span class="phpshop123_title">更新邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
         <td nowrap align="right">模板名称:</td>

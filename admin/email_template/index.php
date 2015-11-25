@@ -1,5 +1,8 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="email_template.html#list";
+$support_email_question="浏览邮件模板";
+
 $currentPage = $_SERVER["PHP_SELF"];
 
 $maxRows_email_templates = 50;
@@ -48,7 +51,7 @@ $queryString_email_templates = sprintf("&totalRows_email_templates=%d%s", $total
 </head>
 
 <body>
-  <p class="phpshop123_title">邮件模板</p>
+  <span class="phpshop123_title">邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 <?php if ($totalRows_email_templates > 0) { // Show if recordset not empty ?>
   <p>

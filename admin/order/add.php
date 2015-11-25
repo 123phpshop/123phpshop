@@ -77,7 +77,7 @@ $support_email_question="添加订单";
     <tr>
       <td width="155">用户</td>
       <td width="1476"><label>
-        <input name="username" type="text" id="username"  oninput="get_user()"/>
+        <input name="username" type="text" id="username"  oninput="get_user()" placeholder="请输入用户名的部分或全称"/>
       </label></td>
     </tr>
     <tr>

@@ -23,7 +23,24 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");
 $error			=array();
 $uploads_folder	=$_SERVER['DOCUMENT_ROOT']."/uploads";
 $config_folder	=$_SERVER['DOCUMENT_ROOT']."/Connections";
+$config_file	=$_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php";
 $index_path		=$_SERVER['DOCUMENT_ROOT']."/index.php";
+
+if(!_check_dir_writable($uploads_folder)){
+		//	检查上传文件夹是否可写，如果不可写，那么告知
+		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+}
+
+if(!_check_dir_writable($config_folder)){
+	// 检查配置文件是否可写，如果不可写，那么告知
+	$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+}
+
+if(!_check_file_writable($config_file)){
+	// 检查配置文件是否可写，如果不可写，那么告知
+	$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+}
+
 
 if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POST['db_username']) && isset($_POST['db_password']) && isset($_POST['db_name'])){
  	if(trim($hostname_localhost)!=''){
@@ -33,21 +50,23 @@ if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POS
 	
 	// 如果没有安装，那么检查数据库是否可以链接，如果不能链接，那么告知
 	if(!_db_could_connect($_POST['db_host'],$_POST['db_username'],$_POST['db_password'],$_POST['db_name'])){
- 		$error[]="数据库无法连接，请检查输入的参数";
+ 		$error[]="错误:数据库无法连接，请检查输入的参数";
 	}elseif(!_import_sql($_POST['admin_username'],$_POST['admin_password'])){
 		// 如果可以链接，那么进行数据的导入，如果导入失败，那么告知
-		$error[]="数据库导入错误".mysql_error();
+		$error[]="错误:数据库导入错误".mysql_error();
 		
 	}elseif(!_check_dir_writable($uploads_folder)){
 		//	检查上传文件夹是否可写，如果不可写，那么告知
-		$error[]="上传文件：$uploads_folder夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
 	}elseif(!_check_dir_writable($config_folder)){
 		// 检查配置文件是否可写，如果不可写，那么告知
-		$error[]="系统配置文件夹:$config_folder不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+	}elseif(!_check_file_writable($config_file)){
+		// 检查配置文件是否可写，如果不可写，那么告知
+		$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
 	}elseif(!_write_config()){
-		$error[]="配置文件写入错误";
-	
-	}else{
+		$error[]="错误:配置文件写入错误";
+ 	}else{
 		// 如果所有的操作都成功，那么直接跳转到首页，
 		_to_index();
 	}
@@ -94,6 +113,12 @@ function _check_dir_writable($uploads_folder){
 	return is_writable($uploads_folder);
 }
 
+function _check_file_writable($file_path){
+	 
+	return is_writable($file_path);
+}
+
+
 function _write_config(){
 	$config_folder		=$_SERVER['DOCUMENT_ROOT']."/Connections";
 	if(!is_dir($config_folder)){
@@ -110,19 +135,13 @@ $hostname_localhost = "'.$_POST['db_host'].'";
 $database_localhost = "'.$_POST['db_name'].'";
 $username_localhost = "'.$_POST['db_username'].'";
 $password_localhost = "'.$_POST['db_password'].'";
+if($hostname_localhost==""){
+	require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
+	return;
+}
 $localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR); 
 mysql_query("set names utf8");
-
-if (!isset($_SESSION)) {
-  session_start();
-}
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/common.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
-?>';
+require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";?>';
 	try{
 		$f=fopen($config_file,"w");
 		fwrite($f,$file_content);
@@ -171,7 +190,7 @@ tr{
 <?php if(count($error)>0){ ?>
   <p class="phpshop123_infobox">
   	<?php foreach($error as $error_item){ 
-  		echo $error_item;
+  		echo $error_item."<br>";
   	  } ?>
   </p>
 <?php } ?>

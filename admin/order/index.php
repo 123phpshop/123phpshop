@@ -181,9 +181,8 @@ function _get_order_where($get){
 		        <?php  } ?>
 			    <?php if($row_orders['order_status']==ORDER_STATUS_RETURNED_APPLIED  ){ ?>
 				    
-			    <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a>
-			    <?php  } ?>
-		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_orders['id']; ?>">更新</a></div></td>
+			    <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a><?php  } ?>
+		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> <a href="detail.php?recordID=<?php echo $row_orders['id']; ?>">更新</a></div></td>
           </tr>
           <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
   </table>
