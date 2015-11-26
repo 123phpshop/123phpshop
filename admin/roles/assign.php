@@ -8,6 +8,18 @@ $privileges_id_array=array();
 if (isset($_GET['id'])) {
   $colname_role = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
+
+if(isset($_POST['123phpshop_op']) &&  $_POST ['123phpshop_op']=='update_privileges'){
+	
+ 	if(!isset($_POST['privileges'])){
+		$privileges="";
+	}else{
+		$privileges=implode(",",$_POST['privileges']);
+	}
+ 	$sql="update role set privileges='".$privileges."' where id=".$colname_role;
+	mysql_query($sql) or die(mysql_error());
+ }
+ 
 mysql_select_db($database_localhost, $localhost);
 $query_role = sprintf("SELECT * FROM role WHERE id = %s", $colname_role);
 $role = mysql_query($query_role, $localhost) or die(mysql_error());
@@ -39,16 +51,7 @@ foreach($privileges_array as $row_privileges){
 		$final_privileges_array[]=$row_privileges;
 }
 
-if(isset($_POST['123phpshop_op']) &&  $_POST ['123phpshop_op']=='update_privileges'){
-	
- 	if(!isset($_POST['privileges'])){
-		$privileges="";
-	}else{
-		$privileges=implode(",",$_POST['privileges']);
-	}
- 	$sql="update role set privileges='".$privileges."' where id=".$colname_role_privileges;
-	mysql_query($sql) or die(mysql_error());
- }
+
 
 
 ?>
