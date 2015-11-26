@@ -1,4 +1,6 @@
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php'); ?>
+
 <?php
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -51,8 +53,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
-  $insertGoTo = "detail.php?recordID=".mysql_insert_id();
+	
+	$new_order_id=mysql_insert_id();
+	phpshop123_log_order_new($new_order_id);
+   $insertGoTo = "detail.php?recordID=".$new_order_id;
   header(sprintf("Location: %s", $insertGoTo));
 }
 

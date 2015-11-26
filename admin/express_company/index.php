@@ -34,7 +34,7 @@ $totalRows_expresses = mysql_num_rows($expresses);
 </head>
 
 <body>
-<p class="phpshop123_title">快递公司</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">快递公司</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="1" align="center" class="phpshop123_list_box">
   <tr>
     <td><div align="center">ID</div></td>
@@ -58,10 +58,6 @@ $totalRows_expresses = mysql_num_rows($expresses);
     <?php } while ($row_expresses = mysql_fetch_assoc($expresses)); ?>
 </table>
 <br>
-记录总数 ：
-<?php echo $totalRows_expresses ?>
+记录总数 ：<?php echo $totalRows_expresses ?>
 </body>
 </html>
-<?php
-mysql_free_result($expresses);
-?>

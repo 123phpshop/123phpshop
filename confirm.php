@@ -18,6 +18,8 @@
 ?>
 <?php require_once('Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
+<?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");?>
+
 <?php
 if(!isset($_SESSION['user_id'])){
 	 $url="/login.php";
@@ -147,8 +149,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	
 	//	记录进入日志操作
 	  
-	$order_log_sql="insert into order_log(order_id,message)values('".$order_id."','创建订单成功')";
-	mysql_query($order_log_sql, $localhost);
+		phpshop123_log_order_new($new_order_id);
+
 	
 	// 发送邮件通知
 	$email_template_code=200;

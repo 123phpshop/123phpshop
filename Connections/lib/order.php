@@ -744,4 +744,16 @@ function _log_order_merge($from_order_obj, $to_order_obj) {
 	$order_log_sql = "insert into order_log(order_id,message)values('" . $to_order_obj ['id'] . "','成功将订单号为：'" . $from_order_obj ['sn'] . "'的订单合并到:" . $to_order_obj ['sn'] . ")";
 	return mysql_query ( $order_log_sql, $db_conn );
 }
+
+function phpshop123_log_order($order_id,$message){
+	global $db_conn;
+	$order_log_sql="insert into order_log(order_id,message)values('".$order_id."','".$message."')";
+	return	mysql_query($order_log_sql, $db_conn);
+}
+function phpshop123_log_order_new($order_id){
+	$message='创建订单成功';
+ 	return phpshop123_log_order($order_id,$message);
+}
+
+
 ?>
