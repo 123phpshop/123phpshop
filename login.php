@@ -128,7 +128,7 @@ a{
 		<tr>
         <td colspan="2" align="center">
           <input name="captcha"  class="required" id="captcha" style="padding-left:10px;border:1px solid #bdbdbd;height:38px;width:152px;float:left;" size="4" maxlength="4" placeholder="验证码" /> 
-          <img height="37" style="cursor:pointer;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();" style="float:right;"></td>
+          <img height="37" style="cursor:pointer;" title="点击刷新" src="/kcaptcha/index.php" align="absbottom" onclick="this.src='/kcaptcha/index.php?'+Math.random();" style="float:right;"></td>
         </tr>
 		
       <tr>

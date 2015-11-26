@@ -34,7 +34,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
   $updateSQL = sprintf("UPDATE orders SET user_id=%s, consignee_id=%s, invoice_is_needed=%s, invoice_title=%s, invoice_message=%s, please_delivery_at=%s, consignee_name=%s, consignee_province=%s, consignee_city=%s, consignee_district=%s, consignee_address=%s, consignee_zip=%s, consignee_mobile=%s WHERE id=%s",
                        GetSQLValueString($_POST['user_id'], "int"),
                        GetSQLValueString($_POST['consignee_id'], "int"),
-                       GetSQLValueString($_POST['invoice_is_needed'], "int"),
+                       GetSQLValueString(isset($_POST['invoice_is_needed']) ? "true" : "", "defined","1","0"),
                        GetSQLValueString($_POST['invoice_title'], "text"),
                        GetSQLValueString($_POST['invoice_message'], "text"),
                        GetSQLValueString($_POST['please_delivery_at'], "int"),
@@ -81,9 +81,7 @@ $totalRows_user = mysql_num_rows($user);
 
 <body>
 <p class="phpshop123_title">更新订单用户</p>
-<p>&nbsp; </p>
-
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" class="phpshop123_form_box">
+ <form action="<?php echo $editFormAction; ?>" method="post" name="form1" class="phpshop123_form_box">
   <table align="center">
     <tr valign="baseline">
       <td nowrap align="right">用户:</td>
@@ -96,7 +94,7 @@ $totalRows_user = mysql_num_rows($user);
     
     <tr valign="baseline">
       <td nowrap align="right">是否需要发票:</td>
-      <td><input type="radio" name="invoice_is_needed" <?php if($row_order['invoice_is_needed']=1){ ?>checked <?php } ?>value="<?php echo $row_order['invoice_is_needed']; ?>" size="32"></td>
+      <td><input type="checkbox" name="invoice_is_needed" <?php if($row_order['invoice_is_needed']==1){ ?>checked <?php } ?>value="<?php echo $row_order['invoice_is_needed']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">发票抬头:</td>

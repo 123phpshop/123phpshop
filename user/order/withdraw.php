@@ -17,12 +17,15 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once('../../Connections/lib/email.php'); ?>
 <?php
 $could_withdraw=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
+
+
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s ", $colname_order, $_SESSION['user_id']);
 $order = mysql_query($query_order, $localhost) or die(mysql_error());
@@ -32,6 +35,9 @@ $totalRows_order = mysql_num_rows($order);
 if($totalRows_order==0){
 	$could_withdraw=0;
 } 
+
+
+ 
 
 
 if((int)$row_order['order_status'] >=200 || (int)$row_order['order_status'] <=-100){
@@ -58,10 +64,13 @@ if($could_withdraw==1){
 		
 		
 		// 发送邮件通知
-		$email_template_code=300; // 撤销订单
-		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
-	
-		$remove_succeed_url="index.php";
+ 		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+ 		$para=array();
+		$para['sn']=$row_order['sn'];
+		$para['username']=$_SESSION['username'];
+		phpshop123_send_email_template(300,$para);
+		
+ 		$remove_succeed_url="index.php";
 		header("Location: " . $remove_succeed_url );
  	}
 }

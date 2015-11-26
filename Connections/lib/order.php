@@ -48,25 +48,25 @@ function phpshop123_order_add_product($order, $product) {
 	}
 	
 	// 如果在配送范围之内的话，那么检查订单中是否已经有了这个商品,
+	$product_is_present=isset($product['is_present'])?true:false;
 	$product_in_order = _123phpshop_product_is_in_order ( $order, $product );
-	
+	 
  	// 1. 如果订单中没有这个商品，并且商品是赠品的话
 	if (! $product_in_order && _123phpshop_order_product_is_present ( $product )) {
-  		die("1");
-		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+ 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
 		return true;
 	}
 	
 	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话
 	if (! $product_in_order && !_123phpshop_order_product_is_present ( $product )) {
-  		die("2");
-		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+ 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
 		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
 		return;
 	}
 	
+ 	
 	// 3. 如果订单中有这个商品，且当前的商品和之前的商品都是赠品的话，那么直接将之前商品的数量+1即可
-	if ($product_in_order && _123phpshop_order_product_is_present ( $product ) && _123phpshop_order_product_is_present ( $product_in_order )) {
+	if ($product_in_order && $product_is_present && _123phpshop_order_product_is_present ( $product_in_order )) {
 		// 那么直接将商品的数量+1即可
   		die("3");
 		_123phpshop_order_update_product_quantity ( $order, $product_in_order, 1 ); // 将订单中之前的商品数量+1
@@ -74,22 +74,21 @@ function phpshop123_order_add_product($order, $product) {
 	}
 	
 	// 4. 如果订单中有这个商品，当前的产品和之前的商品都不是赠品的话，
-	if ($product_in_order && ! _123phpshop_order_product_is_present ( $product ) && ! _123phpshop_order_product_is_present ( $product_in_order )) {
-  		die("4");
-		_123phpshop_order_update_product_quantity ( $order, $product_in_order, 1 ); // 将之前的产品的数量+1
+	if ($product_in_order && ! $product_is_present && ! _123phpshop_order_product_is_present ( $product_in_order )) {
+ 		_123phpshop_order_update_product_quantity ( $order, $product_in_order, 1 ); // 将之前的产品的数量+1
 		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
 		return;
 	}
 	
 	// 5. 如果订单中有这个商品，且当前的商品为赠品，但是之前的产品不是赠品的话，那么直接插入记录，不需要更新费用
-	if ($product_in_order && _123phpshop_order_product_is_present ( $product ) && 　！_123phpshop_order_product_is_present ( $product_in_order )) {
+	if ($product_in_order && $product_is_present && 　！_123phpshop_order_product_is_present ( $product_in_order )) {
   		die("5");
 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录即可
 		return;
 	}
 	
 	// 6. 如果订单中有这个商品，当前的产品不是赠品，但是之前的商品属于赠品的话
-	if ($product_in_order && ! _123phpshop_order_product_is_present ( $product ) && _123phpshop_order_product_is_present ( $product_in_order )) {
+	if ($product_in_order && !$product_is_present && _123phpshop_order_product_is_present ( $product_in_order )) {
 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录即可
 		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
 		return;
@@ -196,7 +195,7 @@ function _123phpshop_order_do_add_product($order, $product) {
 	
 	global $db_conn;
 	$should_pay_price=_123phpshop_get_price_by_product_id($product['product_id']);
-	$is_present=0;
+ 	$is_present=0;
 	
  	//  如果是赠品的话
    	if(isset($product['is_present']) || ($product['is_present']=='1' || $product['is_present']==1)){
@@ -254,6 +253,7 @@ function _123phpshop_get_price_by_product_id($id){
   	if(!$product){
  		return $result;
  	}
+ 	
  	$curr_date=date("Y-m-d");
 	//	检查产品是否在优惠期之内，如果在优惠期之内，那么产品的价格就是优惠价格
 	if($product['is_promotion']==1 && $curr_date>=$product['promotion_start'] && $curr_date<=$product['promotion_end']){
@@ -282,10 +282,8 @@ function _123phpshop_get_products_total($order) {
 	foreach($order['products'] as $item){
 		if($item){
 			// 首先检查是否是赠品，如果是赠品的话，那么不计入总的产品价格
-			
-			// 如果不是赠品，那么检查是否可以使用优惠价格，如果可以应用优惠价格的话，那么使用优惠价格
-			
-  		}
+ 			// 如果不是赠品，那么检查是否可以使用优惠价格，如果可以应用优惠价格的话，那么使用优惠价格
+   		}
 	}
 }
 
@@ -754,6 +752,4 @@ function phpshop123_log_order_new($order_id){
 	$message='创建订单成功';
  	return phpshop123_log_order($order_id,$message);
 }
-
-
 ?>

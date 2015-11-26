@@ -18,7 +18,7 @@
 ?>
 <?php //require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="product.html#set_attr";
 $support_email_question="设置产品属性";
 //	准备参数
 $colname_product = "-1";
@@ -28,19 +28,21 @@ if (isset($_GET['id'])) {
 
 
 //	如果需要插入的话
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+/*if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	foreach($_POST as $key=>$value){
 		if($key!='Submit' && $key!='MM_insert'  ){
  			mysql_query("insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')")or die("系统错误");
  		}
 	}
-}
+}*/
 
 //如果需要更新的话
+
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "set_attr")) {
 	foreach($_POST as $key=>$value){
-		if($key!='Submit' && $key!='MM_insert'  ){
- 			mysql_query("update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'")or die("系统错误");
+  		if($key!='Submit' && $key!='form_op'  ){
+			$sql="update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'";
+ 			mysql_query($sql)or die("系统错误");
  		}
 	}
 }
@@ -74,8 +76,6 @@ if($totalRows_product_type_attrs>0){
 	$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
 	$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 }
-
-
 ?>
 
 <?php if($totalRows_product_type_attrs>0){ ?>
@@ -92,7 +92,7 @@ if($totalRows_product_type_attrs>0){
 			  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
 			}
 			mysql_select_db($database_localhost, $localhost);
-			$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
+			$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_product,$row_product_type_attrs['id']);
 			$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) or die(mysql_error());
 			$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
 			$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
@@ -101,7 +101,7 @@ if($totalRows_product_type_attrs>0){
 		<?php if($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==1){ ?>
           <input type="text" name="attr_<?php echo $row_product_type_attrs['id']; ?>" value="<?php echo $row_get_product_attr_val['product_type_attr_value'];?>"/>
 		  <?php }elseif($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==2){ ?> <textarea type="text" cols="50" rows="5" name="attr_<?php echo $row_product_type_attrs['id']; ?>" /><?php echo $row_get_product_attr_val['product_type_attr_value'];?></textarea>
-		  	
+ 		  	
 		  <?php  } ?>
          </td>
       </tr>
@@ -112,10 +112,6 @@ if($totalRows_product_type_attrs>0){
   	
     <input type="submit" name="Submit" value="设置" />
   </div>
-	 <?php if($totalRows_get_product_attr_val>0){ ?>
-	 <input value="form1" name="MM_Update" type="hidden" />
- 		<?php }else{ ?>
-  	<input value="set_attr" name="form_op" type="hidden" />
- <?php } ?>
-</form>
+   	<input value="set_attr" name="form_op" type="hidden" />
+ </form>
  <?php } ?>

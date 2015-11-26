@@ -79,7 +79,11 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
   <tr>
     <td>用户</td>
-    <td><?php echo $row_DetailRS1['username']; ?>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改订单用户</a>]</td>
+    <td><?php echo $row_DetailRS1['username']; ?>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改订单用户</a>]<?php 
+$support_email_question="修改订单用户";
+$doc_url="order.html#update_user";
+include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
+?></td>
   </tr>
   <tr>
     <td>应付</td>
@@ -133,7 +137,11 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   </tr>
 </table>
 
-<p><span class="phpshop123_title">商品列表</span>[<a href="add_order_item.php?order_id=<?php echo $row_DetailRS1['id']; ?>">添加商品</a>]</p>
+<span><span class="phpshop123_title">商品列表</span></span><?php 
+$support_email_question="添加订单商品";
+$doc_url="order.html#add_product";
+include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
+?>[<a href="add_order_item.php?order_id=<?php echo $row_DetailRS1['id']; ?>">添加商品</a>]
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>

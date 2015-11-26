@@ -15,6 +15,7 @@ function phpshop123_send_email_template($code,$para=array()){
  
 	global $db_conn;
 	global $db_database_localhost;
+	 
 	mysql_select_db($db_database_localhost, $db_conn);
  	$row_shop_info=get_shop_info();
   	$query_email_template = "SELECT * FROM email_templates WHERE code = ".$code;
@@ -24,7 +25,12 @@ function phpshop123_send_email_template($code,$para=array()){
 	if($totalRows_email_template==0){
 		return false;
 	}
-	 
+	
+ 	foreach($para as $key=>$value){
+ 		$row_email_template['title']=str_replace("<$".$key.">", $value, $row_email_template['title']);
+		$row_email_template['content']=str_replace("<$".$key.">", $value, $row_email_template['content']);
+	}
+ 	
 	phpshop123_send_email($row_shop_info['email'],$row_email_template['title'],$row_email_template['content']);
  }
  
@@ -36,15 +42,15 @@ function phpshop123_send_email($send_email_to,$subject,$message,$attch_array=arr
 	try {
 		$mail = new PHPMailer(true); 
 		$mail->IsSMTP();
-		$mail->CharSet='UTF-8'; //设置邮件的字符编码，这很重要，不然中文乱码
-		$mail->SMTPAuth   = true;                  //开启认证
-		 //if($row_shop_info['smtp_ssl']==1){
+		$mail->CharSet='UTF-8'; 	//设置邮件的字符编码，这很重要，不然中文乱码
+		$mail->SMTPAuth   = true;   //开启认证
+		  if($row_shop_info['smtp_ssl']==1){
 			$mail->SMTPSecure = "ssl"; 
-		//}
- 		echo $mail->Port       = $row_shop_info['smtp_port'];                    
+		  }
+ 		$mail->Port       = $row_shop_info['smtp_port'];                    
 		$mail->Host       = $row_shop_info['smtp_server']; 
-		$mail->Username   = $row_shop_info['smtp_username'];   
-		echo  $mail->Password   = $row_shop_info['smtp_password'];         
+		  $mail->Username   = $row_shop_info['smtp_username'];   
+		  $mail->Password   = $row_shop_info['smtp_password'];         
 		//$mail->IsSendmail(); //如果没有sendmail组件就注释掉，否则出现“Could  not execute: /var/qmail/bin/sendmail ”的错误提示
 		$mail->AddReplyTo($row_shop_info['smtp_username'],"123phpshop");//回复地址
 		$mail->From       = $row_shop_info['smtp_username'];

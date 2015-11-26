@@ -125,7 +125,7 @@ table{
             <label>
             <input name="captcha" type="text" size="4" maxlength="4" style="padding-left:10px;border-radius:3px;padding-left:10px;margin-left:10px;height:33px;border:1px solid #cccccc;"/>
             </label>
-            <img height="37" style="cursor:pointer;" title="点击刷新" src="/admin/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"></div>
+            <img height="37" style="cursor:pointer;" title="点击刷新" src="/kcaptcha/index.php" align="absbottom" onclick="this.src='/kcaptcha/index.php?'+Math.random();"></div>
             </img></td>
         </tr>
         <tr>

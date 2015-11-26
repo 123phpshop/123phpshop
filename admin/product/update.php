@@ -16,10 +16,10 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
-$support_email_question="编辑产品";
+$doc_url="product.html#update";
+$support_email_question="编辑商品";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -73,8 +73,9 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
  
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
+ 	 
 	$on_sheft_time='';
 	if($_POST['is_on_sheft']=='1' && $row_product['on_sheft_time']==null){
 		 $on_sheft_time=date('Y-m-d H:i:s');
