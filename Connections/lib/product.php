@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php
+<?php 
  
 	//返回用户是否已经评论过这个商品
   
