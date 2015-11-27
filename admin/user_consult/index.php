@@ -31,7 +31,7 @@ if (isset($_GET['pageNum_consult'])) {
 $startRow_consult = $pageNum_consult * $maxRows_consult;
 
 mysql_select_db($database_localhost, $localhost);
-$query_consult = "SELECT product_consult.*,user.username as username FROM product_consult inner join user on user.id=product_consult.user_id where product_consult.is_delete=0 and product_consult.to_question=0 $where_query_string ORDER BY id DESC";
+$query_consult = "SELECT product_consult.*,user.username as username, product.name as product_name FROM product_consult inner join user on user.id=product_consult.user_id inner join product on product.id=product_consult.product_id where product_consult.is_delete=0 and product_consult.to_question=0 $where_query_string ORDER BY id DESC";
 $query_limit_consult = sprintf("%s LIMIT %d, %d", $query_consult, $startRow_consult, $maxRows_consult);
 $consult = mysql_query($query_limit_consult, $localhost) or die(mysql_error());
 $row_consult = mysql_fetch_assoc($consult);
@@ -117,7 +117,7 @@ function _get_consult_where_query_string(){
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
       <th>ID</th>
-      <th>用户</th>
+      <th>商品</th>
       <th>内容</th>
       <th>是否回复</th>
       <th>创建时间</th>
@@ -125,8 +125,8 @@ function _get_consult_where_query_string(){
     </tr>
     <?php do { ?>
       <tr>
-        <td><a href="detail.php?recordID=<?php echo $row_consult['content']; ?>"> <?php echo $row_consult['id']; ?>&nbsp; </a> </td>
-        <td><?php echo $row_consult['username']; ?>&nbsp; </td>
+        <td><a href="detail.php?recordID=<?php echo $row_consult['id']; ?>"> <?php echo $row_consult['id']; ?>&nbsp; </a> </td>
+        <td><?php echo $row_consult['product_name']; ?>&nbsp; </td>
         <td><?php echo $row_consult['content']; ?>&nbsp; </td>
         <td><?php echo $row_consult['is_replied']=="0"?"<span style='color:red'>未</span>":"√"; ?></td>
         <td><?php echo $row_consult['create_time']; ?>&nbsp; </td>

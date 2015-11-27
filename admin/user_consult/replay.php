@@ -71,7 +71,7 @@ if (isset($_GET['id'])) {
   $colname_consult = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_consult = sprintf("SELECT * FROM product_consult WHERE id = %s", $colname_consult);
+$query_consult = sprintf("SELECT product_consult.* , product.name as product_name, product.id as product_id FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.id = %s", $colname_consult);
 $consult = mysql_query($query_consult, $localhost) or die(mysql_error());
 $row_consult = mysql_fetch_assoc($consult);
 $totalRows_consult = mysql_num_rows($consult);
@@ -113,7 +113,12 @@ $totalRows_replies = mysql_num_rows($replies);
   <?php } // Show if recordset not empty ?><p class="phpshop123_title">咨询回答</p>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
-    <tr valign="baseline">
+     <tr valign="baseline">
+      <td nowrap align="right">商品</td>
+      <td><a href="../../product.php?id=<?php echo $row_consult['product_id']; ?>" target="_blank"><?php echo $row_consult['product_name']; ?></a></td>
+    </tr>
+	
+	<tr valign="baseline">
       <td nowrap align="right">问题</td>
       <td><?php echo $row_consult['content']; ?></td>
     </tr>

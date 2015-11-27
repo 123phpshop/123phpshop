@@ -28,7 +28,7 @@ $totalRows_getRoles = mysql_num_rows($getRoles);
       <tr>
         <td><?php echo $row_getRoles['id']; ?></td>
         <td><?php echo $row_getRoles['name']; ?></td>
-        <td><a href="remove.php?id=<?php echo $row_getRoles['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_getRoles['id']; ?>">更新</a> <a href="assign.php?id=<?php echo $row_getRoles['id']; ?>">权限</a></td>
+        <td><a href="remove.php?id=<?php echo $row_getRoles['id']; ?>" onclick="return confirm('您确认要删除这个角色吗？');">删除</a> <a href="edit.php?id=<?php echo $row_getRoles['id']; ?>">更新</a> <a href="assign.php?id=<?php echo $row_getRoles['id']; ?>">权限</a></td>
       </tr>
       <?php } while ($row_getRoles = mysql_fetch_assoc($getRoles)); ?>
   </table>

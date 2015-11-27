@@ -28,47 +28,41 @@ $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
-$query_DetailRS1 = "SELECT * FROM product_consult WHERE content = '$recordID' ORDER BY id DESC";
-$query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
+$query_DetailRS1 = "SELECT product_consult.*,user.username FROM product_consult inner join user on  product_consult.user_id=user.id WHERE product_consult.id = ".$recordID;
+$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 
-if (isset($_GET['totalRows_DetailRS1'])) {
-  $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
-} else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
-  $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
-}
-$totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-		<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<table border="1" align="center">
+ 		  		<span class="phpshop123_title">评论详细</span>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+ 		<table border="0" align="center" class="phpshop123_form_box">
   
   <tr>
-    <td>id</td>
+    <td>产品</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
   <tr>
-    <td>member_id</td>
-    <td><?php echo $row_DetailRS1['member_id']; ?> </td>
+    <td>用户</td>
+    <td><?php echo $row_DetailRS1['username']; ?> </td>
   </tr>
   <tr>
-    <td>content</td>
+    <td>内容</td>
     <td><?php echo $row_DetailRS1['content']; ?> </td>
   </tr>
   <tr>
-    <td>to_question</td>
-    <td><?php echo $row_DetailRS1['to_question']; ?> </td>
+    <td>回复问题的id</td>
+    <td><?php echo $row_DetailRS1['to_question']==0?"未设置":$row_DetailRS1['to_question']; ?> </td>
   </tr>
   <tr>
-    <td>create_time</td>
+    <td>时间时间</td>
     <td><?php echo $row_DetailRS1['create_time']; ?> </td>
   </tr>
   
@@ -76,6 +70,4 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </table>
 
 </body>
-</html><?php
-mysql_free_result($DetailRS1);
-?>
+</html>

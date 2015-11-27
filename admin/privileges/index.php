@@ -74,7 +74,7 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
 	 <?php do { ?>
     <tr>
         <td><?php echo $row_getPrivileges['name']; ?></td>
-        <td><a href="edit.php?id=<?php echo $row_getPrivileges['id']; ?>">更新</a> <a href="remove.php?id=<?php echo $row_getPrivileges['id']; ?>">删除</a> <a href="index.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">子权限列表</a> <a href="add.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">添加子权限</a></td>
+        <td><a href="edit.php?id=<?php echo $row_getPrivileges['id']; ?>">更新</a> <a href="remove.php?id=<?php echo $row_getPrivileges['id']; ?>" onclick="return confirm('您确实要删除这项权限么?')">删除</a> <a href="index.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">子权限列表</a> <a href="add.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">添加子权限</a></td>
         <?php } while ($row_getPrivileges = mysql_fetch_assoc($getPrivileges)); ?></tr>
   </table>
   

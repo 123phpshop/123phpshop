@@ -40,7 +40,7 @@ $totalRows_getById = mysql_num_rows($getById);
 
 //  如果id存在，那么进行删除
 if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
-  $deleteSQL = sprintf("DELETE FROM privilege WHERE id=%s",
+  $deleteSQL = sprintf("update privilege  set is_delete=1 WHERE id=%s",
                        GetSQLValueString($_GET['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
