@@ -157,7 +157,7 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
         <td scope="col"><?php echo $row_products['quantity']; ?></td>
         <td scope="col"><div align="center"><?php echo $row_products['is_present']==1?"√":""; ?></div></td>
         <td scope="col">￥<?php echo $row_products['should_pay_price']; ?></td>
-        <td scope="col"><a href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>"></a></td>
+        <td scope="col"><a onclick="return confirm('您确实要删除这个商品吗？')" href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>"></a></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>

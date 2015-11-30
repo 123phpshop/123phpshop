@@ -119,7 +119,7 @@ $totalRows_comments = mysql_num_rows($comments);
            <tr valign="middle" >
 	  <td style="padding-top:10px;"><label>
 	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
-	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/comment_captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"  ><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="发表评论" /></td>
+	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/kcaptcha/comment_captcha.php" align="absbottom" onclick="this.src='kcaptcha/comment_captcha.php?'+Math.random();"  ><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="发表评论" /></td>
     </tr>
   </table>
             <input type="hidden" name="MM_insert" value="new_comment" />

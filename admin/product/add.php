@@ -51,7 +51,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['is_virtual'], "int"),
 					   GetSQLValueString($_POST['weight'], "double"),
 					   GetSQLValueString("|".get_catalog_path(array($_POST['catalog_id']))."|", "text"),
-					   GetSQLValueString($_POST['name'], "text"),
+					   GetSQLValueString(trim($_POST['name']), "text"),
                        GetSQLValueString($_POST['ad_text'], "text"),
                        GetSQLValueString($_POST['catalog_id'], "int"),
                        GetSQLValueString($_POST['price'], "double"),

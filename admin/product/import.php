@@ -30,10 +30,10 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")) {
-
+	try{
 	// 我们这里需要对上传文件进行检查
    include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
-  
+  include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/csv.php'); 
 	$up = new fileupload;
     //设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
     $up -> set("path", $_SERVER['DOCUMENT_ROOT']."/uploads/import/");
@@ -50,11 +50,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")
 	
 	  mysql_select_db($database_localhost, $localhost);
 	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-	  
-    } else {
+ 	  import_product($image_path);	  
+     } else {
          //获取上传失败以后的错误提示
-        $error=$up->getErrorMsg();
-    }
+        	$error=$up->getErrorMsg();
+     }
+	
+	}catch(Exception $ex){
+		$error=$ex->getMessage();
+	}
 }
 ?>
 <?php
@@ -110,8 +114,10 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
 </head>
 
 <body>
-<span class="phpshop123_title">导入商品</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
+<span class="phpshop123_title">导入商品</span>
+  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<p>  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?></p>
+
 <form action="" method="post" enctype="multipart/form-data" name="import_goods_form" id="import_goods_form">
 	<input type="file" name="csv_file" />
 	<input name="导入" type="submit" id="导入" value="提交" />

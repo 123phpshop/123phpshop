@@ -17,9 +17,8 @@
  */
 ?>
 <?php 
- 
+ 	
 	//返回用户是否已经评论过这个商品
-  
 function user_could_comment($user_id, $product_id) {
 	 
  	global $db_conn;
@@ -85,8 +84,7 @@ function could_devliver($areas){
 		if(!is_array($areas)){
 			return false;
 		}
-		
-		$query_area = "SELECT * from shipping_method_area where is_delete=0";
+ 		$query_area = "SELECT * from shipping_method_area where is_delete=0";
 		$area = mysql_query ( $query_area,$db_conn ) or die ( mysql_error () );
 		while($order_area=mysql_fetch_assoc($area)){
 			foreach($areas as $area_item){

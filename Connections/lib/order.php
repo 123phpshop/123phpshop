@@ -59,7 +59,7 @@ function phpshop123_order_add_product($order, $product) {
 	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话
 	if (! $product_in_order && !$order_product_is_present) {
  		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
-		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
+		phpshop123_update_order_fee ( $order['id'] ); // 更新订单的费用和促销信息
 		return;
 	}
 	
@@ -75,7 +75,7 @@ function phpshop123_order_add_product($order, $product) {
 	if ($product_in_order && !$product_is_present && !$order_product_is_present) {
 		 
  		_123phpshop_order_update_product_quantity ( $order, $product_in_order, (int)$product['quantity'] ); // 将之前的产品的数量+1
-		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
+		phpshop123_update_order_fee ( $order['id'] ); // 更新订单的费用和促销信息
 		return;
 	}
 	
@@ -88,7 +88,7 @@ function phpshop123_order_add_product($order, $product) {
 	// 6. 如果订单中有这个商品，当前的产品不是赠品，但是之前的商品属于赠品的话
 	if ($product_in_order && !$product_is_present && $order_product_is_present) {
 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录即可
-		_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
+		phpshop123_update_order_fee ( $order['id'] ); // 更新订单的费用和促销信息
 		return;
 	}
 }
@@ -196,7 +196,7 @@ function _123phpshop_order_do_add_product($order, $product) {
  	$is_present=0;
 	
  	//  如果是赠品的话
-   	if(isset($product['is_present']) || ($product['is_present']=='1' || $product['is_present']==1)){
+   	if(isset($product['is_present']) ||( ($product['is_present']=='1' || $product['is_present']==1))){
 		$should_pay_price=0.00;
 		$is_present=1;
 	}
@@ -283,19 +283,6 @@ function _123phpshop_get_products_total($order) {
  			// 如果不是赠品，那么检查是否可以使用优惠价格，如果可以应用优惠价格的话，那么使用优惠价格
    		}
 	}
-}
-
-// 更新运费总价格
-function _123phpshop_get_shipping_fee($order) {
-	
-}
-
-// 更新订单总价
-function _123phpshop_get_order_total($order) {
-}
-// 更新促销总价
-function _123phpshop_get_promotion($order) {
-	
 }
 
 /**
@@ -630,17 +617,18 @@ function phpshop123_update_order_fee($order_id) {
 	
 	// 获取订单的费用
 	$products = _get_products_by_order_id ( $order_id );
-	$product_fee = _get_product_fee ( $products ); // 获取所有的产品配用
-	$shipping_fee = _get_shipping_fee ( $products ); // 获取运费费用
-	$promotion_fee = _get_promotion_fee ( $products ); // 获取促销费用
-	$order_total = _get_order_total ( $products ); // 获取订单的总费用
+	$product_fee = _123phpshop_get_product_fee ( $products ); // 获取所有的产品配用
+	$shipping_fee = _123phpshop_get_shipping_fee ( $products ); // 获取运费费用
+	$promotion_fee = _123phpshop_get_promotion_fee ( $products ); // 获取促销费用
+	$order_total = _123phpshop_get_order_total ( $product_fee, $shipping_fee, $promotion_fee); // 获取订单的总费用
 	_do_update_order_fee ( $product_fee, $shipping_fee, $promotion_fee, $order_total ); // 更新db中的数据
 }
 function _get_products_by_order_id($order_id) {
 	$result = array ();
-	mysql_select_db ( $database_localhost, $localhost );
-	$query_order_items = "SELECT * FROM order_item WHERE order_id = '" . $order_id . "'";
-	$order_items = mysql_query ( $query_order_items, $localhost ) or die ( mysql_error () );
+	global $db_conn;
+	mysql_select_db ( $database_localhost, $db_conn );
+	$query_order_items = "SELECT * FROM order_item WHERE is_delete=0 and order_id = '" . $order_id . "'";
+	$order_items = mysql_query ( $query_order_items, $db_conn ) or die ( mysql_error () );
 	$totalRows_order_items = mysql_num_rows ( $order_items );
 	if ($totalRows_order_items == 0) {
 		return $result;
@@ -650,32 +638,29 @@ function _get_products_by_order_id($order_id) {
 	}
 	return $result;
 }
-function _get_product_fee($products) {
+function _123phpshop_get_product_fee($products) {
 	$result = 0.00;
-	
+ 	foreach($products as $product){
+ 		$result +=(float)$product['should_pay_price']*$product['quantity'];
+ 	}
 	return $result;
 }
-function _get_shipping_fee($products) {
+function _123phpshop_get_shipping_fee($products) {
 	$result = 0.00;
-	foreach ( $products as $product ) {
-	}
-	return $result;
+ 	return $result;
 }
-function _get_promotion_fee($products) {
+function _123phpshop_get_promotion_fee($products) {
 	$result = 0.00;
-	foreach ( $products as $product ) {
-	}
-	return $result;
+ 	return $result;
 }
-function _get_order_total($products) {
-	$result = 0.00;
-	foreach ( $products as $product ) {
-	}
-	return $result;
+function _123phpshop_get_order_total($product_fee,$shipping_fee,$promotion_fee) {
+	 return (float)$product_fee+(float)$shipping_fee-(float)$promotion_fee;
 }
 function _do_update_order_fee($product_fee, $shipping_fee, $promotion_fee, $order_total) {
-	$sql = "";
-	$result = mysql_query ( $sql );
+	global $db_conn;
+	
+	$sql = sprintf("update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s",$product_fee,$shipping_fee, $promotion_fee, $order_total);
+	$result = mysql_query ( $sql,$db_conn );
 	if (! $result) {
 		throw new Exeption ( "订单费用更新错误，请重试！" );
 	}

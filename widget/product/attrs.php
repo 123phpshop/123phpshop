@@ -18,8 +18,7 @@
 ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-  
- die;
+ 
 //如果需要更新的话
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "update_product_attr")) {
  	foreach($_POST as $key=>$value){
@@ -27,8 +26,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "update_product_attr")) 
  			mysql_query("update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'")or die("系统错误");
  		}
 	}
-	
-	$insertGoTo = "index.php";
+   $insertGoTo = "index.php";
    header(sprintf("Location: %s", $insertGoTo));
  }
 

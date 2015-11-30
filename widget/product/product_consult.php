@@ -132,7 +132,7 @@ $totalRows_consult = mysql_num_rows($consult);
 	<tr valign="middle" >
 	  <td style="padding-top:10px;"><label >
 	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
-	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/captcha.php" align="absbottom" onclick="this.src='/captcha.php?'+Math.random();"><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="马上咨询" /></td>
+	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/kcaptcha/index.php" align="absbottom" onclick="this.src='/kcaptcha/index.php?'+Math.random();"><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="马上咨询" /></td>
     </tr>
 </table>
 <input type="hidden" name="product_id2" value="<?php echo $row_product['id']; ?>" />

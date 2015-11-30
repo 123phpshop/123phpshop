@@ -240,7 +240,7 @@ body {
       <td height="38" colspan="2" valign="middle" scope="row" style="padding:0px;"><?php include_once('widget/area/index.php')?>  
 	  <span id="could_deliver" <?php if(!$could_deliver){ ?>style="color:red;"<?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
     </tr>
-	       <?php include_once('widget/product/single_choose_attr.php'); ?>
+	       <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/product/single_choose_attr.php'); ?>
     <tr>
       <td scope="row" style="padding-left:12px;">      数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
       <td colspan="2" scope="row"><label>
@@ -289,7 +289,7 @@ body {
   <table width="1210" border="0" align="center" style="margin:0px auto;">
     <tr>
       <td width="210" valign="top"> 
-       <?php include_once('widget/view_buy.php'); ?>
+       <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/view_buy.php'); ?>
       </td>
       <td valign="top" align="center"> 
          <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
@@ -306,9 +306,9 @@ body {
           <th bordercolor="#DEDFDE" scope="col"><?php echo $row_product['intro']; ?></th>
           </tr>
       </table >
-	 <?php include('widget/product/attrs.php'); ?> 
- 	 <?php include('widget/product/product_comment.php'); ?> 
-	 <?php include('widget/product/product_consult.php'); ?> 
+	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/attrs.php'); ?> 
+ 	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_comment.php'); ?> 
+	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_consult.php'); ?> 
 	</td>
 </tr>
 </table>
@@ -400,7 +400,5 @@ function _check_deliver(){
 </body>
 </html>
 <?php
-mysql_free_result($consignee);
-
 add_view_history($colname_product);
 ?>

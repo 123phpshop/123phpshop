@@ -88,14 +88,15 @@ if ( isset($_GET['parent_id']) && $_GET['parent_id']!="") {
 if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  
  	// 插入数据库
-		$insertSQL = sprintf("INSERT INTO privilege (name, file_name, pid) VALUES (%s, %s, %s)",
+		$insertSQL = sprintf("INSERT INTO privilege (name, file_name, pid,sort) VALUES (%s, %s, %s, %s)",
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['controller_action'], "text"),
-                       GetSQLValueString($colname_getParent, "int"));
+                       GetSQLValueString($colname_getParent, "int"),
+                       GetSQLValueString($_POST['sort'], "int"));
 	 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
+	/**
 	if(isset($_POST['biz_rule']) && $_POST['biz_rule']!=""){
 	
 		// 创建权限文件
@@ -108,7 +109,7 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
 		if(!$add_result){
 			$add_privielges_exception="权限文件创建失败！";
 		}
-	}
+	}**/
 	
 	 if($add_privielges_exception==""){
 		    $insertGoTo = "../privileges/index.php?parent=" . $colname_getParent;
@@ -134,7 +135,7 @@ if (isset($_GET['parent_id'])) {
   $colname_privileges = (get_magic_quotes_gpc()) ? $_GET['parent_id'] : addslashes($_GET['parent_id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_privileges = sprintf("SELECT * FROM privilege WHERE pid = %s  and is_delete=0 ORDER BY id DESC", $colname_privileges);
+$query_privileges = sprintf("SELECT * FROM privilege WHERE pid = %s  and is_delete=0 ORDER BY sort asc", $colname_privileges);
 $privileges = mysql_query($query_privileges, $localhost) or die(mysql_error());
 $row_privileges = mysql_fetch_assoc($privileges);
 $totalRows_privileges = mysql_num_rows($privileges);
@@ -181,11 +182,16 @@ $totalRows_privileges = mysql_num_rows($privileges);
       </label></td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right">排序</td>
+      <td><input name="sort" id="sort"  type="text" id="sort" value="" size="32" />
+      [数值越大越靠前，只能使用正整数]</td>
+    </tr>
+    <!--tr valign="baseline">
       <td nowrap align="right">其他条件:</td>
       <td><label>
         <textarea name="biz_rule" cols="30" rows="5"></textarea>
       </label></td>
-    </tr>
+    </tr-->
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="插入记录"></td>

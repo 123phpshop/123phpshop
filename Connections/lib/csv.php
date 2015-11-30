@@ -1,3 +1,4 @@
+<?php require_once('../../Connections/localhost.php'); ?>
 <?php 
 function export_goods(){
 	$hostname_localhost = "localhost";
@@ -82,18 +83,74 @@ function export_csv($filename,$data)
 	 
 }  
 
-function impor_csv(){
-
-	// 获取这个文件，如果文件
+function import_product($file_path){
+ 	$max_fields_length=28;
+	
+	// 获取这个文件，如果文件不存在，那么告知
+	if(!file_exists($_SERVER['DOCUMENT_ROOT'].$file_path)){
+		throw new Exception("csv文件不存在");
+	}
 	
 	// 获取文件内容
-	
-	
-	// 按照分行符号分割数据
-	
-	// 循环这个
-	
-}
+	$file = file($_SERVER['DOCUMENT_ROOT'].$file_path);
+	if(count($file)==0){
+		throw new Exception("csv文件为空");
+	}
+	$_is_first_row=true;
+	foreach($file as &$line){
+ 		$fields_array=explode(",",$line);
+		if($_is_first_row==false){
+			if(count($fields_array)!=$max_fields_length){
+				throw new Exception("csv文件格式不正确".count($fields_array));
+				return;
+			}
+  			$product_name=iconv("GB2312", "UTF-8", $fields_array[0]);
+			$fields_array[0]=iconv("GB2312", "UTF-8", $fields_array[0]);
+			$fields_array[1]=iconv("GB2312", "UTF-8", $fields_array[1]);
+			$fields_array[2]=iconv("GB2312", "UTF-8", $fields_array[2]);
+			$fields_array[3]=iconv("GB2312", "UTF-8", $fields_array[3]);
+			$fields_array[4]=iconv("GB2312", "UTF-8", $fields_array[4]);
+			$fields_array[5]=iconv("GB2312", "UTF-8", $fields_array[5]);
+			$fields_array[6]=iconv("GB2312", "UTF-8", $fields_array[6]);
+			$fields_array[7]=iconv("GB2312", "UTF-8", $fields_array[7]);
+			$fields_array[8]=iconv("GB2312", "UTF-8", $fields_array[8]);
+			$fields_array[9]=iconv("GB2312", "UTF-8", $fields_array[9]);
+			$fields_array[10]=iconv("GB2312", "UTF-8", $fields_array[10]);
+			$fields_array[11]=iconv("GB2312", "UTF-8", $fields_array[11]);
+			$fields_array[12]=iconv("GB2312", "UTF-8", $fields_array[12]);
+			$fields_array[13]=iconv("GB2312", "UTF-8", $fields_array[13]);
+			$fields_array[14]=iconv("GB2312", "UTF-8", $fields_array[14]);
+			$fields_array[15]=iconv("GB2312", "UTF-8", $fields_array[15]);
+			$fields_array[16]=iconv("GB2312", "UTF-8", $fields_array[16]);
+			$fields_array[17]=iconv("GB2312", "UTF-8", $fields_array[17]);
+			$fields_array[18]=iconv("GB2312", "UTF-8", $fields_array[18]);
+			$fields_array[19]=iconv("GB2312", "UTF-8", $fields_array[19]);
+			$fields_array[20]=iconv("GB2312", "UTF-8", $fields_array[20]);
+			$fields_array[21]=iconv("GB2312", "UTF-8", $fields_array[21]);
+			$fields_array[22]=iconv("GB2312", "UTF-8", $fields_array[22]);
+			$fields_array[23]=iconv("GB2312", "UTF-8", $fields_array[23]);
+			$fields_array[24]=iconv("GB2312", "UTF-8", $fields_array[24]);
+			$fields_array[25]=iconv("GB2312", "UTF-8", $fields_array[25]);
+			$fields_array[26]=iconv("GB2312", "UTF-8", $fields_array[26]);
+			$fields_array[27]=iconv("GB2312", "UTF-8", $fields_array[27]);
+  			
+ 			// 这里需要检查产品名称是否重复，如果重复，那么告知
+			global $db_conn;
+ 			//mysql_select_db($database_localhost, $db_conn);
+			 $query_get_product_by_id = "SELECT id, name FROM product WHERE name = '".trim($product_name)."'";
+ 			$get_product_by_id = mysql_query($query_get_product_by_id, $db_conn) or die(mysql_error());
+			$row_get_product_by_id = mysql_fetch_assoc($get_product_by_id);
+			$totalRows_get_product_by_id = mysql_num_rows($get_product_by_id);
+			if($totalRows_get_product_by_id >0){
+					throw new Exception("商品名称重复:".$product_name);
+ 			}
+			
+			$new_product_sql="insert into product(name,ad_text,catalog_id,product_type_id,cata_path,brand_id,weight,unit,is_shipping_free,meta_keywords,meta_desc,is_virtual,intro,price,is_promotion,promotion_price,promotion_start,promotion_end,market_price,pointers,is_on_sheft,is_hot,is_season,is_recommanded,description,tags,store_num,is_delete)values('".$fields_array[0]."','".$fields_array[1]."','".$fields_array[2]."','".$fields_array[3]."','".$fields_array[4]."','".$fields_array[5]."','".$fields_array[6]."','".$fields_array[7]."','".$fields_array[8]."','".$fields_array[9]."','".$fields_array[10]."','".$fields_array[11]."','".$fields_array[12]."','".$fields_array[13]."','".$fields_array[14]."','".$fields_array[15]."','".$fields_array[16]."','".$fields_array[17]."','".$fields_array[18]."','".$fields_array[19]."','".$fields_array[20]."','".$fields_array[21]."','".$fields_array[22]."','".$fields_array[23]."','".$fields_array[24]."','".$fields_array[25]."','".$fields_array[26]."','".$fields_array[27]."')";
+			mysql_query($new_product_sql);
+  		}
+ 		$_is_first_row=false;
+ 	}
+ }
  
 	
-	
+ 
