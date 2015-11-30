@@ -26,29 +26,26 @@ if (isset($_GET['id'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 
-
-//	如果需要插入的话
-/*if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-	foreach($_POST as $key=>$value){
-		if($key!='Submit' && $key!='MM_insert'  ){
- 			mysql_query("insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')")or die("系统错误");
- 		}
-	}
-}*/
-
+ 
 //如果需要更新的话
 
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "set_attr")) {
-	foreach($_POST as $key=>$value){
+ 	foreach($_POST as $key=>$value){
   		if($key!='Submit' && $key!='form_op'  ){
-			$sql="update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'";
+			
+			$check_exists_sql="select * from product_type_attr_val WHERE product_id=".$colname_product." and product_type_attr_id=".str_replace("attr_","",$key) ;
+			$check_exists_query=mysql_query($check_exists_sql);
+			if(mysql_num_rows($check_exists_query)==0){
+				mysql_query("insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')")or die("系统错误");
+ 			}else{
+  			//  这里需要检查这个属性是否已经设置了，如果没有设置的话，那么进行添加
+ 			$sql="update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'";
  			mysql_query($sql)or die("系统错误");
+			}
  		}
 	}
 }
-
-
-
+  
 //	获取这个产品的类型id
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT id, name, product_type_id FROM product WHERE id = %s", $colname_product);
@@ -109,8 +106,7 @@ if($totalRows_product_type_attrs>0){
    </table>
      
   <div align="left">
-  	
-    <input type="submit" name="Submit" value="设置" />
+     <input type="submit" name="Submit" value="设置" />
   </div>
    	<input value="set_attr" name="form_op" type="hidden" />
  </form>

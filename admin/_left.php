@@ -106,10 +106,7 @@ a[parent] .menu_item_row{
 	<a href="<?php echo $row_sub_menu['file_name'];?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id'];?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name'];?></div><div class="right_indicator" style="">></div></div></a>
 <?php } while ($row_sub_menu = mysql_fetch_assoc($sub_menu)); ?>
 <?php }  ?>
-  
 <?php } while ($row_menu = mysql_fetch_assoc($menu)); ?>
-
-
 
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
 <a href="http://www.123phpshop.com/services.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >服务</div><div class="right_indicator" style=""></div></div></a>

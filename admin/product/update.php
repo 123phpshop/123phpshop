@@ -73,9 +73,9 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
- 
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
+ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "update_order")) {
  	 
+	
 	$on_sheft_time='';
 	if($_POST['is_on_sheft']=='1' && $row_product['on_sheft_time']==null){
 		 $on_sheft_time=date('Y-m-d H:i:s');
@@ -132,6 +132,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 <body>
 <form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
+<input type="hidden" name="form_op" value="update_order">
+  <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
   <span class="phpshop123_title">更新产品信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
     <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;"/></div>
    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
@@ -151,8 +153,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	<div id="tabs-5" aria-labelledby="ui-id-12" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_attr.php'); ?></div>
 	
 </div>
-  <input type="hidden" name="MM_update" value="form1">
-  <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
+  
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>

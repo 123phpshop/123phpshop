@@ -108,7 +108,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
       <input name="submit" type="submit" value="上传" /></td>
     </tr>
   </table>
-  <input type="hidden" name="product_id" value="<?php echo $_GET['recordID']; ?>">
+  <input type="hidden" name="product_id" value="<?php echo $colname_product_images; ?>">
   <input type="hidden" name="MM_insert" value="product_image_form">
 </form>
 
