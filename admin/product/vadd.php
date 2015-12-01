@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); 
 
-$doc_url="ad.html#list";
+$doc_url="product.html#list";
 $support_email_question="添加虚拟产品";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

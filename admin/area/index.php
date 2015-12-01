@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="areas.html#list";
 $support_email_question="查看区域列表";
 $colname_areas = "0";
 if (isset($_GET['pid'])) {

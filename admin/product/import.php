@@ -1,6 +1,6 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="product.html#list";
 $support_email_question="导入产品";
 $error="";
 

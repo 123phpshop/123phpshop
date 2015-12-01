@@ -19,6 +19,10 @@ $query_order_items = sprintf("SELECT * FROM order_item WHERE order_id = '%s'", $
 $order_items = mysql_query($query_order_items, $localhost) or die(mysql_error());
 $row_order_items = mysql_fetch_assoc($order_items);
 $totalRows_order_items = mysql_num_rows($order_items);
+
+$doc_url="order.html#list";
+$support_email_question="更新订单";
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

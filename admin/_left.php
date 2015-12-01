@@ -86,9 +86,8 @@ a[parent] .menu_item_row{
 <body>
 <div id="menu_div" style="width:100%;">
 <div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
-
- <?php do { ?>
-  <a href="<?php echo $row_menu['file_name'];?>" target="main"  id="menu_item_<?php echo $row_menu['id'];?>">
+  <?php do { ?>
+  <a href="<?php echo $row_menu['file_name']==''?'javascript://':$row_menu['file_name'];?>" target="main"  id="menu_item_<?php echo $row_menu['id'];?>">
   <div class="menu_item_row" style="border-top:1px solid #515151;">
     <div class="menu_item"><?php echo $row_menu['name'];?></div>
     <div class="right_indicator"></div>
@@ -103,7 +102,7 @@ a[parent] .menu_item_row{
 	if($totalRows_sub_menu >0){
  ?>
 <?php do { ?>
-	<a href="<?php echo $row_sub_menu['file_name'];?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id'];?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name'];?></div><div class="right_indicator" style="">></div></div></a>
+	<a href="<?php echo $row_sub_menu['file_name'];?><?php echo $row_sub_menu['para'];?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id'];?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name'];?></div><div class="right_indicator" style="">></div></div></a>
 <?php } while ($row_sub_menu = mysql_fetch_assoc($sub_menu)); ?>
 <?php }  ?>
 <?php } while ($row_menu = mysql_fetch_assoc($menu)); ?>

@@ -33,6 +33,5 @@ if($totalRows_catalog>0){
 }
 ?>
 <?php
-mysql_free_result($catalog);
 die($result);
 ?>

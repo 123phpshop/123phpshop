@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="user.html#list";
 $support_email_question="更新用户信息";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

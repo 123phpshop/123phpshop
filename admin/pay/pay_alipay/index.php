@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="payment.html";
 $support_email_question="设置支付宝";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -124,6 +124,3 @@ $totalRows_alipay_config = mysql_num_rows($alipay_config);
 <p>&nbsp;</p>
 </body>
 </html>
-<?php
-mysql_free_result($alipay_config);
-?>

@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once('../../Connections/lib/csv.php'); ?>
 <?php 
-$doc_url="ad.html#list";
+$doc_url="product.html#list";
 $support_email_question="导出产品";
 if ((isset($_POST["phpshop_op"])) && ($_POST["phpshop_op"] == "export_goods_form")) {
 	export_goods();die;

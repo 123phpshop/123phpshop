@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $could_delete=1;
-$doc_url="ad.html#list";
+$doc_url="news.html#list";
 $support_email_question="删除文章";
 $colname_news = "-1";
 

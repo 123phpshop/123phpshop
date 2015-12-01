@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="shipping.html#area_update";
 $support_email_question="更新圆通配送区域";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

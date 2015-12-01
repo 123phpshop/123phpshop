@@ -31,9 +31,7 @@ $colname_order = "-1";
 if (isset ( $_GET ['order_id'] )) {
 	$colname_order = (get_magic_quotes_gpc ()) ? $_GET ['order_id'] : addslashes ( $_GET ['order_id'] );
 }
-
-
-
+ 
 mysql_select_db ( $database_localhost, $localhost );
 $query_order = sprintf ( "SELECT * FROM orders WHERE id = %s", $colname_order );
 $order = mysql_query ( $query_order, $localhost ) or die ( mysql_error () );
@@ -55,14 +53,18 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_add_prod
 	}catch(Exception $ex){
 		$error=$ex->getMessage();
  	}
-	
-	if($error==''){
+ 	if($error==''){
 		// 如果一切都ok，那么进行跳转
 		$insertGoTo = "detail.php?recordID=" . $colname_order;
 		header ( sprintf ( "Location: %s", $insertGoTo ) );
 	}
 	
 }
+
+
+$doc_url="order.html#add_product";
+$support_email_question="添加订单商品";
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,7 +76,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_add_prod
 </head>
 
 <body>
-	<p class="phpshop123_title">添加订单商品</p>
+	<span class="phpshop123_title">添加订单商品</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($error!=''){?>
 	<p 	class="phpshop123_infobox"><?php echo $error;?></p>
 <?php }?>

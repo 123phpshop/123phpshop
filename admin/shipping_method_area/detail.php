@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
-$doc_url="ad.html#list";
+$doc_url="shipping.html#area_detail";
 $support_email_question="查看配送区域详情";
 $colname_DetailRS1 = "-1";
 if (isset($_GET['shipping_method_id'])) {

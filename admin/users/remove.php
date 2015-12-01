@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="user.html#list";
 $support_email_question="删除用户";
 $colname_user = "-1";
 $remove_succeed_url="index.php";

@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="order.html#recycled";
 $support_email_question="查看订单回收站";
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
@@ -37,9 +37,9 @@ $totalRows_orders = mysql_num_rows($orders);
 <span class="phpshop123_title">订单回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
   <?php if ($totalRows_orders > 0) { // Show if recordset not empty ?>
+  
     <table width="100%" border="1" class="phpshop123_list_box">
-      
-      <tr>
+       <tr>
         <th width="12%" scope="col">订单序列号</th>
         <th scope="col"><div align="right">操作</div></th>
       </tr>
@@ -53,7 +53,7 @@ $totalRows_orders = mysql_num_rows($orders);
     <?php } // Show if recordset not empty ?>
 
 <?php if ($totalRows_orders == 0) { // Show if recordset empty ?>
-    <span class="phpshop123_infobox">回收站里面空空如也！</span>
+    <p><span class="phpshop123_infobox">回收站里面空空如也！</span>
   <?php } // Show if recordset empty ?></body>
 </html>
 <?php

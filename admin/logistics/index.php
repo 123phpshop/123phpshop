@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="logistics.html#list";
 $support_email_question="查看快递公司列表";
 mysql_select_db($database_localhost, $localhost);
 $query_express_companies = "SELECT * FROM express_company";

@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="product.html#list";
 $support_email_question="设置产品属性";
 //	准备参数
 $colname_product = "-1";

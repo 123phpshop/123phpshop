@@ -20,7 +20,7 @@
 <?php
 $colname_admin = "-1";
 $could_delete=1;
-$doc_url="ad.html#list";
+$doc_url="brand.html#list";
 $support_email_question="删除品牌";
 $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {

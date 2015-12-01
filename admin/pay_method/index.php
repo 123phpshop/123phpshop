@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="payment.html#list";
 $support_email_question="查看支付方式列表";
 mysql_select_db($database_localhost, $localhost);
 $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
@@ -34,7 +34,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 </head>
 
 <body>
-<p class="phpshop123_title">支付方式列表</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">支付方式列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_pay_methods == 0) { // Show if recordset empty ?>
   <p><a href="add.php">添加支付方式</a></p>
   <?php } // Show if recordset empty ?>

@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); ?><?php
-$doc_url="ad.html#list";
+$doc_url="logistics.html#list";
 $support_email_question="查看快递公司详情";
 
 mysql_select_db($database_localhost, $localhost);

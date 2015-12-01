@@ -5,7 +5,7 @@
 global $global_file_list_array;
 $privielges_exceptions="";
 $privielges_biz_rule="";
-$doc_url="ad.html#list";
+$doc_url="privilege.html#list";
 $support_email_question="更新权限";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -83,11 +83,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-		$updateSQL = sprintf("UPDATE privilege SET name=%s,is_menu=%s, file_name=%s, sort=%s WHERE id=%s",
+		$updateSQL = sprintf("UPDATE privilege SET name=%s,is_menu=%s, file_name=%s, sort=%s, para=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
 					   GetSQLValueString(isset($_POST['is_menu'])?1:0, "int"),
                        GetSQLValueString($_POST['file_name'], "text"),
 					   GetSQLValueString($_POST['sort'], "int"),
+                        GetSQLValueString($_POST['para'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
@@ -151,10 +152,13 @@ if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"]
         <td nowrap align="right">文件:</td>
         <td>
 		<select name="file_name">
-			<?php  foreach($global_file_list_array as $file_item){?>
-				<option <?php if(str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item)==$row_getById['file_name']){ echo " selected ";}?> value="<?=str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?>"><?=str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?></option>
+		<option value="">不设置</option>
+ 			<?php  foreach($global_file_list_array as $file_item){?>
+				<option <?php if(str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item)==$row_getById['file_name']){ echo " selected ";}?> value="<?php echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?>"><?php echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?></option>
 			<?php }?>
-		</select>		</td>
+		</select>
+ 		<input name="para" type="text" id="para" value="<?php echo $row_getById['para']; ?>"/>
+		 </td>
       </tr>
       <tr valign="baseline">
         <td nowrap="nowrap" align="right">菜单:</td>

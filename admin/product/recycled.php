@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="product.html#list";
 $support_email_question="浏览产品回收站";
 $maxRows_products = 50;
 $pageNum_products = 0;

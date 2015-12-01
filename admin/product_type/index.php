@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); 
 $currentPage = $_SERVER["PHP_SELF"];
-$doc_url="ad.html#list";
+$doc_url="type.html#list";
 $support_email_question="查看产品类型列表";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -123,11 +123,8 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
     <tr valign="baseline">
       <td nowrap align="right">产品类型:</td>
       <td><input type="text" name="name" value="" size="32" maxlength="32">
-      *</td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="添加"></td>
+      *
+      <input name="submit" type="submit" value="添加" /></td>
     </tr>
   </table>
   <input type="hidden" name="pid" value="<?php echo isset($_GET['pid'])?$_GET['pid']:"0"; ?>">

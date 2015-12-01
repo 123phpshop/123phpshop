@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="catalogs.html#list";
 $support_email_question="删除商品分类";
 $could_delete=1;
 $colname_catalog = "-1";

@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); ?><?php
-$doc_url="ad.html#list";
+$doc_url="user.html#list";
 $support_email_question="查看用户详情";
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;

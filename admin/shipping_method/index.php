@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="shipping.html#list";
 $support_email_question="查看送货方式列表";
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_methods = "SELECT * FROM shipping_method where is_delete=0";

@@ -1,6 +1,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php 
-$doc_url="ad.html#list";
+$doc_url="db.html#list";
 $support_email_question="备份数据库";
 $backup_info="";
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
@@ -94,7 +94,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 </head>
 
 <body >
-<span>数据库导出</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">数据库导出</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 <form id="form_db_export" name="form_db_export" method="post" action="">
    <input type="submit" name="Submit" value="导出" />
@@ -104,7 +104,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 <?php if(strlen($backup_info)>0){?>
 <p class="phpshop123_infobox">
  	<?php echo $backup_info;?>
- </p>
+</p>
 <?php } ?>
 </body>
 </html>

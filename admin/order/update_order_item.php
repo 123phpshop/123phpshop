@@ -195,7 +195,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
   	header(sprintf("Location: %s", $insertGoTo));
 }
 
-
+$doc_url="order.html#list";
+$support_email_question="更新订单";
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

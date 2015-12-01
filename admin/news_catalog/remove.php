@@ -21,7 +21,7 @@
 $could_delete=1;
 $remove_succeed_url="index.php";
 $colname_news_catalog = "-1";
-$doc_url="ad.html#list";
+$doc_url="catalogs.html#list";
 $support_email_question="删除文章分类";
 
 if (isset($_GET['id'])) {

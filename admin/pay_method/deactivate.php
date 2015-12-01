@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="payment.html#deactivate";
 $support_email_question="卸载支付方式";
 $could_delete=1;
 $colname_product = "-1";

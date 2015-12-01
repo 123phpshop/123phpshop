@@ -88,11 +88,13 @@ if ( isset($_GET['parent_id']) && $_GET['parent_id']!="") {
 if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  
  	// 插入数据库
-		$insertSQL = sprintf("INSERT INTO privilege (name, file_name, pid,sort) VALUES (%s, %s, %s, %s)",
+		$insertSQL = sprintf("INSERT INTO privilege (name, file_name, pid,sort,para) VALUES (%s, %s, %s, %s, %s)",
 					   GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['controller_action'], "text"),
                        GetSQLValueString($colname_getParent, "int"),
-                       GetSQLValueString($_POST['sort'], "int"));
+                       GetSQLValueString($_POST['sort'], "int") ,
+                       GetSQLValueString($_POST['para'], "text")
+					   );
 	 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -169,10 +171,14 @@ $totalRows_privileges = mysql_num_rows($privileges);
     <tr valign="baseline">
       <td nowrap align="right">文件:</td>
       <td><select name="controller_action">
+	  	<option value="">不设置</option>
         <?php  foreach($global_file_list_array as $file_item){?>
 		<option value="<?=str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?>"><?=str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_item);?></option>
 		<?php }?>
-      </select>      </td>
+      </select>
+        <label>
+        <input name="para" type="text" id="para" />
+        </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">菜单:</td>
@@ -183,8 +189,8 @@ $totalRows_privileges = mysql_num_rows($privileges);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">排序</td>
-      <td><input name="sort" id="sort"  type="text" id="sort" value="" size="32" />
-      [数值越大越靠前，只能使用正整数]</td>
+      <td><input name="sort" id="sort"  type="text" value="" size="32" />
+      [数值越小越靠前，只能使用正整数]</td>
     </tr>
     <!--tr valign="baseline">
       <td nowrap align="right">其他条件:</td>
@@ -200,18 +206,20 @@ $totalRows_privileges = mysql_num_rows($privileges);
   <input type="hidden" name="parent_id" value="">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p class="phpshop123_title"><?php echo isset($row_getParent['name'])?$row_getParent['name'].":":"";?> 权限列表</p>
- <table width="100%" border="1" class="phpshop123_list_box">
-  <tr>
-    <th width="17%" scope="col">权限名称</th>
-    <th width="83%" scope="col">操作</th>
-  </tr>
-  <?php do { ?>
-    <tr>
-      <td><?php echo $row_privileges['name']; ?></td>
-      <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
-    </tr>
-    <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
-</table>
+  <?php if ($totalRows_privileges > 0) { // Show if recordset not empty ?>
+  <p class="phpshop123_title"><?php echo isset($row_getParent['name'])?$row_getParent['name'].":":"";?> 权限列表</p>
+   <table width="100%" border="1" class="phpshop123_list_box">
+     <tr>
+       <th width="17%" scope="col">权限名称</th>
+       <th width="83%" scope="col">操作</th>
+     </tr>
+     <?php do { ?>
+      <tr>
+        <td><?php echo $row_privileges['name']; ?></td>
+        <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
+      </tr>
+      <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
+    </table>
+    <?php } // Show if recordset not empty ?>
 </body>
 </html>

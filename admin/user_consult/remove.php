@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="consult.html#list";
 $support_email_question="删除用户咨询";
 $could_delete=1;
 

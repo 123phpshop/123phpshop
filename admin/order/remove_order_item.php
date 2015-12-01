@@ -45,7 +45,8 @@ if($could_delete==1){
 	}else{
 			try{
 				//	更新订单费用和促销信息
-				phpshop123_update_order_fee($row_news['order_id']);
+				$order_array=get_order_full_by_id($row_news['order_id']);
+				phpshop123_update_order_fee($order_array);
 				$could_delete=1;
 			}catch(Exception $e){
 				$could_delete=0;

@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
-$doc_url="ad.html#list";
+$doc_url="order.html#list";
 $support_email_question="查看订单列表";
 $maxRows_orders = 50;
 $pageNum_orders = 0;

@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
-$doc_url="ad.html#list";
+$doc_url="logistics.html#list";
 $support_email_question="更新快递公司";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

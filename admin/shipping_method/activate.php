@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="shipping.html#activate";
 $support_email_question="激活送货方式";
 $colname_admin = "-1";
 $could_delete=1;

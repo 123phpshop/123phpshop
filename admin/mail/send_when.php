@@ -1,5 +1,8 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
+$doc_url="mail.html#send_when";
+$support_email_question="设置邮件发送时间";
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -59,7 +62,8 @@ if($totalRows_send_when>0){
 </head>
 
 <body>
-<p class="phpshop123_title">邮件发送设置</p>
+<span class="phpshop123_title">邮件发送设置</span>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form id="form1" name="form1" method="POST" action="<?php echo $editFormAction; ?>">
   <p>&nbsp;</p>
   <table width="200" border="0" class="phpshop123_form_box">
