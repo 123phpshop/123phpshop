@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="order.html#list";
+$doc_url="order.html#recover";
 $support_email_question="恢复订单";
 $could_delete=1;
 $colname_order = "-1";

@@ -18,8 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="product.html#list";
-$support_email_question="设置产品属性";
+$doc_url="product.html#set_attr";
+$support_email_question="设置商品属性";
 //	准备参数
 $colname_product = "-1";
 if (isset($_GET['product_id'])) {

@@ -17,8 +17,8 @@
  */
 ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); 
-$doc_url="product.html#list";
-$support_email_question="添加产品";
+$doc_url="product.html#add";
+$support_email_question="添加商品";
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) or die(mysql_error());

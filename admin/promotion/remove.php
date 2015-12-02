@@ -18,8 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="promotion.html#remove";
-$support_email_question="删除邮件模板";
+$doc_url="promotion.html#delete";
+$support_email_question="删除促销";
 $could_delete=1;
 $colname_news = "-1";
 $remove_succeed_url="index.php";

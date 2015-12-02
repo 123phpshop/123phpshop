@@ -117,10 +117,10 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
 </head>
 
 <body>
-<p class="phpshop123_title">
+<span class="phpshop123_title">
   <?php if ($totalRows_catalog > 0) { // Show if recordset not empty ?>
     <?php echo $row_catalog['name']; ?>-&gt;
-<?php } // Show if recordset not empty ?> 文章列表</p>
+<?php } // Show if recordset not empty ?> 文章列表</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_news == 0) { // Show if recordset empty ?>
   <p>现在还没有文章！ <?php if ($totalRows_catalog > 0) { // Show if recordset empty ?>

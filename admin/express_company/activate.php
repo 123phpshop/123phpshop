@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="logistics.html#list";
+$doc_url="logistics.html#activate";
 $support_email_question="激活快递公司";
 $could_delete=1;
 $colname_product = "-1";

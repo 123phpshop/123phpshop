@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once('../../Connections/lib/order.php'); ?>
 <?php
-$doc_url="order.html#list";
+$doc_url="order.html#merge";
 $support_email_question="订单合并";
 $error="";
 if ((isset($_POST["phpshop_db_op"])) && ($_POST["phpshop_db_op"] == "merge_order")) {

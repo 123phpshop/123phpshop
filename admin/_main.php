@@ -18,8 +18,8 @@
 ?>
 <?php require_once('../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
-$support_email_question="广告列表";
+$doc_url="dash.html";
+$support_email_question="查看控制面板";
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT count(*) as total_order FROM orders";
 $orders = mysql_query($query_orders, $localhost) or die(mysql_error());

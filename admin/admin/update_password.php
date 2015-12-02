@@ -42,8 +42,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-$doc_url="ad.html#list";
-$support_email_question="更新密码";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -79,6 +77,10 @@ $query_password = sprintf("SELECT * FROM `member` WHERE password = '%s'", $colna
 $password = mysql_query($query_password, $localhost) or die(mysql_error());
 $row_password = mysql_fetch_assoc($password);
 $totalRows_password = mysql_num_rows($password);
+
+$doc_url="admin.html#update_password";
+$support_email_question="更新管理员密码";
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

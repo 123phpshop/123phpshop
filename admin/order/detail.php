@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?><?php
 $colname_products = "-1";
-$doc_url="order.html#list";
+$doc_url="order.html#detail";
 $support_email_question="查看订单详细";
 if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
@@ -62,6 +62,12 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<style>
+.price_span{
+	color:red;
+	font-weight:bold;
+}
+</style>
 </head>
 
 <body>
@@ -87,15 +93,19 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
   </tr>
   <tr>
     <td>应付</td>
-    <td>￥<?php echo $row_DetailRS1['should_paid']; ?> </td>
+    <td><span class="price_span">￥<?php echo $row_DetailRS1['should_paid']; ?></span></td>
   </tr>
   <tr>
     <td>商品总额</td>
-    <td>￥<?php echo $row_DetailRS1['products_total']; ?> </td>
+    <td><span class="price_span">￥<?php echo $row_DetailRS1['products_total']; ?></span></td>
   </tr>
   <tr>
     <td>运费</td>
-    <td>￥<?php echo $row_DetailRS1['shipping_fee']; ?> </td>
+    <td><span class="price_span">￥<?php echo $row_DetailRS1['shipping_fee']; ?></span></td>
+  </tr>
+   <tr>
+    <td>促销折减费用</td>
+    <td><span class="price_span">￥<?php echo $row_DetailRS1['promotion_fee']; ?></span></td>
   </tr>
   <tr>
     <td>订单状态</td>
@@ -156,7 +166,7 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
     <?php do { ?>
       <tr>
         <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
-        <td scope="col"><?php echo $row_products['quantity']; ?></td>
+        <td scope="col"><div align="center"><?php echo $row_products['quantity']; ?></div></td>
          <td scope="col"><div align="center"><?php echo $row_products['is_present']==1?"√":""; ?></div></td>
         <td scope="col"><?php echo $row_products['is_shipping_free']==1?"√":""; ?></td>
         <td scope="col"><div align="center"></div></td>

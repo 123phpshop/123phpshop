@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="news.html#list";
+$doc_url="news.html#recover";
 $support_email_question="恢复文章";
 $could_delete=1;
 $colname_product = "-1";

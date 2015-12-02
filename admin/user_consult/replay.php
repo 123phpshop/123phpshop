@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="consult.html#list";
+$doc_url="consult.html#replay";
 $support_email_question="回复用户咨询";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -95,7 +95,7 @@ $totalRows_replies = mysql_num_rows($replies);
 
 <body>
 <?php if ($totalRows_replies > 0) { // Show if recordset not empty ?>
-  <span class="phpshop123_title">历史回复</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">历史回复</span>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th scope="col">内容</th>
@@ -110,7 +110,8 @@ $totalRows_replies = mysql_num_rows($replies);
       </tr>
       <?php } while ($row_replies = mysql_fetch_assoc($replies)); ?>
       </table>
-  <?php } // Show if recordset not empty ?><p class="phpshop123_title">咨询回答</p>
+  <?php } // Show if recordset not empty ?>
+  <span class="phpshop123_title">咨询回答</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
      <tr valign="baseline">

@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="ad.html#delete_image";
 $support_email_question="删除广告图片";
 $could_delete=1;
 $colname_news = "-1";

@@ -58,7 +58,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 ?>
 <?php
 // 检查权限的名称是否重复
-$doc_url="ad.html#list";
+$doc_url="privilege.html#add";
 $support_email_question="添加权限";
 $colname_getByName = "-1";
 if (isset($_POST['name'])) {

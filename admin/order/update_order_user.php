@@ -70,8 +70,8 @@ $user = mysql_query($query_user, $localhost) or die(mysql_error());
 $row_user = mysql_fetch_assoc($user);
 $totalRows_user = mysql_num_rows($user);
 
-$doc_url="order.html#list";
-$support_email_question="更新订单";
+$doc_url="order.html#update_user";
+$support_email_question="更新订单用户";
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

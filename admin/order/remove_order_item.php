@@ -19,7 +19,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php'); ?>
 <?php
-$doc_url="order.html#remove_item";
+$doc_url="order.html#update_product";
 $support_email_question="删除订单产品";
 $could_delete=1;
 $colname_news = "-1";

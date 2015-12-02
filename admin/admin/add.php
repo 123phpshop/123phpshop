@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
+$doc_url="admin.html#add";
 $support_email_question="添加管理员";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -51,12 +51,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO member (username, password, mobile, email, mobile_confirmed) VALUES (%s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO member (username, password, mobile, email, mobile_confirmed, role_id) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['username'], "text"),
                        GetSQLValueString($_POST['password'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
-                       GetSQLValueString($_POST['mobile_confirmed'], "text"));
+                       GetSQLValueString($_POST['mobile_confirmed'], "text"),
+                       GetSQLValueString($_POST['role_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
@@ -68,6 +69,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   }
   header(sprintf("Location: %s", $insertGoTo));
 }
+
+mysql_select_db($database_localhost, $localhost);
+$query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
+$roles = mysql_query($query_roles, $localhost) or die(mysql_error());
+$row_roles = mysql_fetch_assoc($roles);
+$totalRows_roles = mysql_num_rows($roles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -80,6 +87,25 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <span class="phpshop123_title">添加管理员 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
+    <tr valign="baseline">
+      <td nowrap align="right">角色:</td>
+      <td><label>
+        <select name="role_id" id="role_id">
+          <?php
+do {  
+?>
+          <option value="<?php echo $row_roles['id']?>"><?php echo $row_roles['name']?></option>
+          <?php
+} while ($row_roles = mysql_fetch_assoc($roles));
+  $rows = mysql_num_rows($roles);
+  if($rows > 0) {
+      mysql_data_seek($roles, 0);
+	  $row_roles = mysql_fetch_assoc($roles);
+  }
+?>
+        </select>
+      </label></td>
+    </tr>
     <tr valign="baseline">
       <td nowrap align="right">账户:</td>
       <td><input name="username" type="text" id="username" value="" size="32" maxlength="18"></td>
@@ -183,3 +209,6 @@ $().ready(function(){
 });</script>
 </body>
 </html>
+<?php
+mysql_free_result($roles);
+?>

@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
-$doc_url="type.html#list";
+$doc_url="type.html#update";
 $support_email_question="更新产品类型信息";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

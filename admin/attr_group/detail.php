@@ -19,8 +19,8 @@
 <?php require_once('../../Connections/localhost.php'); ?><?php
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
-$doc_url="ad.html#list";
-$support_email_question="查看属性详细";
+$doc_url="type.html#attr_detail";
+$support_email_question="查看商品分类属性详细";
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];
 }

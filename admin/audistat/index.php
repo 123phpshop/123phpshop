@@ -1309,11 +1309,23 @@ function html_header() {
  
    <TITLE><?= $title ?></TITLE>
 
-   <link href="../../css/common_admin.css" rel="stylesheet" type="text/css">   <style>	TH{		color:black !important; 		font-weight:normal;	}   </style>
+   <link href="../../css/common_admin.css" rel="stylesheet" type="text/css">
+   <style>
+	TH{
+		color:black !important; 
+		font-weight:normal;
+	}
+   </style>
  </HEAD>
+<?php 
+
+$doc_url="stat.html";
+$support_email_question="查看访问统计";
+
+?>
 
 <BODY class="Body">
-<span class="phpshop123_title"><?= $title2 ?></span>
+<span class="phpshop123_title"><?= $title2 ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <CENTER>
 <?php
 
@@ -1465,8 +1477,11 @@ if (isset($month) && isset($year) && !isset($mday)) {
 	db_query_topagents ($querystring);
 
 	db_query_toposs    ($querystring);
-		
-	db_query_topctrys  ($querystring);	db_query_topsearch ($querystring);
+	
+	
+
+	db_query_topctrys  ($querystring);
+	db_query_topsearch ($querystring);
 
 } elseif (isset($month) && isset($year) && isset($mday)) {
 

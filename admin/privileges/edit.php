@@ -5,7 +5,7 @@
 global $global_file_list_array;
 $privielges_exceptions="";
 $privielges_biz_rule="";
-$doc_url="privilege.html#list";
+$doc_url="privilege.html#update";
 $support_email_question="更新权限";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

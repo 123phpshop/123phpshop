@@ -18,8 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="order.html#list";
-$support_email_question="订单退货";
+$doc_url="order.html#return";
+$support_email_question="查看退货订单";
 $could_delete=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {

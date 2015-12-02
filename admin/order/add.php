@@ -60,7 +60,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-$doc_url="order.html#list";
+$doc_url="order.html#add";
 $support_email_question="添加订单";
 ?>
 

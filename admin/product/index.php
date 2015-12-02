@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php');
-$doc_url="product.html#list";
+$doc_url="product.html#search";
 $support_email_question="搜索产品"; 
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
@@ -176,8 +176,8 @@ function _get_product_where($get){
   </table>
 </form>
 <?php 
-$doc_url="ad.html#list";
-$support_email_question="查看产品列表"; 
+$doc_url="product.html#list";
+$support_email_question="查看商品列表"; 
 
 if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <br />

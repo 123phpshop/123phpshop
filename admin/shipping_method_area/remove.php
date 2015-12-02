@@ -18,7 +18,7 @@
 ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-$doc_url="shipping.html#area_remove";
+$doc_url="shipping.html#area_delete";
 $support_email_question="删除配送区域";
 $could_delete=1;
 $colname_order = "-1";

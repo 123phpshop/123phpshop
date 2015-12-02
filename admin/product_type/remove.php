@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="type.html#list";
+$doc_url="type.html#delete";
 $support_email_question="删除产品类型";
 $colname_admin = "-1";
 $could_delete=1;

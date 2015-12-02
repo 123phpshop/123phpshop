@@ -18,7 +18,7 @@
 ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-$doc_url="product.html#update";
+$doc_url="product.html#udpate";
 $support_email_question="编辑商品";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

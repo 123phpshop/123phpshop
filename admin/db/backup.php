@@ -1,6 +1,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php 
-$doc_url="db.html#list";
+$doc_url="db.html";
 $support_email_question="备份数据库";
 $backup_info="";
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {

@@ -20,7 +20,7 @@
 <?php
 $maxRows_DetailRS1 = 20;
 $pageNum_DetailRS1 = 0;
-$doc_url="brand.html#list";
+$doc_url="brand.html#detail";
 $support_email_question="查看品牌详情";
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];

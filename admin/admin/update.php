@@ -42,7 +42,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-$doc_url="ad.html#list";
+$doc_url="admin.html#update";
 $support_email_question="更新管理员信息";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -82,6 +82,14 @@ $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysql_query($query_admin, $localhost) or die(mysql_error());
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
+
+mysql_select_db($database_localhost, $localhost);
+$query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
+$roles = mysql_query($query_roles, $localhost) or die(mysql_error());
+$row_roles = mysql_fetch_assoc($roles);
+$totalRows_roles = mysql_num_rows($roles);
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -98,6 +106,25 @@ $totalRows_admin = mysql_num_rows($admin);
 
 <form action="<?php echo $editFormAction; ?>" method="post" name="admin_update_form" id="admin_update_form">
   <table align="center" class="phpshop123_form_box">
+    <tr valign="baseline">
+      <td nowrap="nowrap" align="right">角色:</td>
+      <td><label>
+        <select name="select">
+          <?php
+do {  
+?>
+          <option value="<?php echo $row_roles['id']?>"<?php if (!(strcmp($row_roles['id'], $row_admin['role_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
+          <?php
+} while ($row_roles = mysql_fetch_assoc($roles));
+  $rows = mysql_num_rows($roles);
+  if($rows > 0) {
+      mysql_data_seek($roles, 0);
+	  $row_roles = mysql_fetch_assoc($roles);
+  }
+?>
+        </select>
+      </label></td>
+    </tr>
     <tr valign="baseline">
       <td nowrap="nowrap" align="right">账号:</td>
       <td><input name="username" id="username"  type="text" value="<?php echo $row_admin['username']; ?>" size="32" maxlength="16" /></td>
@@ -200,4 +227,6 @@ $().ready(function(){
 </html>
 <?php
 mysql_free_result($admin);
+
+mysql_free_result($roles);
 ?>

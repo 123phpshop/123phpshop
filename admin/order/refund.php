@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="order.html#list";
+$doc_url="order.html#return";
 $support_email_question="订单退货";
 $could_delete=1;
 $colname_order = "-1";

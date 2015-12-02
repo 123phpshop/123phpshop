@@ -18,8 +18,8 @@
 ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="logistics.html#list";
-$support_email_question="卸载快递公司";
+$doc_url="logistics.html#deactivate";
+$support_email_question="停用快递公司";
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

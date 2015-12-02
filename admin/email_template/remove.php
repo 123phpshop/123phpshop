@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 
-$doc_url="email_template.html#remove";
+$doc_url="email_template.html#delete";
 $support_email_question="删除邮件模板";
 $could_delete=1;
 $colname_news = "-1";

@@ -92,7 +92,7 @@ $consignees = mysql_query($query_consignees, $localhost) or die(mysql_error());
 $row_consignees = mysql_fetch_assoc($consignees);
 $totalRows_consignees = mysql_num_rows($consignees);
 
-$doc_url="order.html#list";
+$doc_url="order.html#add_consignee";
 $support_email_question="添加订单";
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

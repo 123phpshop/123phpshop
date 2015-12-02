@@ -53,7 +53,7 @@ $totalRows_expresses = mysql_num_rows($expresses);
       <td><?php echo $row_expresses['disabled']=="false"?"√":""; ?>&nbsp; </td>
       <td><?php echo $row_expresses['ordernum']; ?>&nbsp; </td>
       <td><?php echo $row_expresses['website']; ?>&nbsp; </td>
-      <td><?php if($row_expresses['disabled']=="false"){?><a href="deactivate.php?id=<?php echo $row_expresses['id']; ?>">卸载</a><?php  } ?> <?php if($row_expresses['disabled']=="true"){?><a href="activate.php?id=<?php echo $row_expresses['id']; ?>">激活</a><?php  } ?> <a href="update.php?id=<?php echo $row_expresses['id']; ?>"> 更新</a></td>
+      <td><?php if($row_expresses['disabled']=="false"){?><a href="deactivate.php?id=<?php echo $row_expresses['id']; ?>">停用</a><?php  } ?> <?php if($row_expresses['disabled']=="true"){?><a href="activate.php?id=<?php echo $row_expresses['id']; ?>">激活</a><?php  } ?> <a href="update.php?id=<?php echo $row_expresses['id']; ?>"> 更新</a></td>
     </tr>
     <?php } while ($row_expresses = mysql_fetch_assoc($expresses)); ?>
 </table>

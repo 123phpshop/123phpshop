@@ -17,7 +17,7 @@
  */
 ?>
 <?php require_once('../../Connections/localhost.php'); 
-$doc_url="logistics.html#list";
+$doc_url="logistics.html#update";
 $support_email_question="更新快递公司";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -102,7 +102,7 @@ $totalRows_express_company = mysql_num_rows($express_company);
       *</td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">失活:</td>
+      <td nowrap align="right">停用:</td>
       <td valign="baseline"><input <?php if (!(strcmp($row_express_company['disabled'],"true"))) {echo "checked=\"checked\"";} ?> type="radio" name="disabled" value="1" <?php if (!(strcmp($row_express_company['disabled'],1))) {echo "CHECKED";} ?> />
 是
   <input <?php if (!(strcmp($row_express_company['disabled'],"false"))) {echo "checked=\"checked\"";} ?> type="radio" name="disabled" value="0" <?php if (!(strcmp($row_express_company['disabled'],0))) {echo "CHECKED";} ?> />

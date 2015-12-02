@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
-$doc_url="ad.html#list";
+$doc_url="admin.html#list";
 $support_email_question="查看管理员列表";
 $maxRows_admins = 10;
 $pageNum_admins = 0;

@@ -17,10 +17,9 @@
  */
 ?>
 <?php
+
 //initialize the session
-if (!isset($_SESSION)) {
-  session_start();
-}
+include_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");
 
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
@@ -29,7 +28,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 }
 
 if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
+
   $_SESSION['admin_username'] = NULL;
   $_SESSION['admin_id'] = NULL;
   $_SESSION['PrevUrl'] = NULL;

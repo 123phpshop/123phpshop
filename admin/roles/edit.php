@@ -1,6 +1,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="role.html#list";
+$doc_url="role.html#update";
 $support_email_question="更新角色信息";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
