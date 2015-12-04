@@ -82,7 +82,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加促销</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
@@ -208,6 +208,37 @@ function filter_presents(){
 	$("#presents_sel_td").load(url);
 }	
 
+
 </script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            start_date: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            end_date: {
+                required: true,
+                minlength: 3   
+            },
+ 			amount_lower_limit: {
+                required: true,
+                minlength: 6,
+				digits:true
+            },
+ 			amount_lower_limit: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
 </body>
 </html>

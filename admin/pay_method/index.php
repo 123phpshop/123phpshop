@@ -49,8 +49,8 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
     </tr>
     <?php do { ?>
       <tr>
-        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><?php echo $row_pay_methods['name']; ?></a></td>
-        <td><a href="<?php echo $row_pay_methods['www']; ?>"><?php echo $row_pay_methods['www']; ?></a></td>
+        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong><?php echo $row_pay_methods['name']; ?></strong></a></td>
+        <td><a href="<?php echo $row_pay_methods['www']; ?>" target="_blank"><?php echo $row_pay_methods['www']; ?></a></td>
         <td><?php echo $row_pay_methods['intro']; ?></td>
         <td><div align="right"><?php echo $row_pay_methods['is_activated']?"已激活":"未激活"; ?></div></td>
         <td>

@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="news_catalog.html#news_add";
 $support_email_question="添加文章";
@@ -250,9 +250,4 @@ $().ready(function(){
     }
  </script>
 </body>
-
-
 </html>
-<?php
-mysql_free_result($news_catalog);
-?>

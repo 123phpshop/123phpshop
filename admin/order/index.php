@@ -149,17 +149,17 @@ function _get_order_where($get){
   <p class="phpshop123_title">订单列表</p>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th>订单序列号</th>
-      <th>用户</th>
-      <th>总计</th>
-      <th>运费</th>
-      <th>状态</th>
-      <th>创建的时间</th>
-      <th>送货方式</th>
-      <th>支付方法</th>
-      <th>需要支票</th>
-      <th>收货人</th>
-      <th>操作</th>
+      <th width="5%">订单序列号</th>
+      <th width="10%">用户</th>
+      <th width="11%">总计</th>
+      <th width="9%">运费</th>
+      <th width="5%">状态</th>
+      <th width="9%">创建的时间</th>
+      <th width="5%">送货方式</th>
+      <th width="5%">支付方法</th>
+      <th width="13%">需要发票</th>
+      <th width="12%">收货人</th>
+      <th width="16%">操作</th>
     </tr>
       <?php do { ?>
           <tr>

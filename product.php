@@ -177,7 +177,7 @@ body {
     </tr>
   </table>
   <hr align="center" style="border:1px solid #B1191A;margin:0px;"  width="100%" noshade="noshade" />
-   <div style="background-color: #f2f2f2;margin-top:0px;border-bottom:1px solid #f2f2f2;">
+   <div style="background-color:#f2f2f2;margin-top:0px;border-bottom:1px solid #f2f2f2;">
   <table width="1210" height="45" border="0" align="center" style="margin:0px auto;" >
     <tr>
       <td><span class="STYLE9"><?php echo $row_product_catalog['name']; ?></span>  &gt; <?php echo $row_product['name']; ?></td>
@@ -292,7 +292,7 @@ body {
        <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/view_buy.php'); ?>
       </td>
       <td valign="top" align="center"> 
-         <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#fff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
+         <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
           <tr id="tabs">
 			<th width="77" height="33" scope="col"><span class="intro_cons_comment">商品介绍</span></th>
 			<th width="77" height="33" scope="col"><a href="#attr_list" class="intro_cons_comment">规格参数</th>

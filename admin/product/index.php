@@ -18,7 +18,7 @@
 ?>
 <?php require_once('../../Connections/localhost.php');
 $doc_url="product.html#search";
-$support_email_question="搜索产品"; 
+$support_email_question="搜索商品"; 
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;
@@ -186,11 +186,11 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>
       <th>ID</th>
-      <th>产品名称</th>
+      <th>商品名称</th>
       <th>价格</th>
       <th>是否上架</th>
-      <th>热销产品</th>
-      <th>推荐产品</th>
+      <th>热销商品</th>
+      <th>推荐商品</th>
       <th>库存数量</th>
       <th>操作</th>
       </tr>

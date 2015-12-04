@@ -78,11 +78,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <span class="phpshop123_title">添加链接 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
+<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1" >
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">连接文字:</td>
-      <td><input type="text" name="link_text" value="" size="32"></td>
+      <td><input name="link_text" type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">连接网址:</td>
@@ -99,6 +99,28 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript"
+	src="/js/jquery-1.7.2.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script><br />
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             link_text: {
+                required: true,
+				minlength: 2,
+             },
+            link_url: {
+                required: true,
+                minlength: 16,
+				url:true
+				   
+            },
+            sort: {
+ 				digits:true  
+            }
+        } 
+    });
+});</script>
 </body>
 </html>

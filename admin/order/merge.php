@@ -51,5 +51,32 @@ if ((isset($_POST["phpshop_db_op"])) && ($_POST["phpshop_db_op"] == "merge_order
   </table>
   <p>&nbsp;</p>
 </form>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#new_consignee_form").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            mobile: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            address: {
+                required: true,
+                minlength: 3   
+            },
+ 			zip: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
 </body>
 </html>

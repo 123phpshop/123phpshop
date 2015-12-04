@@ -86,9 +86,9 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
   <tr>
     <td>用户</td>
     <td><?php echo $row_DetailRS1['username']; ?>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改订单用户</a>]<?php 
-$support_email_question="修改订单用户";
-$doc_url="order.html#update_user";
-include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
+	$support_email_question="修改订单用户";
+	$doc_url="order.html#update_user";
+	include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
 ?></td>
   </tr>
   <tr>

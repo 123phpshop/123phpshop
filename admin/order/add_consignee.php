@@ -119,7 +119,7 @@ table{
 </head>
 
 <body>
-<span class="phpshop123_title">添加收货地址</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">添加收货人</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <form method="post" name="form1" id="new_consignee_form" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
@@ -149,8 +149,8 @@ table{
   </table>
    <input type="hidden" name="MM_insert" value="form1">
 </form>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script>
 $().ready(function(){
  	$("#new_consignee_form").validate({

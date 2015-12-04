@@ -184,7 +184,33 @@ if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"]
     <input type="hidden" name="MM_update" value="form1">
     <input type="hidden" name="id" value="<?php echo $row_getById['id']; ?>">
   </form>
-  <?php } // Show if recordset not empty ?><p>&nbsp;</p>
+  <?php } // Show if recordset not empty ?><script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#new_consignee_form").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            mobile: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            address: {
+                required: true,
+                minlength: 3   
+            },
+ 			zip: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
 <?php

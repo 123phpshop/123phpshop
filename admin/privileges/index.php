@@ -85,6 +85,3 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
   
 </body>
 </html>
-<?php
-mysql_free_result($getPrivileges);
-?>

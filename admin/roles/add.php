@@ -63,7 +63,7 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加角色</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
     <table  class="error_box" width="100%" border="0">
@@ -74,7 +74,7 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
     <?php } // Show if recordset not empty ?><table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">角色名称:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td><input name="name" type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -83,9 +83,18 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             }
+        } 
+    });
+});</script>
 </body>
 </html>
-<?php
-mysql_free_result($getByName);
-?>

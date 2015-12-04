@@ -36,39 +36,33 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 
 <body>
 		
-<p class="phpshop123_title">快递公司详细</p><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">快递公司详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
-  
-  <tr>
-    <td>id</td>
+   <tr>
+    <td>ID</td>
     <td><?php echo $row_DetailRS1['id']; ?> </td>
   </tr>
   <tr>
-    <td>code</td>
+    <td>代码</td>
     <td><?php echo $row_DetailRS1['code']; ?> </td>
   </tr>
   <tr>
-    <td>name</td>
+    <td>名称</td>
     <td><?php echo $row_DetailRS1['name']; ?> </td>
   </tr>
   <tr>
-    <td>disabled</td>
-    <td><?php echo $row_DetailRS1['disabled']; ?> </td>
+    <td>是否停用</td>
+    <td><?php echo $row_DetailRS1['disabled']=="1"?"是":"否"; ?> </td>
   </tr>
   <tr>
-    <td>ordernum</td>
+    <td>顺序</td>
     <td><?php echo $row_DetailRS1['ordernum']; ?> </td>
   </tr>
   <tr>
-    <td>website</td>
+    <td>网站</td>
     <td><?php echo $row_DetailRS1['website']; ?> </td>
   </tr>
-  <tr>
-    <td>request_url</td>
-    <td><?php echo $row_DetailRS1['request_url']; ?> </td>
-  </tr>
-  
-  
+   
 </table>
 
 </body>

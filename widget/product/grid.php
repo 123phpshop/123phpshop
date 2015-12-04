@@ -66,7 +66,7 @@ $row=ceil($totalRows_products/$cols);
 	 <div class="product_box" align="center">
   	 <table width="220" border="0" >
       <tr>
-        <td height="225" align="center" valign="middle"><a href="/product.php?id=<?php echo  $products_array[$curr]['id'];?>"><img height="200" width="200" src="<?php echo $row_product_images['image_files']==NULL?"/uploads/default_product.png":$row_product_images['image_files'];?>"></a></td>
+        <td height="225" align="center" valign="middle"><a href="/product.php?id=<?php echo  $products_array[$curr]['id'];?>"><img height="200" border="0" width="200" src="<?php echo $row_product_images['image_files']==NULL?"/uploads/default_product.png":$row_product_images['image_files'];?>"></a></td>
       </tr>
       <tr>
         <td height="30" style="font-family:Verdana;color:#FF0000;font-size:20px;">¥<?php echo  $products_array[$curr]['price'];?></td>

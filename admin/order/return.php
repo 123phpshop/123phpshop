@@ -71,6 +71,3 @@ if($could_delete==1){
  <?php } ?>
 </body>
 </html>
-<?php
-mysql_free_result($order);
-?>

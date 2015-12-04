@@ -88,7 +88,7 @@ $totalRows_getByName = mysql_num_rows($getByName);
   </table>
   <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_getById > 0) { // Show if recordset not empty ?>
-  <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+  <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
         <td nowrap align="right">角色名称:</td>
@@ -102,11 +102,19 @@ $totalRows_getByName = mysql_num_rows($getByName);
     <input type="hidden" name="MM_update" value="form1">
     <input type="hidden" name="id" value="<?php echo $row_getById['id']; ?>">
   </form>
-  <?php } // Show if recordset not empty ?><p>&nbsp;</p>
+  <?php } // Show if recordset not empty ?>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             }
+        } 
+    });
+});</script>
 </body>
 </html>
-<?php
-mysql_free_result($getById);
-
-mysql_free_result($getByName);
-?>

@@ -256,7 +256,34 @@ mysql_free_result($order_item);
 mysql_free_result($product);
 ?>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script>
+$().ready(function(){
+ 	$("#new_consignee_form").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            mobile: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            address: {
+                required: true,
+                minlength: 3   
+            },
+ 			zip: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
+	
+	<script>
 function show_products(){
 	var product_name=$("#product_name").val();
 	var url="/admin/widgets/order/_goods_filter.php?product_name="+product_name;

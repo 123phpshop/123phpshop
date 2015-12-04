@@ -106,7 +106,7 @@ function _get_order_by(){
 }
 ?>
 
-<table style="margin-left:7px;border-collapse:collapse;" width="216" height="25" border="1" cellspacing="0" bordercolor="#CCC" bgcolor="#FFF">
+<table style="margin-top:2px;margin-left:3px;border-collapse:collapse;" width="216" height="25" border="1" cellspacing="0" bordercolor="#CCCccc" bgcolor="#FFFfff">
           <tr align="center">
             <td height="25" <?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='sales'){ ?>class="sort_box_activated"　<?php }?>><a href="<?php echo get_sort_link(1);?>"><span class="sort_box">销量<?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='sales' && $_GET['sort']=='asc'){ ?>↑<?php }?><?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='sales' && $_GET['sort']=='desc'){ ?>↓<?php }?></span></a></td>
             <td height="25" <?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='price'){ ?>class="sort_box_activated"　<?php }?>><a href="<?php echo get_sort_link(2);?>"><span class="sort_box">价格<?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='price' && $_GET['sort']=='asc'){ ?>↑<?php }?><?php if(isset($_GET['sort_by']) && $_GET['sort_by']=='price' && $_GET['sort']=='desc'){ ?>↓<?php }?></span></a></td>

@@ -161,12 +161,12 @@ $totalRows_privileges = mysql_num_rows($privileges);
   <?php if ($add_privielges_exception!="") { // Show if recordset not empty ?>
   <p>错误<?=$add_privielges_exception?></p>
   <?php } // Show if recordset not empty ?>
-  <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+  <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <p>&nbsp;</p>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td><input type="text" name="name" id="name"  value="" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">文件:</td>
@@ -221,5 +221,18 @@ $totalRows_privileges = mysql_num_rows($privileges);
       <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
     </table>
     <?php } // Show if recordset not empty ?>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             }
+        } 
+    });
+});</script>
 </body>
 </html>

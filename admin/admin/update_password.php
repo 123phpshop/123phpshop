@@ -78,7 +78,7 @@ $password = mysql_query($query_password, $localhost) or die(mysql_error());
 $row_password = mysql_fetch_assoc($password);
 $totalRows_password = mysql_num_rows($password);
 
-$doc_url="admin.html#update_password";
+$doc_url="update_password.html";
 $support_email_question="更新管理员密码";
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

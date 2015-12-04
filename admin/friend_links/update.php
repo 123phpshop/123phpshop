@@ -87,19 +87,19 @@ $totalRows_links = mysql_num_rows($links);
 
 <body>
 <span class="phpshop123_title">更新友情链接</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">连接文字:</td>
-      <td><input type="text" name="link_text" value="<?php echo $row_links['link_text']; ?>" size="32"></td>
+      <td><input name="link_text" type="text" value="<?php echo $row_links['link_text']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">连接网址:</td>
-      <td><input type="text" name="link_url" value="<?php echo $row_links['link_url']; ?>" size="32"></td>
+      <td><input name="link_url" type="text" value="<?php echo $row_links['link_url']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">排序:</td>
-      <td><input type="text" name="sort" value="<?php echo $row_links['sort']; ?>" size="32"></td>
+      <td><input name="sort" type="text" value="<?php echo $row_links['sort']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -109,7 +109,28 @@ $totalRows_links = mysql_num_rows($links);
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_links['id']; ?>">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             link_text: {
+                required: true,
+				minlength: 2,
+             },
+            link_url: {
+                required: true,
+                minlength: 16,
+				url:true
+				   
+            },
+            sort: {
+  				digits:true  
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
 <?php

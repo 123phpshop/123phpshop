@@ -54,8 +54,11 @@ $totalRows_orders = mysql_num_rows($orders);
 
 <?php if ($totalRows_orders == 0) { // Show if recordset empty ?>
     <p><span class="phpshop123_infobox">回收站里面空空如也！</span>
-  <?php } // Show if recordset empty ?></body>
+  <?php } // Show if recordset empty ?>
+  
+  <script language="JavaScript" type="text/javascript"
+	src="/js/jquery-1.7.2.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+  </body>
+  
 </html>
-<?php
-mysql_free_result($orders);
-?>

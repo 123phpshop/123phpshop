@@ -48,8 +48,8 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_add_prod
  	
 	try{
  		$order_array=get_order_full_by_id($colname_order);
-		$product_item=$_POST;
-  		phpshop123_order_add_product($order_array,$product_item );
+ 		$product_item=$_POST;
+   		phpshop123_order_add_product($order_array,$product_item );
 	}catch(Exception $ex){
 		$error=$ex->getMessage();
  	}
@@ -115,8 +115,34 @@ $support_email_question="添加订单商品";
 	<p>&nbsp;</p>
 </body>
 </html>
-<script language="JavaScript" type="text/javascript"
-	src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#new_consignee_form").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            mobile: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            address: {
+                required: true,
+                minlength: 3   
+            },
+ 			zip: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
+
 <script>
 function show_products(){
 	var product_name=$("#product_name").val();

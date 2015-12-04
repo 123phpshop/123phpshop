@@ -50,7 +50,7 @@ hr:last-child{
 -->
 </style>
 
-<table width="208" border="1" cellpadding="0" cellspacing="0" bordercolor="#ddd">
+<table width="208" border="1" cellpadding="0" cellspacing="0" bordercolor="#dddddd">
   <tr>
     <td height="31" align="center" valign="middle" bgcolor="#f7f7f7"><span class="proganda_googds_title">推广商品</span></td>
   </tr>
@@ -66,7 +66,7 @@ hr:last-child{
  	?>
         <table class="ad_vertical_product_item" style="" width="208" border="0">
           <tr>
-            <td   height="110"><div align="center"><a href="/product.php?id=<?php echo $row_ad_products['id'];?>"><img src="<?php echo $row_product_images['image_files']==NULL?"/uploads/default_product.png":$row_product_images['image_files'];?>" alt="产品图片" width="100" height="100"></a></div></td>
+            <td   height="110"><div align="center"><a href="/product.php?id=<?php echo $row_ad_products['id'];?>"><img src="<?php echo $row_product_images['image_files']==NULL?"/uploads/default_product.png":$row_product_images['image_files'];?>" border="0" alt="产品图片" width="100" height="100"></a></div></td>
         </tr>
           <tr>
             <td  height="18"><div align="left" style="padding-left:8px;font-size:12px;">

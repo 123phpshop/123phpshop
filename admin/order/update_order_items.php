@@ -51,11 +51,32 @@ $support_email_question="更新订单";
     </tr>
     <?php } while ($row_order_items = mysql_fetch_assoc($order_items)); ?>
 </table>
-<p>&nbsp; </p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#new_consignee_form").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+             },
+            mobile: {
+                required: true,
+                minlength: 11,
+				digits:true   
+            },
+            address: {
+                required: true,
+                minlength: 3   
+            },
+ 			zip: {
+                required: true,
+                minlength: 6,
+				digits:true
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
-<?php
-mysql_free_result($order);
-
-mysql_free_result($order_items);
-?>

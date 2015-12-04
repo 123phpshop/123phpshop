@@ -31,8 +31,7 @@ if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
-
-
+ 
 phpshop123_send_email_template(200);
 ?>
 
@@ -94,8 +93,6 @@ a:hover {
 <body style="margin: 0px;">
 
 <?php
-
-var_export ( $_SESSION );
 include_once ('widget/top_full_nav.php');
 ?>
 <?php
@@ -244,7 +241,7 @@ include_once ('widget/logo_search.php');
 			?>
   </table>
 		<table width="990" height="50" border="1" align="center"
-			cellpadding="0" cellspacing="0" bordercolor="#ddd">
+			cellpadding="0" cellspacing="0" bordercolor="#dddddd">
 			<tr>
 				<td>
 					<table width="187" border="0" align="right">

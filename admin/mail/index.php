@@ -63,35 +63,35 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
 <body>
 <span class="phpshop123_title">邮件服务器设置</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Smtp邮件地址:</td>
-      <td><input type="text" name="smtp_email" value="<?php echo $row_smtp_info['smtp_email']; ?>" size="32"></td>
+      <td><input name="smtp_email" type="text" value="<?php echo $row_smtp_info['smtp_email']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Smtp服务器地址:</td>
-      <td><input type="text" name="smtp_server" value="<?php echo $row_smtp_info['smtp_server']; ?>" size="32"></td>
+      <td><input name="smtp_server" type="text" value="<?php echo $row_smtp_info['smtp_server']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Smtp端口:</td>
-      <td><input type="text" name="smtp_port" value="<?php echo $row_smtp_info['smtp_port']; ?>" size="32"></td>
+      <td><input name="smtp_port" type="text" value="<?php echo $row_smtp_info['smtp_port']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Smtp登录账户:</td>
-      <td><input type="text" name="smtp_username" value="<?php echo $row_smtp_info['smtp_username']; ?>" size="32"></td>
+      <td><input name="smtp_username" type="text" value="<?php echo $row_smtp_info['smtp_username']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Smtp登录密码:</td>
-      <td><input type="text" name="smtp_password" value="<?php echo $row_smtp_info['smtp_password']; ?>" size="32"></td>
+      <td><input type="text" name="smtp_password" value="<?php echo $row_smtp_info['smtp_password']; ?>" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">SSL加密</td>
-      <td><input type="checkbox" name="smtp_ssl"  id="smtp_ssl" value="<?php echo isset($row_smtp_info['smtp_ssl'])?:$row_smtp_info['smtp_ssl'];1 ?>" <?php if($row_smtp_info['smtp_ssl']==1){?>checked <?php } ?>></td>
+      <td><input type="checkbox" name="smtp_ssl" maxlength="32"  id="smtp_ssl" value="<?php echo isset($row_smtp_info['smtp_ssl'])?:$row_smtp_info['smtp_ssl'];1 ?>" <?php if($row_smtp_info['smtp_ssl']==1){?>checked <?php } ?>></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">回复邮件地址</td>
-      <td><input type="text" name="smtp_replay_email" value="<?php echo $row_smtp_info['smtp_replay_email']; ?>" size="32"></td>
+      <td><input type="text" name="smtp_replay_email" maxlength="32" value="<?php echo $row_smtp_info['smtp_replay_email']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -101,9 +101,47 @@ $totalRows_smtp_info = mysql_num_rows($smtp_info);
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="id" value="<?php echo $row_smtp_info['id']; ?>">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             smtp_email: {
+                required: true,
+				minlength: 2,
+				maxlength: 32,
+				email:true
+             },
+            smtp_server: {
+                required: true,
+                minlength: 11,
+				maxlength: 32  
+            },
+            smtp_port: {
+                required: true,
+                minlength: 3,
+				digits:true ,
+ 				maxlength: 32   
+            },
+ 			smtp_username: {
+                required: true,
+                minlength: 3 ,
+				maxlength: 32  
+            },
+			smtp_password: {
+                required: true,
+                minlength: 3 ,
+				maxlength: 32  
+            },
+			smtp_replay_email: {
+                required: true,
+                minlength: 3 ,
+				maxlength: 32,
+				email:true  
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
-<?php
-mysql_free_result($smtp_info);
-?>

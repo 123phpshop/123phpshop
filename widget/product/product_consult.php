@@ -94,11 +94,9 @@ $totalRows_consult = mysql_num_rows($consult);
             <table id="consult_list" width="990" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#ddd" style="margin:0px auto;border-bottom:1px dotted grey;" >
             <?php do { ?>
                 <tr >
-                  <td  height="18" style="padding-top:5px;"><span class="STYLE2">网友：<?php echo $row_consult['username']; ?> <?php echo $row_consult['create_time']; ?></span></td>
+                  <td  height="18" style="padding-top:5px;"><div align="left"><span class="STYLE2">买家：<?php echo $row_consult['username']; ?> <?php echo $row_consult['create_time']; ?></span></div></td>
                 </tr>
-				
-				
-				<?php 
+ 				<?php 
 					mysql_select_db($database_localhost, $localhost);
 						$query_replay = "SELECT * FROM product_consult WHERE to_question = ".$row_consult['id']." and is_delete=0 order by id desc limit 1";
 						$replay = mysql_query($query_replay, $localhost) or die(mysql_error());
@@ -107,13 +105,15 @@ $totalRows_consult = mysql_num_rows($consult);
 					
 				?>
                  <tr >
-                  <td height="18" style="padding:5px 0px;<?php if($totalRows_replay==0){ ?>border-bottom:1px dotted grey;<?php }?>">咨询：<?php echo $row_consult['content']; ?></td>
+                  <td height="18" style="padding:5px 0px;<?php if($totalRows_replay==0){ ?>border-bottom:1px dotted grey;<?php }?>"><div align="left">咨询：<?php echo $row_consult['content']; ?></div></td>
                 </tr>
  				<?php 
  					if($totalRows_replay>0){
 				?>
 				 <tr  >
-                  <td height="18" style="padding-top:5px 0px;border-bottom:1px dotted grey;color:#FF6500;">回复：<?php echo $row_replay['content']; ?><div style="float:right;"><?php echo $row_replay['create_time']; ?></div></td>
+                  <td height="18" style="padding-top:5px 0px;border-bottom:1px dotted grey;color:#FF6500;"><div align="left">回复：<?php echo $row_replay['content']; ?></div>                    <div style="float:right;">
+                      <div align="left"><?php echo $row_replay['create_time']; ?></div>
+                   </div></td>
                 </tr>
 				 <?php } ?>
             <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>

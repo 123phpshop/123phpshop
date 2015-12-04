@@ -81,10 +81,4 @@ if($could_delete==1){
 
 </body>
 </html>
-<?php
-mysql_free_result($news);
-
-mysql_free_result($ad_images);
-?>
-
 

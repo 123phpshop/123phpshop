@@ -48,17 +48,17 @@ function phpshop123_order_add_product($order, $product) {
 	$product_in_order = _123phpshop_product_is_in_order ( $order, $product ); // 检查订单中是否有这个产品
   	$order_product_is_present=$product_in_order['is_present'] =="1"?true:false; // 订单中已有的产品是否是赠品
   
+  	 
    	// 1. 如果订单中没有这个商品，并且商品是赠品的话
 	if (!$product_in_order && $product_is_present) {
-  		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+     		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
 		return true;
 	}
 	
 	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话
-	if (! $product_in_order==false && !$product_is_present) {
-		die("2");
- 		$iorder=_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
- 		phpshop123_update_order_fee ( $iorder); // 更新订单的费用和促销信息
+	if (! $product_in_order && !$product_is_present) {
+  		$iorder=_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+  		phpshop123_update_order_fee ( $iorder); // 更新订单的费用和促销信息
 		return;
 	}
 	
@@ -73,9 +73,8 @@ function phpshop123_order_add_product($order, $product) {
 	// 4. 如果订单中有这个商品，当前的产品和之前的商品都不是赠品的话，
 	if ($product_in_order && !$product_is_present && !$order_product_is_present) {
 		 
- 		_123phpshop_order_update_product_quantity ( $order, $product_in_order, (int)$product['quantity'] ); // 将之前的产品的数量+1
-		
-  		$iorder=get_order_full_by_id($order['id']);
+  		_123phpshop_order_update_product_quantity ( $order, $product_in_order, (int)$product['quantity'] ); // 将之前的产品的数量+1
+   		$iorder=get_order_full_by_id($order['id']);
 		phpshop123_update_order_fee ( $iorder ); // 更新订单的费用和促销信息
 		return;
 	}
@@ -98,13 +97,14 @@ function phpshop123_order_add_product($order, $product) {
  * @param unknown $id        	
  */
 function get_order_full_by_id($id) {
-	$order = _123phpshop_get_order_by_id ( $id );
-	if (! $order) {
+	
+  	$order = _123phpshop_get_order_by_id ( $id );
+   	if (! $order) {
 		throw new Exception ( "订单不存在！" );
 	}
 	
 	$order_items = _123phpshop_get_order_items_by_id ( $id );
-	$order ['products'] = $order_items;
+  	$order ['products'] = $order_items;
 	return $order;
 }
 
@@ -191,8 +191,9 @@ function _123phpshop_order_update_product_quantity($order, $product,$quantity){
  */
 function _123phpshop_order_do_add_product($order, $product) {
 	
-	global $db_conn;
+ 	global $db_conn;
 	$should_pay_price=_123phpshop_get_price_by_product_id($product['product_id']);
+	
  	$is_present=0;
  	
   	//  如果是赠品的话
@@ -202,12 +203,12 @@ function _123phpshop_order_do_add_product($order, $product) {
 	}
 	
  	$insertSQL = sprintf ( "INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)", GetSQLValueString ( $should_pay_price, "double" ), GetSQLValueString ( $order['id'], "int" ), GetSQLValueString ( $product ['product_id'], "int" ), GetSQLValueString ( $product ['quantity'], "int" ), GetSQLValueString ( $product ['attr_value'], "text" ), GetSQLValueString ( $is_present,"int") );
- 	$order = mysql_query ( $insertSQL, $db_conn );
-	if(!$order ){
+ 	$new_order_item_query = mysql_query ( $insertSQL, $db_conn );
+	if(!$new_order_item_query ){
 		throw new Exception("系统错误，请联系123phpshop.com寻求解决方案");
 	}
 	
- 	return get_order_full_by_id($order['id']);
+   	return get_order_full_by_id($order['id']);
  }
 
 /**
@@ -313,6 +314,7 @@ function phpshop123_order_remove_product($order, $product) {
 }
 
 function phpshop123_order_update_fee_promotion ( $order_id ){
+	 
 	$order=_123phpshop_get_order_by_id($order_id);
 	$products=_123phpshop_get_order_items_by_id($order_id);
 	$order['products']=$products;
@@ -663,7 +665,7 @@ function phpshop123_order_merge($from_order_sn, $to_order_sn) {
 // 更新订单的费用，这里面有个问题，现在的合并用户是不能享受优惠的
 function phpshop123_update_order_fee($order) {
 	
-	// 初始化这个订单的费用
+  	// 初始化这个订单的费用
 	$products = array ();
 	$product_fee = 0.00;
 	$shipping_fee = 0.00;
@@ -672,14 +674,21 @@ function phpshop123_update_order_fee($order) {
 	
 	// 获取订单的费用
 	$products = _get_products_by_order_id ( $order['id'] );
+	
+	
 	$product_fee = _123phpshop_get_product_fee ( $products ); // 获取所有的产品配用
-
+	
 	$shipping_fee_array = get_shipping_fee ( $order ); // 获取运费费用
-
+	
  	$shipping_fee=$shipping_fee_array['shipping_fee'];
 	$shipping_fee_plan=$shipping_fee_array['shipping_fee_plan'];
+	
+	
+	
  	$promotion_fee = _123phpshop_get_promotion_fee ( $products ); // 获取促销费用
 	$order_total = _123phpshop_get_order_total ( $product_fee, $shipping_fee, $promotion_fee); // 获取订单的总费用
+	
+	
 	_do_update_order_fee ( $product_fee, $shipping_fee, $promotion_fee, $order_total,$shipping_fee_plan ); // 更新db中的数据
 }
 function _get_products_by_order_id($order_id) {

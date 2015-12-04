@@ -97,6 +97,4 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </table>
 
 </body>
-</html><?php
-mysql_free_result($DetailRS1);
-?>
+</html>

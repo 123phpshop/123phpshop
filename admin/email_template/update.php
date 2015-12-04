@@ -72,7 +72,7 @@ $totalRows_email_template = mysql_num_rows($email_template);
 
 <body>
 <?php if ($totalRows_email_template > 0) { // Show if recordset not empty ?>
-  <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+  <form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
     <span class="phpshop123_title">更新邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
@@ -106,7 +106,32 @@ $totalRows_email_template = mysql_num_rows($email_template);
   <?php } // Show if recordset not empty ?>
 <?php if ($totalRows_email_template == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox">邮件模板不存在</p>
-  <?php } // Show if recordset empty ?></body>
+  <?php } // Show if recordset empty ?>
+ <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+				maxlength: 32
+             },
+            title: {
+                required: true,
+                minlength: 2,
+ 				maxlength: 50   
+            },
+            content: {
+                required: true,
+                minlength: 3
+            }
+        } 
+    });
+});</script>
+  
+  </body>
 </html>
 <?php
 mysql_free_result($email_template);

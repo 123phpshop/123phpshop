@@ -30,10 +30,10 @@ table{
 	border-collapse:collapse;
 }
 .view_buy_item{
- 	border-bottom:1px dotted #ddd;
+ 	border-bottom:1px dotted #dddddd;
 }
 .view_buy_item:last-child{
- 	border-bottom:1px solid #ddd;
+ 	border-bottom:1px solid #dddddd;
 }
 
 .view_but_head{
@@ -48,7 +48,7 @@ table{
    
 	
  </div>
-   <table width="208" border="1" cellpadding="0" cellspacing="0" bordercolor="#ddd" class="buy_view_list">
+   <table width="208" border="1" cellpadding="0" cellspacing="0" bordercolor="#dddddd" class="buy_view_list">
     <tr>
       <td height="31" align="center" valign="middle" bgcolor="#f7f7f7" style="font-size:12px;">浏览了该商品的用户还浏览</td>
      </tr>

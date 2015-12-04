@@ -76,12 +76,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">模板名称:</td>
-      <td><input type="text" name="name" value="" size="32"></td>
+      <td><input name="name" type="text" id="name"  value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">发送时间:</td>
@@ -94,11 +94,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">标题:</td>
-      <td><input type="text" name="title" value="" size="32"></td>
+      <td><input name="title" type="text" id="title"  value="" size="32" maxlength="50"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">内容:</td>
-      <td><textarea name="content" cols="50" rows="5"></textarea>
+      <td><textarea name="content" id="content" cols="100" rows="20"></textarea>
       </td>
     </tr>
     <tr valign="baseline">
@@ -108,6 +108,28 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   </table>
   <input type="hidden" name="MM_insert" value="form1">
 </form>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+				maxlength: 32
+             },
+            title: {
+                required: true,
+                minlength: 11,
+ 				maxlength: 50   
+            },
+            content: {
+                required: true,
+                minlength: 3   
+            }
+        } 
+    });
+});</script>
 </body>
 </html>

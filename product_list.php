@@ -94,7 +94,7 @@ table{
 <br />
 <table width="1210" border="0" align="center">
   <tr valign="top">
-    <td width="210" rowspan="2" bordercolor="#ddd">
+    <td width="210" rowspan="2" bordercolor="#dddddd">
 	<?php include_once('widget/sub_cata.php');?>
 	<?php   include_once('widget/ad_product_verticle.php');?></td>
     <td height="38" align="left"><table width="990" height="38" border="0" bgcolor="#F1F1F1">
@@ -109,9 +109,6 @@ table{
   </tr>
 </table>
  <?php include('widget/footer.php'); ?>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 </body>
 </html>
-<?php
-mysql_free_result($catalog);
-?>
