@@ -7,7 +7,7 @@ if (isset($_POST['name'])) {
   $colname_getByName = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s'", $colname_getByName);
+$query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s' and is_delete=0 ", $colname_getByName);
 $getByName = mysql_query($query_getByName, $localhost) or die(mysql_error());
 $row_getByName = mysql_fetch_assoc($getByName);
 $totalRows_getByName = mysql_num_rows($getByName);
@@ -66,15 +66,11 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
 <form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加角色</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
-    <table  class="error_box" width="100%" border="0">
-      <tr>
-        <th scope="row">错误：角色名称重复</th>
-      </tr>
-    </table>
+    <p class="phpshop123_infobox">错误：角色名称</p>
     <?php } // Show if recordset not empty ?><table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">角色名称:</td>
-      <td><input name="name" type="text" value="" size="32" maxlength="32"></td>
+      <td><input name="name" id="name"  type="text" value="" size="32" maxlength="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -92,8 +88,22 @@ $().ready(function(){
              name: {
                 required: true,
 				minlength: 2,
+				remote:{
+                    url: "_ajax_name.php",
+                    type: "post",
+                    dataType: 'json',
+                    data: {
+                        'name': function(){return $("#name").val();}
+                    }
+				}
              }
-        } 
+        } ,
+		
+        messages: {
+			name: {
+  				remote:"角色名称已存在"
+            } 
+        }
     });
 });</script>
 </body>

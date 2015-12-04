@@ -3,7 +3,7 @@
 $doc_url="role.html#list";
 $support_email_question="查看角色列表";
 mysql_select_db($database_localhost, $localhost);
-$query_getRoles = "SELECT * FROM `role` ORDER BY id DESC";
+$query_getRoles = "SELECT * FROM `role` where is_delete=0 ORDER BY id DESC";
 $getRoles = mysql_query($query_getRoles, $localhost) or die(mysql_error());
 $row_getRoles = mysql_fetch_assoc($getRoles);
 $totalRows_getRoles = mysql_num_rows($getRoles);

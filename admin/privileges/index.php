@@ -69,11 +69,13 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th scope="col">权限名称</th>
+      <th scope="col">排序</th>
       <th scope="col">操作</th>
     </tr>
 	 <?php do { ?>
     <tr>
         <td><?php echo $row_getPrivileges['name']; ?></td>
+        <td><?php echo $row_getPrivileges['sort']; ?></td>
         <td><a href="edit.php?id=<?php echo $row_getPrivileges['id']; ?>">更新</a> <a href="remove.php?id=<?php echo $row_getPrivileges['id']; ?>" onclick="return confirm('您确实要删除这项权限么?')">删除</a> <a href="index.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">子权限列表</a> <a href="add.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">添加子权限</a></td>
         <?php } while ($row_getPrivileges = mysql_fetch_assoc($getPrivileges)); ?></tr>
   </table>

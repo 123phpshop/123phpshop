@@ -1,62 +1,31 @@
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#delete";
 $support_email_question="删除角色";
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
-
-
-//	检查这个用户的id是否存在
-$colname_getById = "-1";
+$could_delete=1;
+$colname_product = "-1";
 if (isset($_GET['id'])) {
-  $colname_getById = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+  $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_getById = sprintf("SELECT * FROM `role` WHERE id = %s", $colname_getById);
-$getById = mysql_query($query_getById, $localhost) or die(mysql_error());
-$row_getById = mysql_fetch_assoc($getById);
-$totalRows_getById = mysql_num_rows($getById);
+$query_product = sprintf("SELECT * FROM role WHERE id = %s", $colname_product);
+$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$row_product = mysql_fetch_assoc($product);
+$totalRows_product = mysql_num_rows($product);
 
-// 检查是否有用户是这个角色,如果有的话，那么将用户更新到相关的角色
+if($row_product==0){
+	$could_delete=0;
+} 
 
-// 检查是否有管理员是否是这个角色，如果是的话
-
-// 
-
-// 正式删除
-if($totalRows_getById>0){
-
-//		删除role表中的记录
-	if ((isset($_GET['id'])) && ($_GET['id'] != "")) {
-	  $deleteSQL = sprintf("DELETE FROM role WHERE id=%s",
-						   GetSQLValueString($_GET['id'], "int"));
-	
-	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($deleteSQL, $localhost) or die(mysql_error());
-	}
+if($could_delete==1){
+ 	$update_catalog = sprintf("update `role` set is_delete=1 where id = %s", $colname_product);
+	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	if(!$update_catalog_query){
+		$could_delete=0;
+	}else{
+		$remove_succeed_url="index.php";
+		header("Location: " . $remove_succeed_url );
+ 	}
 }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,29 +33,18 @@ if($totalRows_getById>0){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
- <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
-<table  class="error_box" width="100%" border="0">
-  <tr>
-   
-      <th scope="row">错误：角色不存在<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
-    </tr>
-</table>
-<?php } // Show if recordset empty ?>
-<table  class="error_box" width="100%" border="0">
-  <tr>
-    <th scope="row">错误：角色与权限相关联，请首先删除关联关系 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
-  </tr>
-</table>
-<table  class="error_box" width="100%" border="0">
-  <tr>
-    <th scope="row">错误：有此角色的用户，请首先删除用户 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
-  </tr>
-</table>
+<?php if($could_delete==0){ ?>
+<div class="phpshop123_infobox">
+  <p>由于以下原因，您不能删除这个角色<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
+  <p>1.	角色不存在，请检查参数之后再试。</p>
+  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
+  <p>您也可以<a href="index.php">点击这里返回</a>。
+    <?php } ?>
+    </p>
+</div>
 </body>
 </html>
-<?php
-mysql_free_result($getById);
-?>

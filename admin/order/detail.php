@@ -167,7 +167,7 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
       <tr>
         <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
         <td scope="col"><div align="center"><?php echo $row_products['quantity']; ?></div></td>
-         <td scope="col"><div align="center"><?php echo $row_products['is_present']==1?"√":""; ?></div></td>
+         <td scope="col"><div align="center"><?php if($row_products['is_present']==1){?><span style="background-color:#FF0000;color:#FFFFFF;padding:0 5px;">赠品</span><?php } ?></div></td>
         <td scope="col"><?php echo $row_products['is_shipping_free']==1?"√":""; ?></td>
         <td scope="col"><div align="center"></div></td>
         <td scope="col" style="color:#FF0000;font-weight:bold;text-align:center;">￥<?php echo $row_products['should_pay_price']; ?></td>

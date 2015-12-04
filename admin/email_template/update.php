@@ -32,9 +32,21 @@ $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
+$colname_email_template = "-1";
+if (isset($_GET['id'])) {
+  $colname_email_template = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+}
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE email_templates SET name=%s, code=%s, title=%s, content=%s WHERE id=%s",
+	 mysql_select_db($database_localhost, $localhost);
+	$query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0 and id!='%s'", trim($_POST['code']),$colname_email_template);
+	$product = mysql_query($query_product, $localhost) or die(mysql_error());
+	$row_product = mysql_fetch_assoc($product);
+	$totalRows_product = mysql_num_rows($product);
+	if($totalRows_product>0){
+		$error="一个【发送时间】只能有添加一个模板哦";
+	}else{
+   $updateSQL = sprintf("UPDATE email_templates SET name=%s, code=%s, title=%s, content=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['code'], "int"),
                        GetSQLValueString($_POST['title'], "text"),
@@ -45,11 +57,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
   $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
 
   $updateGoTo = "index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
-  }
   header(sprintf("Location: %s", $updateGoTo));
+}
 }
 
 $colname_email_template = "-1";
@@ -74,6 +83,7 @@ $totalRows_email_template = mysql_num_rows($email_template);
 <?php if ($totalRows_email_template > 0) { // Show if recordset not empty ?>
   <form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
     <span class="phpshop123_title">更新邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+	<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
         <td nowrap align="right">模板名称:</td>

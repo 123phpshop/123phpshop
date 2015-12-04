@@ -1,5 +1,4 @@
-<?php require_once('../../Connections/localhost.php'); ?><?php 
-require_once('../../Connections/localhost.php'); 
+<?php require_once('../../Connections/localhost.php');  
 //require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/privileges.php');
 
 global $global_file_list_array;
@@ -230,7 +229,20 @@ $().ready(function(){
              name: {
                 required: true,
 				minlength: 2,
+				remote:{
+                    url: "_ajax_name.php",
+                    type: "post",
+                    dataType: 'json',
+                    data: {
+                        'name': function(){return $("#name").val();}
+                    }
+				}
              }
+        },
+         messages: {
+			name: {
+  				remote:"权限已存在"
+            } 
         } 
     });
 });</script>
