@@ -78,9 +78,9 @@ if($could_delete==1){
 <div class="phpshop123_infobox">
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if($could_delete==0){ ?>
-  <p>由于以下原因，您不能删除这条广告：</p>
+  <p>由于以下原因，您不能删除这条广告，请及时修正，或是联系123phpshop.com的技术支持人员！</p>
   <p>1. 广告不存在，请检查参数之后再试。</p>
-  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
+  <p>2. 系统错误，无法删除，请稍后再试。 </p>
   <p>3. 广告下面有图片，请删除图片之后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。</p>
   <?php } ?>

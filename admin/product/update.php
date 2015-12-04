@@ -135,7 +135,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 <input type="hidden" name="form_op" value="update_order">
   <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
   <span class="phpshop123_title">更新产品信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-    <div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;"/></div>
+    <div style="float:right;display:inline;"><input name="submit" type="submit" value="保存" style="width:50px;height:30px;"/></div>
    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
 		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>

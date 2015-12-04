@@ -76,7 +76,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 <link href="/js/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 </head>
@@ -220,22 +220,15 @@ $().ready(function(){
              },
             start_date: {
                 required: true,
-                minlength: 11,
-				digits:true   
+                minlength: 10 
             },
             end_date: {
                 required: true,
-                minlength: 3   
+                minlength: 10  
             },
  			amount_lower_limit: {
                 required: true,
-                minlength: 6,
-				digits:true
-            },
- 			amount_lower_limit: {
-                required: true,
-                minlength: 6,
-				digits:true
+ 				digits:true
             }
         } 
     });

@@ -24,7 +24,30 @@ $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) or die(mysql_error());
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
 
 $is_vproduct_add_page =false;
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -117,7 +140,7 @@ $totalRows_product_types = mysql_num_rows($product_types);
 
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<span class="phpshop123_title" style="display:inline;">添加商品<div style="float:right;display:inline;"><input name="submit" type="submit" value="+" style="width:30px;height:30px;margin:auto auto;"/></div>
+<span class="phpshop123_title" style="display:inline;">添加商品<div style="float:right;display:inline;"><input name="submit" type="submit" value="保存" style="width:50px;height:30px;margin:auto auto;"/></div>
 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">

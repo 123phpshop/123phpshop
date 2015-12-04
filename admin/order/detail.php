@@ -184,7 +184,7 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
   </tr>
   <?php  } ?>
 </table>
- <p><span class="phpshop123_title">收货人</span>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">修改</a>][<a href="add_consignee.php?user_id=<?php echo $row_DetailRS1['user_id']; ?>">添加收货人</a>]</p>
+ <p><span class="phpshop123_title">收货人</span>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">修改</a>][<a href="add_consignee.php?order_id=<?php echo $row_DetailRS1['id']; ?>&user_id=<?php echo $row_DetailRS1['user_id']; ?>">添加收货人</a>]</p>
  <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col">收货人姓名</th>

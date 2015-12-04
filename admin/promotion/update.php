@@ -54,27 +54,26 @@ if (isset($_GET['id'])) {
   $colname_promotion = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_promotion = sprintf("SELECT * FROM promotion WHERE id = %s", $colname_promotion);
+$query_promotion = sprintf("SELECT * FROM promotion WHERE id = %s and is_delete=0", $colname_promotion);
 $promotion = mysql_query($query_promotion, $localhost) or die(mysql_error());
 $row_promotion = mysql_fetch_assoc($promotion);
 $totalRows_promotion = mysql_num_rows($promotion);
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 <link href="/js/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <span class="phpshop123_title">更新促销</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td width="9%" align="right" nowrap>促销名称:</td>
-      <td width="91%"><input type="text" name="name" value="<?php echo $row_promotion['name']; ?>" size="32"></td>
+      <td width="91%"><input type="text" name="name" id="name"  value="<?php echo $row_promotion['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">开始日期:</td>
@@ -91,7 +90,7 @@ $totalRows_promotion = mysql_num_rows($promotion);
 		 <?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>
-           <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php } ?>" type="text" id="name_filter"  oninput="do_filter()"/>         
+           <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php } ?>"  id="name_filter"  oninput="do_filter()"/>         
  		  </td>
          </td>
     </tr>
@@ -146,11 +145,13 @@ $totalRows_promotion = mysql_num_rows($promotion);
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+
 <script>
 $().ready(function(){
   	$("#start_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 });
+ 
 function show_limit_filter(){
 	 var promotion_limit_id=$("#promotion_limit").val();
 	switch(promotion_limit_id){
@@ -206,29 +207,27 @@ function filter_presents(){
 	$("#presents_sel_td").load(url);
 }	
 </script>
-<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script>
 $().ready(function(){
- 	$("#new_consignee_form").validate({
+	$("#start_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
+	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
+  	$("#form1").validate({
         rules: {
              name: {
                 required: true,
 				minlength: 2,
              },
-            mobile: {
+            start_date: {
                 required: true,
-                minlength: 11,
-				digits:true   
+                minlength: 10 
             },
-            address: {
+            end_date: {
                 required: true,
-                minlength: 3   
+                minlength: 10  
             },
- 			zip: {
+ 			amount_lower_limit: {
                 required: true,
-                minlength: 6,
-				digits:true
+ 				digits:true
             }
         } 
     });

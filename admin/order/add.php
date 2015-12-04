@@ -1,3 +1,4 @@
+<?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php'); ?>
 
@@ -28,36 +29,52 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 $editFormAction = $_SERVER['PHP_SELF'];
+$error="";
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-	require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php');
-	$sn=gen_order_sn();
-  $insertSQL = sprintf("INSERT INTO orders (sn,user_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,invoice_is_needed, invoice_title, invoice_message,please_delivery_at,payment_method) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s)",
-  						GetSQLValueString($sn, "text"),
-  						GetSQLValueString($_POST['user_id'], "int"),
-						GetSQLValueString($_POST['consignee_name'], "text"),
-						GetSQLValueString($_POST['consignee_province'], "text"),
-						GetSQLValueString($_POST['consignee_city'], "text"),
-						GetSQLValueString($_POST['consignee_district'], "text"),
-						GetSQLValueString($_POST['consignee_address'], "text"),
-						GetSQLValueString($_POST['consignee_zip'], "text"),
-						GetSQLValueString($_POST['consignee_mobile'], "text"),
-                       GetSQLValueString(isset($_POST['invoice_is_needed']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString($_POST['invoice_title'], "text"),
-                       GetSQLValueString($_POST['invoice_message'], "text"),
-                       GetSQLValueString($_POST['please_delivery_at'], "int"),
-                       GetSQLValueString(100, "int"));
-
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
 	
-	$new_order_id=mysql_insert_id();
-	phpshop123_log_order_new($new_order_id);
-   $insertGoTo = "detail.php?recordID=".$new_order_id;
-  header(sprintf("Location: %s", $insertGoTo));
+	// 检查user_id是否存在
+	$colname_user = "-1";
+	if (isset($_POST['user_id'])) {
+	  $colname_user = (get_magic_quotes_gpc()) ? $_POST['user_id'] : addslashes($_POST['user_id']);
+	}
+	mysql_select_db($database_localhost, $localhost);
+	$query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
+	$user = mysql_query($query_user, $localhost) or die(mysql_error());
+	$row_user = mysql_fetch_assoc($user);
+	$totalRows_user = mysql_num_rows($user);
+	if($totalRows_user==0){
+		$error="用户不存在，或已经被删除，请检查后重试，或是联系123phpshop.com的技术支持人员！";
+	}else{
+ 		require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php');
+		$sn=gen_order_sn();
+	  $insertSQL = sprintf("INSERT INTO orders (sn,user_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,invoice_is_needed, invoice_title, invoice_message,please_delivery_at,payment_method) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s)",
+							GetSQLValueString($sn, "text"),
+							GetSQLValueString($_POST['user_id'], "int"),
+							GetSQLValueString($_POST['consignee_name'], "text"),
+							GetSQLValueString($_POST['consignee_province'], "text"),
+							GetSQLValueString($_POST['consignee_city'], "text"),
+							GetSQLValueString($_POST['consignee_district'], "text"),
+							GetSQLValueString($_POST['consignee_address'], "text"),
+							GetSQLValueString($_POST['consignee_zip'], "text"),
+							GetSQLValueString($_POST['consignee_mobile'], "text"),
+						   GetSQLValueString(isset($_POST['invoice_is_needed']) ? "true" : "", "defined","1","0"),
+						   GetSQLValueString($_POST['invoice_title'], "text"),
+						   GetSQLValueString($_POST['invoice_message'], "text"),
+						   GetSQLValueString($_POST['please_delivery_at'], "int"),
+						   GetSQLValueString(100, "int"));
+	
+	  mysql_select_db($database_localhost, $localhost);
+	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+		
+		$new_order_id=mysql_insert_id();
+		phpshop123_log_order_new($new_order_id);
+	   $insertGoTo = "detail.php?recordID=".$new_order_id;
+	  header(sprintf("Location: %s", $insertGoTo));
+}
 }
 
 $doc_url="order.html#add";
@@ -74,8 +91,9 @@ $support_email_question="添加订单";
 
 <body >
 <span class="phpshop123_title">添加订单
-</span>  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-
+</span>  
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
 <form id="form1" name="form1" method="POST" action="<?php echo $editFormAction; ?>">
   <table width="960" border="0" class="phpshop123_form_box">
     <tr>
@@ -109,7 +127,7 @@ $support_email_question="添加订单";
 			<?php foreach($please_deliver_at as $key=>$value){ ?>
           <option value="<?php echo $key;?>"><?php echo $value;?></option>
 		  <?php } ?>
-         </select>
+        </select>
       </label></td>
     </tr>
     <tr>
@@ -174,5 +192,32 @@ function set_consignee(that){
 	$("#consignee_mobile").val(consignee_mobile);
  }
 </script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             username: {
+                required: true
+             },
+            start_date: {
+                required: true,
+                minlength: 10 
+            },
+            end_date: {
+                required: true,
+                minlength: 10  
+            },
+ 			amount_lower_limit: {
+                required: true,
+ 				digits:true
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
+<?php
+mysql_free_result($user);
+
+mysql_free_result($consignee);
+?>

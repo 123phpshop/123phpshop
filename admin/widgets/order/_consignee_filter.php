@@ -4,6 +4,11 @@ $colname_goods = "-1";
 if (isset($_GET['user_id'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $_GET['user_id'] : addslashes($_GET['user_id']);
 }
+
+if($colname_goods == "-1" || trim($colname_goods)==''){
+	return;
+}
+
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT * FROM user_consignee WHERE is_delete=0 and  user_id = ".$colname_goods;
 $goods = mysql_query($query_goods, $localhost) or die(mysql_error());

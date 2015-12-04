@@ -55,7 +55,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<span class="phpshop123_title">订单合并</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>

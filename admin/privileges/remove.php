@@ -60,14 +60,15 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
 </head>
 
 <body>
-<span>[删除权限]</span>
-<?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
-  <table  class="error_box" width="101%" border="0">
-    <tr>
-      <th scope="row">错误：权限不存在<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></th>
-    </tr>
-      </table>
-  <?php } // Show if recordset empty ?><p>&nbsp; </p>
+<div class="phpshop123_infobox">
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <?php if($could_delete==0){ ?>
+  <p>由于以下原因，您不能删除这个权限，请及时修正，或是联系123phpshop.com的技术支持人员！</p>
+  <p>1. 权限不存在，请检查参数之后再试。</p>
+  <p>2. 系统错误，无法删除，请稍后再试。 </p>
+  <p>您也可以<a href="index.php">点击这里返回</a>。</p>
+  <?php } ?>
+</div>
 </body>
 </html>
 <?php

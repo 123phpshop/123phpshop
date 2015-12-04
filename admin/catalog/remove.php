@@ -96,11 +96,11 @@ if($could_delete==1){
 <body>
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
-  <p>由于一下原因，您不能删除这个分类：<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
+  <p>由于一下原因，您不能删除这个分类，请及时修正，或是联系123phpshop.com的技术支持人员！<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></p>
   <p>1. 	分类不存在，请检查参数之后再试。</p>
   <p>2. 	这个分类下面还有子分类，请删除子分类之后再试。</p>
   <p>3.	这个分类下面有产品，请删除产品之后再试。</p>
-  <p>4. 系统错误，无法删除，请示稍后再试。	</p>
+  <p>4. 系统错误，无法删除，请稍后再试。	</p>
   <p>您也可以<a href="index.php">点击这里返回</a>。    </p>
 </div>
 <?php } ?>

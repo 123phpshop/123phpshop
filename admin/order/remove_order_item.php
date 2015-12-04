@@ -72,9 +72,9 @@ if($could_delete==1){
 <div class="phpshop123_infobox">
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   <?php if($could_delete==0){ ?>
-  <p>由于以下原因，您不能删除这件订单产品：</p>
-  <p>1. 订单产品不存在，请检查参数之后再试。</p>
-  <p>2. 系统错误，无法删除，请示稍后再试。 </p>
+  <p>由于以下原因，您不能删除这件订单商品，请及时修正，或是联系123phpshop.com的技术支持人员！</p>
+  <p>1. 订单商品不存在，请检查参数之后再试。</p>
+  <p>2. 系统错误，无法删除，请稍后再试。 </p>
   <p>您也可以<a href="index.php">点击这里返回</a>。</p>
   <?php } ?>
 </div>
