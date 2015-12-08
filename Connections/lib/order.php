@@ -740,7 +740,7 @@ function _123phpshop_add_order_presents($order, $promotion_presents) {
 		return;
 	}
 	
-	// 如果》0的话
+	// 如果》0的话，那么循环这些赠品，
 }
 /*
  * function _123phpshop_get_shipping_fee($products) {

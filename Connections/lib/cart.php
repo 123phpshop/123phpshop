@@ -19,8 +19,7 @@
 <?php
 
 class Cart {
-	
-	/**
+ 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
@@ -105,7 +104,7 @@ class Cart {
 		// 获取所有当前可用的促销计划
 		// 这里还是需要获取是否有优惠价格
 		global $db_conn;
-		$sql = "SELECT * from promotion WHERE is_delete = 0";
+		$sql =  "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=".date('Ymd')." and end_date>=".date('Ymd') ;
 		$promotions = mysql_query ( $sql, $db_conn );
 		$promotion_plans = mysql_fetch_assoc ( $promotions );
 		if (mysql_num_rows ( $product ) == 0) {
@@ -156,7 +155,6 @@ class Cart {
 	
 	/**
 	 * 减少购物车中某产品的数量
-	 *
 	 * @param unknown_type $product_id        	
 	 * @param unknown_type $quantity        	
 	 */
@@ -188,7 +186,10 @@ class Cart {
 		return true;
 	}
 	
-	// 更新费用信息
+	/**
+	 * 更新费用
+	 * @return boolean
+	 */
 	public function update_fee() {
 		// 更新产品总价
 		$this->_update_products_total ();
@@ -204,7 +205,6 @@ class Cart {
 	
 	/**
 	 * 增加购物车中某产品的数量
-	 *
 	 * @param unknown_type $product_id        	
 	 * @param unknown_type $quantity        	
 	 */
@@ -232,6 +232,14 @@ class Cart {
 		
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @param unknown $product_id
+	 * @param unknown $quantity
+	 * @param unknown $attr_value
+	 * @return boolean
+	 */
 	private function _do_change_quantity($product_id, $quantity, $attr_value) {
 		
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
@@ -387,6 +395,7 @@ class Cart {
 		
 		// 这里还是需要获取是否有优惠价格
 		global $db_conn;
+		mysql_select_db($db_database_localhost);
 		$query_product = "SELECT id,price,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = " . $product_id;
 		$product = mysql_query ( $query_product, $db_conn ) or die ( mysql_error () . "_get_product_from_db_by_id" );
 		$row_product = mysql_fetch_assoc ( $product );

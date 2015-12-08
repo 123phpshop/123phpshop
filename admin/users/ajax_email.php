@@ -16,10 +16,8 @@
  *  邮箱:	service@123phpshop.com
  */
 ?>
-<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-$doc_url="ad.html#list";
-$support_email_question="广告列表";
 $result="true";
 $colname_member = "-1";
 if (isset($_POST['email'])) {

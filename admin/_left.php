@@ -1,4 +1,4 @@
-<?php
+<?php require_once('../Connections/localhost.php'); ?><?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -18,12 +18,27 @@
 ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
+
+$colname_role_menu = "-1";
+if (isset($_SESSION['role_id'])) {
+  $colname_role_menu = (get_magic_quotes_gpc()) ? $_SESSION['role_id'] : addslashes($_SESSION['role_id']);
+}
 mysql_select_db($database_localhost, $localhost);
-$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 order by sort asc";
+$query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $colname_role_menu);
+$role_menu = mysql_query($query_role_menu, $localhost) or die(mysql_error());
+$row_role_menu = mysql_fetch_assoc($role_menu);
+$totalRows_role_menu = mysql_num_rows($role_menu);
+mysql_select_db($database_localhost, $localhost);
+if($row_role_menu['privileges']=="1"){
+	//  如果是全部权限的话权限的话，那么不进行过滤
+	$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 order by sort asc";
+}else{
+	// 如果是有限权限的话，那么进行过滤
+	$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
+}
 $menu = mysql_query($query_menu, $localhost) or die(mysql_error());
 $row_menu = mysql_fetch_assoc($menu);
 $totalRows_menu = mysql_num_rows($menu);
- 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -90,7 +105,7 @@ a[parent] .menu_item_row{
   <a href="<?php echo $row_menu['file_name']==''?'javascript://':$row_menu['file_name'];?>" target="main"  id="menu_item_<?php echo $row_menu['id'];?>">
   <div class="menu_item_row" style="border-top:1px solid #515151;">
     <div class="menu_item"><?php echo $row_menu['name'];?></div>
-    <div class="right_indicator"></div>
+    <div class="right_indicator">></div>
   </div>
   </a>
   <?php 
@@ -99,6 +114,8 @@ a[parent] .menu_item_row{
 	$sub_menu = mysql_query($query_sub_menu, $localhost) or die(mysql_error());
 	$row_sub_menu = mysql_fetch_assoc($sub_menu);
 	$totalRows_sub_menu = mysql_num_rows($sub_menu);
+
+
 	if($totalRows_sub_menu >0){
  ?>
 <?php do { ?>
@@ -145,4 +162,6 @@ $(".menu_item_row").click(function(){
 mysql_free_result($menu);
 
 mysql_free_result($sub_menu);
+
+mysql_free_result($role_menu);
 ?>

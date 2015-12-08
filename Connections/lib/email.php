@@ -15,10 +15,14 @@ function phpshop123_send_email_template($code,$para=array()){
  
 	global $db_conn;
 	global $db_database_localhost;
-	 
-	mysql_select_db($db_database_localhost, $db_conn);
+	
+	// 这里需要检查店铺中的接受邮件通知的邮件是否已经设置，如果没有设置的话，那么直接退出
+	
+	// 如果已经设置了的话，
+	
+ 	mysql_select_db($db_database_localhost, $db_conn);
  	$row_shop_info=get_shop_info();
-  	$query_email_template = "SELECT * FROM email_templates WHERE code = ".$code;
+  	$query_email_template = "SELECT * FROM email_templates WHERE code = '".$code."' and is_delete=0";
 	$email_template = mysql_query($query_email_template, $db_conn) or die(mysql_error());
 	$row_email_template = mysql_fetch_assoc($email_template);
 	$totalRows_email_template = mysql_num_rows($email_template);
@@ -31,7 +35,7 @@ function phpshop123_send_email_template($code,$para=array()){
 		$row_email_template['content']=str_replace("<$".$key.">", $value, $row_email_template['content']);
 	}
  	
-	phpshop123_send_email($row_shop_info['email'],$row_email_template['title'],$row_email_template['content']);
+	@phpshop123_send_email($row_shop_info['email'],$row_email_template['title'],$row_email_template['content']);
  }
  
 function phpshop123_send_email($send_email_to,$subject,$message,$attch_array=array() ){

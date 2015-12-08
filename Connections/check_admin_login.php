@@ -19,7 +19,7 @@
 <?php
 $admin_login_url = '/admin/login.php';
 $admin_index_url = '/admin/index.php';
-
+	
 //	检查当前是不属于管理员区域。如果是的话那么检查用户是否已经登录。
 if (_is_admin_area ()) {
 		
@@ -46,6 +46,13 @@ function _is_admin_area() {
 	$curr_url = $_SERVER ['REQUEST_URI'];
 	return strpos ( $curr_url, '/admin/' ) > - 1;
 }
+
+function _is_admin_index() {
+	$curr_url = $_SERVER ['REQUEST_URI'];
+	return (strpos ( $curr_url, '/admin/index.php' ) > - 1 || strpos ( $curr_url, '/admin/_left.php' ) > - 1 || strpos ( $curr_url, '/admin/_top.php' ) > - 1);
+}
+
+
 
 /**
  * 检查当前用户是否属于管理员角色。

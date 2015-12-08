@@ -22,7 +22,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		$row_from_order = mysql_fetch_assoc($from_order);
 		$totalRows_from_order = mysql_num_rows($from_order);
 		if($totalRows_from_order==0){
-			throw new Exception(trim($colname_from_order)."订单不存在");
+			throw new Exception("订单序列号为：".trim($colname_from_order)."订单不存在");
 		}
 		
 		// 检查主订单是否存在
@@ -37,7 +37,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		$totalRows_to_order = mysql_num_rows($to_order);
 	
 		if($totalRows_to_order==0){
-			throw new Exception(trim($colname_to_order)."订单不存在");
+			throw new Exception("订单序列号为：".trim($colname_to_order)."订单不存在");
 		}
 		
 		// 正式开始合并

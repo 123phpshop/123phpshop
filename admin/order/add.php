@@ -1,4 +1,3 @@
-<?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/order.php'); ?>
 
@@ -76,7 +75,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	  header(sprintf("Location: %s", $insertGoTo));
 }
 }
-
 $doc_url="order.html#add";
 $support_email_question="添加订单";
 ?>
@@ -216,8 +214,3 @@ $().ready(function(){
 });</script>
 </body>
 </html>
-<?php
-mysql_free_result($user);
-
-mysql_free_result($consignee);
-?>

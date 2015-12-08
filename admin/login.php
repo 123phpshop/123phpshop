@@ -1,3 +1,4 @@
+<?php require_once('../Connections/localhost.php'); ?>
 <?php
 /**
  * 123PHPSHOP
@@ -42,27 +43,50 @@ if (isset($_POST['username'])) {
   }
   
     mysql_select_db($database_localhost, $localhost);
-   $LoginRS__query=sprintf("SELECT id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
+   $LoginRS__query=sprintf("SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
     get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password)); 
    $LoginRS = mysql_query($LoginRS__query, $localhost) or die(mysql_error());
   $loginFoundUser = mysql_num_rows($LoginRS);
   if ($loginFoundUser) {
      $loginStrGroup = "";
-    
-	
+ 	
 	//	获取这个纪录
 	$user_rs=mysql_fetch_assoc( $LoginRS);
       //declare two session variables and assign them
     $_SESSION['admin_username'] = $loginUsername;
   	$_SESSION['admin_id'] = $user_rs['id'];	
+	$_SESSION['role_id'] = $user_rs['role_id'];	
 	$last_login_at=date('Y-m-d H:i:s');
 	$last_login_ip=$_SERVER['REMOTE_ADDR'];
  	
 	$update_last_login_sql="update member set last_login_at='".$last_login_at."', last_login_ip='".$last_login_ip."' where id=".$user_rs['id'];
 	mysql_query($update_last_login_sql, $localhost);
 	
+	$privileges_array=array();
 	
-    if (isset($_SESSION['PrevUrl']) && true) {
+	mysql_select_db($database_localhost, $localhost);
+	$query_role = "SELECT * FROM `role` WHERE id = ".$user_rs['role_id'];
+	$role = mysql_query($query_role, $localhost) or die(mysql_error());
+	$row_role = mysql_fetch_assoc($role);
+	$totalRows_role = mysql_num_rows($role);
+	if($totalRows_role>0){
+		$privileges_id_array=$row_role['privileges'];
+	}
+	
+	
+	$privileges_array=array();
+	mysql_select_db($database_localhost, $localhost);
+	$query_privilege_files = "SELECT file_name FROM privilege WHERE id in (".$privileges_id_array.")";
+	$privilege_files = mysql_query($query_privilege_files, $localhost) or die(mysql_error());
+	$totalRows_privilege_files = mysql_num_rows($privilege_files);
+	if($totalRows_privilege_files>0){
+		while($row_privilege_files = mysql_fetch_assoc($privilege_files)){
+			$privileges_array[]=$row_privilege_files['file_name'];
+		}
+ 	}
+ 	
+	 $_SESSION['privileges']=$privileges_array;
+     if (isset($_SESSION['PrevUrl']) && true) {
       $MM_redirectLoginSuccess = $_SESSION['PrevUrl'];	
     }
     header("Location: " . $MM_redirectLoginSuccess );

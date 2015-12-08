@@ -10,19 +10,25 @@ function file_list_select($path)
 	{  
 		while (false !== ($file = readdir($handle)))//循环读取目录中的文件名并赋值给$file  
 		{  
-			$exclude_dir=array("js","css","Connections",".","..","_notes",".git",".gitignore","_mmServerScript");
-			if (!in_array($file,$exclude_dir))//排除当前路径和前一路径  
-			{  
+			$exclude_dir=array("js","css","Connections",".","uploads","_mmServerScripts",".settings","..","_notes",".git",".gitignore","_mmServerScript");
+			
+			$exclode_file_array=array(".settings",".project",".buildpath");
+ 			if (!in_array($file,$exclude_dir))//排除当前路径和前一路径  
+			{   
 				if (is_dir($path."/".$file))  
 				{  
-					global $global_file_list_array;
-					$global_file_list_array[]=$path."/".$file; 
-					file_list_select($path."/".$file);  
-				}else  
+					   if(!in_array($file,$exclode_file_array)){
+						global $global_file_list_array;
+						$global_file_list_array[]=$path."/".$file; 
+						file_list_select($path."/".$file);
+					 }
+ 				}else  
 				{  
-				   global $global_file_list_array;
-				   $global_file_list_array[]=$path."/".$file;  
-				}  
+ 					   if(!in_array($file,$exclode_file_array)){
+						   global $global_file_list_array;
+						   $global_file_list_array[]=$path."/".$file;   
+					   }
+  				}  
 			}  
 		}  
 	}
@@ -209,13 +215,15 @@ $totalRows_privileges = mysql_num_rows($privileges);
   <p class="phpshop123_title"><?php echo isset($row_getParent['name'])?$row_getParent['name'].":":"";?> 权限列表</p>
    <table width="100%" border="1" class="phpshop123_list_box">
      <tr>
-       <th width="17%" scope="col">权限名称</th>
-       <th width="83%" scope="col">操作</th>
+       <th width="9%" scope="col">权限名称</th>
+       <th width="16%" scope="col">顺序</th>
+       <th width="75%" scope="col">操作</th>
      </tr>
      <?php do { ?>
       <tr>
         <td><?php echo $row_privileges['name']; ?></td>
-        <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
+        <td><?php echo $row_privileges['sort']; ?></td>
+        <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>" onclick="return confirm('您确实要删除这个权限吗?');">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
       </tr>
       <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
     </table>
