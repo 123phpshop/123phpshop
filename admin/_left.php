@@ -109,13 +109,21 @@ a[parent] .menu_item_row{
   </div>
   </a>
   <?php 
+  
+  // 这里需要检查是否拥有admin全部的权限，如果有的话，那么
+  	
   	mysql_select_db($database_localhost, $localhost);
+	if($row_role_menu['privileges']=="1"){
+	//  如果是全部权限的话权限的话，那么不进行过滤
 	$query_sub_menu = "SELECT * FROM privilege WHERE pid = ".$row_menu['id']." and is_delete=0 and is_menu=1 order by sort asc";
+	}else{
+		$query_sub_menu = "SELECT * FROM privilege WHERE pid = ".$row_menu['id']." and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
+	}
+	
 	$sub_menu = mysql_query($query_sub_menu, $localhost) or die(mysql_error());
 	$row_sub_menu = mysql_fetch_assoc($sub_menu);
 	$totalRows_sub_menu = mysql_num_rows($sub_menu);
-
-
+ 
 	if($totalRows_sub_menu >0){
  ?>
 <?php do { ?>

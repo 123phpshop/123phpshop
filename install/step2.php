@@ -28,17 +28,17 @@ $index_path		=$_SERVER['DOCUMENT_ROOT']."/index.php";
 
 if(!_check_dir_writable($uploads_folder)){
 		//	检查上传文件夹是否可写，如果不可写，那么告知
-		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 }
 
 if(!_check_dir_writable($config_folder)){
 	// 检查配置文件是否可写，如果不可写，那么告知
-	$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+	$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 }
 
 if(!_check_file_writable($config_file)){
 	// 检查配置文件是否可写，如果不可写，那么告知
-	$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+	$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 }
 
 
@@ -50,22 +50,22 @@ if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['db_host']) && isset($_POS
 	
 	// 如果没有安装，那么检查数据库是否可以链接，如果不能链接，那么告知
 	if(!_db_could_connect($_POST['db_host'],$_POST['db_username'],$_POST['db_password'],$_POST['db_name'])){
- 		$error[]="错误:数据库无法连接，请检查输入的参数";
+ 		$error[]="错误:数据库无法连接，请检查输入的参数,或是呼叫13391334121联系我们的支持人员";
 	}elseif(!_import_sql($_POST['admin_username'],$_POST['admin_password'])){
 		// 如果可以链接，那么进行数据的导入，如果导入失败，那么告知
-		$error[]="错误:数据库导入错误".mysql_error();
+		$error[]="错误:数据库导入错误：".mysql_error().",请联系您的数据库管理员，或是呼叫13391334121联系我们的支持人员";
 		
 	}elseif(!_check_dir_writable($uploads_folder)){
 		//	检查上传文件夹是否可写，如果不可写，那么告知
-		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$uploads_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 	}elseif(!_check_dir_writable($config_folder)){
 		// 检查配置文件是否可写，如果不可写，那么告知
-		$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$config_folder."文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 	}elseif(!_check_file_writable($config_file)){
 		// 检查配置文件是否可写，如果不可写，那么告知
-		$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性";
+		$error[]="错误:".$config_file."不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
 	}elseif(!_write_config()){
-		$error[]="错误:配置文件写入错误";
+		$error[]="错误:配置文件写入错误，请联系系统管理员,或是呼叫13391334121联系我们的支持人员";
  	}else{
 		// 如果所有的操作都成功，那么直接跳转到首页，
 		_to_index();
@@ -98,7 +98,7 @@ function _import_sql($admin_username,$admin_password){
 			$templine = '';
 		}
 	}
-		if(!mysql_query("insert  into `member`(`id`,`username`,`password`,`mobile`,`email`,`register_at`,`mobile_confirmed`,`birth_date`,`is_delete`,`last_login_at`,`last_login_ip`) values (1,'".$_POST['admin_username']."','".md5($_POST['admin_password'])."','13391334121','service@123phpshop.com',NULL,'1',NULL,0,'','127.0.0.1');
+		if(!mysql_query("insert  into `member`(`id`,`username`,`password`,`mobile`,`email`,`register_at`,`mobile_confirmed`,`birth_date`,`is_delete`,`last_login_at`,`last_login_ip`) values (1,'".$_POST['admin_username']."','".md5($_POST['admin_password'])."','13391334121','service@123phpshop.com',NULL,'1',NULL,0,'','".$_SERVER['REMOTE_ADDR']."');
 	")){
 		return false;
 	}
@@ -131,10 +131,10 @@ function _write_config(){
 # Type="MYSQL"
 # HTTP="true"
 error_reporting(0); 
-$hostname_localhost = "'.$_POST['db_host'].'";
-$database_localhost = "'.$_POST['db_name'].'";
-$username_localhost = "'.$_POST['db_username'].'";
-$password_localhost = "'.$_POST['db_password'].'";
+$hostname_localhost = "'.trim($_POST['db_host']).'";
+$database_localhost = "'.trim($_POST['db_name']).'";
+$username_localhost = "'.trim($_POST['db_username']).'";
+$password_localhost = "'.trim($_POST['db_password']).'";
 if($hostname_localhost==""){
 	require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 	return;

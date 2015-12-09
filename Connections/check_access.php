@@ -6,12 +6,13 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
 	2. 该用户拥有全部的权限
 **/ 
 
+
+
  
-if(_is_admin_area() && !_is_admin_login_page () && !_is_admin_index() &&   $_SESSION['privileges']!=array("/admin") && !in_array($_SERVER['REQUEST_URI'],$_SESSION['privileges_array'])){
+if(_is_admin_area() && !_is_admin_login_page () && !_is_admin_index() &&   $_SESSION['privileges']!=array("/admin") && !in_array($_SERVER['REQUEST_URI'],$_SESSION['privileges'])){
 	 
 	 
-	 var_dump($_SESSION);
- 	  /*$_SESSION['admin_username'] = NULL;
+  	  /*$_SESSION['admin_username'] = NULL;
 	  $_SESSION['admin_id'] = NULL;
 	  $_SESSION['PrevUrl'] = NULL;
 	  unset($_SESSION['admin_username']);

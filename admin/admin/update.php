@@ -50,18 +50,20 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE member SET password=%s, username=%s, mobile=%s, email=%s WHERE id=%s",
+  $updateSQL = sprintf("UPDATE member SET password=%s, username=%s, mobile=%s, email=%s, role_id=%s WHERE id=%s",
                        GetSQLValueString(md5($_POST['password']), "text"),
                        GetSQLValueString($_POST['username'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
+					   GetSQLValueString($_POST['role_id'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
 	if(empty($_POST['password']) || !isset($_POST['password'])){
- 		$updateSQL = sprintf("UPDATE member SET   username=%s, mobile=%s, email=%s WHERE id=%s",
+ 		$updateSQL = sprintf("UPDATE member SET   username=%s, mobile=%s, email=%s, role_id=%s WHERE id=%s",
                         GetSQLValueString($_POST['username'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
+					   GetSQLValueString($_POST['role_id'], "text"),
                  	   GetSQLValueString($_POST['id'], "int"));
 	}
 	
@@ -95,7 +97,7 @@ $totalRows_roles = mysql_num_rows($roles);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -109,11 +111,11 @@ $totalRows_roles = mysql_num_rows($roles);
     <tr valign="baseline">
       <td nowrap="nowrap" align="right">角色:</td>
       <td><label>
-        <select name="select">
+        <select name="role_id">
           <?php
 do {  
 ?>
-          <option value="<?php echo $row_roles['id']?>"<?php if (!(strcmp($row_roles['id'], $row_admin['role_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
+          <option value="<?php echo $row_roles['id']?>"<?php if ((strcmp($row_roles['id'], $row_admin['role_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
           <?php
 } while ($row_roles = mysql_fetch_assoc($roles));
   $rows = mysql_num_rows($roles);
