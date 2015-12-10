@@ -17,7 +17,7 @@
  */
 ?>
 <?php
-
+	
 class Cart {
  	/**
 	 * 构造函数
@@ -366,11 +366,7 @@ class Cart {
 	/**
 	 * 正式添加
 	 * Enter description here .
-	 *
-	 * ..
-	 *
-	 * @param unknown_type $product        	
-	 */
+ 	 */
 	private function _do_add_product($product) {
 		
 		// 这里需要根据product的id获取相应的产品的价格

@@ -21,7 +21,7 @@
 
 /**
  * 生成订单序列号
- * 
+ *
  * @return string
  */
 function gen_order_sn() {
@@ -31,7 +31,7 @@ function gen_order_sn() {
 
 /**
  * 在订单中添加产品
- * 
+ *
  * @param
  *        	$order
  * @param
@@ -41,19 +41,19 @@ function phpshop123_order_add_product($order, $product) {
 	
 	// 检查订单是否已经设置了收货人信息，如果没有的话，那么告知无法添加
 	if (! isset ( $order ['consignee_province'] ) || ! isset ( $order ['consignee_city'] ) || ! isset ( $order ['consignee_district'] )) {
-		throw new Exception ( "收货人没有设置，请首先设置收货人信息" );
+		throw new Exception ( "收货人没有设置，请首先设置收货人信息,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 首先检查商品是否在配送范围之内，如果没有在配送范围之内的话，那么告知无法配送
 	if (! _123phpshop_product_could_ship ( $order )) {
-		throw new Exception ( "不在配送范围之内，请重新选择或添加订单用户的收货地址" );
+		throw new Exception ( "不在配送范围之内，请重新选择或添加订单用户的收货地址,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 如果在配送范围之内的话，那么检查订单中是否已经有了这个商品,
 	$product_is_present = isset ( $product ['is_present'] ) ? true : false; // 判断产品是否是赠品
 	$product_in_order = _123phpshop_product_is_in_order ( $order, $product ); // 检查订单中是否有这个产品
 	$order_product_is_present = $product_in_order ['is_present'] == "1" ? true : false; // 订单中已有的产品是否是赠品
-	                                                                            
+	                                                                                    
 	// 1. 如果订单中没有这个商品，并且商品是赠品的话
 	if (! $product_in_order && $product_is_present) {
 		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
@@ -63,7 +63,7 @@ function phpshop123_order_add_product($order, $product) {
 	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话
 	if (! $product_in_order && ! $product_is_present) {
 		$iorder = _123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
-		phpshop123_update_order_fee ( $iorder ); // 更新订单的费用和促销信息
+  		phpshop123_update_order_fee ( $iorder ); // 更新订单的费用和促销信息
 		return;
 	}
 	
@@ -97,13 +97,13 @@ function phpshop123_order_add_product($order, $product) {
 }
 /**
  * 获取格式化的订单数组
- * 
+ *
  * @param unknown $id        	
  */
 function get_order_full_by_id($id) {
 	$order = _123phpshop_get_order_by_id ( $id );
 	if (! $order) {
-		throw new Exception ( "订单不存在！" );
+		throw new Exception ( "订单不存在！欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	$order_items = _123phpshop_get_order_items_by_id ( $id );
@@ -113,7 +113,7 @@ function get_order_full_by_id($id) {
 
 /**
  * 根据id获取订单
- * 
+ *
  * @param unknown $id        	
  */
 function _123phpshop_get_order_by_id($id) {
@@ -130,7 +130,7 @@ function _123phpshop_get_order_by_id($id) {
 
 /**
  * 根据id获取订单下面的产品
- * 
+ *
  * @param unknown $id        	
  */
 function _123phpshop_get_order_items_by_id($id) {
@@ -169,7 +169,7 @@ function _123phpshop_product_could_ship($order) {
 
 /**
  * 检查订单中是否已经存在存在这个商品了
- * 
+ *
  * @param
  *        	　 $order
  * @param
@@ -191,7 +191,7 @@ function _123phpshop_order_update_product_quantity($order, $product, $quantity) 
 
 /**
  * 向订单中添加商品
- * 
+ *
  * @param unknown $order        	
  * @param unknown $product        	
  * @return boolean
@@ -219,7 +219,7 @@ function _123phpshop_order_do_add_product($order, $product) {
 
 /**
  * 更新订单中的费用和促销信息
- * 
+ *
  * @param unknown $order        	
  * @return boolean
  */
@@ -234,7 +234,7 @@ function _123phpshop_order_update_fee_promotion($order) {
 
 /**
  * 更新订单中产品的总价
- * 
+ *
  * @param unknown $order        	
  * @return number
  */
@@ -252,7 +252,7 @@ function _123phpshop_update_products_total($order) {
 
 /**
  * 通过产品的id获取这个产品的记录
- * 
+ *
  * @param unknown $id        	
  */
 function _123phpshop_get_product_by_id($id) {
@@ -269,7 +269,7 @@ function _123phpshop_get_product_by_id($id) {
 
 /**
  * 通过这个产品的id获取这个产品的哦价格
- * 
+ *
  * @param unknown $id        	
  */
 function _123phpshop_get_price_by_product_id($id) {
@@ -322,6 +322,11 @@ function phpshop123_order_remove_product($order, $product) {
 	_do_order_remove_product ( $order, $product );
 	_123phpshop_order_update_fee_promotion ( $order ); // 更新订单的费用和促销信息
 }
+
+/**
+ * 更新订单的费用和促销信息
+ * @param unknown $order_id
+ */
 function phpshop123_order_update_fee_promotion($order_id) {
 	$order = _123phpshop_get_order_by_id ( $order_id );
 	$products = _123phpshop_get_order_items_by_id ( $order_id );
@@ -331,6 +336,12 @@ function phpshop123_order_update_fee_promotion($order_id) {
 	_123phpshop_update_order_total ( $order ); // 更新订单总价
 	_123phpshop_update_promotion ( $order ); // 更新促销总价
 }
+
+/**
+ * 从数据库中删除这个商品
+ * @param unknown $order
+ * @param unknown $product
+ */
 function _do_order_remove_product($order, $product) {
 	$sql = "";
 }
@@ -460,19 +471,11 @@ function _get_order_weight($products = array()) {
  * *
  */
 function _get_order_quantity($products = array()) {
-	$result = 0;
 	
-	if ($products == array ()) {
-		foreach ( $_SESSION ['cart'] ['products'] as $product ) {
-			if ($product ['is_shipping_free'] == '0' || $product ['is_shipping_free'] == 0) { // 如果不是免运费的话
-				$result += $product ['quantity'];
-			}
-		}
-		return $result;
-	}
+ 	$result = 0;
 	
 	foreach ( $products as $product ) {
-		if ($product ['is_shipping_free'] == 0) { // 如果不是免运费的话
+ 		if ($product ['is_shipping_free'] == '0' || $product ['is_shipping_free'] == 0) { // 如果不是免运费的话
 			$result += $product ['quantity'];
 		}
 	}
@@ -587,7 +590,7 @@ function _could_devliver_shipping_methods($areas) {
 
 /**
  * 订单合并
- * 
+ *
  * @param unknown $from_order_sn        	
  * @param unknown $to_order_sn        	
  * @throws Exception
@@ -607,11 +610,11 @@ function phpshop123_order_merge($from_order_sn, $to_order_sn) {
 	
 	// 如果存在的话，那么检查是否已经被删除，如果有删除的话，那么抛出错误
 	if ($from_order_obj ['is_delete'] == 1) {
-		throw new Exception ( "订单号为：$from_order_sn的订单已被删除,不能合并" );
+		throw new Exception ( "订单号为：".$from_order_sn."的订单已被删除,不能合并,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	if ($to_order_obj ['is_delete'] == 1) {
-		throw new Exception ( "订单号为：$to_order_sn的订单已被删除,不能合并" );
+		throw new Exception ( "订单号为：$to_order_sn的订单已被删除,不能合并,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 检查2张订单是否已经合并,如果已经合并过了的话，那么直接返回true
@@ -621,53 +624,53 @@ function phpshop123_order_merge($from_order_sn, $to_order_sn) {
 	
 	// 检查订单是否已经被合并到其他订单，如果已经合并过了，那么告知
 	if ($from_order_obj ['merge_to'] != "0") {
-		throw new Exception ( "订单号为：" . $from_order_sn . "的订单订单已经被合并，不能再次进行操作" );
+		throw new Exception ( "订单号为：" . $from_order_sn . "的订单订单已经被合并，不能再次进行操作,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 检查主订单是否已经被合并到其他订单，如果已经合并过了，那么告知
 	if ($to_order_obj ['merge_to'] != "0") {
-		throw new Exception ( "订单号为：" . $to_order_sn . "的订单订单已经被合并，不能再次行操作" );
+		throw new Exception ( "订单号为：" . $to_order_sn . "的订单订单已经被合并，不能再次行操作,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 检查订单状态是否相同。是否在退货和发货之间，如果已经发货，那么告知
 	if ($from_order_obj ['order_status'] != $to_order_obj ['order_status']) {
-		throw new Exception ( "只有状态相同的订单才可以合并哦" );
+		throw new Exception ( "只有状态相同的订单才可以合并哦,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 检查主订单的状态
 	if ($to_order_obj ['order_status'] != ORDER_STATUS_UNPAID && $to_order_obj ['order_status'] != ORDER_STATUS_PAID) {
-		throw new Exception ( "订单号为：" . $to_order_sn . "的订单的状态既不是创建也不是已经付款，所以不能进行合并" );
+		throw new Exception ( "订单号为：" . $to_order_sn . "的订单的状态既不是创建也不是已经付款，所以不能进行合并,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 检查从订单的状态
 	if ($from_order_obj ['order_status'] != ORDER_STATUS_UNPAID && $from_order_obj ['order_status'] != ORDER_STATUS_PAID) {
-		throw new Exception ( "订单号为：" . $from_order_obj . "的订单的状态既不是创建也不是已经付款，所以不能进行合并" );
+		throw new Exception ( "订单号为：" . $from_order_obj . "的订单的状态既不是创建也不是已经付款，所以不能进行合并,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 将从订单的订单sn修改为订单的订单sn
 	if (! _update_merge_to ( $from_order_obj ['id'], $to_order_obj ['id'] )) {
-		throw new Exception ( "更新从订单是否为合并订单的数据库操作失败" );
+		throw new Exception ( "更新从订单是否为合并订单的数据库操作失败,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 将从订单的产品所属的订单id修改为主订单的id
 	if (! _update_child_order_product_order_id ( $from_order_obj ['id'], $to_order_obj ['id'] )) {
-		throw new Exception ( "更新从订单产品的数据库操作失败" );
+		throw new Exception ( "更新从订单产品的数据库操作失败,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	// 更新主订单的价格参数
 	if (! _update_to_order_price_para ( $from_order_obj, $to_order_obj )) {
-		throw new Exception ( "更新主订单价格的数据库操作失败" );
+		throw new Exception ( "更新主订单价格的数据库操作失败,欢迎联系123phpshop.com寻求解决方案" );
 	}
 	
 	if (! _log_order_merge ( $from_order_obj ['id'], $to_order_obj ['id'] )) {
-		throw new Exception ( "更新主订单价格的数据库操作失败" );
+		throw new Exception ( "更新主订单价格的数据库操作失败,欢迎联系123phpshop.com寻求解决方案" );
 	}
 }
 
 // 更新订单的费用，这里面有个问题，现在的合并用户是不能享受优惠的
 function phpshop123_update_order_fee($order) {
 	
-	// 初始化这个订单的费用
+  	// 初始化这个订单的费用
 	$products = array ();
 	$product_fee = 0.00;
 	$shipping_fee = 0.00;
@@ -679,24 +682,24 @@ function phpshop123_update_order_fee($order) {
 	
 	$product_fee = _123phpshop_get_product_fee ( $products ); // 获取所有的产品配用
 	
-	$shipping_fee_array = get_shipping_fee ( $order );
-	
+	$shipping_fee_array = get_shipping_fee ($order);
+ 
 	$shipping_fee = $shipping_fee_array ['shipping_fee']; // 获取运费费用
-	$shipping_fee_plan = $shipping_fee_array ['shipping_fee_plan']; // 获取快递公司
-	$promotion_fee_obj = _123phpshop_get_promotion_fee ( $order ); // 获取促销费用
-	$promotion_fee = $promotion_fee_obj ['fee'];
-	$promotion_presents = $promotion_fee_obj ['presents'];
-	$promotion_fee_promotion_ids = $promotion_fee_obj ['promotion_ids'];
+ 	$shipping_fee_plan = $shipping_fee_array ['shipping_fee_plan']; // 获取快递公司
+	$promotion_fee_obj = _123phpshop_get_promotion_fee ( $product_fee, $order ); // 获取促销费用数据
+	$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
+	$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
+	$promotion_fee_promotion_ids = $promotion_fee_obj ['promotion_ids']; //
 	$order_total = _123phpshop_get_order_total ( $product_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
 	_do_update_order_fee ( $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan ); // 更新db中的数据
-	                                                                                                       
+	                                                                                                        
 	// 如果有赠品的话，那么将赠品添加到订单中
 	_123phpshop_add_order_presents ( $order, $promotion_presents );
 }
 
 /**
  * 获取订单下面的所有产品项
- * 
+ *
  * @param unknown $order_id        	
  */
 function _get_products_by_order_id($order_id) {
@@ -730,7 +733,7 @@ function _123phpshop_get_product_fee($products) {
 
 /**
  * 将促销生成的赠品添加到订单中
- * 
+ *
  * @param unknown $order        	
  * @param unknown $promotion_presents        	
  */
@@ -741,34 +744,71 @@ function _123phpshop_add_order_presents($order, $promotion_presents) {
 	}
 	
 	// 如果》0的话，那么循环这些赠品，
+	foreach ( $promotion_presents as $product_id ) {
+		global $db_conn;
+		$insertSQL = sprintf ( "INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)", GetSQLValueString ( 0.00, "double" ), GetSQLValueString ( $order ['id'], "int" ), GetSQLValueString ( $product_id, "int" ), GetSQLValueString ( 1, "int" ), GetSQLValueString ( "", "text" ), GetSQLValueString ( 1, "int" ) );
+		$new_order_item_query = mysql_query ( $insertSQL, $db_conn );
+		if (! $new_order_item_query) {
+			throw new Exception ( "系统错误，请联系123phpshop.com寻求解决方案" );
+		}
+	}
 }
-/*
- * function _123phpshop_get_shipping_fee($products) {
- * $result = 0.00;
- * return $result;
- * }
- */
 
 /**
  * 获取订单可以享受的促销信息
- * 
+ *
  * @param unknown $products        	
  * @return number
  */
-function _123phpshop_get_promotion_fee($order) {
+function _123phpshop_get_promotion_fee($product_fee,$order) {
 	$result = array ();
 	$result ['fee'] = 0.00;
 	$result ['presents'] = array ();
 	$result ['promotion_ids'] = array ();
-	// 这里获取订单的总额
-	// 这里需要获取所有可以享受的促销
-	// 循环这些促销
+	
+  	// 获取所有可用的促销计划
+	$promotion_plans = _get_promotion_plan ( $product_fee,$order );
+ 	
+ 	// 如果促销计划是0的话，那么直接返回
+	if (! is_array ( $promotion_plans ) || count ( $promotion_plans ) == 0) {
+		return $result;
+	}
+	
+	// 如果有促销计划的话，那么开始循环这些促销计划
+	foreach ( $promotion_plans as $promotion_plan ) {
+		// 如果当前计划符合的话，那么将这个促销计划推入可享受的促销的列表汇总
+		// 如果是满增的话，那么不更新产品价格信息，但是需要把赠送商品推入列表
+		$result ['promotion_ids'] [] = $promotion_plan ['id'];
+ 		if ($promotion_plan ['promotion_type'] == 1) {
+ 			if(count($promotion_plan['present_products'])>0){
+ 				$presents_ids = explode ( ",",  $promotion_plan['present_products']);
+ 				$result ['presents'] = array_merge ( $result ['presents'], $presents_ids );
+ 			}
+ 			continue;
+ 		}
+ 		
+ 		// 如果是满减的话，那么直接计算需要减去的金额
+  		if ($promotion_plan ['promotion_type'] == 2) {
+ 			$result ['fee'] += (float) $promotion_plan['promotion_type_val']; // 将可以享受的促销的费用+1
+  			continue;
+ 		}
+ 		
+ 		// 如果是满折的话，那么直接计算需要折扣进去的金额
+ 		if ($promotion_plan ['promotion_type'] == 3) {
+ 			$result ['fee'] += $product_fee*(float) (100-$promotion_plan['promotion_type_val'])/100; // 将可以享受的促销的费用+1
+ 			continue;
+ 		}
+ 		
+   	}
+	
 	return $result;
 }
 
+ 
+
 /**
  * 获取订单的总金额
- * 
+ *
  * @param unknown $product_fee        	
  * @param unknown $shipping_fee        	
  * @param unknown $promotion_fee        	
@@ -780,7 +820,7 @@ function _123phpshop_get_order_total($product_fee, $shipping_fee, $promotion_fee
 
 /**
  * 更新订单费用的数据库字段
- * 
+ *
  * @param unknown $product_fee        	
  * @param unknown $shipping_fee        	
  * @param unknown $promotion_fee        	
@@ -790,10 +830,10 @@ function _123phpshop_get_order_total($product_fee, $shipping_fee, $promotion_fee
  */
 function _do_update_order_fee($product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan) {
 	global $db_conn;
-	$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s", $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan );
+	echo $sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s", $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan );
 	$result = mysql_query ( $sql, $db_conn );
 	if (! $result) {
-		throw new Exeption ( "订单费用更新错误，请重试！" );
+		throw new Exception ( "订单费用更新错误，请重试,欢迎联系123phpshop.com寻求解决方案".mysql_error() );
 	}
 }
 
@@ -810,7 +850,13 @@ function _get_order_by_sn($from_order_sn) {
 	return false;
 }
 
-// 更新主订单的费用
+/**
+ * 更新主订单的费用
+ * 
+ * @param unknown $from_order_obj        	
+ * @param unknown $to_order_obj        	
+ * @return boolean
+ */
 function _update_to_order_price_para($from_order_obj, $to_order_obj) {
 	$shipping_fee = $from_order_obj ['shipping_fee'] + $to_order_obj ['shipping_fee'];
 	$products_total = $from_order_obj ['products_total'] + $to_order_obj ['products_total'];
@@ -859,7 +905,7 @@ function _log_order_merge($from_order_obj, $to_order_obj) {
 
 /**
  * 订单log的数据库记录函数
- * 
+ *
  * @param unknown $order_id        	
  * @param unknown $message        	
  * @return mixed
@@ -872,12 +918,187 @@ function phpshop123_log_order($order_id, $message) {
 
 /**
  * 增加新订单创建的数据库记录
- * 
+ *
  * @param unknown $order_id        	
  * @return mixed
  */
 function phpshop123_log_order_new($order_id) {
-	$message = '创建订单成功';
+	$message = '创建订单成功！';
 	return phpshop123_log_order ( $order_id, $message );
 }
+
+/**
+ * 更新促销信息
+ * 这里会返回所有可以的促销计划
+ */
+function _123phpshop_get_promotion_info($order) {
+	
+	// 获取所有可用的促销计划
+	$promotion_plans = _get_promotion_plan ( $order );
+	
+	// 如果促销计划是0的话，那么直接返回
+	if (! is_array ( $promotion_plans ) || count ( $promotion_plans ) == 0) {
+		return;
+	}
+	
+	// 如果有促销计划的话，那么开始循环这些促销计划
+	foreach ( $promotion_plans as $promotion_plan ) {
+		// 如果当前计划符合的话，那么将这个促销计划推入可享受的促销的列表汇总
+		// 如果是满增的话，那么不更新产品价格信息，但是需要把赠送商品推入列表
+		if ($promotion_plan ['promotion_type'] == 1) {
+			_update_promotion_presents ( $promotion_plan );
+			continue;
+		}
+		// 如果是满减，满折的话，那么这里需要计算享受优惠之后的金额，然后减之
+		$promotion_fee = _get_promotion_fee ( $promotion_plan );
+		_update_promotion_fee ( $promotion_plan );
+	}
+	
+	return $promotion_plans;
+}
+
+/**
+ * 获取所有的促销计划
+ * @param unknown $order        	
+ * @return unknown[]
+ */
+function _get_promotion_plan($product_fee,$order) {
+	$results = array ();
+ 	// 获取所有当前可用的促销计划
+	global $db_conn;
+	$sql = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
+	$promotions = mysql_query ( $sql, $db_conn );
+ 	if (mysql_num_rows ( $promotions ) == 0) {
+		return $results;
+	}
+	
+ 	// 循环这些计划，检查当前的促销是否适合当前的购物车
+	while ( $promotion_plan = mysql_fetch_assoc ( $promotions ) ) {
+ 		
+  		//	检查促销的使用范围，如果是全场的话，那么直接添加
+		 if ($promotions['promotion_type']==1) {
+		 	// 如果订单的商品总额低于享受这个促销的最低金额的话
+		 	if((float) $product_fee < (float)$promotion_plan['amount_lower_limit']){
+		 		continue;
+		 	}
+			$results [] = $promotion_plan;
+		 }
+		
+		 // 如果是分类的话
+		 if ($promotions['promotion_type']==2) {
+			//	检查获取这张订单中所有参与分类的商品的总金额
+			$catalog_product_fee=_123phpshop_get_catalog_product_fee($order,$promotions);
+		 	if((float) $catalog_product_fee < (float)$promotion_plan['amount_lower_limit']){
+		 		continue;
+		 	}
+			$results [] = $promotion_plan;
+		}
+		
+		// 如果是品牌的话
+		if ($promotions['promotion_type']==3) {
+			$brand_product_fee=_123phpshop_get_brand_product_fee($order,$promotions);
+		 	if((float) $catalog_fee < (float)$promotion_plan['amount_lower_limit']){
+		 		continue;
+		 	}
+			$results [] = $promotion_plan;
+		} 
+		
+		// 如果是指定产品的话
+		if ($promotions['promotion_type']==4) {
+			$product_product_fee=_123phpshop_get_product_product_fee($order,$promotions);
+			if((float) $product_product_fee < (float)$promotion_plan['amount_lower_limit']){
+				continue;
+			}
+			$results [] = $promotion_plan;
+		}
+		
+	}
+	
+	return $results;
+}
+
+/**
+ * 获取该订单中属于促销所属分类的所有产品的总额
+ * @param unknown $order
+ * @param unknown $promotions
+ * @return number
+ */
+function _123phpshop_get_catalog_product_fee($order,$promotions){
+	$result=0.00;
+	if(count($promotions['promotion_limit_value'])==0){
+		return $result;
+	}
+	return $result;
+}
+/**
+ * 获取该订单中属于促销所属品牌的所有产品的总额
+ * @param unknown $order
+ * @param unknown $promotions
+ * @return number
+ */
+function _123phpshop_get_brand_product_fee($order,$promotions){
+	$result=0.00;
+	if(count($promotions['promotion_limit_value'])==0){
+		return $result;
+	}
+	return $result;
+}
+
+/**
+ * 获取该订单中属于促销所属产品的所有的总额
+ * @param unknown $order
+ * @param unknown $promotions
+ * @return number
+ */
+function _123phpshop_get_product_product_fee($order,$promotions){
+	$result=0.00;
+	$fee=0.00;
+	if(count($promotions['promotion_limit_value'])==0){
+		return $result;
+	}
+	$product_id_array=explode(",", $promotions['promotion_limit_value']);
+	foreach($order['products'] as $product){
+		if(in_array($product['id'], $product_id_array)  &&  $product['is_presents']==0){
+			$result+=$product['id'];
+		}
+	}
+	return $result;
+}
+/**
+ * 更新
+ * 
+ * @param unknown $promotion_plan        	
+ */
+function _update_promotion_presents($promotion_plan) {
+	
+	// 获取产品id的数组
+	$products_id_array = explode ( ",", $promotion_plan ['present_products'] );
+	if (count ( products_id_array ) == 0) {
+		return;
+	}
+	
+	// 循环这些数组
+	foreach ( $products_id_array as $products_id ) {
+		// 从数据中获取这些赠品的信息
+		$product = $this->_get_product_from_db_by_id ( $products_id );
+		if ($product != null) {
+			$order ['promotion_presents'] [] = $product;
+		}
+	}
+}
+
+// 更新购物车中的促销费用
+function _update_promotion_fee($promotion_plan) {
+	
+	// 如果是满减的话，那么直接+即可
+	if ($promotion_plan ['promotion_type'] == 2) {
+		$promotion_plan ['promotion_fee'] += $promotion_plan ['promotion_type_val'];
+	}
+	
+	// 如果是满折扣的话，那么需要计算产品的金额，然后计算折扣的金额
+	if ($promotion_plan ['promotion_type'] == 3) {
+		$promotion_plan ['promotion_fee'] += $promotion_plan ['products_total'] * $promotion_plan ['promotion_type_val'] / 100;
+	}
+}
+
 ?>
