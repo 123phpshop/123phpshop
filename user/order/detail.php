@@ -83,10 +83,11 @@ div{
   <tr>
     <td scope="row"><table width="97%" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
       <tr style="background-color:#f5f5f5;">
-        <td width="320" height="31" scope="row"><div align="left" style="padding-left:20px;">商品名称</div></td>
-        <td height="31"><div align="center">本店价格</div></td>
-        <td height="31"><div align="center">商品数量</div></td>
-        <td height="31"><div align="center">操作</div></td>
+        <td width="430" height="31" scope="row"><div align="left" style="padding-left:20px;">商品名称</div></td>
+        <td width="306" height="31"><div align="center">本店价格</div></td>
+        <td width="576" height="31"><div align="center">商品数量</div></td>
+        <td width="46">赠品</td>
+        <td width="224" height="31"><div align="center">操作</div></td>
       </tr>
       <?php do { ?>
 	  
@@ -99,8 +100,9 @@ div{
   	  ?>
         <tr>
           <td height="31" scope="row"><div align="left" style="padding-left:20px;"><a style="text-decoration:none;color:#005ea7;" href="/product.php?id=<?php echo $row_order_product['id']; ?>" target="_blank"><?php echo $row_order_product['name']; ?></a> <span style="color:#CCCCCC"><?php echo str_replace(";"," ",$row_order_items['attr_value']); ?></span></div></td>
-          <td><div align="center"><strong class="STYLE1">￥<?php echo $row_order_items['actual_pay_price']; ?></strong></div></td>
+          <td><div align="center"><strong class="STYLE1">￥<?php echo $row_order_items['should_pay_price']; ?></strong></div></td>
           <td><div align="center"><?php echo $row_order_items['quantity']; ?></div></td>
+          <td><?php if($row_order_items['is_present']==1){ ?><span style="background:#FF0000;color:#FFFFFF;padding:0px 5px;">赠品</span><?php } ?></td>
           <td><form id="form1" name="form1" method="post" action="/cart.php" target="_parent">
             <label>
              <div align="center">
@@ -133,7 +135,7 @@ div{
       <th height="38" scope="row"><div align="left" style="padding-left:20px;">订单信息</div></th>
     </tr>
     <tr>
-      <td scope="row"> <table width="97%" height="350" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
+      <td scope="row"> <table width="97%" height="408" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
           <tr>
             <td width="110" height="29" scope="row" ><div align="left" style="padding-left:20px;">订单编号</div></td>
             <td height="29"><div align="left" style="padding-left:20px;"><?php echo $row_order['sn']; ?></div></td>
@@ -146,12 +148,22 @@ div{
         
           <tr>
             <td height="29" scope="row"><div align="left" style="padding-left:20px;">应付</div></td>
-            <td height="29"><div align="left" style="padding-left:20px;">￥<?php echo $row_order['should_paid']; ?></div></td>
+            <td height="29"><div align="left" style="padding-left:20px;color:#FF0000;font-weight:bold;">￥<?php echo $row_order['should_paid']; ?></div></td>
           </tr>
 		   <tr>
-            <td height="29" scope="row"><div align="left" style="padding-left:20px;">运费</div></td>
-            <td height="29"><div align="left" style="padding-left:20px;">￥<?php echo $row_order['shipping_fee']; ?></div></td>
+		     <td height="29" scope="row"><div align="left" style="padding-left:20px;">商品金额</div></td>
+		     <td height="29" style="padding-left:20px;color:#FF0000;font-weight:bold;">￥<?php echo $row_order['products_total']; ?></td>
+        </tr>
+		   <tr>
+            <td height="29" scope="row"><div align="left" style="padding-left:20px;">
+               运费
+            </div></td>
+            <td height="29"><div align="left" style="padding-left:20px;color:#FF0000;font-weight:bold;">￥<?php echo $row_order['shipping_fee']; ?></div></td>
           </tr>
+           <tr>
+             <td height="29" scope="row"><div align="left"  style="padding-left:20px;">促销折减</div></td>
+             <td height="29" style="padding-left:20px;color:#FF0000;font-weight:bold;">￥<?php echo $row_order['promotion_fee']; ?></td>
+           </tr>
           <tr>
             <td height="29" scope="row"><div align="left" style="padding-left:20px;">状态</div></td>
             <td height="29"><div align="left" style="padding-left:20px;"><?php echo $order_status[$row_order['order_status']]; ?></div></td>
@@ -275,7 +287,7 @@ div{
     <tr>
       <td scope="row"> <table width="97%" height="31" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
           <tr>
-            <td width="110" scope="row"><div align="left" style="padding-left:20px;">商品金额</div></td>
+            <td width="110" scope="row"><div align="left" style="padding-left:20px;">订单金额</div></td>
             <td><div align="left" style="padding-left:20px;"><strong style="color:#FF0000">￥<?php echo $row_order['should_paid']; ?></strong></div></td>
           </tr>
       </table></td>

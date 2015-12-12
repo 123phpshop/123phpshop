@@ -128,6 +128,3 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
     <?php } // Show if recordset not empty ?>
 </body>
 </html>
-<?php
-mysql_free_result($brands);
-?>

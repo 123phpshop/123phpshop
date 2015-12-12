@@ -22,7 +22,7 @@ if (isset($_GET['product_name'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $_GET['product_name'] : addslashes($_GET['product_name']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_goods = "SELECT id,name FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
+$query_goods = "SELECT id,name,price FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
 $goods = mysql_query($query_goods, $localhost) or die(mysql_error());
 $goods_num = mysql_num_rows($goods);
 $row_goods = mysql_fetch_assoc($goods);
@@ -33,9 +33,9 @@ $row_goods = mysql_fetch_assoc($goods);
    <?php do { ?>
   <tr>
        <td> 
-        <input type="radio" name="product_id" value="<?php echo $row_goods['id']; ?>" onclick="load_attr(<?php echo $row_goods['id']; ?>)">
-           </td>
-      <td><?php echo $row_goods['name']; ?></td>
+        <input type="radio" name="product_id" value="<?php echo $row_goods['id']; ?>" onclick="load_attr(<?php echo $row_goods['id']; ?>)">           </td>
+       <td><?php echo $row_goods['name']; ?></td>
+      <td style="color:#FF0000;font-weight:bold;"><?php echo $row_goods['price']; ?></td>
     </tr>
 	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
 </table>

@@ -15,7 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?><?php
+ ?>
+<?php require_once('../../Connections/localhost.php'); ?>
+<?php require_once('../../Connections/lib/product.php'); ?>
+<?php
 $colname_products = "-1";
 $doc_url="order.html#detail";
 $support_email_question="查看订单详细";
@@ -23,10 +26,12 @@ if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }
 mysql_select_db($database_localhost, $localhost);
-$query_products = sprintf("SELECT order_item.*,product.is_shipping_free,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete = 0", $colname_products);
+$query_products = sprintf("SELECT order_item.*,product.is_shipping_free,product.is_promotion,product.promotion_price,product.promotion_start,product.promotion_end,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete = 0", $colname_products);
 $products = mysql_query($query_products, $localhost) or die(mysql_error());
 $row_products = mysql_fetch_assoc($products);
 $totalRows_products = mysql_num_rows($products);
+
+
   
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
@@ -106,6 +111,24 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <td>促销折减费用</td>
     <td><span class="price_span">￥<?php echo $row_DetailRS1['promotion_fee']; ?></span></td>
   </tr>
+   <tr>
+     <td>优惠</td>
+     <td><?php 
+	 
+	 if($row_DetailRS1['promotion_id']!=''){
+		mysql_select_db($database_localhost, $localhost);
+		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
+		$promotion_names = mysql_query($query_promotion_names, $localhost) or die(mysql_error());
+ 		$totalRows_promotion_names = mysql_num_rows($promotion_names);	?>	
+	 <?php do { ?>
+         <a href="../promotion/update.php?id=<?php echo $row_promotion_names['id']; ?>"><?php echo $row_promotion_names['name']; ?></a>
+       <?php } while ($row_promotion_names = mysql_fetch_assoc($promotion_names)); ?>
+	  <?php }else{
+	 	echo "未设置";
+	 }
+ 	 ?>
+     </td>
+   </tr>
   <tr>
     <td>订单状态</td>
     <td><?php echo $order_status[$row_DetailRS1['order_status']];; ?> </td>
@@ -159,17 +182,20 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
       <th scope="col">赠品</th>
       <th scope="col">免运费</th>
       <th scope="col">优惠</th>
+	  <th scope="col">单价</th>
       <th scope="col">应付</th>
       <th scope="col">操作</th>
     </tr>
     <?php do { ?>
       <tr>
-        <td scope="col"><?php echo $row_products['product_name']; ?> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
+        <td scope="col"><a href="../product/update.php?id=<?php echo $row_products['product_id']; ?>"><?php echo $row_products['product_name']; ?></a> <span style="color:#999999"><?php echo str_replace(";","	",$row_products['attr_value']); ?></span></td>
         <td scope="col"><div align="center"><?php echo $row_products['quantity']; ?></div></td>
          <td scope="col"><div align="center"><?php if($row_products['is_present']==1){?><span style="background-color:#FF0000;color:#FFFFFF;padding:0 5px;">赠品</span><?php } ?></div></td>
-        <td scope="col"><?php echo $row_products['is_shipping_free']==1?"√":""; ?></td>
-        <td scope="col"><div align="center"></div></td>
-        <td scope="col" style="color:#FF0000;font-weight:bold;text-align:center;">￥<?php echo $row_products['should_pay_price']; ?></td>
+        <td scope="col"><?php if($row_products['is_shipping_free']==1){ ?><span style="background-color:#FF0000;color:#FFFFFF;padding:0 5px;">免运费</span><?php } ?></td>
+        <td scope="col"><div align="center"><?php if(phpshop123_is_special_price($row_products)){?><span style="background-color:#FF0000;color:#FFFFFF;padding:0 5px;">优惠</span><?php } ?></div></td>
+		 <td scope="col" style="font-weight:bold;text-align:center;">￥<?php echo $row_products['should_pay_price']; ?></td>
+		 
+        <td scope="col" style="color:#FF0000;font-weight:bold;text-align:center;">￥<?php echo (float)$row_products['should_pay_price']*$row_products['quantity']; ?></td>
         <td scope="col"><a onclick="return confirm('您确实要删除这个商品吗？')" href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>"></a></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>

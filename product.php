@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,148 +15,172 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
+?><?php
+require_once ('Connections/localhost.php');
+?>
 <?php require_once('Connections/lib/product.php'); ?>
 <?php
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
+	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
+	
+	switch ($theType) {
+		case "text" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "long" :
+		case "int" :
+			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
+			break;
+		case "double" :
+			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
+			break;
+		case "date" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "defined" :
+			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+			break;
+	}
+	return $theValue;
 }
-$is_in_promotion=false;
+$is_in_promotion = false;
 $colname_product = "-1";
-if (isset($_GET['id'])) {
-  $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+if (isset ( $_GET ['id'] )) {
+	$colname_product = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-  
-mysql_select_db($database_localhost, $localhost);
-$query_product = sprintf("SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = %s and product.is_delete=0 and product.is_on_sheft=1", $colname_product);
-$product = mysql_query($query_product, $localhost) or die(mysql_error());
-$row_product = mysql_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
-if($totalRows_product==0){
-		$remove_succeed_url="/";
-		header("Location: " . $remove_succeed_url );
+
+// 根据id获取商品信息
+mysql_select_db ( $database_localhost, $localhost );
+$query_product = sprintf ( "SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = %s and product.is_delete=0 and product.is_on_sheft=1", $colname_product );
+$product = mysql_query ( $query_product, $localhost ) or die ( mysql_error () );
+$row_product = mysql_fetch_assoc ( $product );
+$totalRows_product = mysql_num_rows ( $product );
+// 如果找不到这个商品的话
+if ($totalRows_product == 0) {
+	$remove_succeed_url = "/";
+	header ( "Location: " . $remove_succeed_url );
 }
 $colname_product_images = "-1";
-if (isset($_GET['id'])) {
-  $colname_product_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+if (isset ( $_GET ['id'] )) {
+	$colname_product_images = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db($database_localhost, $localhost);
-$query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images);
-$product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
-$row_product_images = mysql_fetch_assoc($product_images);
-$totalRows_product_images = mysql_num_rows($product_images);
+mysql_select_db ( $database_localhost, $localhost );
+$query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images );
+$product_images = mysql_query ( $query_product_images, $localhost ) or die ( mysql_error () );
+$row_product_images = mysql_fetch_assoc ( $product_images );
+$totalRows_product_images = mysql_num_rows ( $product_images );
 
 $colname_product_image_small = "-1";
-if (isset($_GET['id'])) {
-  $colname_product_image_small = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+if (isset ( $_GET ['id'] )) {
+	$colname_product_image_small = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db($database_localhost, $localhost);
-$query_product_image_small = sprintf("SELECT * FROM product_images WHERE product_id = %s", $colname_product_image_small);
-$product_image_small = mysql_query($query_product_image_small, $localhost) or die(mysql_error());
-$row_product_image_small = mysql_fetch_assoc($product_image_small);
-$totalRows_product_image_small = mysql_num_rows($product_image_small);
-$could_deliver=false;
-$areas=get_deliver_areas();
+mysql_select_db ( $database_localhost, $localhost );
+$query_product_image_small = sprintf ( "SELECT * FROM product_images WHERE product_id = %s", $colname_product_image_small );
+$product_image_small = mysql_query ( $query_product_image_small, $localhost ) or die ( mysql_error () );
+$row_product_image_small = mysql_fetch_assoc ( $product_image_small );
+$totalRows_product_image_small = mysql_num_rows ( $product_image_small );
+$could_deliver = false;
+$areas = get_deliver_areas ();
 $colname_consignee = "-1";
-if (isset($_SESSION['user_id'])) {
-  $colname_consignee = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
+if (isset ( $_SESSION ['user_id'] )) {
+	$colname_consignee = (get_magic_quotes_gpc ()) ? $_SESSION ['user_id'] : addslashes ( $_SESSION ['user_id'] );
 }
-mysql_select_db($database_localhost, $localhost);
-$query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 and is_default=1", $colname_consignee);
-$consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
-$row_consignee = mysql_fetch_assoc($consignee);
-$totalRows_consignee = mysql_num_rows($consignee);
-$areas=array();
-if($totalRows_consignee>0 && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district']) ){
+mysql_select_db ( $database_localhost, $localhost );
+$query_consignee = sprintf ( "SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 and is_default=1", $colname_consignee );
+$consignee = mysql_query ( $query_consignee, $localhost ) or die ( mysql_error () );
+$row_consignee = mysql_fetch_assoc ( $consignee );
+$totalRows_consignee = mysql_num_rows ( $consignee );
+$areas = array ();
+// 如果有收货人记录，但是session中么有设置的话
+if ($totalRows_consignee > 0 && ! isset ( $_SESSION ['user'] ['province'] ) && ! isset ( $_SESSION ['user'] ['city'] ) && ! isset ( $_SESSION ['user'] ['district'] )) {
 	
-	$areas[]=$row_consignee['province']."_*_*";
-	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_*";
-	$areas[]=$row_consignee['province']."_".$row_consignee['city']."_".$row_consignee['district'];
-}else{
-	$_SESSION['user']=array();
-	$global_default_province="上海";
-	$global_default_city="上海";
-	$global_default_district="黄浦区";
-	$areas[]=$global_default_province."_*_*";
-	$areas[]=$global_default_province."_".$global_default_city."_*";
-	$areas[]=$global_default_province."_".$global_default_city."_".$global_default_district;
- }
+	$areas [] = $row_consignee ['province'] . "_*_*";
+	$areas [] = $row_consignee ['province'] . "_" . $row_consignee ['city'] . "_*";
+	$areas [] = $row_consignee ['province'] . "_" . $row_consignee ['city'] . "_" . $row_consignee ['district'];
+} else {
+	
+	// 设置默认的收货人数据
+	$_SESSION ['user'] = array ();
+	$global_default_province = "上海";
+	$global_default_city = "上海";
+	$global_default_district = "黄浦区";
+	$areas [] = $global_default_province . "_*_*";
+	$areas [] = $global_default_province . "_" . $global_default_city . "_*";
+	$areas [] = $global_default_province . "_" . $global_default_city . "_" . $global_default_district;
+}
 
- $could_deliver=could_devliver($areas);
+// 检查是否可以发货
+$could_deliver = could_devliver ( $areas );
 
-mysql_select_db($database_localhost, $localhost);
-$query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = ".$row_product['catalog_id'];
-$product_catalog = mysql_query($query_product_catalog, $localhost) or die(mysql_error());
-$row_product_catalog = mysql_fetch_assoc($product_catalog);
-$totalRows_product_catalog = mysql_num_rows($product_catalog);
+// 获取分类信息
+mysql_select_db ( $database_localhost, $localhost );
+$query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = " . $row_product ['catalog_id'];
+$product_catalog = mysql_query ( $query_product_catalog, $localhost ) or die ( mysql_error () );
+$row_product_catalog = mysql_fetch_assoc ( $product_catalog );
+$totalRows_product_catalog = mysql_num_rows ( $product_catalog );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="<?php echo $row_product['meta_keywords']; ?>">
-<meta name="Description" content="<?php echo $row_product['meta_desc']; ?>">
-<title><?php echo $row_product['name']; ?>|<?php echo $row_product['ad_text']; ?></title>
-<link rel="stylesheet" type="text/css" href="/js/jquery-ui-1.11.4.custom/jquery-ui.css">
-<style type="text/css">
-body{
-	font-family:'microsoft yahei';
-	font-weight:normal;
+<meta name="keywords"
+	content="<?php echo $row_product['meta_keywords']; ?>">
+	<meta name="Description"
+		content="<?php echo $row_product['meta_desc']; ?>">
+		<title><?php echo $row_product['name']; ?>|<?php echo $row_product['ad_text']; ?></title>
+		<link rel="stylesheet" type="text/css"
+			href="/js/jquery-ui-1.11.4.custom/jquery-ui.css">
+			<style type="text/css">
+body {
+	font-family: 'microsoft yahei';
+	font-weight: normal;
 }
 
-table{
-	border-collapse:collapse;
-	
+table {
+	border-collapse: collapse;
 }
+
 body {
- 	font-size:15px;
+	font-size: 15px;
 }
+
 .all_cata_box {
 	color: #FFFFFF;
 	font-weight: bold;
-	margin-left:10px;
+	margin-left: 10px;
 }
 
-#to_all_cata_link{
-	
-	text-decoration:none;
-	color:#ffffff;
-	
+#to_all_cata_link {
+	text-decoration: none;
+	color: #ffffff;
 }
+
 .product_title {
 	font-size: 16px;
 	font-weight: bold;
-	line-height:1.5em;
- }
+	line-height: 1.5em;
+}
+
 .ad_text {
 	font-size: 14px;
 	color: #FF0000;
-	font-weight:normal;
-	line-height:20px;
+	font-weight: normal;
+	line-height: 20px;
 }
-.STYLE7 {color: #FF0000}
-.intro_cons_comment {font-size: 14px;text-decoration:none;color:#666666;line-height:30px;font-weight:normal;}
+
+.STYLE7 {
+	color: #FF0000
+}
+
+.intro_cons_comment {
+	font-size: 14px;
+	text-decoration: none;
+	color: #666666;
+	line-height: 30px;
+	font-weight: normal;
+}
+
 .STYLE9 {
 	font-size: 18px;
 	font-weight: bold;
@@ -164,156 +188,201 @@ body {
 </style>
 
 </head>
-<body style="margin:0px;">
+<body style="margin: 0px;">
 <?php include_once('widget/top_full_nav.php'); ?>
 <?php include_once('widget/logo_search_cart.php'); ?>
-<form id="add_to_cart"  name="add_to_cart" method="post" action="cart.php">
-   <table width="1210" border="0" align="center" cellpadding="0" cellspacing="0" style="margin:0px auto;">
-    <tr valign="middle">
-      <td width="210" align="center" bgcolor="#B1191A"><a id="to_all_cata_link" href="/catalogs.php">
-      <div align="left"><span class="all_cata_box">全部分类</span></div></a></td>
-      <td height="44" bgcolor="#FFFFFF">&nbsp&nbsp首页</td>
-    </tr>
-  </table>
-  <hr align="center" style="border:1px solid #B1191A;margin:0px;"  width="100%" noshade="noshade" />
-   <div style="background-color:#f2f2f2;margin-top:0px;border-bottom:1px solid #f2f2f2;">
-  <table width="1210" height="45" border="0" align="center" style="margin:0px auto;" >
-    <tr>
-      <td><span class="STYLE9"><?php echo $row_product_catalog['name']; ?></span>  &gt; <?php echo $row_product['name']; ?></td>
-    </tr>
-  </table>
-   <table width="1210" height="425"  border="0" align="center" bgcolor="#FFFFFF" style="margin:0px auto;" >
-      <tr>
-        <td width="31%" rowspan="7" align="center" valign="top" scope="row">
+<form id="add_to_cart" name="add_to_cart" method="post"
+		action="cart.php">
+		<table width="1210" border="0" align="center" cellpadding="0"
+			cellspacing="0" style="margin: 0px auto;">
+			<tr valign="middle">
+				<td width="210" align="center" bgcolor="#B1191A"><a
+					id="to_all_cata_link" href="/catalogs.php">
+						<div align="left">
+							<span class="all_cata_box">全部分类</span>
+						</div>
+				</a></td>
+				<td height="44" bgcolor="#FFFFFF">&nbsp&nbsp首页</td>
+			</tr>
+		</table>
+		<hr align="center" style="border: 1px solid #B1191A; margin: 0px;"
+			width="100%" noshade="noshade" />
+		<div
+			style="background-color: #f2f2f2; margin-top: 0px; border-bottom: 1px solid #f2f2f2;">
+			<table width="1210" height="45" border="0" align="center"
+				style="margin: 0px auto;">
+				<tr>
+					<td><span class="STYLE9"><?php echo $row_product_catalog['name']; ?></span>  &gt; <?php echo $row_product['name']; ?></td>
+				</tr>
+			</table>
+			<table width="1210" height="425" border="0" align="center"
+				bgcolor="#FFFFFF" style="margin: 0px auto;">
+				<tr>
+					<td width="31%" rowspan="7" align="center" valign="top" scope="row">
            <?php include_once('widget/product_image_slide/index.php'); ?>
         </td>
-        <td valign="top">
-		<div align="left">
-          <p class="">&nbsp;</p>
-          <p class="product_title"><?php echo $row_product['name']; ?></p>
-          <p class="ad_text"><?php echo $row_product['ad_text']; ?></p>
-        </div>
-		<table width="98%">
+					<td valign="top">
+						<div align="left">
+							<p class="">&nbsp;</p>
+							<p class="product_title"><?php echo $row_product['name']; ?></p>
+							<p class="ad_text"><?php echo $row_product['ad_text']; ?></p>
+						</div>
+						<table width="98%">
 		<?php if($row_product['is_promotion']!=0 && (date('Y-m-d')>=$row_product['promotion_start']) && (date('Y-m-d')<=$row_product['promotion_end'])){ $is_in_promotion=true; $price_title="本店原价";?>
 	<tr>
-      <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
-        <p style="margin-left:12px;">本店优惠价:</p>
-      </blockquote></td>
-       <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['promotion_price']; ?></span> <span style="float:right;">[优惠日为：<?php echo $row_product['promotion_start'];?> 至  <?php echo $row_product['promotion_end'];?> ]</span></div> </td>
-      <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
-    </tr>
+								<td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
+										<p style="margin-left: 12px;">本店优惠价:</p>
+									</blockquote></td>
+								<td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div
+										align="left">
+										<span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['promotion_price']; ?></span>
+										<span style="float: right;">[优惠日为：<?php echo $row_product['promotion_start'];?> 至  <?php echo $row_product['promotion_end'];?> ]</span>
+									</div></td>
+								<td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
+							</tr>
 	<?php }else{ $price_title="本店原价";}?>
 	<?php if(!$is_in_promotion){?> 
 		<tr>
-      <td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
-        <p style="margin-left:12px;"><?php echo $price_title;?>:</p>
-      </blockquote></td>
-	  
-       <td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div align="left"><span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span> </div></td>
-      <td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
+								<td width="15%" height="40" bgcolor="#f7f7f7" scope="row"><blockquote>
+										<p style="margin-left: 12px;"><?php echo $price_title;?>:</p>
+									</blockquote></td>
+
+								<td width="46%" height="40" bgcolor="#f7f7f7" scope="row"><div
+										align="left">
+										<span class="STYLE7"><strong id="jd-price">￥</strong><?php echo $row_product['price']; ?></span>
+									</div></td>
+								<td width="39%" bgcolor="#f7f7f7" scope="row"><div align="right"></div></td>
 	  <?php }else{?>
 	  		<tr>
-      <td width="15%" height="40" bgcolor="" scope="row"><blockquote>
-        <p style="margin-left:12px;"><?php echo $price_title;?>:</p>
-      </blockquote></td>
-	        <td height="38" colspan="2" scope="row"><div align="left"><s><strong>￥</strong><?php echo $row_product['price']; ?></s></div></td>
+									<td width="15%" height="40" bgcolor="" scope="row"><blockquote>
+											<p style="margin-left: 12px;"><?php echo $price_title;?>:</p>
+										</blockquote></td>
+									<td height="38" colspan="2" scope="row"><div align="left">
+											<s><strong>￥</strong><?php echo $row_product['price']; ?></s>
+										</div></td>
  	  <?php }?>
 	  
     </tr>
-     <tr>
-      <td height="38" scope="row"><blockquote>
-        <p  style="margin-left:12px;">市场价：</p>
-      </blockquote></td>
-      <td height="38" colspan="2" scope="row"><div align="left"><s><strong>￥</strong><?php echo $row_product['market_price']; ?></s></div></td>
-    </tr>
-    <tr>
-      <td height="38" scope="row"  style="padding-left:12px;">库&nbsp;&nbsp;&nbsp;&nbsp;存:</td>
-      <td height="38" colspan="2" scope="row"><?php echo $row_product['store_num']; ?></td>
-    </tr>
-    <tr>
-      <td height="38" scope="row" style="padding-left:12px;">品&nbsp;&nbsp;&nbsp;&nbsp;牌:</td>
-      <td height="38" colspan="2" scope="row"><?php echo $row_product['brand_name']==""?"未设置":$row_product['brand_name']; ?></td>
-    </tr>
-    <tr>
-      <td height="38" scope="row" style="padding-left:12px;">配送至:</td>
-      <td height="38" colspan="2" valign="middle" scope="row" style="padding:0px;"><?php include_once('widget/area/index.php')?>  
-	  <span id="could_deliver" <?php if(!$could_deliver){ ?>style="color:red;"<?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
-    </tr>
+								<tr>
+									<td height="38" scope="row"><blockquote>
+											<p style="margin-left: 12px;">市场价：</p>
+										</blockquote></td>
+									<td height="38" colspan="2" scope="row"><div align="left">
+											<s><strong>￥</strong><?php echo $row_product['market_price']; ?></s>
+										</div></td>
+								</tr>
+								<tr>
+									<td height="38" scope="row" style="padding-left: 12px;">库&nbsp;&nbsp;&nbsp;&nbsp;存:</td>
+									<td height="38" colspan="2" scope="row"><?php echo $row_product['store_num']; ?></td>
+								</tr>
+								<tr>
+									<td height="38" scope="row" style="padding-left: 12px;">品&nbsp;&nbsp;&nbsp;&nbsp;牌:</td>
+									<td height="38" colspan="2" scope="row"><?php echo $row_product['brand_name']==""?"未设置":$row_product['brand_name']; ?></td>
+								</tr>
+								<tr>
+									<td height="38" scope="row" style="padding-left: 12px;">配送至:</td>
+									<td height="38" colspan="2" valign="middle" scope="row"
+										style="padding: 0px;"><?php include_once('widget/area/index.php')?>  
+	  <span id="could_deliver" <?php if(!$could_deliver){ ?>
+										style="color: red;" <?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
+								</tr>
 	       <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/product/single_choose_attr.php'); ?>
     <tr>
-      <td scope="row" style="padding-left:12px;">      数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
-      <td colspan="2" scope="row"><label>
-  		 
-      </label>
-        <div align="left" style="height:32px;">
-          <div id="up_quantity" onClick="return change_quantity(1)" style="cursor:pointer;text-align:center;width:32px;height:32px;line-height:30px;font-size:20px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">+</div>
-          <input readOnly="true" name="quantity" type="text" id="quantity" value="1" size="6" style="font-size:20px;height:30px;line-height:29px;text-align:center;float:left;border:1px solid #e4393c;;"/>
-          <div id="down_quantity" onClick="return change_quantity(-1)" style="cursor:pointer;text-align:center;line-height:30px;font-size:20px;width:32px;height:32px;float:left;border:0px;background-color:#e4393c;color:#FFFFFF;">-</div>
-        </div>
-        <label>
-        <div align="left">
-          <input type="hidden" name="product_id" />  <input type="hidden" value="<?php echo trim($attr_value);?>" name="attr_value"  id="attr_value"/>
-          <input name="product_name" type="hidden" id="product_name" value="<?php echo $row_product['name']; ?>" />
-          <input name="product_image" type="hidden" id="product_image" value="<?php echo $row_product_images['image_files']; ?>" />
-          <input name="ad_text" type="hidden" id="ad_text" value="<?php echo $row_product['ad_text']; ?>" />
-          <input name="product_id" type="hidden" id="product_id" value="<?php echo $row_product['id']; ?>" />
-        </div>        </label></td>
-    </tr>
-     <tr>
-      <th height="231" colspan="3" align="left" scope="row"> 
-        
-		<input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/><div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div> 		 
-       <p>
-	  
- 	  <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_32x32" style="clear:left;display:inline;float:left;margin:14px;">
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_weixin"></a>
-	<a class="jiathis_button_renren"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
- 	  </th>
-      </tr>
- 		</table>
-		</td>
-      </tr>
-   </table>
-</form>
-   </div>
-  <table width="1210" border="0" align="center" style="margin:0px auto;">
-    <tr>
-      <td width="210" valign="top"> 
+									<td scope="row" style="padding-left: 12px;">
+										数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
+									<td colspan="2" scope="row"><label> </label>
+										<div align="left" style="height: 32px;">
+											<div id="up_quantity" onClick="return change_quantity(1)"
+												style="cursor: pointer; text-align: center; width: 32px; height: 32px; line-height: 30px; font-size: 20px; float: left; border: 0px; background-color: #e4393c; color: #FFFFFF;">+</div>
+											<input readOnly="true" name="quantity" type="text"
+												id="quantity" value="1" size="6"
+												style="font-size: 20px; height: 30px; line-height: 29px; text-align: center; float: left; border: 1px solid #e4393c;" />
+											<div id="down_quantity" onClick="return change_quantity(-1)"
+												style="cursor: pointer; text-align: center; line-height: 30px; font-size: 20px; width: 32px; height: 32px; float: left; border: 0px; background-color: #e4393c; color: #FFFFFF;">-</div>
+										</div> <label>
+											<div align="left">
+												<input type="hidden" name="product_id" /> <input
+													type="hidden" value="<?php echo trim($attr_value);?>"
+													name="attr_value" id="attr_value" /> <input
+													name="product_name" type="hidden" id="product_name"
+													value="<?php echo $row_product['name']; ?>" /> <input
+													name="product_image" type="hidden" id="product_image"
+													value="<?php echo $row_product_images['image_files']; ?>" />
+												<input name="ad_text" type="hidden" id="ad_text"
+													value="<?php echo $row_product['ad_text']; ?>" /> <input
+													name="product_id" type="hidden" id="product_id"
+													value="<?php echo $row_product['id']; ?>" />
+											</div>
+									</label></td>
+								</tr>
+								<tr>
+									<th height="231" colspan="3" align="left" scope="row"><input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/>
+									<div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div>
+										<p>
+
+											<!-- JiaThis Button BEGIN -->
+											<div class="jiathis_style_32x32"
+												style="clear: left; display: inline; float: left; margin: 14px;">
+												<a class="jiathis_button_qzone"></a> <a
+													class="jiathis_button_tsina"></a> <a
+													class="jiathis_button_tqq"></a> <a
+													class="jiathis_button_weixin"></a> <a
+													class="jiathis_button_renren"></a> <a
+													href="http://www.jiathis.com/share"
+													class="jiathis jiathis_txt jtico jtico_jiathis"
+													target="_blank"></a> <a class="jiathis_counter_style"></a>
+											</div>
+											<script type="text/javascript"
+												src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+											<!-- JiaThis Button END --></th>
+								</tr>
+						
+						</table>
+					</td>
+				</tr>
+			</table>
+	
+	</form>
+	</div>
+	<table width="1210" border="0" align="center" style="margin: 0px auto;">
+		<tr>
+			<td width="210" valign="top"> 
        <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/view_buy.php'); ?>
       </td>
-      <td valign="top" align="center"> 
-         <table width="990" height="30" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-collapse:collapse;border:1px solid #DEDFDE;border-top:2px solid #999999;margin:20px 0px;;" valign="top">
-          <tr id="tabs">
-			<th width="77" height="33" scope="col"><span class="intro_cons_comment">商品介绍</span></th>
-			<th width="77" height="33" scope="col"><a href="#attr_list" class="intro_cons_comment">规格参数</th>
-			<th width="77" height="33" scope="col"><a href="#consult" class="intro_cons_comment">咨询</a></th>
-			<th width="77" height="33" scope="col"> <a href="#comment_list" class="intro_cons_comment">评价</a> </th>
-			<td height="33"><span class="STYLE8"></span></td>
-          </tr>
-        </table>
-  		<table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF" style="margin:0px auto;">
-        <tr>
-          <th bordercolor="#DEDFDE" scope="col"><?php echo $row_product['intro']; ?></th>
-          </tr>
-      </table >
+			<td valign="top" align="center">
+				<table width="990" height="30" border="0" align="center"
+					cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+					style="border-collapse: collapse; border: 1px solid #DEDFDE; border-top: 2px solid #999999; margin: 20px 0px;"
+					valign="top">
+					<tr id="tabs">
+						<th width="77" height="33" scope="col"><span
+							class="intro_cons_comment">商品介绍</span></th>
+						<th width="77" height="33" scope="col"><a href="#attr_list"
+							class="intro_cons_comment">规格参数</th>
+						<th width="77" height="33" scope="col"><a href="#consult"
+							class="intro_cons_comment">咨询</a></th>
+						<th width="77" height="33" scope="col"><a href="#comment_list"
+							class="intro_cons_comment">评价</a></th>
+						<td height="33"><span class="STYLE8"></span></td>
+					</tr>
+				</table>
+				<table width="990" border="1" align="center" cellpadding="0"
+					cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF"
+					style="margin: 0px auto;">
+					<tr>
+						<th bordercolor="#DEDFDE" scope="col"><?php echo $row_product['intro']; ?></th>
+					</tr>
+				</table>
 	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/attrs.php'); ?> 
  	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_comment.php'); ?> 
 	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_consult.php'); ?> 
 	</td>
-</tr>
-</table>
-<script language="JavaScript" type="text/javascript" src="js/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
-<script src="/js/product_image_slide/js/pic_tab.js"></script>
-<script>
+		</tr>
+	</table>
+	<script language="JavaScript" type="text/javascript"
+		src="js/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+	<script src="/js/product_image_slide/js/pic_tab.js"></script>
+	<script>
  <?php if($row_consignee['province']!='' && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district'])){ ?>
 addressInit('province', 'city', 'district', '<?php echo $row_consignee['province']; ?>', '<?php echo $row_consignee['city']; ?>', '<?php echo $row_consignee['district']; ?>');
  <?php } else{?>

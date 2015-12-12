@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,11 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php
+?><?php
 
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
-
 ?>
 <?php
 
@@ -27,11 +26,10 @@ $cart_obj = new Cart ();
 if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	$cart_obj->add ( $_POST );
 }
-
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
- 
-phpshop123_send_email_template(200);
+
+// phpshop123_send_email_template(200);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,7 +88,6 @@ a:hover {
 </head>
 
 <body style="margin: 0px;">
-
 <?php
 include_once ('widget/top_full_nav.php');
 ?>
@@ -245,9 +242,9 @@ include_once ('widget/logo_search.php');
 				<td>
 					<table width="187" border="0" align="right">
 						<tr>
-							<td><span class="STYLE3">总价(不含运费)：<span class="STYLE4">￥<span
+							<td><span class="STYLE3">总价：<span class="STYLE4">￥<span
 										id="cart_total_price"><?php
-			echo $cart ['products_total'];
+			echo $cart ['order_total'];
 			?></span></span></span></td>
 						</tr>
 						<tr>
@@ -261,7 +258,6 @@ include_once ('widget/logo_search.php');
 			</tr>
 		</table>
 	</form>
-
 
 <?php
 		}
@@ -292,8 +288,7 @@ function delete_cart_product(product_id,attr_value){
 }
 
  var change_quantity=function(product_id,quantity,attr_value){
-	
-	var now_quantity=$(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val();
+ 	var now_quantity=$(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val();
  //			获取box中的产品数量的值。如果产品数量为1，但是需要减去一个话，那么告知需要最少要有一件产品
 	if(now_quantity==1 && quantity==-1){
 		alert("至少需要留1件商品,如果需要删除这个商品，请点击旁边的删除按钮");return false;
@@ -329,5 +324,6 @@ function _update_sub_total(product_id,attr_value){
 }
 
 </script>
+<?php var_dump($_SESSION['cart']);?>
 </body>
 </html>

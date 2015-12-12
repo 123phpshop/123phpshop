@@ -83,13 +83,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 						   GetSQLValueString($_POST['please_delivery_at'], "int"),
 						   GetSQLValueString(100, "int"));
 	
-	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+		mysql_select_db($database_localhost, $localhost);
+		$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
 		
 		$new_order_id=mysql_insert_id();
 		phpshop123_log_order_new($new_order_id);
-	   $insertGoTo = "detail.php?recordID=".$new_order_id;
-	  header(sprintf("Location: %s", $insertGoTo));
+		$insertGoTo = "detail.php?recordID=".$new_order_id;
+		header(sprintf("Location: %s", $insertGoTo));
 }
 }
 $doc_url="order.html#add";

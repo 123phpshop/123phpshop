@@ -94,3 +94,14 @@ function could_devliver($areas){
 		}
 		return false;
 }
+
+function phpshop123_is_special_price($product){
+	$curr_date = date ( "Y-m-d" );
+
+	// 检查产品是否在优惠期之内，如果在优惠期之内，那么产品的价格就是优惠价格
+	if ($product ['is_promotion'] == 1 && $curr_date >= $product ['promotion_start'] && $curr_date <= $product ['promotion_end']) {
+		return true;
+	} 
+	
+	return false;
+}
