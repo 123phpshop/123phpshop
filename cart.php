@@ -80,7 +80,9 @@ a:hover {
 }
 
 .cart_red_tip {
-	color: #FF0000;
+	color:#FFFFFF;
+	background:#FF0000;
+	padding:0px 5px;
 }
 -->
 </style>
@@ -125,14 +127,14 @@ include_once ('widget/logo_search.php');
 			cellspacing="0" bordercolor="#666">
 			<tr>
 				<td width="133" height="43" bgcolor="#f3f3f3" scope="col">&nbsp;</td>
-				<td width="190" bgcolor="#f3f3f3" scope="col"><span class="STYLE1">商品</span></td>
-				<td width="172" height="43" bgcolor="#f3f3f3" scope="col"><span
-					class="STYLE1">单价（元）</span></td>
-				<td width="169" height="43" bgcolor="#f3f3f3" scope="col"><span
-					class="STYLE1">数量</span></td>
-				<td width="140" height="43" bgcolor="#f3f3f3" scope="col"><span
-					class="STYLE1">小计（元）</span></td>
-				<td width="186" height="43" bgcolor="#f3f3f3" scope="col"><span
+				<td width="340" bgcolor="#f3f3f3" scope="col"><div align="center"><span class="STYLE1">商品</span></div></td>
+				<td width="105" height="43" bgcolor="#f3f3f3" scope="col"><div align="center"><span
+					class="STYLE1">单价（元）</span></div></td>
+				<td width="86" height="43" bgcolor="#f3f3f3" scope="col"><div align="center"><span
+					class="STYLE1">数量</span></div></td>
+				<td width="271" height="43" bgcolor="#f3f3f3" scope="col"><div align="center"><span
+					class="STYLE1">小计（元）</span></div></td>
+				<td width="55" height="43" bgcolor="#f3f3f3" scope="col"><span
 					class="STYLE1">操作</span></td>
 			</tr>
 		</table>
@@ -155,33 +157,39 @@ include_once ('widget/logo_search.php');
 							src="<?php
 					echo $cart_products_item ['product_image'] != null ? $cart_products_item ['product_image'] : "/uploads/default_product.png";
 					?>"
-							width="80" height="80" /></a>
-					</div>
-				</td>
-				<td width="184" valign="middle"><a
+							width="80" height="80" /></a>					</div>				</td>
+				<td width="336" valign="middle"><a
 					href="product.php?id=<?php
 					echo $cart_products_item ['product_id'];
 					?>">
 	    <?php
-					echo $cart_products_item ['product_name'];
+					 if(isset($cart_products_item ['is_present'])  && $cart_products_item ['is_present']==1){
+						echo $cart_products_item ['name'];
+					}else{
+						echo $cart_products_item ['product_name'];
+					}
 					?> <br />
 	    <?php
 					echo str_replace ( ";", " ", $cart_products_item ['attr_value'] );
 					?>	    
-	    &nbsp;</a><?php if(isset($cart_products_item ['is_present'])  && $cart_products_item ['is_present']==1){?><span
-					class="cart_red_tip">[赠品]</span><?php } ?><?php if(isset($cart_products_item ['is_promotion_price'])  && $cart_products_item ['is_promotion_price']==1){?><span
-					class="cart_red_tip">[优惠价]</span><?php } ?></td>
-				<td width="171" height="107"><span
+      &nbsp;</a><?php if(isset($cart_products_item ['is_present'])  && $cart_products_item ['is_present']==1){?><span
+					class="cart_red_tip">赠品</span><?php } ?><?php if(isset($cart_products_item ['is_promotion_price'])  && $cart_products_item ['is_promotion_price']==1){?><span
+					class="cart_red_tip">优惠</span><?php } ?></td>
+				<td width="104" height="107"><div align="center"><span
 					class="product_price_<?php
 					echo $cart_products_item ['product_id'];
 					?>"
 					attr_value="<?php
 					echo $cart_products_item ['attr_value'];
-					?>"><?php
+					?>">
+			    <?php
 					echo $cart_products_item ['product_price'];
-					?></span></td>
-				<td width="178" height="107">
-
+					?>
+			    </span></div></td>
+				<td width="93" height="107">
+					<div align="center">
+					  <?php if(isset($cart_products_item ['is_present'])  && $cart_products_item ['is_present']==1){ echo "1";}else{?>
+				  </div>
 					<div name="increase_quantity"
 						style="cursor: pointer; float: left; height: 20px; line-height: 20px; width: 20px; border: 1px solid #e54346; background-color: red; color: #FFFFFF; text-align: center;"
 						onclick="return change_quantity(<?php
@@ -191,7 +199,11 @@ include_once ('widget/logo_search.php');
 					?>')"
 						id="increase_quantity_product_quantity_<?php
 					echo $cart_products_item ['product_id'];
-					?>">+</div> <input readOnly="true"
+					?>">
+					  <div align="center">+</div>
+					</div> 
+					<div align="center">
+					  <input readOnly="true"
 					style="float: left; text-align: center; height: 18px; line-height: 18px; border: 1px solid #e54346; border-left: 0px; border-right: 0px; margin-top: 0px;"
 					class="product_quantity_<?php
 					echo $cart_products_item ['product_id'];
@@ -203,6 +215,7 @@ include_once ('widget/logo_search.php');
 					attr_value="<?php
 					echo $cart_products_item ['attr_value'];
 					?>" />
+				  </div>
 					<div height="15" width="15" name="decrease_quantity"
 						style="cursor: pointer; line-height: 20px; border: 1px solid #e54346; float: left; height: 20px; width: 20px; background-color: red; color: #FFFFFF; backgroun-color: red; color: #FFFFFF; text-align: center;"
 						onclick="return change_quantity(<?php
@@ -212,25 +225,34 @@ include_once ('widget/logo_search.php');
 					?>')"
 						id="decrease_quantity_product_quantity_<?php
 					echo $cart_products_item ['product_id'];
-					?>">-</div>
-
-				</td>
-				<td width="140" height="107"><strong
+					?>">
+					  <div align="center">-</div>
+					</div>
+                    <div align="center">
+                      <?php } ?>
+                    </div></td>
+				<td width="258" height="107"><div align="center"><strong
 					class="sub_total_<?php
 					echo $cart_products_item ['product_id'];
 					?>"
 					attr_value="<?php
 					echo $cart_products_item ['attr_value'];
-					?>"><?php
-					echo $cart_products_item ['quantity'] * $cart_products_item ['product_price'];
-					?></strong></td>
-				<td width="170" height="107"><a href="javascript://"
+					?>">
+			    <?php
+					echo floatval($cart_products_item ['quantity'] * $cart_products_item ['product_price']);
+					?>
+			    </strong></div></td>
+				<td width="52" height="107">
+				<?php if($cart_products_item ['is_present']==0){ ?>
+				<a href="javascript://"
 					onClick="delete_cart_product(<?php
 					echo $cart_products_item ['product_id'];
 					?>,'<?php
 					echo $cart_products_item ['attr_value'];
-					?>');">删除</a></td>
-			</tr>
+					?>');">删除</a>
+					<?php } ?>
+					</td>
+		  </tr>
     <?php
 				}
 			}
@@ -257,7 +279,7 @@ include_once ('widget/logo_search.php');
 					type="submit" name="Submit" value="去结算" /></td>
 			</tr>
 		</table>
-	</form>
+</form>
 
 <?php
 		}

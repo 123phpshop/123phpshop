@@ -27,7 +27,7 @@ session_set_save_handler(array($session, 'open'),
                          array($session, 'destroy'),
                          array($session, 'gc'));
 
-register_shutdown_function('session_write_close');  */
+register_shutdown_function('session_write_close');  */	
 if(!isset($_SESSION)){
 	session_start();
 }

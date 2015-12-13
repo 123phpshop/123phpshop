@@ -195,7 +195,7 @@ a{
       <tr style="border-top-width:0px;">
         <td height="52"><table  style="padding-left:20px;"  height="52" width="100%" border="0">
           <tr>
-            <td width="23%"><?php echo $row_recent_orders['sn']; ?></td>
+            <td width="23%"><a href="order/detail.php?recordID=<?php echo $row_recent_orders['id']; ?>"><?php echo $row_recent_orders['sn']; ?></a></td>
               <td width="16%"><?php echo $row_recent_orders['username']; ?></td>
               <td width="30%"><?php echo $row_recent_orders['create_time']; ?></td>
               <td width="17%"><?php echo $row_recent_orders['should_paid']; ?></td>

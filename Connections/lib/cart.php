@@ -15,7 +15,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
+?>
+<?php
 
 class Cart {
 	/**
@@ -71,24 +72,21 @@ class Cart {
 	/**
 	 * 更新购物车中的促销信息
 	 */
-	function _update_promotion_info($order = array()) {
+	private function _update_promotion_info($order = array()) {
 		
 		// 获取订单的费用
 		if ($order == array ()) {
 			$order = $_SESSION ['cart'];
 		}
 		
-		
 		$products = $order ['products']; // 获取订单的
 		$products_fee = $order ['products_total']; // 获取所有的产品配用
 		$shipping_fee = $order ['shipping_fee']; // 获取运费费用
-		 
-		 
-		
- 		// 获取订单的促销信息
+		                                         
+		// 获取订单的促销信息
 		$promotion_fee_obj = $this->_123phpshop_get_promotion_fee ( $products_fee, $order ); // 获取促销费用数据
- 		 
-  		$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
+		
+		$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
 		$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
 		$original_promotion_ids = explode ( ",", $order ['promotion_id'] );
 		$promotion_id_array = array_merge ( $original_promotion_ids, $promotion_fee_obj ['promotion_ids'] );
@@ -100,18 +98,54 @@ class Cart {
 			$promotion_fee_promotion_ids = substr ( $promotion_fee_promotion_ids, 1 );
 		}
 		
- 		// 获取订单可以享受到的促销总费用
+		// 获取订单可以享受到的促销总费用
 		$promotion_fee = floatval ( $order ['promotion_fee'] ) + floatval ( $promotion_fee );
 		
-		  
-		 
 		$order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
 		                                                                                                    
 		// 更新订单总额
-		$this->_do_update_order_fee ($shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
-		                                                                                                          
+		$this->_do_update_order_fee ( $shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
+		                                                                                                                          
 		// 将赠品添加到购物车中
 		$this->_123phpshop_add_order_presents ( $order, $promotion_presents );
+	}
+	
+	/**
+	 * 清除订单中的赠品
+	 * 
+	 * @param array $order        	
+	 */
+	private function _123phpshop_clear_order_presents($order = array()) {
+		if ($order == array ()) {
+			$this->_123phpshop_clear_cart_presents ();
+			return;
+		}
+	}
+	
+	/**
+	 * 清除购物车中的赠品
+	 */
+	private function _123phpshop_clear_cart_presents() {
+		$result=array();
+		// 如果购物车中没有商品的话，那么直接返回
+		if(count($_SESSION['cart']['products'])==0){
+			return true;
+		}
+		
+		// 如果有商品的话，那么循环这些商品，然后将不是赠品的商品调出来
+		foreach($_SESSION['cart']['products'] as $product ){
+			if($product['is_present']=="0" || $product['is_present']==0){
+				$result[]=$product;
+			}
+		}
+		
+		// 如果购物车里面全都是赠品的话，那么直接返回
+		if(count($result)==0){
+			$_SESSION['cart']['products']=array();
+		}
+		
+		// 如果里面有商品的话，那么直接将session
+		$_SESSION['cart']['products']=$result;
 	}
 	
 	/**
@@ -120,7 +154,7 @@ class Cart {
 	 * @param unknown $order        	
 	 * @param unknown $promotion_presents        	
 	 */
-	function _123phpshop_add_order_presents($order, $promotion_presents) {
+	private function _123phpshop_add_order_presents($order, $promotion_presents) {
 		// 如果赠品的数量为0的话，那么直接退出
 		if (count ( $promotion_presents ) == 0) {
 			return;
@@ -128,13 +162,29 @@ class Cart {
 		
 		// 如果》0的话，那么循环这些赠品，
 		foreach ( $promotion_presents as $product_id ) {
-			$product = $this->_get_product_from_db_by_id($product_id );
+			$product = $this->_get_product_from_db_by_id ( $product_id );
 			$product ['product_price'] = $product ['price'];
 			$product ['should_pay_price'] = $product ['price'];
 			$product ['product_id'] = $product ['id'];
 			$product ['is_present'] = 1;
+			$product ['product_image'] = $this->_get_product_image_by_id ( $product ['id'] );
+			// 这里需要获取这个商品的图片
 			$_SESSION ['cart'] ['products'] [] = $product;
 		}
+	}
+	private function _get_product_image_by_id($product_id) {
+		$result = "";
+		global $db_conn;
+		global $db_database_localhost;
+		mysql_select_db ( $db_database_localhost );
+		$query_get_product_image = "SELECT * FROM product_images WHERE product_id = product_id and is_delete=0 limit 1";
+		$get_product_image = mysql_query ( $query_get_product_image, $db_conn ) or die ( mysql_error () );
+		$row_get_product_image = mysql_fetch_assoc ( $get_product_image );
+		$totalRows_get_product_image = mysql_num_rows ( $get_product_image );
+		if ($totalRows_get_product_image > 0) {
+			return $row_get_product_image ['image_files'];
+		}
+		return $result;
 	}
 	
 	/**
@@ -161,7 +211,7 @@ class Cart {
 	 *        	订单中包含的促销活动
 	 * @throws Exeption
 	 */
-	function _do_update_order_fee($shipping_fee, $product_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids  ) {
+	private function _do_update_order_fee($shipping_fee, $product_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids) {
 		$_SESSION ['cart'] ['order_total'] = $order_total; // 更新购物车中的订单总额
 		$_SESSION ['cart'] ['products_total'] = $product_fee; // 更新购物车中的产品费用
 		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee; // 更新购物车中的运费
@@ -175,7 +225,7 @@ class Cart {
 	 * @param unknown $promotion_plan        	
 	 * @param unknown $fee        	
 	 */
-	function _get_promotion_fee_presents($promotion_plan, $fee) {
+	private function _get_promotion_fee_presents($promotion_plan, $fee) {
 		// 检查促销的类型
 		$result = array ();
 		$result ['fee'] = 0.00;
@@ -210,15 +260,13 @@ class Cart {
 	 * @param unknown $order        	
 	 * @return unknown[]
 	 */
-	function _123phpshop_get_promotion_fee($product_fee, $order) {
+	private function _123phpshop_get_promotion_fee($product_fee, $order) {
 		
- 	 
 		// 初始化结果参数
 		$results = array ();
 		$results ['fee'] = 0.00;
 		$results ['presents'] = array ();
 		$results ['promotion_ids'] = array ();
-		
 		
 		// 从数据库中获取所有当前可用的促销计划
 		global $db_conn;
@@ -228,10 +276,10 @@ class Cart {
 			return $results;
 		}
 		
- 		// 循环这些促销
+		// 循环这些促销
 		while ( $promotion_plan = mysql_fetch_assoc ( $promotions ) ) {
-			 
- 			// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
+			
+			// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
 			$promotion_ids_array = explode ( ",", $order ['promotion_id'] );
 			if (in_array ( $promotion_plan ['id'], $promotion_ids_array )) {
 				continue;
@@ -324,7 +372,7 @@ class Cart {
 	 * @param unknown $promotions        	
 	 * @return number
 	 */
-	function _123phpshop_get_catalog_product_fee($order, $promotions) {
+	private function _123phpshop_get_catalog_product_fee($order, $promotions) {
 		$result = 0.00;
 		
 		// 获取参与促销的分类数组
@@ -353,10 +401,10 @@ class Cart {
 	 * @param unknown $promotions        	
 	 * @return number
 	 */
-	function _123phpshop_get_brand_product_fee($order, $promotions) {
+	private function _123phpshop_get_brand_product_fee($order, $promotions) {
 		$result = 0.00;
 		
- 		// 获取品牌的数组
+		// 获取品牌的数组
 		$brand_id_array = explode ( ",", $promotions ['promotion_limit_value'] );
 		
 		if (count ( $brand_id_array ) == 0) {
@@ -379,7 +427,7 @@ class Cart {
 	 * @param unknown $promotions        	
 	 * @return number
 	 */
-	function _123phpshop_get_product_product_fee($order, $promotions) {
+	private function _123phpshop_get_product_product_fee($order, $promotions) {
 		$result = 0.00;
 		$product_id_array = explode ( ",", $promotions ['promotion_limit_value'] );
 		if (count ( $product_id_array ) == 0) {
@@ -397,7 +445,7 @@ class Cart {
 	/**
 	 * 获取符合要求的促销计划
 	 */
-	function _get_promotion_plan() {
+	private function _get_promotion_plan() {
 		$results = array ();
 		
 		// 获取所有当前可用的促销计划
@@ -426,7 +474,7 @@ class Cart {
 	 *
 	 * @param unknown $promotion_plan        	
 	 */
-	function _update_promotion_presents($promotion_plan) {
+	private function _update_promotion_presents($promotion_plan) {
 		
 		// 获取产品id的数组
 		$products_id_array = explode ( ",", $promotion_plan ['present_products'] );
@@ -445,7 +493,7 @@ class Cart {
 	}
 	
 	// 更新购物车中的促销费用
-	function _update_promotion_fee($promotion_plan) {
+	private function _update_promotion_fee($promotion_plan) {
 		
 		// 如果是满减的话，那么直接+即可
 		if ($promotion_plan ['promotion_type'] == 2) {
@@ -548,7 +596,7 @@ class Cart {
 	 * @param unknown $attr_value        	
 	 * @return boolean
 	 */
-	function _do_change_quantity($product_id, $quantity, $attr_value) {
+	private function _do_change_quantity($product_id, $quantity, $attr_value) {
 		
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
@@ -569,7 +617,7 @@ class Cart {
 	/**
 	 * 返回购物车是否已经初始化
 	 */
-	function _is_cart_initialized() {
+	private function _is_cart_initialized() {
 		if (array_key_exists ( "products", $_SESSION ['cart'] ) && array_key_exists ( "products_total", $_SESSION ['cart'] ) && array_key_exists ( "shipping_fee", $_SESSION ['cart'] ) && array_key_exists ( "order_total", $_SESSION ['cart'] )) {
 			return true;
 		}
@@ -581,7 +629,7 @@ class Cart {
 	 *
 	 * @param unknown_type $product        	
 	 */
-	function _is_product_exits_in_cart($product) {
+	private function _is_product_exits_in_cart($product) {
 		
 		// isset($product['Submit'])?unset($product['Submit']):'';
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
@@ -609,7 +657,7 @@ class Cart {
 	 *
 	 * @param unknown_type $product        	
 	 */
-	function _is_product_exits_in_cart_by_id($product_id) {
+	private function _is_product_exits_in_cart_by_id($product_id) {
 		
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
@@ -624,7 +672,7 @@ class Cart {
 		}
 		return false;
 	}
-	function _is_product_exits_in_cart_by_id_attr_value($product_id, $attr_value) {
+	private function _is_product_exits_in_cart_by_id_attr_value($product_id, $attr_value) {
 		
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
@@ -639,8 +687,7 @@ class Cart {
 		}
 		return false;
 	}
-	
-	function _get_product_by_id($product_id) {
+	private function _get_product_by_id($product_id) {
 		// 如果没有设置过产品的session信息，或者是设置过产品的session信息但是里面没有产品的话，那么直接返回false
 		if (! isset ( $_SESSION ['cart'] ['products'] ) || empty ( $_SESSION ['cart'] ['products'] )) {
 			return false;
@@ -682,8 +729,8 @@ class Cart {
 		$product ['promotion_start'] = $product_obj ['promotion_start'];
 		$product ['promotion_end'] = $product_obj ['promotion_end'];
 		$product ['promotion_price'] = $product_obj ['promotion_price'];
- 		$product ['product_price'] = $product_obj ['price'];
- 		$product ['should_pay_price'] = $product_obj ['price'];
+		$product ['product_price'] = $product_obj ['price'];
+		$product ['should_pay_price'] = $product_obj ['price'];
 		$product ['cata_path'] = $product_obj ['cata_path'];
 		$product ['brand_id'] = $product_obj ['brand_id'];
 		
@@ -703,7 +750,7 @@ class Cart {
 		global $db_conn;
 		global $db_database_localhost;
 		mysql_select_db ( $db_database_localhost );
-		$query_product = "SELECT id,price,brand_id,cata_path,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = " . $product_id;
+		$query_product = "SELECT id,name,price,brand_id,cata_path,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = " . $product_id;
 		$product = mysql_query ( $query_product, $db_conn ) or die ( mysql_error () . "_get_product_from_db_by_id" );
 		$row_product = mysql_fetch_assoc ( $product );
 		// $totalRows_product = mysql_num_rows($product);
@@ -748,32 +795,80 @@ class Cart {
 	 */
 	public function remove($product_id, $attr_value) {
 		
-		unset($_SESSION['cart']['promotion_id']);
-		
-		// 检查这个产品是否在cart中，如果在的话，那么将这个产品从购物车中移除
+		// 检查这个产品是否在cart中，如果不在的话，那么直接返回true
 		if (! $this->_is_product_exits_in_cart_by_id_attr_value ( $product_id, $attr_value )) {
 			return true;
 		}
 		
-		// 如果不在的话，那么直接返回true
+		// 如果在的话，那么将这个产品从购物车中移除
 		$this->_do_remove_from_cart ( $product_id, $attr_value );
 		
-		// 更新产品总价
-		$this->_update_products_total ();
-		
-		// 更新运费
-		$this->_update_shipping_fee ();
-		
-		// 更新订单总价
-		$this->_update_order_total ();
+		$this->_update_promotion_info_for_remove ();
 		return true;
 	}
+	private function _update_fee_promotion($order = array()) {
+		
+		// 为了以后的扩展这里进行了初始化工作
+		if ($order == array ()) {
+			$order = $_SESSION;
+		}
+		
+		// 更新产品总价
+		$this->_update_products_total ( $order );
+		
+		// 更新运费
+		$this->_update_shipping_fee ( $order );
+		
+		// 更新订单总价
+		$this->_update_order_total ( $order );
+		
+		$this->_update_promotion_info_for_remove ( $order );
+	}
+	
+	/**
+	 * 更新购物车中的商品总价
+	 * 
+	 * @return number
+	 */
+	function _update_promotion_info_for_remove($order = array()) {
+		
+		// 获取订单的费用
+		if ($order == array ()) {
+			$order = $_SESSION ['cart'];
+		}
+		
+		$products = $order ['products']; // 获取订单的
+		$products_fee = $order ['products_total']; // 获取所有的产品配用
+		$shipping_fee = $order ['shipping_fee']; // 获取运费费用
+		                                         
+		// 这里需要将所有已经享受的促销删除
+		$order ['promotion_id'] = "";
+		
+		// 获取订单的促销信息
+		$promotion_fee_obj = $this->_123phpshop_get_promotion_fee ( $products_fee, $order ); // 获取促销费用数据
+		$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
+		$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
+		$promotion_fee_promotion_ids = $promotion_fee_obj ['promotion_ids'];
+		
+		// 获取订单可以享受到的促销总费用
+		$order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
+		                                                                                                    
+		// 更新订单总额
+		$this->_do_update_order_fee ( $shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
+		                                                                                                                          
+		// 清除购物车中的赠品
+		$this->_123phpshop_clear_order_presents ();
+		
+		// 将赠品添加到购物车中
+		$this->_123phpshop_add_order_presents ( $order, $promotion_presents );
+	}
+	
 	/**
 	 * 从购物车中删除某个产品。
-	 *
+	 * 
 	 * @param unknown_type $product_id        	
 	 */
-	function _do_remove_from_cart($product_id, $attr_value) {
+	private function _do_remove_from_cart($product_id, $attr_value) {
 		// 循环购物车中的所有产品，然后检查他们的产品id，如果当前的产品id和我们所需要的产品id是一致的话删除。
 		for($i = 0; $i < count ( $_SESSION ['cart'] ['products'] ); $i ++) {
 			if (( int ) $_SESSION ['cart'] ['products'] [$i] ['product_id'] == ( int ) $product_id && $_SESSION ['cart'] ['products'] [$i] ['attr_value'] == $attr_value) {
@@ -841,20 +936,28 @@ class Cart {
 		
 		// 对订单中的每个产品的总价进行累加
 		foreach ( $_SESSION ['cart'] ['products'] as $product ) {
+			
+			// 如果商品是赠品的话,那么直接跳过
+			if (isset ( $product ['is_present'] ) && $product ['is_present'] == 1) {
+				continue;
+			}
+			
+			// 如果商品的价格没有设置的话
 			if (! isset ( $product ['product_price'] )) {
 				continue;
 			}
 			
+			$price = $product ['product_price'];
 			// 这里需要检查是否在促销区间之内，如果在促销期间之内那么商品的价格将会是促销价格
 			if ($product ['is_promotion'] == "1" && (date ( 'Y-m-d' ) >= $product ['promotion_start']) && (date ( 'Y-m-d' ) <= $product ['promotion_end'])) {
 				$price = $product ['promotion_price'];
-			} else {
-				$price = $product ['product_price'];
 			}
-			
-			 $product_total += floatval ( $product ['product_price'] ) * $product ['quantity'];
+			// 商品的总价=商品价格×商品的数量
+			$product_total += floatval ( $product ['product_price'] ) * $product ['quantity'];
 		}
- 		$_SESSION ['cart'] ['products_total'] = $product_total;
+		
+		// 更新商品的总价格
+		$_SESSION ['cart'] ['products_total'] = $product_total;
 	}
 	
 	/**
@@ -863,7 +966,7 @@ class Cart {
 	function _update_shipping_fee() {
 		require_once ($_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/order.php");
 		$shipping_fee = get_shipping_fee ();
-  		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee ['shipping_fee'];
+		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee ['shipping_fee'];
 		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee ['shipping_fee_plan'];
 		return true;
 	}
@@ -879,6 +982,8 @@ class Cart {
 	
 	// 更新订单总价
 	function _update_order_total() {
-		return $_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['products_total'] );
+		return $_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['product<?php
+mysql_free_result($get_product_image);
+?>s_total'] );
 	}
 }
