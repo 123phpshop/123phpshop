@@ -85,13 +85,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	}
 
 //	如果需要上架的话
- $updateSQL = sprintf("UPDATE product SET is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,pointers=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
+ $updateSQL = sprintf("UPDATE product SET is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
 						GetSQLValueString($_POST['is_promotion'], "text"),
 						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
-						GetSQLValueString($_POST['pointers'], "int"),
-						GetSQLValueString($_POST['is_shipping_free'], "int"),
+ 						GetSQLValueString($_POST['is_shipping_free'], "int"),
 						GetSQLValueString($_POST['meta_keywords'], "text"),
 						GetSQLValueString($_POST['meta_desc'], "text"),
 						GetSQLValueString($_POST['description'], "text"),

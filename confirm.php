@@ -51,15 +51,22 @@ if(!isset($_SESSION['user_id'])){
 
 
 $cart_obj = new Cart ();
-$cart = $cart_obj->get ();
-$cart = $cart_obj->update_fee(); //  这里可以防止用户在购物车和订单确认之间进行跳转的时候管理员更新了货物的价格所可能造成的价格错误
-$cart_products = $cart ['products'];
 
-//	检查购物车是否有产品，如果没有产品的话，那么直接跳转到购物车页面
+
+$cart = $cart_obj->get ();
+
+$cart_obj->update_fee(); //  这里可以防止用户在购物车和订单确认之间进行跳转的时候管理员更新了货物的价格所可能造成的价格错误
+ $cart_products = $cart ['products'];
+
+
+ //	检查购物车是否有产品，如果没有产品的话，那么直接跳转到购物车页面
 if(count($cart_products)==0){
 	 $url="/cart.php";
   	header("Location: " .  $url );
 }
+
+
+
 
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -104,7 +111,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 	$sn=gen_order_sn();
 	$should_paid=$_SESSION['cart']['order_total'];
 	$actual_paid="0.00";
-    $insertSQL = sprintf("INSERT INTO orders (products_total,shipping_fee,sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s,%s, %s, %s)",
+    $insertSQL = sprintf("INSERT INTO orders (products_total,shipping_fee,sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,promotion_id,promotion_fee) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s,%s, %s, %s)",
 					   GetSQLValueString($_SESSION['cart']['products_total'], "double"),
  					   GetSQLValueString($_SESSION['cart']['shipping_fee'], "double"),
 					   GetSQLValueString($sn, "text"),
@@ -124,11 +131,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 					   GetSQLValueString($_SESSION['consignee']['district'], "text"),
 					   GetSQLValueString($_SESSION['consignee']['address'], "text"),
 					   GetSQLValueString($_SESSION['consignee']['zip'], "text"),
-					   GetSQLValueString($_SESSION['consignee']['mobile'], "text")
- 					   );
+					   GetSQLValueString($_SESSION['consignee']['mobile'], "text"),
+					   GetSQLValueString($_SESSION['cart']['promotion_id'], "text"),
+					   GetSQLValueString($_SESSION['cart']['promotion_fee'], "double")					   );
   
-   $Result1 = mysql_query($insertSQL) or die(mysql_error());
-  	$order_id=mysql_insert_id();
+	$Result1 = mysql_query($insertSQL) or die(mysql_error());
+	$order_id=mysql_insert_id();
   
   //	检查参数，如果参数不正确的话，能否告知？
   
@@ -152,9 +160,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 
 	
 	// 发送邮件通知
-	$email_template_code=200;
-	require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
-	
+	try{
+		$email_template_code=200;
+		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+	}catch(Exception $ex){
+		// 如果发送失败，这里需要记录进入日志
+	}
 	//	  如果成功，那么跳转到付款页面
 	$MM_redirectLoginSuccess="payoff.php?order_sn=".$sn;
 	header("Location: " . $MM_redirectLoginSuccess );
@@ -220,7 +231,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 </head>
 
 <body style="margin:0px;">	
-<?php 	include_once('widget/top_full_nav.php'); ?>
+ <?php 	include_once('widget/top_full_nav.php'); ?>
 <?php  	include_once('widget/logo_step.php'); ?>
 <div align="left" style="width:990px;margin:0 auto;height:42px;line-height:42px;font-size:16px;color:#666;">填写并核对订单信息</div>
 <table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#F0F0F0">
@@ -375,9 +386,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
                 </tr>
                  <?php
 					foreach ( $cart_products as $cart_products_item ) {
-						if(!isset($cart_products_item ['product_name'])){
+						/*if(!isset($cart_products_item ['product_name'])){
 							continue;
-						}	
+						}	*/
 						mysql_select_db($database_localhost, $localhost);
 						$query_product_image = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = ".$cart_products_item['product_id'];
 						$product_image = mysql_query($query_product_image, $localhost) or die(mysql_error());
@@ -388,7 +399,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 				<tr>
                   <td height="102" rowspan="2" align="center" valign="top"><a href="/product.php?id=<?php echo $cart_products_item['product_id'];?>"><img style="border:1px solid #ddd;padding:1px;" src="<?php echo $row_product_image['image_files']==NULL?"/uploads/default_product.png":$row_product_image['image_files']; ?>" alt="正在下载..." width="82" height="82" /></a></td>
                   <td width="240" height="102" valign="top"><?php
-					echo $cart_products_item ['product_name'];
+		echo isset($cart_products_item ['product_name'])?$cart_products_item ['product_name']:$cart_products_item ['name'];
 					?><br /><?php
 					echo str_replace(";"," ",$cart_products_item ['attr_value']);
 					?></td>
@@ -448,7 +459,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
   </tr>
   <tr>
     <td><div align="right">返现：</div></td>
-    <td><div align="right">-￥0.00</div></td>
+    <td><div align="right">-￥<?php echo  $_SESSION['cart']['promotion_fee'];?></div></td>
   </tr>
   <tr>
     <td><div align="right">运费：</div></td>
@@ -601,11 +612,6 @@ function _set_consignee_as_unselected(id){
 			 }
   		});
 	 
-}
-function _set_consignee_id(id){
-}
-function toggle_consignee_op(id){
-
 }
 
 function check_consignee(){

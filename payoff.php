@@ -95,7 +95,7 @@ margin:0px 3px;
           <td width="215"><label>
             <input name="pay_method" type="radio" value="<?php echo $row_pay_method['id']; ?>" <?php if($checked){ ?>checked<?php }?> />
             </label>
-          <?php echo $row_pay_method['name']; ?></td>
+          支付宝<?php echo $row_pay_method['name']; ?></td>
         <td width="641"></td>
         <td width="74" colspan="2"><p align="right">
           <input style="margin-right:10px;border-radius:4px;width:106px;height:34px;border:1px solid #54bef5;background-color:#54bef5;color:#ffffff;font-size:12px;" type="submit" name="Submit" value="立即支付" />

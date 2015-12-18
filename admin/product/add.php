@@ -58,13 +58,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,pointers,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
  					 GetSQLValueString($_POST['is_promotion'], "int"),
   						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
-						GetSQLValueString($_POST['pointers'], "int"),
-					   GetSQLValueString($_POST['is_shipping_free'], "int"),
+ 					   GetSQLValueString($_POST['is_shipping_free'], "int"),
 					   GetSQLValueString($_POST['meta_keywords'], "text"),
 					   GetSQLValueString($_POST['meta_desc'], "text"),
 					   GetSQLValueString($_POST['description'], "text"),
@@ -86,13 +85,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,pointers,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+ $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
  					GetSQLValueString($_POST['is_promotion'], "int"),
 						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
-						GetSQLValueString($_POST['pointers'], "int"),
-					   GetSQLValueString($_POST['is_shipping_free'], "int"),
+ 					   GetSQLValueString($_POST['is_shipping_free'], "int"),
 					   GetSQLValueString($_POST['meta_keywords'], "text"),
 					   GetSQLValueString($_POST['meta_desc'], "text"),
 					   GetSQLValueString($_POST['description'], "text"),

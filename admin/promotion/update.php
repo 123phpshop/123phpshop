@@ -133,7 +133,7 @@ $totalRows_promotion = mysql_num_rows($promotion);
     </tr>
        <tr valign="baseline"> 
       <td align="right">促销类型:</td> 
-      <td>满 <input name="amount_lower_limit" maxlength="10" id="amount_lower_limit"  type="text" value="<?php echo $row_promotion['amount_lower_limit'];?>"/> 元 <select name="promotion_type"  id="promotion_type" onchange="promotion_type_filter()">
+      <td>满 <input name="amount_lower_limit" maxlength="10" id="amount_lower_limit"  type="text" value="<?php echo (int)$row_promotion['amount_lower_limit'];?>"/> 元 <select name="promotion_type"  id="promotion_type" onchange="promotion_type_filter()">
 	  	<?php foreach($const_promotion_types as $key=>$value){ ?>
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_type']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
        	<?php } ?>

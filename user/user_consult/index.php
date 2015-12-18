@@ -85,6 +85,12 @@ function _get_consult_where_query_string(){
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="../../css/common_user.css" rel="stylesheet" type="text/css" />
+<style>
+a{
+	text-decoration:none;
+	color:#005EA7;
+}
+</style>
 </head>
 
 <body>

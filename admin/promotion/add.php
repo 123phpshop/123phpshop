@@ -121,7 +121,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 			<option value="<?php echo $key;?>"><?php echo $value;?></option>
        	<?php } ?>
       </select>
-         <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="32" style="display:none;"/>[如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入满折的百分比，例如：70，就是输入70%]
+         <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="32" style="display:none;"/>
+         [如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入折扣的百分比例如：7折，就输入70%]
       </td>
     </tr>
     <tr valign="baseline" id="presents_tr">

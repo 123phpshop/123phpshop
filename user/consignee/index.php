@@ -104,6 +104,10 @@ body {
 table{
 	border-collapse:collapse;
 }
+a{
+	text-decoration:none;
+	color:#005EA7;
+}
 -->
 </style>
  <link href="../../css/common_user.css" rel="stylesheet" type="text/css" />
@@ -162,7 +166,7 @@ table{
                  
             <table width="100%" border="2" cellpadding="5" cellspacing="0" bordercolor="#e6e6e6">
               <tr>
-                <td><table width="100%" border="0" cellpadding="0">
+                <td><table width="100%" border="0" cellpadding="0" bordercolor="#e6e6e6">
                   <tr>
                     <td height="35"><span class="STYLE3"><?php echo $row_consignees['name']; ?></span></td>
                     <td><?php if($row_consignees['is_default']=='1'){?>

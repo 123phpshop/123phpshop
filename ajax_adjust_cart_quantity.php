@@ -28,11 +28,11 @@ try{
 	}
 	
  	$result['data']['total_price']=$_SESSION ['cart'] ['order_total'];
-	
+	$result['data']['shipping_fee']=$_SESSION ['cart'] ['shipping_fee'];
+	$result['data']['products_total']=$_SESSION ['cart'] ['products_total'];
+	$result['data']['promotion_fee']=$_SESSION ['cart'] ['promotion_fee'];
 }catch(Exception $ex){
-	
-	$result=array('code'=>'1','message'=>$ex->getMessage());
+ 	$result=array('code'=>'1','message'=>$ex->getMessage());
 }
-
-
+ 
 die(json_encode($result));

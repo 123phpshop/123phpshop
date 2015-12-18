@@ -120,13 +120,10 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
 		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
 		$promotion_names = mysql_query($query_promotion_names, $localhost) or die(mysql_error());
  		$totalRows_promotion_names = mysql_num_rows($promotion_names);	?>	
-	 <?php do { ?>
+	 <?php while ($row_promotion_names = mysql_fetch_assoc($promotion_names)) { ?>
          <a href="../promotion/update.php?id=<?php echo $row_promotion_names['id']; ?>"><?php echo $row_promotion_names['name']; ?></a>
-       <?php } while ($row_promotion_names = mysql_fetch_assoc($promotion_names)); ?>
-	  <?php }else{
-	 	echo "未设置";
-	 }
- 	 ?>
+       <?php } ?>
+	  <?php }else{	 	echo "未设置";	 } 	 ?>
      </td>
    </tr>
   <tr>
@@ -196,7 +193,7 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
 		 <td scope="col" style="font-weight:bold;text-align:center;">￥<?php echo $row_products['should_pay_price']; ?></td>
 		 
         <td scope="col" style="color:#FF0000;font-weight:bold;text-align:center;">￥<?php echo (float)$row_products['should_pay_price']*$row_products['quantity']; ?></td>
-        <td scope="col"><a onclick="return confirm('您确实要删除这个商品吗？')" href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a> <a href="update_order_item.php?id=<?php echo $row_products['id']; ?>"></a></td>
+        <td scope="col"><?php if($row_products['is_present']==0){ ?><a onclick="return confirm('您确实要删除这个商品吗？')" href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a><?php } ?></td>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>

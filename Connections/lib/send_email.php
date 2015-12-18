@@ -54,6 +54,7 @@ if($totalRows_email_template==0){
 		return;
 }
 
+require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/email.php");
 // 如果可以获取的话，那么发送邮件即可
 phpshop123_send_email($shop_email,$row_email_template['code'],$row_email_template['content']);
 ?>

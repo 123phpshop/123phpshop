@@ -60,6 +60,13 @@ th{
  	color:#666666;
 	font-size:12px;
 	font-weight:bold;
+	border:1px solid #f2f2f2;
+}
+tr{
+	border:1px solid #f2f2f2;
+}
+td{
+	border:1px solid #f2f2f2;
 }
 
 div{
@@ -82,7 +89,7 @@ div{
   </tr>
   <tr>
     <td scope="row"><table width="97%" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
-      <tr style="background-color:#f5f5f5;">
+      <tr style="background-color:#f5f5f5;border:1px solid #f2f2f2;">
         <td width="430" height="31" scope="row"><div align="left" style="padding-left:20px;">商品名称</div></td>
         <td width="306" height="31"><div align="center">本店价格</div></td>
         <td width="576" height="31"><div align="center">商品数量</div></td>
@@ -136,7 +143,7 @@ div{
     </tr>
     <tr>
       <td scope="row"> <table width="97%" height="408" border="1" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
-          <tr>
+          <tr style="border:1px solid #f2f2f2;">
             <td width="110" height="29" scope="row" ><div align="left" style="padding-left:20px;">订单编号</div></td>
             <td height="29"><div align="left" style="padding-left:20px;"><?php echo $row_order['sn']; ?></div></td>
           </tr>

@@ -92,11 +92,11 @@ do {
   <input type="radio" name="is_virtual" value="0" <?php if (( !isset($is_vproduct_add_page) && (!(strcmp($row_product['is_virtual'],"0")) || !isset($row_product['is_virtual'])))) {echo "CHECKED";} ?> />
 否</td>
     </tr> 
-	<tr valign="baseline">
+	<!--tr valign="baseline">
       <td nowrap align="right">赠送点数:</td>
       <td><input type="text" name="pointers" id="pointers" value="<?php echo isset($row_product['pointers'])?$row_product['pointers']:-1; ?>"/>
       [默认是-1，也就是按照商品价格提供点数，如果商品的价格是小数，那么取上值，例如3.1元会给予4个积分]*</td>
-    </tr>
+    </tr-->
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠产品:</td>

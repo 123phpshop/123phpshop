@@ -21,7 +21,6 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
 ?>
 <?php
-
 $cart_obj = new Cart ();
 if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	$cart_obj->add ( $_POST );
@@ -183,7 +182,11 @@ include_once ('widget/logo_search.php');
 					echo $cart_products_item ['attr_value'];
 					?>">
 			    <?php
-					echo $cart_products_item ['product_price'];
+					$product_price=$cart_products_item ['product_price'];
+					if($cart_products_item ['is_present']==1){
+						$product_price="0.00";
+					}
+					echo $product_price;
 					?>
 			    </span></div></td>
 				<td width="93" height="107">
@@ -239,7 +242,12 @@ include_once ('widget/logo_search.php');
 					echo $cart_products_item ['attr_value'];
 					?>">
 			    <?php
-					echo floatval($cart_products_item ['quantity'] * $cart_products_item ['product_price']);
+					
+					$sub_total=floatval($cart_products_item ['quantity'] * $cart_products_item ['product_price']);
+					if($cart_products_item ['is_present']==1){
+						$sub_total="0.00";
+					}
+					echo $sub_total;
 					?>
 			    </strong></div></td>
 				<td width="52" height="107">
@@ -262,14 +270,32 @@ include_once ('widget/logo_search.php');
 			cellpadding="0" cellspacing="0" bordercolor="#dddddd">
 			<tr>
 				<td>
-					<table width="187" border="0" align="right">
+					<table  border="0" align="right">
 						<tr>
-							<td><span class="STYLE3">总价：<span class="STYLE4">￥<span
+						  <td valign="bottom" class="STYLE3"><div align="left" style="padding-right:10px;"><span class="STYLE3">商品总价:￥ <span id="products_total">
+					      <?php
+			echo $cart ['products_total'];
+			?></span>
+					      </span></div></td>
+						  <td valign="bottom" class="STYLE3"><div align="left" style="padding-right:10px;"><span class="STYLE3">运费:￥			 <span id="shipping_fee">			    
+					      <?php
+			echo $cart ['shipping_fee'];
+			?></span>
+					      </span></div></td>
+							<td valign="bottom" class="STYLE3"><div align="left" style="padding-right:10px;">促销:<span class="STYLE3">￥
+                          <span id="promotion_fee">      <?php
+			echo $cart ['promotion_fee'];
+			?></span>
+							</span></div></td>
+							<td><span class="STYLE3" style="font-size:14px;font-weight:bold;padding-right:10px;">总价:<span class="STYLE4">￥<span
 										id="cart_total_price"><?php
 			echo $cart ['order_total'];
 			?></span></span></span></td>
 						</tr>
 						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 						</tr>
 					</table>
@@ -329,9 +355,16 @@ function delete_cart_product(product_id,attr_value){
 //		更新总价
 	_update_total_price(data.data.total_price);
 	_update_sub_total(product_id,attr_value);
+	_update_fee(data.data);
 	return false;
  	},'json');
  	return false;
+}
+
+function _update_fee(data){
+	$("#shipping_fee").html(data.shipping_fee);
+	$("#promotion_fee").html(data.promotion_fee);
+	$("#products_total").html(data.products_total);
 }
 
 function _update_total_price(total_price){
@@ -346,6 +379,5 @@ function _update_sub_total(product_id,attr_value){
 }
 
 </script>
-<?php var_dump($_SESSION['cart']);?>
 </body>
 </html>

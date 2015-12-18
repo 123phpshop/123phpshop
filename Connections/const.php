@@ -49,7 +49,7 @@ $order_status[300]='已收货';
 
 $const_promotion_types[1]="赠";
 $const_promotion_types[2]="减";
-$const_promotion_types[3]="折";
+//$const_promotion_types[3]="折";
 
 $const_promotion_limit[1]="全场";
 $const_promotion_limit[2]="选定分类";
