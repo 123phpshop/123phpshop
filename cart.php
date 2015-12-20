@@ -89,6 +89,7 @@ a:hover {
 </head>
 
 <body style="margin: 0px;">
+
 <?php
 include_once ('widget/top_full_nav.php');
 ?>
@@ -97,7 +98,7 @@ include_once ('widget/top_full_nav.php');
 include_once ('widget/logo_search.php');
 ?>
 <p>
-  <?php
+<?php
 		if (empty ( $cart_products )) {
 			?>
 </p>
@@ -356,6 +357,7 @@ function delete_cart_product(product_id,attr_value){
 	_update_total_price(data.data.total_price);
 	_update_sub_total(product_id,attr_value);
 	_update_fee(data.data);
+	window.location.reload();
 	return false;
  	},'json');
  	return false;
@@ -379,5 +381,6 @@ function _update_sub_total(product_id,attr_value){
 }
 
 </script>
+
 </body>
 </html>

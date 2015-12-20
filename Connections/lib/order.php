@@ -54,13 +54,14 @@ function phpshop123_order_add_product($order, $product) {
 	$product_in_order = _123phpshop_product_is_in_order ( $order, $product ); // 检查订单中是否有这个产品
 	$order_product_is_present = $product_in_order ['is_present'] == "1" ? true : false; // 订单中已有的产品是否是赠品
 	                                                                                    
-	// 1. 如果订单中没有这个商品，并且商品是赠品的话
+	// 1. 如果订单中没有这个商品，并且商品是赠品的话,那么直接添加商品
 	if (! $product_in_order && $product_is_present) {
-		_123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+		$iorder = _123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
+		phpshop123_update_order_fee ( $iorder ); // 直接插入当前产品记录
 		return true;
 	}
 	
-	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话
+	// 2. 如果订单中没有这个商品,而且当前商品不属于赠品的话，那么添加商品然后更新订单的费用和促销信息
 	if (! $product_in_order && ! $product_is_present) {
 		$iorder = _123phpshop_order_do_add_product ( $order, $product ); // 直接插入当前产品记录
 		phpshop123_update_order_fee ( $iorder ); // 更新订单的费用和促销信息
@@ -406,6 +407,7 @@ global $db_conn;
  */
 function get_shipping_fee($order = array()) {
 	
+ 	
 	// 获取这个订单的所有商品的总重量和总数量
 	if ($order == array ()) {
 		$order = $_SESSION ['cart'];
@@ -705,25 +707,33 @@ function phpshop123_update_order_fee($order) {
 	$promotion_fee = 0.00;
 	$order_total = 0.00;
 	
-	// 获取订单的费用
+	// 获取订单的商品
 	$products = _get_products_by_order_id ( $order ['id'] );
 	$product_fee = _123phpshop_get_product_fee ( $products ); // 获取所有的产品配用
 	
-	$shipping_fee_array = get_shipping_fee ( $order );
-	$shipping_fee = $shipping_fee_array ['shipping_fee']; // 获取运费费用
-	$shipping_fee_plan = $shipping_fee_array ['shipping_fee_plan']; // 获取快递公司
 	                                                                
-	// 获取订单的促销信息
+	// 根据订单的商品获取促销信息
 	$promotion_fee_obj = _123phpshop_get_promotion_fee ( $product_fee, $order ); // 获取促销费用数据
 	
 	$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
 	$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
 	$original_promotion_ids = explode ( ",", $order ['promotion_id'] );
 	
+ 	// 如果有赠品的话，那么将赠品添加到订单中，这是个数据库操作
+	$order=_123phpshop_add_order_presents ( $order, $promotion_presents );
+	
+	
+	
+	// 获取订单的运费信息
+	$shipping_fee_array = get_shipping_fee ( $order );
+	$shipping_fee = $shipping_fee_array ['shipping_fee']; // 获取运费费用
+	$shipping_fee_plan = $shipping_fee_array ['shipping_fee_plan']; // 获取快递公司
+	
 	// 将之前的促销和本次可以享受的促销进行合并，并去除重复的元素
 	$promotion_id_array = array_merge ( $original_promotion_ids, $promotion_fee_obj ['promotion_ids'] );
 	$promotion_id_array = array_unique ( $promotion_id_array );
 	$promotion_id_array = array_filter ( $promotion_id_array );
+	
 	
 	// 检查促销计划里面是否已经存在，
 	$promotion_fee_promotion_ids = implode ( ",", $promotion_id_array ); //
@@ -734,10 +744,9 @@ function phpshop123_update_order_fee($order) {
 	// 获取订单总额
 	$order_total = _123phpshop_get_order_total ( $product_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
 	
+	// 更新订单的各项费用，这是个数据库操作
 	_do_update_order_fee ( $order ['id'], $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids ); // 更新db中的数据
 	                                                                                                                                                     
-	// 如果有赠品的话，那么将赠品添加到订单中
-	_123phpshop_add_order_presents ( $order, $promotion_presents );
 }
 
 /**
@@ -785,11 +794,23 @@ function _123phpshop_get_product_fee($products) {
 function _123phpshop_add_order_presents($order, $promotion_presents) {
 	// 如果赠品的数量为0的话，那么直接退出
 	if (count ( $promotion_presents ) == 0) {
-		return;
+		return $order;
 	}
+	 
 	
 	// 如果》0的话，那么循环这些赠品，
 	foreach ( $promotion_presents as $product_id ) {
+	
+		// 获取这个商品.然后添加到模型层里面
+		$product=_123phpshop_get_product_by_id($product_id);
+		$product['is_present']=1;
+		$product['product_price']=0.00;
+		$product['should_pay_price']=0.00;
+		$product['quantity']=1;
+		$order['products'][]=$product;
+		
+		
+		// 添加到数据库里面
 		global $db_conn;
 		global $db_database_localhost;
 		mysql_select_db ( $db_database_localhost );
@@ -799,6 +820,8 @@ function _123phpshop_add_order_presents($order, $promotion_presents) {
 			throw new Exception ( "系统错误，请联系123phpshop.com寻求解决方案" );
 		}
 	}
+	
+	return $order;
 }
 
 /**

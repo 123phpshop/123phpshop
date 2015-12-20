@@ -74,9 +74,9 @@ abstract class Order implements IOrder {
 		// 如果在的话，那么将这个产品从购物车中移除
 		$this->_remove_from_order ( $product_id, $attr_value );
 		
-  		// 更新商品的总额
+		// 更新商品的总额
 		$this->_update_product_total ();
- 		
+		
 		$this->_update_shipping_fee ();
 		// 更新促销费用
 		$this->_update_promotion_info_for_remove ();
@@ -109,11 +109,11 @@ abstract class Order implements IOrder {
 			$promotion_fee_promotion_ids = "";
 			$shipping_fee = 0.00;
 			$products_fee = 0.00;
-			$order_total=0.00;
-			$shipping_method_id=0;
+			$order_total = 0.00;
+			$shipping_method_id = 0;
 		} else {
 			$promotion_fee_obj = $this->_123phpshop_get_promotion_fee ( $this->order ['products_total'], $this->order ); // 获取促销费用数据
-			$products_fee = $this->order ['products_total']; // 获取所有的产品配用
+			$products_fee = $this->order ['products_total']; // 获取所有的商品费用
 			$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
 			$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
 			$promotion_fee_promotion_ids = implode ( ",", $promotion_fee_obj ['promotion_ids'] );
@@ -123,10 +123,13 @@ abstract class Order implements IOrder {
 			// 将赠品添加到购物车中
 			$this->_123phpshop_add_order_presents ( $promotion_presents );
 			
-			// 获取
+		
+ 			
+			// 获取运费信息
 			$shipping_fee_array = get_shipping_fee ( $this->order );
 			$shipping_fee = $shipping_fee_array ['shipping_fee'];
 			$shipping_method_id = $shipping_fee_array ['shipping_fee_plan'];
+			
 			$order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
 		}
 		// 更新订单总额
@@ -135,6 +138,7 @@ abstract class Order implements IOrder {
 	
 	/**
 	 * 获取促销的金额，计划和赠品
+	 * 
 	 * @param unknown $products_fee        	
 	 * @param unknown $order        	
 	 * @return number[]|number[]|unknown
@@ -165,8 +169,8 @@ abstract class Order implements IOrder {
 			
 			// 检查促销的使用范围，如果是全场的话，那么直接添加
 			if ($promotion_plan ['promotion_limit'] == "1" && ( float ) $products_fee > ( float ) $promotion_plan ['amount_lower_limit']) {
- 				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $products_fee );
- 				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
+				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $products_fee );
+				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
 				// 如果这个促销是满增的话，那么将赠品添加到结果中
 				if (count ( $promotion_fee_presents ['presents'] ) > 0) {
 					$results ['presents'] = array_merge ( $promotion_fee_presents ['presents'], $results ['presents'] );
@@ -419,7 +423,7 @@ abstract class Order implements IOrder {
 			}
 		}
 		sort ( $this->order ['products'] );
- 		$this->_do_remove_from_order ( $product_id, $attr_value );
+		$this->_do_remove_from_order ( $product_id, $attr_value );
 		return true;
 	}
 	abstract function _do_remove_from_order($product_id, $attr_value);
@@ -446,24 +450,22 @@ abstract class Order implements IOrder {
 				continue;
 			}
 			
-			
 			// 默认情况下商品的价格就是它的本身
 			
-			if(!key_exists("product_price", $product)){
+			if (! key_exists ( "product_price", $product )) {
 				$price = $product ['should_pay_price'];
-			}else{
+			} else {
 				$price = $product ['product_price'];
 			}
 			
- 			
 			// 这里需要检查是否在优惠日之内，如果在促销期间之内那么商品的价格将会是促销价格
-			if (isset($product ['is_promotion']) && $product ['is_promotion'] == "1" && (date ( 'Y-m-d' ) >= $product ['promotion_start']) && (date ( 'Y-m-d' ) <= $product ['promotion_end'])) {
+			if (isset ( $product ['is_promotion'] ) && $product ['is_promotion'] == "1" && (date ( 'Y-m-d' ) >= $product ['promotion_start']) && (date ( 'Y-m-d' ) <= $product ['promotion_end'])) {
 				$price = $product ['promotion_price'];
 			}
 			
 			// 最后计算商品的总价=商品价格×商品的数量
-			  $products_total += floatval ( $price ) * $product ['quantity'];
- 		}
+			$products_total += floatval ( $price ) * $product ['quantity'];
+		}
 		
 		// 更新商品的总价格
 		$this->order ['products_total'] = $products_total;
@@ -533,10 +535,12 @@ class AdminOrder extends Order {
 	 */
 	final function _123phpshop_do_update_order_fee($shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids, $shipping_fee_plan) {
 		global $db_conn;
-		/*$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s where id=%s", $products_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $this->order ['id'] );
-		if ($promotion_fee_promotion_ids != '') {*/
-			$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s,promotion_id='%s' where id=%s", $products_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids, $this->order ['id'] );
-		//}
+		/*
+		 * $sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s where id=%s", $products_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $this->order ['id'] );
+		 * if ($promotion_fee_promotion_ids != '') {
+		 */
+		$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s,promotion_id='%s' where id=%s", $products_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids, $this->order ['id'] );
+		// }
 		
 		$result = mysql_query ( $sql, $db_conn );
 		if (! $result) {
@@ -559,9 +563,12 @@ class AdminOrder extends Order {
 		
 		// 如果》0的话，那么循环这些赠品，
 		foreach ( $promotion_presents as $product_id ) {
+			
 			$product = $this->_get_product_from_db_by_id ( $product_id );
 			$product ['is_present'] = 1;
+			$product ['quantity'] = 1;
 			$product ['should_pay_price'] = 0.00;
+			$product ['product_price'] = 0.00;
 			$this->order ['products'] [] = $product;
 			
 			global $db_conn;

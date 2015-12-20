@@ -23,7 +23,8 @@ $product_id=(int)($_POST['product_id']);
 $quantity= (int)($_POST['quantity']);
 $attr_value=$_POST['attr_value'];
 try{
-	if($quantity!=0){
+	
+	if($quantity>0){
 		$cart_obj->change_quantity($product_id, $quantity,$attr_value);
 	}
 	
