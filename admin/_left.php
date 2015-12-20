@@ -148,10 +148,11 @@ $().ready(function(){
 	
 $("a").click(function(){
   	$("a[parent="+$(this).attr('id')+"]").each(function(){
- 		if($(this).attr("style")=="display: none;"){
-			$(this).attr("style","display: inline;");
+		
+  		if($(this).css('display')=='none'){
+ 			$(this).css("display","inline");
  		}else{
-			$(this).attr("style","display: none;");
+			$(this).css("display","none");
 		}
 		
 	});
