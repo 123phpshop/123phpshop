@@ -27,7 +27,7 @@ $totalRows_shop_info = mysql_num_rows($shop_info);
   <tr>
     <td width="50%" height="60"><table width="275" height="60" border="0">
       <tr>
-        <td><a href="../index.php"><img src="<?php echo $row_shop_info['logo_path']; ?>" width="270" height="60" border="0"></a></td>
+        <td><a href="/index.php"><img src="<?php echo $row_shop_info['logo_path']; ?>" width="270" height="60" border="0"></a></td>
       </tr>
     </table></td>
     <td height="60"><table width="321" height="60" border="0" align="right">
@@ -35,7 +35,7 @@ $totalRows_shop_info = mysql_num_rows($shop_info);
         <td width="325">
 		<form name="form1" method="get" action="/search.php">
            	<div align="right">
-           	  <input style="border:1px solid #c91623;height:24px;width:260px;"  name="key" type="text" id="key">
+           	  <input style="border:1px solid #c91623;height:24px;line-height:22px;width:260px;margin-top:0px;"  name="key" type="text" id="key">
            	  <input style="border:1px solid #c91623;margin-left:-8px;background:#c91623;width:48px;height:28px;color:#fff;" type="submit" name="Submit" value="搜索">
          	      </div>
 		</form>        </td>
