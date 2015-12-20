@@ -28,7 +28,6 @@ if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
 
-// phpshop123_send_email_template(200);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

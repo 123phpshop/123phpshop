@@ -38,7 +38,7 @@ $totalRows_catlogs = mysql_num_rows($catlogs);
 
 $query_season = "SELECT * FROM product WHERE is_delete=0 and is_on_sheft=1 and cata_path like '%|".$row_catlogs['id']."|%' limit 6";
 $season = mysql_query($query_season, $localhost) or die(mysql_error());
-echo $totalRows_season = mysql_num_rows($season);
+$totalRows_season = mysql_num_rows($season);
  if($totalRows_season>0){
  ?>
 <table style="" width="1210" border="0" align="center">

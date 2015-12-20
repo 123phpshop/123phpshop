@@ -16,10 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php
-
  
-
-
 function ckeditor_upload(){
 	
 	if($_SERVER['REQUEST_METHOD']=='POST' && $_FILES['upload']['name']!=''){

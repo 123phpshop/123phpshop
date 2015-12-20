@@ -127,6 +127,17 @@ if($verify_result) {//验证成功
 			  
 		$order_log_sql="insert into order_log(order_id,message)values('".$row_order ['id']."','订单支付确认')";
 		mysql_query($order_log_sql, $localhost);
+		
+		// 发送邮件通知
+		try{
+			// 发送邮件通知
+			require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+ 			phpshop123_send_email_template(100,$para);
+		}catch(Exception $ex){
+			// 如果发送失败，这里需要记录进入日志
+			phpshop_log("通知邮件发送错误：100 订单号是:".$colname_order);
+		}
+		
 
     }else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
 	
@@ -198,7 +209,15 @@ if($verify_result) {//验证成功
 	mysql_query($order_log_sql, $localhost);
 
 			phpshop_log("信息：订单更新成功！".$query_order);
-
+// 发送邮件通知
+		try{
+			// 发送邮件通知
+			require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+ 			phpshop123_send_email_template(100,$para);
+		}catch(Exception $ex){
+			// 如果发送失败，这里需要记录进入日志
+			phpshop_log("通知邮件发送错误：100 订单号是:".$colname_order);
+		}
 
 	//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
  	echo "success";		//请不要修改或删除

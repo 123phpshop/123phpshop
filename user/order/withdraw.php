@@ -61,15 +61,21 @@ if($could_withdraw==1){
 		$order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','用户撤销订单')";
 		mysql_query($order_log_sql, $localhost);
 		
-		
 		// 发送邮件通知
- 		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
- 		$para=array();
-		$para['sn']=$row_order['sn'];
-		$para['username']=$_SESSION['username'];
-		phpshop123_send_email_template(300,$para);
+		try{
+			// 发送邮件通知
+			require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
+			$para=array();
+			$para['sn']=$row_order['sn'];
+			$para['username']=$_SESSION['username'];
+			phpshop123_send_email_template(300,$para);
+		}catch(Exception $ex){
+			// 如果发送失败，这里需要记录进入日志
+			phpshop_log("通知邮件发送错误：300 订单号是:".$row_order['sn']);
+		}
+	
 		
- 		$remove_succeed_url="index.php";
+  		$remove_succeed_url="index.php";
 		header("Location: " . $remove_succeed_url );
  	}
 }

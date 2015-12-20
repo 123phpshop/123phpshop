@@ -165,7 +165,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 		require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/send_email.php");
 	}catch(Exception $ex){
 		// 如果发送失败，这里需要记录进入日志
-	}
+		phpshop_log("通知邮件发送错误：200 订单号码是:".$new_order_id);
+  	}
 	//	  如果成功，那么跳转到付款页面
 	$MM_redirectLoginSuccess="payoff.php?order_sn=".$sn;
 	header("Location: " . $MM_redirectLoginSuccess );

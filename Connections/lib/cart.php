@@ -1073,6 +1073,7 @@ class Cart {
 	function _init_cart() {
 		// 检查session是否开启，如果没有开启的话，那么开启session；
 		if (! isset ( $_SESSION )) {
+			include_once $_SERVER['DOCUMENT_ROOT']."/Connections/lib/init_session.php";
 			session_start ();
 		}
 		$_SESSION ['cart'] = array (); // 初始化购物车
