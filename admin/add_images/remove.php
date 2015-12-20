@@ -37,9 +37,8 @@ if($totalRows_ad_images==0){
 
 if($could_delete==1){
 	
-	$if_result=unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
-	if($if_result){
-		$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
+	@unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
+ 		$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
 		$update_catalog_query = mysql_query($update_catalog, $localhost);
 		if(!$update_catalog_query){
 			$could_delete=0;
@@ -47,8 +46,7 @@ if($could_delete==1){
  			$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
 			header("Location: " . $remove_succeed_url );
 		}
-	}
-	
+ 	
 }
 
 

@@ -79,7 +79,7 @@ function _import_sql($admin_username,$admin_password){
 	 // sql文件包含的sql语句数组
  	$templine = '';
  	$lines = file($filename);
-	mysql_query("set names utf8");
+	mysql_query("set names utf8;");
   	foreach ($lines as $line)
 	{
 		// Skip it if it's a comment
@@ -194,7 +194,8 @@ tr{
   </p>
 <?php } ?>
 <form id="install_form" name="install" method="post" action="">
-  <h1 align="center" class="phpshop123_title">上海序程信息科技有限公司123PHPSHOP安装程序</h1>
+  <h1 align="center" class="phpshop123_title">上海序程信息科技有限公司123PHPSHOP安装程序</h1><span style="float:right;display:inline;"><?php  $doc_url="install.html";$support_email_question="安装程序";include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></span>
+  
   <table width="957" border="0" cellpadding="0" cellspacing="0" class="phpshop123_form_box">
     <tr>
       <th colspan="2" scope="row" align="center"><div align="center" class="STYLE1">安装完毕之后请务必删除服务器上的install安装文件夹!</div></th>
@@ -239,7 +240,7 @@ tr{
       </label></td>
     </tr>
   </table>
-  <p align="center">上海序程信息科技有限公司，版权所有，违者必究</p>
+  <p align="center">上海序程信息科技有限公司，版权所有，违者必究!</p>
 </form>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>

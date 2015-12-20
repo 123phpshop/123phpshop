@@ -23,7 +23,8 @@ $ad_products = mysql_query($query_ad_products, $localhost) or die(mysql_error())
 $row_ad_products = mysql_fetch_assoc($ad_products);
 $totalRows_ad_products = mysql_num_rows($ad_products);
 
-
+if($totalRows_ad_products>0){
+ 	 
 ?><style type="text/css">
 <!--
 .proganda_googds_title {	
@@ -81,7 +82,5 @@ hr:last-child{
   </tr>
 </table>
 <?php
-mysql_free_result($ad_products);
-
-mysql_free_result($product_images);
+}
 ?>
