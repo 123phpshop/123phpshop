@@ -16,12 +16,13 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php
-
+global $www_root;
 global $db_hostname_localhost;
 global $db_username_localhost;
 global $db_database_localhost;
 global $db_password_localhost;
 global $db_conn;
+$www_root=$_SERVER['DOCUMENT_ROOT'];
 $db_hostname_localhost=$hostname_localhost;
 $db_username_localhost=$username_localhost;
 $db_database_localhost=$database_localhost;
