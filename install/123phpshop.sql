@@ -163,11 +163,6 @@ CREATE TABLE `member` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Data for the table `member` */
-
-insert  into `member`(`id`,`username`,`password`,`mobile`,`email`,`register_at`,`mobile_confirmed`,`birth_date`,`is_delete`,`last_login_at`,`last_login_ip`,`role_id`) values (1,'admin','4f71147468079971b0220028af7f1c50','13391334121','service@123phpshop.com',NULL,'1',NULL,0,'','127.0.0.1',1);
-
-/*Table structure for table `member_consignee` */
 
 DROP TABLE IF EXISTS `member_consignee`;
 
@@ -395,13 +390,12 @@ CREATE TABLE `privilege` (
   `is_delete` tinyint(1) DEFAULT '0' COMMENT '是否被删除了，默认为否',
   `para` varchar(100) DEFAULT NULL COMMENT '文件的其他query_string',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=181 DEFAULT CHARSET=utf16 COMMENT='权限表';
+) ENGINE=MyISAM AUTO_INCREMENT=181 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 /*Data for the table `privilege` */
 
 insert  into `privilege`(`id`,`name`,`is_menu`,`file_name`,`pid`,`sort`,`is_delete`,`para`) values (1,'访问后台所有内容',0,'/admin',0,20000,0,NULL),(2,'广告管理',1,'',0,500,0,NULL),(3,'添加广告',1,'/admin/ad/add.php',2,200,0,NULL),(4,'查看广告详细',0,'/admin/ad/detail.php',2,20000,0,NULL),(5,'删除广告',0,'/admin/ad/remove.php',2,20000,0,NULL),(6,'订单管理',1,'',0,400,0,NULL),(7,'商品管理',1,'',0,200,0,NULL),(8,'促销管理',1,'',0,300,0,NULL),(9,'报告管理',1,'',0,600,0,NULL),(10,'权限管理',1,'',0,900,0,NULL),(11,'系统设置',1,'',0,1000,0,NULL),(14,'用户列表',1,'/admin/users/index.php',13,100,0,NULL),(15,'添加用户',1,'/admin/users/add.php',13,200,0,NULL),(16,'管理员列表',1,'/admin/admin/index.php',10,100,0,NULL),(17,'数据库备份',0,'/admin/db/backup.php',12,20000,0,NULL),(18,'支付方式',1,'/admin/pay_method/index.php',11,100,0,NULL),(19,'添加支付',1,'/admin/pay_method/add.php',11,200,0,NULL),(20,'配送方式',1,'/admin/shipping_method/index.php',11,300,0,NULL),(21,'添加配送方式',1,'/admin/shipping_method/add.php',11,400,0,NULL),(23,'邮件服务器',1,'/admin/mail/index.php',11,700,0,NULL),(24,'邮件发送设置',1,'/admin/mail/send_when.php',11,800,0,NULL),(25,'邮件模板列表',1,'/admin/email_template/index.php',11,900,0,NULL),(26,'添加邮件模板',1,'/admin/email_template/add.php',11,1000,0,NULL),(27,'区域管理',1,'/admin/area/index.php',11,1100,0,NULL),(28,'友情链接',1,'/admin/friend_links/index.php',11,1200,0,NULL),(29,'添加链接',1,'/admin/friend_links/add.php',11,1300,0,NULL),(32,'角色列表',1,'/admin/roles/index.php',10,300,0,NULL),(31,'添加管理员',1,'/admin/admin/add.php',10,200,0,NULL),(33,'添加角色',1,'/admin/roles/add.php',10,400,0,NULL),(34,'权限列表',1,'/admin/privileges/index.php',10,500,0,NULL),(35,'添加权限',1,'/admin/privileges/add.php',10,600,0,NULL),(36,'密码设置',1,'/admin/admin/update_password.php',10,700,0,NULL),(37,'访问统计',1,'/admin/audistat/index.php',9,100,0,NULL),(38,'促销列表',1,'/admin/promotion/index.php',8,100,0,NULL),(39,'添加促销',1,'/admin/promotion/add.php',8,200,0,NULL),(40,'商品列表',1,'/admin/product/index.php',7,100,0,NULL),(41,'添加商品',1,'/admin/product/add.php',7,200,0,NULL),(42,'商品分类',1,'/admin/catalog/index.php',7,300,0,NULL),(43,'品牌管理',1,'/admin/brands/index.php',7,400,0,NULL),(44,'添加品牌',1,'/admin/brands/add.php',7,500,0,NULL),(45,'商品类型',1,'/admin/product_type/index.php',7,600,0,NULL),(46,'商品类型添加',0,'/admin/product_type',7,20000,0,NULL),(47,'商品评论',1,'/admin/user_comments/index.php',7,700,0,NULL),(48,'商品咨询',1,'/admin/user_consult/index.php',7,800,0,NULL),(49,'商品回收站',1,'/admin/product/recycled.php',7,900,0,NULL),(50,'商品导出',1,'/admin/product/export.php',7,1000,0,NULL),(51,'商品导入',1,'/admin/product/import.php',7,1100,0,NULL),(52,'虚拟商品列表',1,'/admin/product/vindex.php',7,1200,0,NULL),(53,'添加虚拟商品',1,'/admin/product/vadd.php',7,1300,0,NULL),(54,'订单列表',1,'/admin/order/index.php',6,100,0,NULL),(55,'添加订单',1,'/admin/order/add.php',6,200,0,NULL),(56,'订单合并',1,'/admin/order/merge.php',6,300,0,NULL),(57,'发货订单',1,'/admin/order/index.php',6,400,0,'?status=0'),(58,'退货订单',1,'/admin/order/index.php',6,500,0,'?status=-150'),(59,'订单回收站',1,'/admin/order/recycle.php',6,600,0,NULL),(60,'广告列表',1,'/admin/ad/index.php',2,100,0,NULL),(61,'删除用户',0,'/admin/users/remove.php',13,20000,0,NULL),(62,'更新用户信息',0,'/admin/users/update.php',13,20000,0,NULL),(63,'友情链接删除',0,'/admin/friend_links/remove.php',11,20000,0,NULL),(64,'友情链接更新',0,'/admin/friend_links/update.php',11,20000,0,NULL),(65,'邮件模板删除',0,'/admin/email_template/remove.php',11,20000,0,NULL),(66,'管理员删除',0,'/admin/admin/remove.php',10,20000,0,NULL),(67,'删除订单',0,'/admin/order/remove.php',6,20000,0,NULL),(68,'更新广告',0,'/admin/ad/update.php',2,20000,0,NULL),(69,'更新订单',0,'/admin/order/update_order_user.php',6,20000,0,NULL),(98,'商品分类添加',0,'/admin/catalog/index.php',7,20000,0,NULL),(71,'删除订单的产品',0,'/admin/order/remove_order_item.php',6,20000,0,NULL),(72,'查看订单详情',0,'/admin/order/detail.php',6,20000,0,NULL),(73,'邮件模板删除',0,'/admin/email_template/remove.php',11,20000,0,NULL),(74,'邮件模板更新',0,'/admin/email_template/update.php',11,20000,0,NULL),(75,'激活配送方式',0,'/admin/shipping_method/activate.php',11,20000,0,NULL),(76,'激活支付方式',0,'/admin/pay_method/activate.php',11,20000,0,NULL),(77,'停用配送方式',0,'/admin/pay_method/deactivate.php',11,20000,0,NULL),(78,'配送方式停用',0,'/admin/shipping_method/deactivate.php',11,20000,0,NULL),(79,'停用支付方式',0,'/admin/pay_method/deactivate.php',11,20000,0,NULL),(80,'删除促销',0,'/admin/promotion/remove.php',8,20000,0,NULL),(81,'更新促销',0,'/admin/promotion/update.php',8,20000,0,NULL),(82,'删除商品',0,'/admin/product/remove.php',7,20000,0,NULL),(83,'恢复回收站商品',0,'/admin/product/unrecycled.php',7,20000,0,NULL),(84,'回复商品咨询',0,'/admin/user_consult/replay.php',7,20000,0,NULL),(85,'删除商品评论',0,'/admin/user_comments/remove.php',7,20000,0,NULL),(86,'商品咨询删除',0,'/admin/user_consult/remove.php',7,20000,0,NULL),(87,'商品类型删除',0,'/admin/product_type/remove.php',7,20000,0,NULL),(88,'商品类型更新',0,'/admin/product_type/update.php',7,20000,0,NULL),(89,'商品类型的属性添加',0,'/admin/attr_group/add.php',7,20000,0,NULL),(91,'删除角色',0,'/admin/roles/remove.php',10,20000,0,NULL),(92,'角色编辑',0,'/admin/roles/edit.php',10,20000,0,NULL),(93,'权限删除',0,'/admin/privileges/remove.php',10,20000,0,NULL),(94,'权限编辑',0,'/admin/privileges/edit.php',10,20000,0,NULL),(95,'更新订单的收货人',0,'/admin/order/update_order_user.php',6,20000,0,NULL),(96,'为订单添加商品',0,'/admin/order/add_order_item.php',6,20000,0,NULL),(97,'删除订单中的商品',0,'/admin/order/remove_order_item.php',6,20000,0,NULL),(99,'商品分类删除',0,'/admin/product_type/remove.php',7,20000,0,NULL),(100,'商品分类更新',0,'/admin',7,20000,0,NULL),(101,'品牌删除',0,'/admin/brands/remove.php',7,20000,0,NULL),(102,'品牌更新',0,'/admin/brands/update.php',7,20000,0,NULL),(103,'商品类型属性删除',0,'/admin/attr_group/remove.php',7,20000,0,NULL),(104,'商品类型的属性更新',0,'/admin/attr_group/update.php',7,20000,0,NULL),(105,'设置商品的属性',0,'/admin',7,20000,1,NULL),(106,'商品更新',0,'/admin/product/update.php',7,20000,0,NULL),(107,'控制面板',1,'/admin/_main.php',0,100,0,NULL),(13,'用户管理',1,'',0,700,0,NULL),(109,'文章管理',1,'',0,800,0,NULL),(110,'数据库管理',1,'/admin/db/backup.php',0,1100,0,NULL),(111,'数据库导出',1,'/admin/db/backup.php',110,100,0,NULL),(112,'文章列表',1,'/admin/news/index.php',109,100,0,NULL),(113,'文章分类',1,'/admin/news_catalog/index.php',109,200,0,NULL),(114,'文章回收站',1,'/admin/news/recycled.php',109,300,0,NULL),(115,'快递公司',1,'/.buildpath',10,NULL,1,NULL),(116,'店铺信息',1,'/admin/info.php',11,1300,0,NULL),(118,'快递公司',1,'/admin/express_company/index.php',11,50,0,NULL),(119,'权限测试',0,'',0,NULL,1,NULL),(120,'添加文章',1,NULL,109,NULL,1,NULL),(121,'删除文章',0,'/admin/news/remove.php',109,2000,0,NULL),(122,'文章更新',0,'/admin/news/update.php',109,2000,0,NULL),(123,'文章分类添加',0,'/admin/news_catalog/index.php',109,2000,0,NULL),(124,'文章分类删除',0,'/admin/news_catalog/remove.php',109,2000,0,NULL),(125,'文章分类更新',0,'/admin/news_catalog/update.php',109,2000,0,NULL),(126,'文章添加',0,'/admin/news/add.php',109,2000,0,NULL),(127,'文章恢复',0,'/admin/news/unrecycle.php',109,2000,0,NULL),(128,'管理员更新',0,'/admin/admin/update.php',10,2000,0,NULL),(129,'后台首页',0,'/admin/index.php',0,NULL,0,NULL),(130,'添加产品的时候检查产品名称是否存在',0,'/admin/product/ajax_product_name.php',7,NULL,1,NULL),(131,'更新产品的时候检查产品名称是否已经存在',0,'/admin/product/ajax_update_product_name.php',7,NULL,1,NULL),(132,'广告图片删除',0,'/admin/add_images/remove.php',2,2000,0,NULL),(133,'前端添加管理员时检查邮件是否存在',1,'/admin/admin/ajax_email.php',10,20000,1,NULL),(134,'前端添加管理员时检查手机是否已经存在',1,'/admin/admin/ajax_mobile.php',10,2000,1,NULL),(135,'添加管理员时前端检查用户名是否已经存在',1,'/admin/admin/ajax_username.php',10,2000,1,NULL),(136,'前端更新管理员时检查邮件是否存在',1,'/admin/admin/ajax_update_email.php',10,2000,1,NULL),(137,'前端更新管理员时检查手机是否存在',1,'/admin/admin/ajax_update_mobile.php',10,2000,1,NULL),(138,'前端更新管理员时检查用户名是否存在',1,'/admin/admin/ajax_update_username.php',10,2000,1,NULL),(139,'查看管理员详细',0,'/admin/admin/detail.php',10,2000,0,NULL),(140,'为角色分配权限',0,'/admin/roles/assign.php',10,2000,0,NULL),(141,'查看商品分类属性详细',0,'/admin/attr_group/detail.php',7,20000,0,NULL),(142,'查看商品属性列表',0,'/admin/attr_group/index.php',7,20000,0,NULL),(143,'查看品牌详细',0,'/admin/brands/detail.php',7,2000,0,NULL),(144,'分类删除',0,'/admin/catalog/remove.php',7,2000,0,NULL),(145,'分类更新',0,'/admin/catalog/update.php',7,2000,0,NULL),(146,'快递公司激活',0,'/admin/express_company/activate.php',11,2000,0,NULL),(147,'快递公司停用',0,'/admin/express_company/deactivate.php',11,2000,0,NULL),(148,'快递公司详细',0,'/admin/express_company/detail.php',11,20000,0,NULL),(149,'快递公司更新',0,'/admin/express_company/update.php',11,2000,0,NULL),(150,'订单添加收货人',0,'/admin/order/add_consignee.php',6,2000,0,NULL),(151,'订单发货',0,'/admin/order/delivery.php',6,2000,0,NULL),(152,'订单退款',0,'/admin/order/refund.php',6,20000,0,NULL),(153,'订单退货',0,'/admin/order/return.php',6,20000,0,NULL),(154,'订单恢复',0,'/admin/order/unrecycle.php',6,2000,0,NULL),(155,'订单更新',0,'/admin/order/update.php',6,2000,0,NULL),(156,'支付宝设置',0,'/admin/pay/pay_alipay/index.php',11,2000,0,NULL),(157,'支付更新',0,'/admin/pay_method/update.php',11,2000,0,NULL),(158,'商品详情',1,'/admin/product/detail.php',11,20000,1,NULL),(159,'商品图片删除',0,'/admin/product_images/remove.php',7,20000,0,NULL),(160,'商品类型详细',0,'/admin/product_type/detail.php',7,20000,0,NULL),(161,'促销详细',0,'/admin/promotion/detail.php',8,2000,0,NULL),(162,'快递方式详细',0,'/admin/shipping_method/detail.php',11,20000,0,NULL),(163,'快递方式删除',0,'/admin/shipping_method/remove.php',11,20000,0,NULL),(164,'快递方式更新',0,'/admin/shipping_method/update.php',11,2000,0,NULL),(165,'配送区域详细',0,'/admin/shipping_method_area/detail.php',11,20000,0,NULL),(166,'配区域ems添加',0,'/admin/shipping_method_area/ems/add.php',11,20000,0,NULL),(167,'配区域ems更新',0,'/admin/shipping_method_area/ems/update.php',11,20000,0,NULL),(168,'配送方式列表',1,'/admin/shipping_method/index.php',11,20000,0,NULL),(169,'配送区域列表',0,'/admin/shipping_method_area/index.php',11,20000,0,NULL),(170,'配送区域删除',0,'/admin/shipping_method_area/remove.php',11,20000,0,NULL),(171,'配送区域申通添加',0,'/admin/shipping_method_area/shunfeng/add.php',11,2000,0,NULL),(172,'配送区域申通更新',0,'/admin/shipping_method_area/shentong/update.php',11,2000,0,NULL),(173,'配送区域顺风更新',0,'/admin/shipping_method_area/shunfeng/update.php',11,2000,0,NULL),(174,'配送区域顺风添加',0,'/admin/shipping_method_area/shunfeng/add.php',11,2000,0,NULL),(175,'配送区域圆通添加',0,'/admin/shipping_method_area/yuantong/add.php',11,2000,0,NULL),(176,'配送区域圆通更新',0,'/admin/shipping_method_area/yuantong/update.php',11,2000,0,NULL),(177,'配送区域中通添加',0,'/admin/shipping_method_area/zhongtong/add.php',11,2000,0,NULL),(178,'配送区域中通编辑',0,'/admin/shipping_method_area/zhongtong/update.php',11,20000,0,NULL),(179,'用户详细信息',0,'/admin/users/detail.php',13,20000,0,NULL),(180,'商品咨询详细',0,'/admin/user_consult/detail.php',7,2000,0,NULL);
 
-/*Table structure for table `product` */
 
 DROP TABLE IF EXISTS `product`;
 
@@ -444,9 +438,6 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
-/*Data for the table `product` */
-
-/*Table structure for table `product_comment` */
 
 DROP TABLE IF EXISTS `product_comment`;
 
@@ -462,9 +453,6 @@ CREATE TABLE `product_comment` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='产品评论';
 
-/*Data for the table `product_comment` */
-
-/*Table structure for table `product_consult` */
 
 DROP TABLE IF EXISTS `product_consult`;
 
@@ -661,11 +649,6 @@ CREATE TABLE `shipping_method_area` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='配送方式区域表';
 
-/*Data for the table `shipping_method_area` */
-
-insert  into `shipping_method_area`(`id`,`shipping_method_id`,`area`,`shipping_by_quantity`,`basic_fee`,`first_kg_fee`,`continue_kg_fee`,`free_quota`,`name`,`cod_fee`,`single_product_fee`,`half_kg_fee`,`continue_half_kg_fee`,`is_delete`) values (25,3,'北京_*_*;上海_*_*;',1,NULL,'10.00','20.00',NULL,'江浙沪',NULL,'12.00',NULL,NULL,0);
-
-/*Table structure for table `shop_info` */
 
 DROP TABLE IF EXISTS `shop_info`;
 
@@ -708,11 +691,6 @@ CREATE TABLE `stats` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 /*Data for the table `stats` */
-
-insert  into `stats`(`time_str`,`remote_host`,`request`,`referer`,`user_agent`) values ('2015-12-20 17:24:41','127.0.0.1','http://123phpshop/index.php','http://123phpshop/install/step2.php','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'),('2015-12-20 17:24:47','127.0.0.1','http://123phpshop/index.php','http://123phpshop/index.php','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'),('2015-12-20 17:26:36','127.0.0.1','http://123phpshop/index.php','-','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'),('2015-12-20 17:26:54','127.0.0.1','http://123phpshop/index.php','-','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'),('2015-12-20 17:26:55','127.0.0.1','http://123phpshop/news.php','http://123phpshop/','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'),('2015-12-20 17:27:22','127.0.0.1','http://123phpshop/news.php','http://123phpshop/','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36');
-
-/*Table structure for table `user` */
-
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
@@ -736,9 +714,6 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Data for the table `user` */
-
-/*Table structure for table `user_consignee` */
 
 DROP TABLE IF EXISTS `user_consignee`;
 
@@ -785,10 +760,3 @@ CREATE TABLE `user_view_history` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=908 DEFAULT CHARSET=utf8 COMMENT='用户浏览记录';
-
-/*Data for the table `user_view_history` */
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
