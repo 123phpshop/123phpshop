@@ -25,3 +25,6 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/apache-log4php-2.3.0/Logger.php"; 
+Logger::configure($_SERVER["DOCUMENT_ROOT"]."/Connections/log4php.123phpshop.properties");
+$logger = Logger::getRootLogger(); 

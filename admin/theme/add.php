@@ -24,6 +24,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
+
+$logger->debug("准备添加模板"); 
 $theme_folders=array();
 $doc_url="theme.html#add";
 $support_email_question="添加模板";

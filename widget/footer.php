@@ -1,4 +1,4 @@
-<?php 
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?><?php 
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,10 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php 
-
- 
-?>
+ ?>
 <?php
 $maxRows_friend_links = 10;
 $pageNum_friend_links = 0;
@@ -40,6 +37,12 @@ if (isset($_GET['totalRows_friend_links'])) {
   $totalRows_friend_links = mysql_num_rows($all_friend_links);
 }
 $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1;
+
+mysql_select_db($database_localhost, $localhost);
+$query_stat_code = "SELECT stat_code FROM shop_info WHERE id = 1";
+$stat_code = mysql_query($query_stat_code, $localhost) or die(mysql_error());
+$row_stat_code = mysql_fetch_assoc($stat_code);
+$totalRows_stat_code = mysql_num_rows($stat_code);
 ?>
 <style type="text/css">
 <!--
@@ -217,4 +220,4 @@ $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1
     <td height=""><div align="center">本系统由上海序程信息科技有限公司提供技术支持 Powered By 123phpshop.com</div></td>
   </tr>
 </table>
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/stat/stats.php"); ?>
+<?php   echo $row_stat_code['stat_code']; ?>

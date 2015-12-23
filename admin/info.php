@@ -66,7 +66,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 		if($up->upload("logo_path")) {
 		   $logo_path="/uploads/product/".$up->getFileName(); 
 		   
-			 $updateSQL = sprintf("UPDATE shop_info SET name=%s, email=%s, mobile=%s, province=%s, city=%s, district=%s, address=%s, zip=%s, logo_path=%s WHERE id=%s",
+			 $updateSQL = sprintf("UPDATE shop_info SET name=%s, email=%s, mobile=%s, province=%s, city=%s, district=%s, address=%s, zip=%s, logo_path=%s, stat_code=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
@@ -76,6 +76,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['address'], "text"),
                        GetSQLValueString($_POST['zip'], "text"),
                        GetSQLValueString($logo_path, "text"),
+					    GetSQLValueString($_POST['stat_code'], "text"),
                        GetSQLValueString(1, "int"));
  		}else {
  			echo '<pre>';
@@ -85,7 +86,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 		}
 	 }else{
 	 
-	 	$updateSQL = sprintf("UPDATE shop_info SET name=%s, email=%s, mobile=%s, province=%s, city=%s, district=%s, address=%s, zip=%s WHERE id=%s",
+	 	$updateSQL = sprintf("UPDATE shop_info SET name=%s, email=%s, mobile=%s, province=%s, city=%s, district=%s, address=%s, zip=%s, stat_code=%s  WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
@@ -94,6 +95,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['district'], "text"),
                        GetSQLValueString($_POST['address'], "text"),
                        GetSQLValueString($_POST['zip'], "text"),
+					   GetSQLValueString($_POST['stat_code'], "text"),
                        GetSQLValueString(1, "int"));
  	 }
 	 
@@ -156,12 +158,19 @@ $totalRows_info = mysql_num_rows($info);
           <td><input type="file" name="logo_path" value="<?php echo isset($row_info['logo_path'])?$row_info['logo_path']:""; ?>" size="32"></td>
         </tr>
         <tr valign="baseline">
+          <td nowrap align="right">统计代码：</td>
+          <td><label>
+            <textarea name="stat_code" cols="50" rows="10" id="stat_code"   ><?php echo isset($row_info['stat_code'])?$row_info['stat_code']:""; ?></textarea>
+            [您可以使用<a href="http://tongji.baidu.com/web/welcome/login" target="_blank">百度统计</a>或<a href="http://www.google.cn/intl/zh-CN_ALL/analytics/learn/index.html" target="_blank">google统计</a>来了解您的网站访问情况]
+          </label></td>
+        </tr>
+        <tr valign="baseline">
           <td nowrap align="right">&nbsp;</td>
           <td><input type="submit" value="更新记录"></td>
         </tr>
       </table>
       <input type="hidden" name="MM_update" value="form1">
-     </form>
+</form>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/widget/area/jsAddress.js"></script>
