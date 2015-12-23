@@ -6,8 +6,8 @@ $themes = mysql_query($query_themes, $localhost) or die(mysql_error());
 $row_themes = mysql_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 
-$doc_url="theme.html#add";
-$support_email_question="添加模板";
+$doc_url="theme.html#list";
+$support_email_question="模板列表";
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

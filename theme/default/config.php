@@ -1,10 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-</head>
-
-<body>
-</body>
-</html>
+<?php 
+$theme_config==array();
+$theme_config['name']="123phpshop默认模板";
+$theme_config['author']="123phpshop团队";
+$theme_config['version']="v1.1";
+$theme_config['intro']="123phpshop默认模板,由123phpshop团队提供";
+$theme_config['contact']="service@123phpshop.com";
+?>

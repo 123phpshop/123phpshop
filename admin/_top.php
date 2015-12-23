@@ -86,7 +86,7 @@ body {
 
 <body style="font-family:微软雅黑;">
  <div id="admin_top">
-	 <div id='admin_top_left'>123PHPSHOP V1.4 </div>
+	 <div id='admin_top_left'>123PHPSHOP V1.5</div>
 	 <div id="admin_logout">
 	   <table width="0" border="0">
          <tr>

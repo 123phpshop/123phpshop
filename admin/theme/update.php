@@ -31,12 +31,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE theme SET name=%s, folder_name=%s, author=%s, version=%s, contact=%s WHERE id=%s",
+ echo  $updateSQL = sprintf("UPDATE theme SET name=%s, folder_name=%s, author=%s, version=%s, contact=%s, intro=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['folder_name'], "text"),
                        GetSQLValueString($_POST['author'], "text"),
                        GetSQLValueString($_POST['version'], "text"),
                        GetSQLValueString($_POST['contact'], "text"),
+                       GetSQLValueString($_POST['intro'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
@@ -90,29 +91,32 @@ $support_email_question="更新模板";
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
-      <td nowrap align="right">Name:</td>
+      <td nowrap align="right">名称:</td>
       <td><input type="text" name="name" value="<?php echo $row_theme['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Folder_name:</td>
+      <td nowrap align="right">文件夹:</td>
       <td><select name="folder_name">
          <?php foreach($theme_array as $them_name){ ?>
         <option value="<?php echo $them_name;?>" <?php if($row_theme['folder_name']==$them_name){ ?> selected <?php } ?>><?php echo $them_name;?></option>
      <?php } ?>
-      </select>
-      </td>
+      </select>      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Author:</td>
+      <td nowrap align="right">作者:</td>
       <td><input type="text" name="author" value="<?php echo $row_theme['author']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Version:</td>
+      <td nowrap align="right">版本:</td>
       <td><input type="text" name="version" value="<?php echo $row_theme['version']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Contact:</td>
+      <td nowrap align="right">联系邮箱:</td>
       <td><input type="text" name="contact" value="<?php echo $row_theme['contact']; ?>" size="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">简介：</td>
+      <td><textarea name="intro" cols="50" rows="10"><?php echo $row_theme['intro']; ?></textarea></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -124,7 +128,35 @@ $support_email_question="更新模板";
 </form>
 <p>&nbsp;</p>
 <p class="phpshop123_title">&nbsp;</p>
-<p>&nbsp; </p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+ 	$("#form1").validate({
+        rules: {
+             name: {
+                required: true,
+				minlength: 2,
+				maxlength: 32
+             },
+				remote:{
+                    url: "_ajax_code.php",
+                    type: "post",
+                    dataType: 'json',
+                    data: {
+                        'code': function(){return $("#code").val();}
+                    }
+				},
+            title: {
+                required: true,
+  				maxlength: 50   
+            },
+            content: {
+                required: true 
+            }
+        } 
+    });
+});</script>
 </body>
 </html>
 <?php
