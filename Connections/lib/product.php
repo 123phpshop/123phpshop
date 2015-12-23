@@ -86,6 +86,11 @@ function could_devliver($areas){
  		$query_area = "SELECT * from shipping_method_area where is_delete=0";
 		$area = mysql_query ( $query_area,$db_conn ) or die ( mysql_error () );
 		while($order_area=mysql_fetch_assoc($area)){
+			// 如果是全国范围的话，
+			if(trim($order_area['area'])=="*_*_*;"){
+				return true;
+			}
+			
 			foreach($areas as $area_item){
 				if(strpos($order_area['area'],$area_item)>-1){
   					return true;
