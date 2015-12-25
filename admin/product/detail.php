@@ -138,9 +138,12 @@ form{
 
 <body>
 		
-<p><span class="phpshop123_title">产品详情</span>
+<p><span class="phpshop123_title">商品详情</span>
   <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-</p><?php if($error!=''){?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="商品列表" />
+</a></p>
+<?php if($error!=''){?>
 <p class="phpshop123_infobox"><?php echo $error;?></p>
 <?php } ?>
 <div class="phpshop123_form_box">

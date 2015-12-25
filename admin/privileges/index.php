@@ -71,6 +71,9 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
 <body>
 <span class="phpshop123_title">权限列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getPrivileges == 0) { // Show if recordset empty ?>
+  <a href="add.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加权限" />
+  </a>
   <table  class="info_box" width="100%" border="0">
     <tr>
       <th class="phpshop123_infobox" scope="row"><div align="left">信息：现在还没有权限，您可以<a href="add.php">点击这里</a>添加</div></th>

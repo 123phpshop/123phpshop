@@ -15,21 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
-
-require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
-require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
-?>
-<?php
-$cart_obj = new Cart ();
-if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
-	$cart_obj->add ( $_POST );
-}
-$cart = $cart_obj->get ();
-$cart_products = $cart ['products'];
-
-?>
-
+?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

@@ -15,37 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php require_once('Connections/localhost.php'); ?>
-<?php
-
-
-$colname_news = "-1";
-if (isset($_GET['id'])) {
-  $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_news = sprintf("SELECT * FROM news WHERE is_delete=0 and id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost) or die(mysql_error());
-$row_news = mysql_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
-
-if($totalRows_news >0){
-
-mysql_select_db($database_localhost, $localhost);
-$query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE is_delete=0 and id = %s ", $row_news['catalog_id']);
- $news_catalog = mysql_query($query_news_catalog, $localhost) or die(mysql_error());
-$row_news_catalog = mysql_fetch_assoc($news_catalog);
-$totalRows_news_catalog = mysql_num_rows($news_catalog);
-
- 
- }
-mysql_select_db($database_localhost, $localhost);
-$query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
-$news_catalogs = mysql_query($query_news_catalogs, $localhost) or die(mysql_error());
-$row_news_catalogs = mysql_fetch_assoc($news_catalogs);
-$totalRows_news_catalogs = mysql_num_rows($news_catalogs);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

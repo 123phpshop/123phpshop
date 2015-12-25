@@ -121,6 +121,9 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
     <?php echo $row_catalog['name']; ?>-&gt;
 <?php } // Show if recordset not empty ?> 文章列表</span>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="add.php">
+<input style="float:right;" type="submit" name="Submit2" value="添加文章" />
+</a>
 <?php if ($totalRows_news == 0) { // Show if recordset empty ?>
   <p>现在还没有文章！ <?php if ($totalRows_catalog > 0) { // Show if recordset empty ?>
  <a href="add.php?catalog_id=<?php echo $row_catalog['id']; ?>">欢迎添加！</a> 

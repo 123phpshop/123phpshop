@@ -108,6 +108,9 @@ $totalRows_user = mysql_num_rows($user);
 
 <body>
 <span class="phpshop123_title">更新用户信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="用户列表" />
+</a>
 <p>&nbsp; </p>
 
 <form action="<?php echo $editFormAction; ?>" method="post" name="update_user_form" id="update_user_form">
@@ -152,7 +155,7 @@ $totalRows_user = mysql_num_rows($user);
 </select>
 <select name="district"  id="district"  >
 </select>
-		 </td>
+	  </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">地址:</td>

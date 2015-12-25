@@ -250,7 +250,7 @@ a{
         <td height="33">PHP版本:</td>
         <td height="33"><?php echo phpversion();?></td>
         <td height="33">123PHPSHOP版本:</td>
-        <td height="33">1.4</td>
+        <td height="33">1.5</td>
       </tr>
       <tr>
         <td height="33">网站目录:</td>

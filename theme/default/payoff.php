@@ -15,38 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php
-
-// 通过s3来获取订单， 。通过订单的序列号来获取订单的详细情况。
-$colname_order = "-1";
-if (isset($_GET['order_sn'])) {
-  $colname_order = (get_magic_quotes_gpc()) ? $_GET['order_sn'] : addslashes($_GET['order_sn']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0 ", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
-$row_order = mysql_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
-
-//	如果没有办法找到这个订单的话,那么告知
-if($totalRows_order==0){
-		$url="/";
-	 header("Location: " . $url );
-}
-//	如然后检查订单的消息状态，如果说这个订单已经被支付的话，那么需要跳转
-if($row_order['order_status']!=0){
-	$url="/";
-	 header("Location: " . $url );
-}
-
-mysql_select_db($database_localhost, $localhost);
-$query_pay_method = "SELECT * FROM pay_method WHERE is_activated = 1";
-$pay_method = mysql_query($query_pay_method, $localhost) or die(mysql_error());
-$row_pay_method = mysql_fetch_assoc($pay_method);
-$totalRows_pay_method = mysql_num_rows($pay_method);
-$consignee_id=0;
-?>
+ ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

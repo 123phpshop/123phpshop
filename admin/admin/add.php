@@ -84,6 +84,9 @@ $totalRows_roles = mysql_num_rows($roles);
 
 <body>
 <span class="phpshop123_title">添加管理员 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="管理员列表" />
+  </a>
+
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

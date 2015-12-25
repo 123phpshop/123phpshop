@@ -93,7 +93,9 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 <body>
 <span class="phpshop123_title">申通:更新配送区域</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<p>&nbsp; </p>
+<p><a href="index.php?shipping_method_id=<?php echo $row_shipping_method['id'];?>">
+<input style="float:right;" type="submit" name="Submit2" value="配送区域列表" />
+</a><a href="index.php"></a> </p>
 
 <form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">

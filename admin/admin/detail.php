@@ -35,6 +35,9 @@ $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 <body>
 		
 <span class="phpshop123_title">管理员详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="管理员列表" />
+</a>
 <table border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td>账户：</td>

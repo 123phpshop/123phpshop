@@ -93,6 +93,9 @@ $totalRows_attr = mysql_num_rows($attr);
 
 <body>
 <span class="phpshop123_title">属性编辑： <?php echo $row_attr['name']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="属性列表" />
+</a>
 <p>&nbsp;</p>
 
  

@@ -102,7 +102,9 @@ if(count($theme_array)>0){
 </head>
 
 <body>
-<p class="phpshop123_title">添加模板 </p>
+<p class="phpshop123_title">添加模板 <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="模板列表" />
+</a></p>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
      <tr valign="baseline">

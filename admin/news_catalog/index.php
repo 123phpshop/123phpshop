@@ -106,6 +106,7 @@ $queryString_news_catalogs = sprintf("&totalRows_news_catalogs=%d%s", $totalRows
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加文章分类</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php"></a>
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
       <td nowrap align="right">分类名称:</td>
@@ -151,7 +152,7 @@ $().ready(function(){
       <a href="<?php printf("%s?pageNum_news_catalogs=%d%s", $currentPage, min($totalPages_news_catalogs, $pageNum_news_catalogs + 1), $queryString_news_catalogs); ?>" class="phpshop123_paging">下一页 </a>
        <a href="<?php printf("%s?pageNum_news_catalogs=%d%s", $currentPage, $totalPages_news_catalogs, $queryString_news_catalogs); ?>" class="phpshop123_paging">最后一页</a>
         <?php } // Show if not last page ?>
-        </p>
+</p>
 </body>
 </html>
 <?php

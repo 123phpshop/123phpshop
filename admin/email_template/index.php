@@ -70,7 +70,10 @@ $queryString_email_templates = sprintf("&totalRows_email_templates=%d%s", $total
 <body>
   <span class="phpshop123_title">邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
-<?php if ($totalRows_email_templates > 0) { // Show if recordset not empty ?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加邮件模板" />
+  </a>
+  <?php if ($totalRows_email_templates > 0) { // Show if recordset not empty ?>
   <p>
   <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>

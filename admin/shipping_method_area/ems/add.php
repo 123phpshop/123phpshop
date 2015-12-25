@@ -82,6 +82,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <span class="phpshop123_title">EMS:新建配送区域</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php?shipping_method_id=<?php echo $row_shipping_method['id'];?>">
+<input style="float:right;" type="submit" name="Submit2" value="配送区域列表" />
+</a><a href="index.php?shipping_method_id=<?php echo $row_shipping_method['id'];?>"></a>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

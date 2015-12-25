@@ -80,6 +80,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <span class="phpshop123_title">添加链接 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="友情链接列表" />
+</a>
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1" >
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
@@ -93,6 +96,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline">
       <td nowrap align="right">排序:</td>
       <td><input type="text" name="sort" value="" size="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">上传图片：</td>
+      <td><label>
+        <input type="file" name="file" />
+        [购买此功能]
+      </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

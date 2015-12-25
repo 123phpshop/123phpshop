@@ -86,7 +86,9 @@ $support_email_question="更新模板";
 </head>
 
 <body>
-  <p><span class="phpshop123_title">更新模板</span></p>
+  <p><span class="phpshop123_title">更新模板</span><a href="index.php">
+    <input style="float:right;" type="submit" name="Submit2" value="模板列表" />
+  </a></p>
 
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">

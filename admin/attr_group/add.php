@@ -90,6 +90,9 @@ $totalRows_product_type = mysql_num_rows($product_type);
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title"><?php echo $row_product_type['name']; ?>：添加属性  </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="属性列表" />
+  </a>
   <table width="100%" align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">属性名称:</td>

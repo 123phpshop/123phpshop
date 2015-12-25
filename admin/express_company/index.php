@@ -34,6 +34,7 @@ $totalRows_expresses = mysql_num_rows($expresses);
 
 <body>
 <span class="phpshop123_title">快递公司</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php"></a>
 <table width="100%" border="1" align="center" class="phpshop123_list_box">
   <tr>
     <td><div align="center">ID</div></td>

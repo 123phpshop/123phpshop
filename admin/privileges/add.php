@@ -176,6 +176,9 @@ $totalRows_privileges = mysql_num_rows($privileges);
 
 <body>
 <span class="phpshop123_title">添加权限</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="权限列表" />
+</a>
 <?php if ($totalRows_getByName > 0) { // Show if recordset not empty ?>
   <p class="phpshop123_infobox">错误：权限名称重复！</p>
   <?php } // Show if recordset not empty ?>
@@ -245,7 +248,7 @@ $totalRows_privileges = mysql_num_rows($privileges);
         <td><a href="remove.php?id=<?php echo $row_privileges['id']; ?>" onclick="return confirm('您确实要删除这个权限吗?');">删除</a> <a href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
       </tr>
       <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
-    </table>
+  </table>
     <?php } // Show if recordset not empty ?>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>

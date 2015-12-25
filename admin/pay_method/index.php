@@ -29,11 +29,13 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
-</head>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" /></head>
 
 <body>
 <span class="phpshop123_title">支付方式列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="添加支付方式" />
+</a>
 <?php if ($totalRows_pay_methods == 0) { // Show if recordset empty ?>
   <p><a href="add.php">添加支付方式</a></p>
   <?php } // Show if recordset empty ?>
@@ -61,6 +63,32 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 	        <?php }?> <a href="update.php?id=<?php echo $row_pay_methods['id']; ?>">编辑</a></div></td>
       </tr>
       <?php } while ($row_pay_methods = mysql_fetch_assoc($pay_methods)); ?>
+	 
+	  
+	  <tr>
+        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>网银支付</strong></a></td>
+        <td>http://www.chinabank.com.cn/</td>
+        <td>微信支付</td>
+        <td><div align="right">[未购买]</div></td>
+        <td>
+		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
+      </tr>
+	   <tr>
+        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>微信支付</strong></a></td>
+        <td><a href="<?php echo $row_pay_methods['www']; ?>" target="_blank">http://weixin.qq.com/cgi-bin/readtemplate?t=win_weixin</a></td>
+        <td>微信支付</td>
+        <td><div align="right">[未购买]</div></td>
+        <td>
+		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
+      </tr>
+	   <tr>
+        <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>贝宝支付</strong></a></td>
+        <td>https://www.paypal.com/c2/webapps/mpp/home</td>
+        <td>贝宝支付,外贸支付神器</td>
+        <td><div align="right">[未购买]</div></td>
+        <td>
+		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
+      </tr>
   </table>
     <?php } // Show if recordset not empty ?><p>&nbsp; </p>
 </body>

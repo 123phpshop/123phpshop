@@ -77,6 +77,9 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 <body>
 	<span class="phpshop123_title">订单合并</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="订单列表" />
+</a>
 <form id="order_merge_form" name="order_merge_form" method="post"
 		action="">
 		<table width="967" border="0" class="phpshop123_form_box">

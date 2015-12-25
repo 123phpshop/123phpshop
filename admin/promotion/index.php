@@ -67,6 +67,8 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
 
 <body>
 <span class="phpshop123_title">促销列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加促销" /></a>
+
 <?php if ($totalRows_promotions == 0) { // Show if recordset empty ?>
   <p class="phpshop123_title"><a href="add.php" class="phpshop123_infobox">没有记录，欢迎添加</a></p>
   <?php } // Show if recordset empty ?>

@@ -58,7 +58,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
   if($_POST['is_on_sheft']=='0'){
-  $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+  						GetSQLValueString($_POST['product_type_id'], "int"),
  					 GetSQLValueString($_POST['is_promotion'], "int"),
   						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
@@ -85,7 +86,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
 					   GetSQLValueString($_POST['brand_id'], "text"));
 }else{
- $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+ $insertSQL = sprintf("INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+ 					GetSQLValueString($_POST['product_type_id'], "int"),
  					GetSQLValueString($_POST['is_promotion'], "int"),
 						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
@@ -136,9 +138,11 @@ $totalRows_product_types = mysql_num_rows($product_types);
 </head>
 
 <body>
+<span class="phpshop123_title" style="display:inline;">添加商品</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+</div>
+<a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-<span class="phpshop123_title" style="display:inline;">添加商品<div style="float:right;display:inline;"><input name="submit" type="submit" value="保存" style="width:50px;height:30px;margin:auto auto;"/></div>
-</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
 		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>

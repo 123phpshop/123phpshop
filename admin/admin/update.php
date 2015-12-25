@@ -104,6 +104,7 @@ $totalRows_roles = mysql_num_rows($roles);
 <span class="phpshop123_title">管理员信息更新</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 </p>
 <p>&nbsp; </p>
+<input style="float:right;" type="submit" name="Submit2" value="管理员列表" />
 
 <form action="<?php echo $editFormAction; ?>" method="post" name="admin_update_form" id="admin_update_form">
   <table align="center" class="phpshop123_form_box">

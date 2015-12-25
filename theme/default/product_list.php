@@ -15,21 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php
- 
-$colname_catalog = "-1";
-if (isset($_GET['catalog_id'])) {
-  $colname_catalog = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
-$catalog = mysql_query($query_catalog, $localhost) or die(mysql_error());
-$row_catalog = mysql_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
-
-
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

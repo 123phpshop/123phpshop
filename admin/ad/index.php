@@ -67,6 +67,8 @@ $queryString_ads = sprintf("&totalRows_ads=%d%s", $totalRows_ads, $queryString_a
 
 <body>
 <span class="phpshop123_title">广告列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加广告" /></a>
+
 <?php if ($totalRows_ads == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox"><a href="add.php">现在还没有，赶紧添加一个吧。</a></p>
   <?php } // Show if recordset empty ?>

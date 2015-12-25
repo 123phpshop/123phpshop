@@ -84,6 +84,9 @@ $totalRows_product_type = mysql_num_rows($product_type);
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">更新商品类型:<?php echo $row_product_type['name']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="商品类型列表" />
+  </a>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">商品类型名称:</td>

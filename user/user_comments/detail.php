@@ -37,42 +37,4 @@ if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-</head>
-
-<body>
-		
-<table border="1" align="center">
-  
-  <tr>
-    <td>id</td>
-    <td><?php echo $row_DetailRS1['id']; ?> </td>
-  </tr>
-  <tr>
-    <td>user_id</td>
-    <td><?php echo $row_DetailRS1['user_id']; ?> </td>
-  </tr>
-  <tr>
-    <td>message</td>
-    <td><?php echo $row_DetailRS1['message']; ?> </td>
-  </tr>
-  <tr>
-    <td>create_time</td>
-    <td><?php echo $row_DetailRS1['create_time']; ?> </td>
-  </tr>
-  <tr>
-    <td>response_to</td>
-    <td><?php echo $row_DetailRS1['response_to']; ?> </td>
-  </tr>
-  
-  
-</table>
-
-</body>
-</html><?php
-mysql_free_result($DetailRS1);
 ?>

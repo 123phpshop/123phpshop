@@ -109,12 +109,27 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
 
 <body>
 <span class="phpshop123_title">商品分类 </span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="new_catalog_form" id="new_catalog_form"  action="<?php echo $editFormAction; ?>">
+<a href="add.php">
+<input style="float:right;" type="submit" name="Submit2" value="添加分类" />
+</a>
+<form  action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="new_catalog_form" id="new_catalog_form">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
-      <td nowrap align="right">分类名称:</td>
-      <td><input name="name" type="text" class="required" id="name" value="" size="32" maxlength="20">
-      <input name="submit" type="submit" value="添加分类" /><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
+      <td nowrap align="right">名称:</td>
+      <td><input name="name" type="text" class="required" id="name" value="" size="32" maxlength="20" />
+      <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">图片:</td>
+      <td><label>
+        <input type="file" name="file" />
+        [会显示在手机版或是微商版分类列表中，点击购买此功能]
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">&nbsp;</td>
+      <td><p>
+        <input name="submit" type="submit" value="添加" /></p>        </td>
     </tr>
   </table>
   <input type="hidden" name="pid" value="<?php echo isset($_GET['pid'])?$_GET['pid']:0; ?>">
@@ -129,9 +144,9 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
     </tr>
     <?php do { ?>
       <tr>
-        <td><div align="center"><?php echo $row_catalogs['id']; ?></div></td>
+        <td><div align="center"><a href="update.php?id=<?php echo $row_catalogs['id']; ?>"><?php echo $row_catalogs['id']; ?></a></div></td>
         <td><?php echo $row_catalogs['name']; ?></td>
-        <td><div align="right"><a onClick="return confirm('您确认要删除这个分类吗？')" href="remove.php?id=<?php echo $row_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_catalogs['id']; ?>">更新</a> <a href="index.php?pid=<?php echo $row_catalogs['id']; ?>">子分类列表</a> <a href="../product/index.php?catalog_id=<?php echo $row_catalogs['id']; ?>">商品列表</a> <a href="../product/add.php?catalog_id=<?php echo $row_catalogs['id']; ?>"></a></div></td>
+        <td><div align="right"><a onClick="return confirm('您确认要删除这个分类吗？')" href="remove.php?id=<?php echo $row_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_catalogs['id']; ?>">编辑</a> <a href="index.php?pid=<?php echo $row_catalogs['id']; ?>">子分类列表</a> <a href="../product/index.php?catalog_id=<?php echo $row_catalogs['id']; ?>">商品列表</a> <a href="../product/add.php?catalog_id=<?php echo $row_catalogs['id']; ?>"></a></div></td>
       </tr>
         <?php } while ($row_catalogs = mysql_fetch_assoc($catalogs)); ?>
   </table>

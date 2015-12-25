@@ -123,6 +123,9 @@ table{
 
 <body>
 <span class="phpshop123_title">添加收货人</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="订单详细页面" />
+  </a>
   <form method="post" name="form1" id="new_consignee_form" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

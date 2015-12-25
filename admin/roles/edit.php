@@ -50,7 +50,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-   	echo $updateSQL = sprintf("UPDATE role SET name=%s WHERE id=%s",
+   	$updateSQL = sprintf("UPDATE role SET name=%s WHERE id=%s",
 				   GetSQLValueString($_POST['name'], "text"),
  				   GetSQLValueString($_POST['id'], "int"));
 	 
@@ -90,6 +90,9 @@ $totalRows_getByName = mysql_num_rows($getByName);
 
 <body>
 <span class="phpshop123_title">更新角色</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="角色列表" />
+  </a>
+
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
   <table  class="error_box" width="100%" border="0">
     <tr>

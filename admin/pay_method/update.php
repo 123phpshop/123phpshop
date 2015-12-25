@@ -88,6 +88,9 @@ $totalRows_pay_method = mysql_num_rows($pay_method);
 
 <body>
 <span class="phpshop123_title"><?php echo $row_pay_method['name']; ?> - 编辑</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="支付方式列表" />
+</a>
 <p>&nbsp;</p>
 
 <form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">

@@ -93,10 +93,31 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <span class="phpshop123_title"><?php echo $row_news_catalog['name']; ?>-&gt;添加文章</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<p>&nbsp;</p>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="文章列表" />
+  </a>
+
 
 <form method="post" name="form1"  id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
+    <tr valign="baseline">
+      <td nowrap="nowrap" align="right">同步到:</td>
+      <td><label>
+        <input type="checkbox" name="checkbox" value="checkbox" />
+        </label>
+        新浪微博
+        <label>
+          <input type="checkbox" name="checkbox2" value="checkbox" />
+          腾讯微博</label>
+        <label>
+          <input type="checkbox" name="checkbox3" value="checkbox" />
+          朋友圈</label>[购买此功能]</td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">发送邮件给注册用户:</td>
+      <td><label>
+        <input type="checkbox" name="checkbox4" value="checkbox" />
+      [购买此功能]</label></td>
+    </tr>
     <tr valign="baseline">
       <td nowrap align="right">标题:</td>
       <td><input name="title" type="text" class="required" value="" size="32" maxlength="32"></td>

@@ -95,6 +95,9 @@ $support_email_question="添加订单商品";
 <body>
 	<span class="phpshop123_title">添加订单商品</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($error!=''){?>
+	<a href="index.php">
+	<input style="float:right;" type="submit" name="Submit2" value="订单详细页面" />
+	</a>
 	<p 	class="phpshop123_infobox"><?php echo $error;?></p>
 <?php }?>
 	<form action="<?php echo $editFormAction; ?>" method="POST"

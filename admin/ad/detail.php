@@ -122,6 +122,9 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <body>
 <span class="phpshop123_title">广告详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if($error!=''){ ?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="广告列表" />
+</a>
 <p class="phpshop123_infobox"><?php echo $error;?></p>
 <?php } ?>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">

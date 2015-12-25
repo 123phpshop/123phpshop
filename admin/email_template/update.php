@@ -101,6 +101,9 @@ $totalRows_email_template = mysql_num_rows($email_template);
   <form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
     <span class="phpshop123_title">更新邮件模板</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 	<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
+    <a href="index.php">
+    <input style="float:right;" type="submit" name="Submit2" value="邮件模板列表" />
+    </a>
     <table align="center" class="phpshop123_form_box">
       <tr valign="baseline">
         <td nowrap align="right">模板名称:</td>
@@ -129,7 +132,7 @@ $totalRows_email_template = mysql_num_rows($email_template);
     </table>
     <input type="hidden" name="MM_update" value="form1">
     <input type="hidden" name="id" value="<?php echo $row_email_template['id']; ?>">
-      </form>
+  </form>
   <?php } // Show if recordset not empty ?>
 <?php if ($totalRows_email_template == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox">邮件模板不存在</p>

@@ -18,9 +18,33 @@
  ?><table align="center" class="phpshop123_form_box">
 	<?php if(!isset($_GET['catalog_id'])){ ?>
 	 <tr valign="baseline">
+	   <td nowrap align="right">同步到:</td>
+	   <td><label>
+	     <input type="checkbox" name="checkbox" value="checkbox" />
+	   </label>
+	     新浪微博
+	     <label>
+	     <input type="checkbox" name="checkbox2" value="checkbox" />
+	     腾讯微博</label>
+	     <label>
+	     <input type="checkbox" name="checkbox3" value="checkbox" />
+	     朋友圈[购买此功能]</label></td>
+  </tr>
+	 <tr valign="baseline">
+	   <td nowrap align="right">同步频率:</td>
+	   <td><label>
+	     <input type="radio" name="radiobutton" value="radiobutton" />
+       马上同步
+       <input type="radio" name="radiobutton" value="radiobutton" />
+       上架后同步
+       <input type="radio" name="radiobutton" value="radiobutton" />
+       每
+       <input name="textfield" type="text" value="2" size="2" />
+       天同步一次[购买此功能]</label></td>
+  </tr>
+	 <tr valign="baseline">
       <td nowrap align="right">分类:</td>
-      <td><?php include_once($_SERVER['DOCUMENT_ROOT']."/admin/widgets/product/catalogs_menu.php");?>
-      *</td>
+      <td><?php include_once($_SERVER['DOCUMENT_ROOT']."/admin/widgets/product/catalogs_menu.php");?>      <a href="../../catalog/index.php"><u>添加分类</u></a>*</td>
     </tr>
 	<?php } ?>
     <tr valign="baseline">
@@ -58,7 +82,7 @@ do {
 	  $row_brands = mysql_fetch_assoc($brands);
   }
 ?>
-      </select></td>
+      </select>        <a href="../../brands/add.php"><u>添加品牌</u></a></td>
     </tr>
 	
     <tr valign="baseline">
@@ -77,7 +101,7 @@ do {
 	  $row_product_types = mysql_fetch_assoc($product_types);
   }
 ?>
-      </select></td>
+      </select>      <a href="../../product_type/index.php"><u>添加商品类型</u></a></td>
     </tr>
     
     <tr valign="baseline">
@@ -103,8 +127,7 @@ do {
       <td><input type="radio" name="is_promotion" value="1" onClick="activate_promotion_input(1)" <?php if (isset($row_product['is_promotion']) && !(strcmp($row_product['is_promotion'],"1"))) {echo "CHECKED";} ?> />
 是
   <input type="radio" name="is_promotion" value="0" onClick="activate_promotion_input(-1)" <?php if (!isset($row_product['is_promotion'])  || !(strcmp($row_product['is_promotion'],"0")) || !isset($row_product['is_promotion'])) {echo "CHECKED";} ?> />
-  否
-    </tr>
+  否    </tr>
 	
 	<tr valign="baseline">
       <td nowrap align="right">优惠价:</td>

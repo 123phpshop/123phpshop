@@ -50,6 +50,9 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 <body>
 		
 <span class="phpshop123_title">用户详细</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="订单列表" />
+</a>
 <table border="0" align="center" cellpadding="0" cellspacing="0" class="phpshop123_form_box">
   
   <tr>

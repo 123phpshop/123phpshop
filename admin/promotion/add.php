@@ -81,8 +81,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加促销</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="促销列表" /></a>
+<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
+
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td width="14%" align="right" nowrap>名称:</td>
@@ -136,7 +138,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
+      <td><input type="submit" value="添加"></td>
     </tr>
   </table>
   <input type="hidden" name="MM_insert" value="form1">

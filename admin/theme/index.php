@@ -19,7 +19,9 @@ $support_email_question="模板列表";
 </head>
 
 <body>
-<p class="phpshop123_title">模板列表</p>
+<p class="phpshop123_title">模板列表<a href="add.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加模板" />
+</a></p>
 <?php if ($totalRows_themes > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>

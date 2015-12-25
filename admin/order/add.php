@@ -109,6 +109,8 @@ $support_email_question="添加订单";
 </span>  
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="订单列表" /></a>
+
 <form id="form1" name="form1" method="POST" action="<?php echo $editFormAction; ?>">
   <table width="960" border="0" class="phpshop123_form_box">
     <tr>

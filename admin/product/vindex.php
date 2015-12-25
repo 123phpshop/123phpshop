@@ -142,6 +142,8 @@ function _get_product_where($get){
 
 <body>
 <span class="phpshop123_title">虚拟商品搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="vadd.php"><input style="float:right;" type="submit" name="Submit2" value="添加虚拟商品" /></a>
+
 <form id="product_search" name="product_search" method="get" action="">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
@@ -176,7 +178,7 @@ function _get_product_where($get){
 </form>
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
     <br />
-    <span class="phpshop123_title">商品列表</span><br />
+    <span class="phpshop123_title">虚拟商品列表</span><br />
   <br />
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>

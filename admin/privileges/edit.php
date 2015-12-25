@@ -140,6 +140,9 @@ if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"]
 <span class="phpshop123_title">编辑权限</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="权限列表" />
+  </a>
   <table  class="error_box" width="101%" border="0">
     <tr>
       <th scope="row"><div align="left" class="phpshop123_infobox">错误：权限不存在</div></th>
@@ -176,7 +179,7 @@ if ($totalRows_getById>0 && (isset($_POST["MM_update"])) && ($_POST["MM_update"]
 			<?php }?>
 		</select>
  		<input name="para" type="text" id="para" value="<?php echo $row_getById['para']; ?>"/>
-		 </td>
+	    </td>
       </tr>
       <tr valign="baseline">
         <td nowrap="nowrap" align="right">菜单:</td>

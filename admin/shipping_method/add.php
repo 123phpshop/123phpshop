@@ -77,6 +77,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <body>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <span class="phpshop123_title">添加配送方式</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="配送方式列表" />
+  </a>
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>

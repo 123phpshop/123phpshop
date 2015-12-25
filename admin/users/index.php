@@ -104,6 +104,9 @@ function _get_user_where($get){
 <body>
 <?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
   <span class="phpshop123_title">用户搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+    <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="添加用户" />
+    </a>
+
   <form id="user_search_form" name="user_search_form" method="get" action="">
     <table width="100%" class="phpshop123_search_box">
       <tr>

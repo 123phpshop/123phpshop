@@ -24,4 +24,5 @@ if (!isset($_SESSION)) {
   session_start();
 }
 $_SESSION['comment_captcha'] = $_vc->getCode();
+include($template_path."index.php");
 ?>

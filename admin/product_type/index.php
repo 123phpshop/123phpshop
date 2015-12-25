@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); 
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="type.html#list";
-$support_email_question="查看产品类型列表";
+$support_email_question="查看商品类型列表";
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -114,13 +114,14 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
 </head>
 
 <body>
-<span class="phpshop123_title">添加产品类型</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">添加商品类型</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php"></a>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">
-      <td nowrap align="right">产品类型:</td>
+      <td nowrap align="right">商品类型:</td>
       <td><input type="text" name="name" value="" size="32" maxlength="32">
       *
       <input name="submit" type="submit" value="添加" /></td>
@@ -164,10 +165,10 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
     <?php do { ?>
       <tr>
         <td><a href="detail.php?recordID=<?php echo $row_product_type['id']; ?>"> <?php echo $row_product_type['name']; ?>&nbsp; </a> </td>
-        <td><div align="right"><a href="remove.php?id=<?php echo $row_product_type['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？')">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">更新</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></div></td>
+        <td><div align="right"><a href="remove.php?id=<?php echo $row_product_type['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？')">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">编辑</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></div></td>
       </tr>
       <?php } while ($row_product_type = mysql_fetch_assoc($product_type)); ?>
-      </table>
+  </table>
   <br>
   <table border="0" width="50%" align="right">
     <tr>
@@ -184,7 +185,7 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
             <a href="<?php printf("%s?pageNum_product_type=%d%s", $currentPage, $totalPages_product_type, $queryString_product_type); ?>">最后一页</a>
             <?php } // Show if not last page ?>      </td>
     </tr>
-      </table>
+  </table>
 记录 <?php echo ($startRow_product_type + 1) ?> 到 <?php echo min($startRow_product_type + $maxRows_product_type, $totalRows_product_type) ?> (总共 <?php echo $totalRows_product_type ?>
 </p>
   <?php } // Show if recordset not empty ?>

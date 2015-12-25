@@ -49,8 +49,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
 <body>
 <span class="phpshop123_title">配送区域列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_shipping_method > 0) { // Show if recordset not empty ?>
-
-  <table width="100%" border="0" align="center" class="phpshop123_list_box">
+    <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
       <td width="8%">ID</td>
       <td width="9%">名称</td>
@@ -67,7 +66,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
         <td><a href="remove.php?id=<?php echo $row_shipping_method['id']; ?>">删除</a> <a href="/admin/shipping_method_area/<?php echo $row_shipping_method_folder['config_file_path'];?>/update.php?id=<?php echo $row_shipping_method['id']; ?>">更新</a> &nbsp; </td>
       </tr>
       <?php } while ($row_shipping_method = mysql_fetch_assoc($shipping_method)); ?>
-      </table>
+  </table>
   <br>
   记录总数:<?php echo $totalRows_shipping_method ?></p>
   <?php } // Show if recordset not empty ?>

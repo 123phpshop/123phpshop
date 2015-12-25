@@ -66,6 +66,9 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
 
 <body>
 <span class="phpshop123_title">管理员列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="add.php">
+<input style="float:right;" type="submit" name="Submit2" value="添加管理员" /></a>
+
 <div align="right">
   <?php if ($totalRows_admins > 0) { // Show if recordset not empty ?>
     

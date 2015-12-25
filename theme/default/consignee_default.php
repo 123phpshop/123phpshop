@@ -15,51 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php
-$could_delete=1;
-$colname_consignee = "-1";
-if (isset($_GET['id'])) {
-  $colname_consignee = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and is_delete=0", $colname_consignee);
-$consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
-$row_consignee = mysql_fetch_assoc($consignee);
-$totalRows_consignee = mysql_num_rows($consignee);
-
-if($totalRows_consignee==0){
-	$could_delete=0;
-} 
-
-if($_SESSION['user_id']!=$row_consignee['user_id']){
-	$could_delete=0;
-}
-
-if($row_consignee['is_delete']=='1'){
-	$could_delete=0;
-}
-
-if($could_delete==1){
-
-	$update_catalog = sprintf("update `user_consignee` set is_default=1 where id = %s", $colname_consignee);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
-	if(!$update_catalog_query){
-		$could_delete=0;
-	}else{
- 		$update_catalog = sprintf("update `user_consignee` set is_default=0 where user_id=%s and id != %s",$_SESSION['user_id'], $colname_consignee);
-		$update_catalog_query = mysql_query($update_catalog, $localhost);
-		if(!$update_catalog_query){
-			$could_delete=0;
-		}else{
-			$remove_succeed_url="/confirm.php";
-			header("Location: " . $remove_succeed_url );
- 		}
- 		
- 	}
-}
- 
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

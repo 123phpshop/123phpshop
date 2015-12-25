@@ -86,6 +86,9 @@ foreach($privileges_array as $row_privileges){
 <form id="form1" name="form1" method="post" action="">
 <input name="" value="更新权限" type="submit" />
 <input type="hidden" name="123phpshop_op" value="update_privileges">
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="角色列表" />
+  </a>
   <table width="200%" border="1" class="phpshop123_list_box">
     <?php foreach ($final_privileges_array as $row_privileges ){ ?>
       <tr>

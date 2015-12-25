@@ -26,9 +26,9 @@
     </tr>
 <tr valign="baseline">
       <td nowrap align="right">上架:</td>
-      <td valign="baseline"><input type="radio" name="is_on_sheft" value="1" <?php if (isset($row_product['is_on_sheft']) && !(strcmp($row_product['is_on_sheft'],"1")) ) {echo "CHECKED";} ?> />
+      <td valign="baseline"><input type="radio" name="is_on_sheft" value="1" <?php if (!isset($row_product['is_on_sheft']) || !(strcmp($row_product['is_on_sheft'],"1")) ) {echo "CHECKED";} ?> />
 是
-  <input type="radio" name="is_on_sheft" value="0" <?php if (!isset($row_product['is_on_sheft']) || !(strcmp($row_product['is_on_sheft'],"0"))) {echo "CHECKED";} ?> />
+  <input type="radio" name="is_on_sheft" value="0" <?php if (isset($row_product['is_on_sheft']) &&  !(strcmp($row_product['is_on_sheft'],"0"))) {echo "CHECKED";} ?> />
   否</td>
     </tr>
     <tr valign="baseline">

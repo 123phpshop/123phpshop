@@ -34,6 +34,7 @@ $totalRows_orders = mysql_num_rows($orders);
 
 <body>
 <span class="phpshop123_title">订单回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="订单列表" /></a>
 
   <?php if ($totalRows_orders > 0) { // Show if recordset not empty ?>
   

@@ -94,7 +94,9 @@ header(sprintf("Location: %s", $insertGoTo));
 
 <body>
 <span class="phpshop123_title">中通:更新配送区域</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<p>&nbsp; </p>
+<p><a href="index.php?shipping_method_id=<?php echo $row_shipping_method['id'];?>">
+<input style="float:right;" type="submit" name="Submit2" value="配送区域列表" />
+</a><a href="index.php"></a> </p>
 
 <form method="POST" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
@@ -126,7 +128,7 @@ header(sprintf("Location: %s", $insertGoTo));
       <td nowrap align="right">单个商品费用:</td>
       <td><input name="single_product_fee" type="text" value="<?php echo $row_shipping_method_area['single_product_fee']; ?>" size="32" maxlength="32">
 *</td>
-      <tr valign="baseline">
+    <tr valign="baseline">
       <td nowrap align="right">区域设置</td>
       <td><?php include_once($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/location_sel.php');?></td>
     </tr>

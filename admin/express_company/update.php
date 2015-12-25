@@ -86,6 +86,9 @@ $totalRows_express_company = mysql_num_rows($express_company);
 
 <body>
 <span class="phpshop123_title">快递公司更新</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="快递公司列表" />
+</a>
 <p>&nbsp; </p>
 
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">

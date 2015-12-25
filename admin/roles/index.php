@@ -35,6 +35,9 @@ $totalRows_getRoles = mysql_num_rows($getRoles);
 <body>
 <span class="phpshop123_title">角色列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
 <?php if ($totalRows_getRoles > 0) { // Show if recordset not empty ?>
+  <a href="add.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加角色" />
+  </a>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th scope="col">ID</th>

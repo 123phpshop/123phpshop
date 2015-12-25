@@ -85,8 +85,11 @@ $totalRows_news_catalog = mysql_num_rows($news_catalog);
 <body>
 
 <span class="phpshop123_title">
-  新闻分类更新</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
+  文章分类更新</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="文章分类列表" />
+  </a>
+  <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <p>&nbsp;</p>
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">

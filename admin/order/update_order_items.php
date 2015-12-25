@@ -49,7 +49,9 @@ $support_email_question="更新订单";
 </head>
 
 <body>
-<p class="phpshop123_title">更新订单中的商品信息</p>
+<p class="phpshop123_title">更新订单中的商品信息<a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="订单列表" />
+</a></p>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>
     <th scope="col"> 产品名称</th>

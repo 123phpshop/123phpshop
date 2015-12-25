@@ -34,6 +34,9 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 
 <body>
 <span class="phpshop123_title">配送方式列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="add.php">
+<input style="float:right;" type="submit" name="Submit2" value="添加配送方式" />
+</a>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
     <td>名称</td>

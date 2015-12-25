@@ -133,7 +133,10 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
 <body>
 <span class="phpshop123_title">导入商品</span>
   <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<p>  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?></p>
+  <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="商品列表" />
+  </a>
+  <p>  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?></p>
 
 <form action="" method="post" enctype="multipart/form-data" name="import_goods_form" id="import_goods_form">
 	<input type="file" name="csv_file" />
@@ -141,45 +144,43 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
 	<input name="MM_insert" type="hidden"   value="import_goods_form" />
  	<p>提示：请按照123phpshop产品固定格式导入，且只能是csv格式，点<a href="../../uploads/impor_example.csv">击这里下载范本</a>。</p>
 </form>
-<p class="phpshop123_title">商品导入历史</p>
-<table width="100%" border="0" align="center" class="phpshop123_list_box">
-  <tr>
-    <td>ID</td>
-    <td>文件名称</td>
-    <td>上传时间</td>
-  </tr>
-  <?php do { ?>
+<?php if ($totalRows_import_logs > 0) { // Show if recordset not empty ?>
+  <p class="phpshop123_title">商品导入历史</p>
+  <table width="100%" border="0" align="center" class="phpshop123_list_box">
     <tr>
-      <td><?php echo $row_import_logs['id']; ?>&nbsp; </td>
-      <td><a href="<?php echo $row_import_logs['file_path']; ?>"> <?php echo str_replace("/uploads/import/","",$row_import_logs['file_path']); ?>&nbsp; </a> </td>
-      <td><?php echo $row_import_logs['create_time']; ?>&nbsp; </td>
+      <td>ID</td>
+      <td>文件名称</td>
+      <td>上传时间</td>
     </tr>
-    <?php } while ($row_import_logs = mysql_fetch_assoc($import_logs)); ?>
-</table>
-<br>
-<table border="0" width="50%" align="right">
-  <tr>
-    <td width="23%" align="center"><?php if ($pageNum_import_logs > 0) { // Show if not first page ?>
-          <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, 0, $queryString_import_logs); ?>">第一页</a>
-          <?php } // Show if not first page ?>
-    </td>
-    <td width="31%" align="center"><?php if ($pageNum_import_logs > 0) { // Show if not first page ?>
-          <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, max(0, $pageNum_import_logs - 1), $queryString_import_logs); ?>">前一页</a>
-          <?php } // Show if not first page ?>
-    </td>
-    <td width="23%" align="center"><?php if ($pageNum_import_logs < $totalPages_import_logs) { // Show if not last page ?>
-          <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, min($totalPages_import_logs, $pageNum_import_logs + 1), $queryString_import_logs); ?>">下一页</a>
-          <?php } // Show if not last page ?>
-    </td>
-    <td width="23%" align="center"><?php if ($pageNum_import_logs < $totalPages_import_logs) { // Show if not last page ?>
-          <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, $totalPages_import_logs, $queryString_import_logs); ?>">最后一页</a>
-          <?php } // Show if not last page ?>
-    </td>
-  </tr>
-</table>
-记录 <?php echo ($startRow_import_logs + 1) ?> 到 <?php echo min($startRow_import_logs + $maxRows_import_logs, $totalRows_import_logs) ?> (总共 <?php echo $totalRows_import_logs ?>
-</p> 0)
-</body>
+    <?php do { ?>
+      <tr>
+        <td><?php echo $row_import_logs['id']; ?>&nbsp; </td>
+        <td><a href="<?php echo $row_import_logs['file_path']; ?>"> <?php echo str_replace("/uploads/import/","",$row_import_logs['file_path']); ?>&nbsp; </a> </td>
+        <td><?php echo $row_import_logs['create_time']; ?>&nbsp; </td>
+      </tr>
+      <?php } while ($row_import_logs = mysql_fetch_assoc($import_logs)); ?>
+  </table>
+  <br>
+  <table border="0" width="50%" align="right">
+    <tr>
+      <td width="23%" align="center"><?php if ($pageNum_import_logs > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, 0, $queryString_import_logs); ?>">第一页</a>
+            <?php } // Show if not first page ?>      </td>
+      <td width="31%" align="center"><?php if ($pageNum_import_logs > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, max(0, $pageNum_import_logs - 1), $queryString_import_logs); ?>">前一页</a>
+            <?php } // Show if not first page ?>      </td>
+      <td width="23%" align="center"><?php if ($pageNum_import_logs < $totalPages_import_logs) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, min($totalPages_import_logs, $pageNum_import_logs + 1), $queryString_import_logs); ?>">下一页</a>
+            <?php } // Show if not last page ?>      </td>
+      <td width="23%" align="center"><?php if ($pageNum_import_logs < $totalPages_import_logs) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_import_logs=%d%s", $currentPage, $totalPages_import_logs, $queryString_import_logs); ?>">最后一页</a>
+            <?php } // Show if not last page ?>      </td>
+    </tr>
+  </table>
+  记录 <?php echo ($startRow_import_logs + 1) ?> 到 <?php echo min($startRow_import_logs + $maxRows_import_logs, $totalRows_import_logs) ?> (总共 <?php echo $totalRows_import_logs ?>
+  </p>
+  0)
+  <?php } // Show if recordset not empty ?></body>
 </html>
 <?php
 mysql_free_result($import_logs);

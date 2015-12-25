@@ -142,6 +142,9 @@ function _get_product_where($get){
 
 <body>
 <span class="phpshop123_title">商品搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<label>
+<a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加商品" /></a>
+</label>
 <form id="product_search" name="product_search" method="get" action="">
   <table width="100%" border="0" class="phpshop123_search_box">
     <tr>
@@ -230,7 +233,7 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
 <?php if ($totalRows_products == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox">没有记录，欢迎添加。</p>
   <?php } // Show if recordset empty ?>
-  </body>
+</body>
 	<link rel="stylesheet" href="../../js/jquery-ui-1.11.4.custom/jquery-ui.min.css">
 	<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
 	<script language="JavaScript" type="text/javascript" src="../../js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>

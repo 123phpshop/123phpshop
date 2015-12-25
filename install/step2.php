@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php
-include_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");	 
+//include_once($_SERVER['DOCUMENT_ROOT']."/Connections/localhost.php");	 
 
 //	这里需要检查是否已经安装过了，如果已经安装过了，那么直接跳转到首页
 $error			=array();
@@ -219,19 +219,38 @@ tr{
       <td><input name="db_password" id="db_password" type="text" maxlength="32" /></td>
     </tr>
     <tr style="border-top:2px solid #CCCCCC;">
+      <th scope="row">表前缀：</th>
+      <td><label>
+        <input name="pre_fix" type="text" id="pre_fix" />
+      [标准版不能指定表前缀，如需指定，请点击购买专业版]</label></td>
+    </tr>
+    <tr style="border-top:2px solid #CCCCCC;">
       <th scope="row"><div align="right">后台管理员账户：</div></th>
       <td><label>
         <input name="admin_username" type="text" id="admin_username" value="admin" maxlength="32" />
       </label></td>
     </tr>
     <tr>
-	
-      <th scope="row"><div align="right">后台管理员密码：</div></th>
+       <th scope="row"><div align="right">后台管理员密码：</div></th>
       <td><input name="admin_password" type="text" id="admin_password" value="123phpshop" maxlength="32" /></td>
     </tr>
     <tr>
       <th scope="row"><div align="right">管理员密码确认：</div></th>
       <td><input name="admin_passconf" type="text" id="admin_passconf" value="123phpshop" maxlength="32" /></td>
+    </tr>
+    <tr>
+      <th scope="row"><div align="right">模板：</div></th>
+      <td><label>
+        <select name="select">
+          <option value="1">默认</option>
+        </select>
+      [点击购买其他模板，或是联系我们的客服进行定制]</label></td>
+    </tr>
+    <tr>
+      <th scope="row"><div align="right">安装路径：</div></th>
+      <td><label>
+        <input type="text" name="textfield" value="<?php echo $_SERVER['DOCUMENT_ROOT'];?>" readonly="true" disabled="disabled" />
+      [标准版不能指定安装路径，如需要，请点击购买专业版]</label></td>
     </tr>
     <tr>
       <td scope="row">&nbsp;</td>

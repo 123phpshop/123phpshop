@@ -88,6 +88,9 @@ $totalRows_shipping_method = mysql_num_rows($shipping_method);
 
 <body>
 <span class="phpshop123_title"><?php echo $row_shipping_method['name']; ?>:更新<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></span>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="配送方式列表" />
+</a>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">

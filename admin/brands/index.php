@@ -67,6 +67,9 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
 <body>
 <?php if ($totalRows_brands > 0) { // Show if recordset not empty ?>
   <span class="phpshop123_title">品牌列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <a href="add.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加品牌" />
+  </a>
   <table border="0" width="50%" align="right">
     <tr>
       <td width="23%" align="center"><?php if ($pageNum_brands > 0) { // Show if not first page ?>

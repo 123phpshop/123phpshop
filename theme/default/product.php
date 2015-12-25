@@ -15,111 +15,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
-require_once ('Connections/localhost.php');
 ?>
-<?php require_once('Connections/lib/product.php'); ?>
-<?php
 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-$is_in_promotion = false;
-$colname_product = "-1";
-if (isset ( $_GET ['id'] )) {
-	$colname_product = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
-}
-
-// 根据id获取商品信息
-mysql_select_db ( $database_localhost, $localhost );
-$query_product = sprintf ( "SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = %s and product.is_delete=0 and product.is_on_sheft=1", $colname_product );
-$product = mysql_query ( $query_product, $localhost ) or die ( mysql_error () );
-$row_product = mysql_fetch_assoc ( $product );
-$totalRows_product = mysql_num_rows ( $product );
-// 如果找不到这个商品的话
-if ($totalRows_product == 0) {
-	$remove_succeed_url = "/";
-	header ( "Location: " . $remove_succeed_url );
-}
-$colname_product_images = "-1";
-if (isset ( $_GET ['id'] )) {
-	$colname_product_images = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
-}
-mysql_select_db ( $database_localhost, $localhost );
-$query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images );
-$product_images = mysql_query ( $query_product_images, $localhost ) or die ( mysql_error () );
-$row_product_images = mysql_fetch_assoc ( $product_images );
-$totalRows_product_images = mysql_num_rows ( $product_images );
-
-$colname_product_image_small = "-1";
-if (isset ( $_GET ['id'] )) {
-	$colname_product_image_small = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
-}
-mysql_select_db ( $database_localhost, $localhost );
-$query_product_image_small = sprintf ( "SELECT * FROM product_images WHERE product_id = %s", $colname_product_image_small );
-$product_image_small = mysql_query ( $query_product_image_small, $localhost ) or die ( mysql_error () );
-$row_product_image_small = mysql_fetch_assoc ( $product_image_small );
-$totalRows_product_image_small = mysql_num_rows ( $product_image_small );
-$could_deliver = false;
-$areas = get_deliver_areas ();
-$colname_consignee = "-1";
-if (isset ( $_SESSION ['user_id'] )) {
-	$colname_consignee = (get_magic_quotes_gpc ()) ? $_SESSION ['user_id'] : addslashes ( $_SESSION ['user_id'] );
-}
-mysql_select_db ( $database_localhost, $localhost );
-$query_consignee = sprintf ( "SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 and is_default=1", $colname_consignee );
-$consignee = mysql_query ( $query_consignee, $localhost ) or die ( mysql_error () );
-$row_consignee = mysql_fetch_assoc ( $consignee );
-$totalRows_consignee = mysql_num_rows ( $consignee );
-$areas = array ();
-// 如果有收货人记录，但是session中么有设置的话
-if ($totalRows_consignee > 0 && ! isset ( $_SESSION ['user'] ['province'] ) && ! isset ( $_SESSION ['user'] ['city'] ) && ! isset ( $_SESSION ['user'] ['district'] )) {
-	
-	$areas [] = $row_consignee ['province'] . "_*_*";
-	$areas [] = $row_consignee ['province'] . "_" . $row_consignee ['city'] . "_*";
-	$areas [] = $row_consignee ['province'] . "_" . $row_consignee ['city'] . "_" . $row_consignee ['district'];
-} else {
-	
-	// 设置默认的收货人数据
-	$_SESSION ['user'] = array ();
-	$global_default_province = "上海";
-	$global_default_city = "上海";
-	$global_default_district = "黄浦区";
-	$areas [] = $global_default_province . "_*_*";
-	$areas [] = $global_default_province . "_" . $global_default_city . "_*";
-	$areas [] = $global_default_province . "_" . $global_default_city . "_" . $global_default_district;
-}
-
-// 检查是否可以发货
-$could_deliver = could_devliver ( $areas );
-
-// 获取分类信息
-mysql_select_db ( $database_localhost, $localhost );
-$query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = " . $row_product ['catalog_id'];
-$product_catalog = mysql_query ( $query_product_catalog, $localhost ) or die ( mysql_error () );
-$row_product_catalog = mysql_fetch_assoc ( $product_catalog );
-$totalRows_product_catalog = mysql_num_rows ( $product_catalog );
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -139,6 +36,10 @@ body {
 
 table {
 	border-collapse: collapse;
+}
+
+#product_intro img{
+	max-width:989px;
 }
 
 body {
@@ -318,6 +219,9 @@ body {
 								<tr>
 									<th height="231" colspan="3" align="left" scope="row"><input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/>
 									<div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div>
+										<?php if(!$user_favorited){ ?><div id="favorite_box" onClick="add_favorite(<?php echo $row_product['id'];?>)" style="display:inline-block;cursor:pointer;text-align:center;margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;">添加收藏</div><?php }else{ ?>
+ 										<div  id="favorite_box" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;" onclick="return false;">已收藏</div>
+ 										<?php }?>
 										<p>
 
 											<!-- JiaThis Button BEGIN -->
@@ -370,7 +274,7 @@ body {
 					cellspacing="0" bordercolor="#DEDFDE" bgcolor="#FFFFFF"
 					style="margin: 0px auto;">
 					<tr>
-						<th bordercolor="#DEDFDE" scope="col"><?php echo $row_product['intro']; ?></th>
+						<th bordercolor="#DEDFDE" scope="col" id="product_intro"><?php echo $row_product['intro']; ?></th>
 					</tr>
 				</table>
 	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/attrs.php'); ?> 
@@ -462,6 +366,24 @@ function _check_deliver(){
   				$("#could_not_buy_button").show();
  		}
  	},'text');  
+}
+
+function add_favorite(product_id){
+	var user_is_logged_in=<?php echo isset($_SESSION['user_id'])?"1":"0";?>;
+	if(user_is_logged_in==0){
+		window.location="/login.php";
+		return;
+	}
+	var url="/ajax_add_favorite.php";
+	
+	$.post(url,{product_id:product_id},function(data){
+		if(data.code=="1"){
+			alert(data.message);return;
+		}
+		// 更新ui
+		$("#favorite_box").html('已收藏');	
+		$("#favorite_box").attr('enabled','false');
+ 	},'json');
 }
  </script>
    <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/footer.php'); ?>

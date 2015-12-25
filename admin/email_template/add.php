@@ -100,7 +100,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
   
     <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
-  <table align="center" class="phpshop123_form_box">
+    <a href="index.php">
+    <input style="float:right;" type="submit" name="Submit2" value="邮件模板列表" />
+    </a>
+    <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">模板名称:</td>
       <td><input name="name" type="text" id="name"  value="" size="32" maxlength="32"></td>

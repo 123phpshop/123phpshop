@@ -89,7 +89,10 @@ $totalRows_links = mysql_num_rows($links);
 
 <body>
 <span class="phpshop123_title">更新友情链接</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
-<form method="post" name="form1" id="form1"  action="<?php echo $editFormAction; ?>">
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="友情链接列表" />
+</a>
+<form  action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">连接文字:</td>
@@ -102,6 +105,12 @@ $totalRows_links = mysql_num_rows($links);
     <tr valign="baseline">
       <td nowrap align="right">排序:</td>
       <td><input name="sort" type="text" value="<?php echo $row_links['sort']; ?>" size="32" maxlength="32"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">更新图片</td>
+      <td><label>
+        <input type="file" name="file" />
+      [购买此功能]</label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

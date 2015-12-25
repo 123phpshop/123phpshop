@@ -98,6 +98,9 @@ $totalRows_logistics = mysql_num_rows($logistics);
 
 <body>
 <span class="phpshop123_title">发货：<?php echo $row_order['sn']; ?></span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<a href="index.php">
+<input style="float:right;" type="submit" name="Submit2" value="订单列表" />
+</a>
 <table width="100%" height="31" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <th scope="row">收货人</th>

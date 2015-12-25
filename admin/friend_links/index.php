@@ -38,7 +38,10 @@ $totalRows_links = mysql_num_rows($links);
   <a href="add.php">
   <?php if ($totalRows_links == 0) { // Show if recordset empty ?>
    </a>
-<p class="phpshop123_infobox"><a href="add.php">没有记录，欢迎添加
+   <a href="add.php">
+   <input style="float:right;" type="submit" name="Submit2" value="添加友情连接" />
+  </a>
+  <p class="phpshop123_infobox"><a href="add.php">没有记录，欢迎添加
     <?php } // Show if recordset empty ?>
   </a>
   <?php if ($totalRows_links > 0) { // Show if recordset not empty ?>

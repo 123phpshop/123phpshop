@@ -58,25 +58,6 @@ if($could_delete==1){
  		
  	}
 }
+include($template_path."consignee_default.php");
  
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-</head>
-
-<body>
-<?php if($could_delete==0){ ?>
-<p>由于一下原因，您不能删除这个分类：</p>
-<p>1. 	地址不存在，请检查参数之后再试。</p>
-<p>2. 系统错误，无法删除，请示稍后再试。 </p>
-<p>3.这个地址不属于您</p>
-<p>您也可以<a href="index.php">点击这里返回</a>。
-  <?php } ?>
-</p>
-</body>
-</html>
-<?php
-mysql_free_result($consignee);
 ?>

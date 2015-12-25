@@ -98,7 +98,9 @@ $support_email_question="更新订单用户";
 </head>
 
 <body>
-<p class="phpshop123_title">更新订单用户</p>
+<p class="phpshop123_title">更新订单用户<a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="订单列表" />
+</a></p>
  <form action="<?php echo $editFormAction; ?>" method="post" name="form1" class="phpshop123_form_box">
   <table align="center">
     <tr valign="baseline">
@@ -129,7 +131,7 @@ $support_email_question="更新订单用户";
 			<?php foreach($please_deliver_at as $key=>$value){ ?>
           	<option value="<?php echo $key;?>" <?php if($key==$row_order['please_delivery_at']){ ?>selected <?php } ?> ><?php echo $value;?></option>
 		  <?php } ?>
-         </select>
+        </select>
       </label></td>
     </tr>
 	
