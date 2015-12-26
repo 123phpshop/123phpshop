@@ -80,7 +80,7 @@ if($totalRows_send_when>0){
 
 <body>
 <span class="phpshop123_title">邮件发送设置</span>
-<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <form id="form1" name="form1" method="POST" action="<?php echo $editFormAction; ?>">
   <p>&nbsp;</p>
   <table width="200" border="0" class="phpshop123_form_box">

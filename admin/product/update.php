@@ -133,7 +133,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 <form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
 <input type="hidden" name="form_op" value="update_order">
   <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
-  <span class="phpshop123_title">更新产品信息</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">更新产品信息</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
     <div style="float:right;display:inline;"><input name="submit" type="button" value="商品列表" style="width:50px;height:30px;"/></div>
    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">

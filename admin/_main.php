@@ -108,6 +108,20 @@ a{
 	text-decoration:none;
 	color:#000000;
 }
+
+#new_version_indicator{
+	background-color:#f5f5f5;
+	border:1px solid #e3e3e3;
+	width:100%;
+	font-size:12px;
+	margin-bottom:20px;
+	min-height:20px;
+ 	padding:10px;
+}
+
+#new_version_indicator a{
+	color:#000000;
+ }
 -->
 </style>
 </head>
@@ -118,7 +132,7 @@ a{
     <td><span class="STYLE1">管理中心</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?></td>
   </tr>
 </table>
-<br />
+<div id="new_version_indicator" style="display:none;">123phpshop出新版本啦！新的版本号是：。各位亲，点击这里下载，点击这里查看详细介绍</div>
 <table width="100%" height="148" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td><div align="left">
@@ -261,26 +275,20 @@ a{
     </table></td>
   </tr>
 </table>
-<p align="left">&nbsp;</p>
-<p>&nbsp;</p>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/json_parse.js"></script>
+
+<script>
+$().ready(function(){
+	var new_version_string=<?php echo file_get_contents("http://www.123phpshop.com/version.php");?>;
+ 	var new_version_obj=eval(new_version_string);
+	var current_version=1.5;
+	if(parseFloat(current_version)<parseFloat(new_version_obj.version)){
+		var new_version_indicator_string="123phpshop出新版本啦！新的版本号是:"+new_version_obj.version+". 各位亲,<a target='_blank' href='"+new_version_obj.download_url+"'>请点击这里下载</a>, <a  target='_blank' href='"+new_version_obj.doc_url+"'>点击这里查看详细介绍</a>,<a target='_blank' href='http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes'>点击这里联系123phpshop进行升级</a>";
+		$("#new_version_indicator").html(new_version_indicator_string);
+		$("#new_version_indicator").show();
+	}
+});
+</script>
 </body>
 </html>
-<?php
-mysql_free_result($orders);
-
-mysql_free_result($users);
-
-mysql_free_result($unpaied);
-
-mysql_free_result($finished);
-
-mysql_free_result($refunded);
-
-mysql_free_result($withdrawled);
-
-mysql_free_result($paid);
-
-mysql_free_result($returned);
-
-mysql_free_result($recent_orders);
-?>

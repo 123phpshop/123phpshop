@@ -48,7 +48,7 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 </head>
 
 <body>
-<span class="phpshop123_title">文章回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">文章回收站</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="文章列表" />
   </a>
 
@@ -59,21 +59,37 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 <?php if ($totalRows_news > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
-      <th width="73%" scope="col">标题</th>
-      <th width="8%" scope="col">创建时间</th>
-      <th width="19%" scope="col">操作</th>
+      <th width="4%" scope="col"><label>
+           <input type="checkbox" id="select_all" onClick="select_all_item()" />
+         </label></th>
+      <th width="79%" scope="col">标题</th>
+      <th width="7%" scope="col">创建时间</th>
+      <th width="10%" scope="col">操作</th>
     </tr>
     <?php do { ?>
       <tr>
+        <td scope="col"><label>
+            <div align="center">
+              <input type="checkbox" name="news_id"  class="item_checkbox" value="<?php echo $row_news['id']; ?>" />
+              </div>
+        </label></td>
         <td scope="col"><?php echo $row_news['title']; ?></td>
         <td scope="col"><?php echo $row_news['create_time']; ?></td>
         <td scope="col"><div align="right"><a onclick="return confirm('您确实要恢复这条记录吗？')" href="unrecycle.php?id=<?php echo $row_news['id']; ?>">恢复</a></div></td>
       </tr>
       <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
   </table>
-  <?php } // Show if recordset not empty ?><p>&nbsp; </p>
+  <?php } // Show if recordset not empty ?><script language="JavaScript" type="text/javascript"
+	src="/js/jquery-1.7.2.min.js"></script>
+ 	<script>
+	function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
 </body>
 </html>
-<?php
-mysql_free_result($news);
-?>

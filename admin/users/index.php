@@ -103,7 +103,7 @@ function _get_user_where($get){
 
 <body>
 <?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
-  <span class="phpshop123_title">用户搜索</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">用户搜索</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
     <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="添加用户" />
     </a>
 
@@ -122,10 +122,12 @@ function _get_user_where($get){
       </tr>
     </table>
   </form>
-  <span class="phpshop123_title">用户列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">用户列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th>ID</th>
+      <th><label>
+           <input type="checkbox" id="select_all" onClick="select_all_item()" />
+         </label></th>
       <th>账号</th>
       <th>邮箱</th>
       <th>手机</th>
@@ -133,7 +135,11 @@ function _get_user_where($get){
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_users['id']; ?></td>
+        <td><label>
+          <div align="center">
+            <input class="item_checkbox" type="checkbox" name="user_id" value="<?php echo $row_users['id']; ?>" />
+            </div>
+        </label></td>
         <td><a href="detail.php?recordID=<?php echo $row_users['id']; ?>"> <?php echo $row_users['username']; ?> </a> </td>
         <td><?php echo $row_users['email']; ?></td>
         <td><?php echo $row_users['mobile']; ?></td>
@@ -163,8 +169,17 @@ function _get_user_where($get){
   <?php if ($totalRows_users == 0) { // Show if recordset not empty ?>
     <p>&nbsp;</p>
     <div class="phpshop123_infobox">没有记录，马上<a href="add.php">添加用户</a>吧！</div>
-    <?php } // Show if recordset not empty ?></body>
+    <?php } // Show if recordset not empty ?>
+	 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+ 	<script>
+     function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
+	</body>
 </html>
-<?php
-mysql_free_result($users);
-?>

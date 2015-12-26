@@ -48,7 +48,7 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
 </head>
 
 <body>
-<span class="phpshop123_title">商品回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?><a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
+<span class="phpshop123_title">商品回收站</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div><a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
 
 <?php if ($totalRows_products == 0) { // Show if recordset empty ?>
     <div class="phpshop123_infobox">回收站中空空如也。</div>
@@ -56,7 +56,9 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
-      <th scope="col">ID</th>
+      <th scope="col"><label>
+        <input type="checkbox" id="select_all" onclick="select_all_item()"  value="checkbox" />
+      </label></th>
       <th scope="col">名称</th>
       <th scope="col">价格</th>
       <th scope="col">市场价</th>
@@ -66,7 +68,11 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_products['id']; ?></td>
+        <td><label>
+          <div align="center">
+            <input type="checkbox" class="item_checkbox" name="product_id" value="<?php echo $row_products['id']; ?>" />
+            </div>
+        </label></td>
         <td><?php echo $row_products['name']; ?></td>
         <td><?php echo $row_products['price']; ?></td>
         <td><?php echo $row_products['market_price']; ?></td>
@@ -76,7 +82,19 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
-  <?php } // Show if recordset not empty ?><p>&nbsp; </p>
+  <?php } // Show if recordset not empty ?>
+  <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+ 	<script>
+     function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
+	
 </body>
 </html>
 <?php

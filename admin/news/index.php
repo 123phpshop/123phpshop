@@ -120,26 +120,33 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
   <?php if ($totalRows_catalog > 0) { // Show if recordset not empty ?>
     <?php echo $row_catalog['name']; ?>-&gt;
 <?php } // Show if recordset not empty ?> 文章列表</span>
-<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <a href="add.php">
 <input style="float:right;" type="submit" name="Submit2" value="添加文章" />
 </a>
 <?php if ($totalRows_news == 0) { // Show if recordset empty ?>
-  <p>现在还没有文章！ <?php if ($totalRows_catalog > 0) { // Show if recordset empty ?>
- <a href="add.php?catalog_id=<?php echo $row_catalog['id']; ?>">欢迎添加！</a> 
+  <p><span class="phpshop123_infobox">现在还没有文章！ 
+    <?php if ($totalRows_catalog > 0) { // Show if recordset empty ?>
+    <a href="add.php?catalog_id=<?php echo $row_catalog['id']; ?>">欢迎添加！</a></span> 
   <?php } // Show if recordset empty ?>	</p>
   <?php } // Show if recordset empty ?>
    
 <?php if ($totalRows_news > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
-      <th scope="col">ID</th>
+      <th scope="col"><label>
+           <input type="checkbox" id="select_all" onClick="select_all_item()" />
+         </label></th>
       <th scope="col">标题</th>
       <th scope="col">操作</th>
     </tr>
     <?php do { ?>
       <tr>
-        <td><label><?php echo $row_news['id']; ?></label></td>
+        <td><label>
+            <div align="center">
+              <input type="checkbox" name="news_id"  class="item_checkbox" value="<?php echo $row_news['id']; ?>" />
+              </div>
+        </label></td>
         <td><?php echo $row_news['title']; ?></td>
         <td><div align="right"><a onClick="return confirm('您确定要删除这条记录吗？')" href="remove.php?id=<?php echo $row_news['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_news['id']; ?>">更新</a></div></td>
       </tr>
@@ -157,13 +164,17 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
     <a href="<?php printf("%s?pageNum_news=%d%s", $currentPage, min($totalPages_news, $pageNum_news + 1), $queryString_news); ?>" class="phpshop123_paging">下一页</a>
 	<a  class="phpshop123_paging" href="<?php printf("%s?pageNum_news=%d%s", $currentPage, $totalPages_news, $queryString_news); ?>">最后一页</a>
       <?php } // Show if not last page ?></p>
-<p align="right">&nbsp; 
-  
-</p>
+<script language="JavaScript" type="text/javascript"
+	src="/js/jquery-1.7.2.min.js"></script>
+ 	<script>
+	function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
 </body>
 </html>
-<?php
-mysql_free_result($catalog);
-
-mysql_free_result($news);
-?>

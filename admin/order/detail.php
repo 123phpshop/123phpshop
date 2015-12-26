@@ -77,7 +77,7 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
 <body>
 		
 <span class="phpshop123_title">订单详细</span>
-<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <table width="100%" border="0" align="center" class="phpshop123_form_box">
   <tr>
     <td>ID</td>
@@ -92,8 +92,9 @@ $log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
     <td><?php echo $row_DetailRS1['username']; ?>[<a href="update_order_user.php?id=<?php echo $row_DetailRS1['id']; ?>">更改订单用户</a>]<?php 
 	$support_email_question="修改订单用户";
 	$doc_url="order.html#update_user";
-	include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
-?></td>
+?>
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.4/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+</td>
   </tr>
   <tr>
     <td>应付</td>

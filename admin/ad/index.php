@@ -66,7 +66,7 @@ $queryString_ads = sprintf("&totalRows_ads=%d%s", $totalRows_ads, $queryString_a
 </head>
 
 <body>
-<span class="phpshop123_title">广告列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">广告列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://phpshop/doc/v1.4/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加广告" /></a>
 
 <?php if ($totalRows_ads == 0) { // Show if recordset empty ?>

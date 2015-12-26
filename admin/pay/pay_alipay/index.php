@@ -52,7 +52,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 	mysql_select_db($database_localhost, $localhost);
-	$query_alipay_config = "SELECT * FROM pay_alipay WHERE id = 1";
+	$query_alipay_config = "SELECT * FROM pay_alipay limit 1";
 	$alipay_config = mysql_query($query_alipay_config, $localhost) or die(mysql_error());
 	$row_alipay_config = mysql_fetch_assoc($alipay_config);
 	$totalRows_alipay_config = mysql_num_rows($alipay_config);
@@ -72,19 +72,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['account'], "text"),
 						   GetSQLValueString($_POST['security_code'], "text"),
 						   GetSQLValueString($_POST['cooperate_user_info'], "text"),
-						   GetSQLValueString($_POST['id'], "int"));
+						   GetSQLValueString($row_alipay_config['id'], "int"));
 	
 	  mysql_select_db($database_localhost, $localhost);
 	  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
 	
 	}
-
-
-	  
 }
 
 mysql_select_db($database_localhost, $localhost);
-$query_alipay_config = "SELECT * FROM pay_alipay WHERE id = 1";
+$query_alipay_config = "SELECT * FROM pay_alipay limit 1";
 $alipay_config = mysql_query($query_alipay_config, $localhost) or die(mysql_error());
 $row_alipay_config = mysql_fetch_assoc($alipay_config);
 $totalRows_alipay_config = mysql_num_rows($alipay_config);
@@ -98,7 +95,7 @@ $totalRows_alipay_config = mysql_num_rows($alipay_config);
 
 <body>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <span class="phpshop123_title">支付宝配置</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+  <span class="phpshop123_title">支付宝配置</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="index.php">
   <input style="float:right;" type="submit" name="Submit2" value="订单列表" />
   </a>

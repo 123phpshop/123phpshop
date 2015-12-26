@@ -33,19 +33,31 @@ $totalRows_orders = mysql_num_rows($orders);
 </head>
 
 <body>
-<span class="phpshop123_title">订单回收站</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">订单回收站</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="订单列表" /></a>
 
   <?php if ($totalRows_orders > 0) { // Show if recordset not empty ?>
   
     <table width="100%" border="1" class="phpshop123_list_box">
        <tr>
+         <th width="12%" scope="col"><label>
+           <input type="checkbox" id="select_all" onClick="select_all_item()" />
+         </label></th>
         <th width="12%" scope="col">订单序列号</th>
+        <th scope="col">用户</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
         <th scope="col"><div align="right">操作</div></th>
       </tr>
       <?php do { ?>
         <tr>
+          <th scope="col"><label>
+            <input type="checkbox" name="order_id"  class="item_checkbox" value="<?php echo $row_orders['id']; ?>" />
+          </label></th>
           <th scope="col"><a href="detail.php?recordID=<?php echo $row_orders['id']; ?>"><?php echo $row_orders['sn']; ?></a></th>
+          <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
           <th scope="col"><div align="right"><a onClick="return confirm('您确认要恢复这个订单么？')"href="unrecycle.php?id=<?php echo $row_orders['id']; ?>">恢复</a></div></th>
         </tr>
         <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
@@ -59,6 +71,16 @@ $totalRows_orders = mysql_num_rows($orders);
   <script language="JavaScript" type="text/javascript"
 	src="/js/jquery-1.7.2.min.js"></script>
 	<script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+	<script>
+	function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
   </body>
   
 </html>

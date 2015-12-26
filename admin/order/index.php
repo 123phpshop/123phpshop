@@ -104,7 +104,7 @@ function _get_order_where($get){
 </head>
 
 <body>
-<span class="phpshop123_title">订单列表</span><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");?>
+<span class="phpshop123_title">订单列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加订单" /></a>
 
 <form id="order_search" name="order_search" method="get">
@@ -150,7 +150,10 @@ function _get_order_where($get){
   <p class="phpshop123_title">订单列表</p>
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th width="5%">订单序列号</th>
+      <th width="5%"> 
+        <label>
+        <input type="checkbox" id="select_all" onclick="select_all_item()"  value="checkbox" />
+      </label></th>
       <th width="10%">用户</th>
       <th width="11%">总计</th>
       <th width="9%">运费</th>
@@ -164,7 +167,11 @@ function _get_order_where($get){
     </tr>
       <?php do { ?>
           <tr>
-            <td><a href="detail.php?recordID=<?php echo $row_orders['id']; ?>"><?php echo $row_orders['sn']; ?></a></td>
+            <td><div align="center">
+          <label>
+          <input class="item_checkbox" type="checkbox" name="order_id" value="<?php echo $row_orders['id']; ?>" />
+          </label>
+          &nbsp;  </div></td>
             <td><div align="center"><?php echo $row_orders['username']; ?>&nbsp; </div></td>
             <td><div align="center">￥<?php echo $row_orders['should_paid']; ?>&nbsp; </div></td>
             <td>￥<?php echo $row_orders['shipping_fee']; ?></td>
@@ -224,6 +231,15 @@ function _get_order_where($get){
 		$( "#pay_from" ).datepicker({ dateFormat: 'yy-mm-dd' });
 		$( "#pay_end" ).datepicker({ dateFormat: 'yy-mm-dd' });
    });
+   
+   function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
 	</script>
 	
 </body>

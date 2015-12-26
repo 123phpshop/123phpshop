@@ -47,12 +47,11 @@ function _is_admin_area() {
 }
 
 function _is_admin_index() {
+	
 	$curr_url = $_SERVER ['REQUEST_URI'];
-	return (strpos ( $curr_url, '/admin/index.php' ) > - 1 || strpos ( $curr_url, '/admin/_left.php' ) > - 1 || strpos ( $curr_url, '/admin/_top.php' ) > - 1);
+	return ($_SERVER ['REQUEST_URI']=='/admin/' ||  strpos ( $curr_url, '/admin/index.php' ) > - 1 || strpos ( $curr_url, '/admin/_left.php' ) > - 1 || strpos ( $curr_url, '/admin/_top.php' ) > - 1);
 }
-
-
-
+ 
 /**
  * 检查当前用户是否属于管理员角色。
  */
