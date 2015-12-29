@@ -20,6 +20,19 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="order.html#list";
 $support_email_question="查看订单列表";
+
+
+// 处理批量操作
+if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `orders` set is_delete=1 where id in (".implode(",",$_POST['order_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+	}
+
+}
+
+
 $maxRows_orders = 50;
 $pageNum_orders = 0;
 if (isset($_GET['pageNum_orders'])) {
@@ -99,7 +112,7 @@ function _get_order_where($get){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>订单列表</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -147,7 +160,10 @@ function _get_order_where($get){
   <p align="right">&nbsp;</p>
 </form>
 <?php if ($totalRows_orders > 0) { // Show if recordset not empty ?>
+
   <p class="phpshop123_title">订单列表</p>
+    <form id="batch_op_form" name="batch_op_form" method="post" action="">
+
   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
       <th width="5%"> 
@@ -169,7 +185,7 @@ function _get_order_where($get){
           <tr>
             <td><div align="center">
           <label>
-          <input class="item_checkbox" type="checkbox" name="order_id" value="<?php echo $row_orders['id']; ?>" />
+          <input name="order_id[]" type="checkbox" class="item_checkbox" value="<?php echo $row_orders['id']; ?>" />
           </label>
           &nbsp;  </div></td>
             <td><div align="center"><?php echo $row_orders['username']; ?>&nbsp; </div></td>
@@ -180,7 +196,7 @@ function _get_order_where($get){
             <td><div align="center"><?php echo isset($shipping_method[$row_orders['shipping_method']])?$shipping_method[$row_orders['shipping_method']]:"未设置"; ?>&nbsp; </div></td>
             <td><div align="center"><?php echo $pay_methomd[$row_orders['payment_method']]; ?>&nbsp; </div></td>
             <td><div align="center"><?php echo $row_orders['invoice_is_needed']=='0'?"":"√"; ?>&nbsp; </div></td>
-            <td><div align="center"><?php echo $row_orders['consignee_name']; ?>&nbsp; </div></td>
+            <td><div align="center"><?php echo $row_orders['consignee_name']; ?>-<?php echo $row_orders['consignee_mobile']; ?></div></td>
             <td> 
 				
 			  <div align="center">
@@ -194,6 +210,21 @@ function _get_order_where($get){
           </tr>
           <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
   </table>
+    <table width="200" border="0" class="phpshop123_infobox">
+      <tr>
+        <td width="5%"><label>
+          <select name="op_id" id="op_id">
+            <option value="0">请选择操作..</option>
+            <option value="100">放入回收站</option>
+                              </select>
+        </label></td>
+        <td width="95%"><label>
+          <input type="submit" name="Submit3" value="确定" />
+			<input type="hidden" value="batch_op" name="form_op"  />
+        </label></td>
+      </tr>
+    </table>
+  </form>
   <br>
   <table border="0" width="50%" align="right">
     <tr>

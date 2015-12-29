@@ -18,6 +18,55 @@
  ?><?php require_once('../../Connections/localhost.php');
 $doc_url="product.html#search";
 $support_email_question="搜索商品"; 
+
+// 处理批量操作
+ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['product_id'])>0){
+			$sql="";
+			switch($_POST['op_id']){
+			
+				case "100":// 删除
+					$sql="update `product` set is_delete=1 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "200": // 上架
+					$on_sheft_time=date('Y-m-d H:i:s');
+					$sql="update `product` set is_on_sheft=1 , on_sheft_time='".$on_sheft_time."' where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "300": // 下架
+					$sql="update `product` set is_on_sheft=0 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "400":	//设置为热销
+					$sql="update `product` set is_hot=1 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "500": //取消热销
+					$sql="update `product` set is_hot=0 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "600":	//设置为推荐
+					$sql="update `product` set is_recommanded=1 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "700": //取消推荐
+					$sql="update `product` set is_recommanded=0 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				
+ 			}	
+			
+			if($sql!=""){
+				mysql_select_db($database_localhost, $localhost);
+				mysql_query($sql, $localhost) or die(mysql_error());
+			}
+  	}
+}
+
+
+
+
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;
@@ -34,6 +83,7 @@ if (isset($_GET['catalog_id'])) {
   $where.=" and catalog_id = ".$colname_products;
 }
 
+// 选择所有未被删除的商品
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE is_delete=0 $where order by id desc";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
@@ -136,7 +186,7 @@ function _get_product_where($get){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>123phpshop-商品列表</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -182,7 +232,8 @@ $doc_url="product.html#list";
 $support_email_question="查看商品列表"; 
 
 if ($totalRows_products > 0) { // Show if recordset not empty ?>
-    <br />
+       <form id="batch_op_form" name="batch_op_form" method="post" action="">
+
     <span class="phpshop123_title">商品列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div><br />
   <br />
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
@@ -202,7 +253,7 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
       <tr>
         <td><div align="center">
           <label>
-          <input class="item_checkbox" type="checkbox" name="product_id" value="<?php echo $row_products['id']; ?>" />
+          <input name="product_id[]" type="checkbox" class="item_checkbox" id="product_id[]" value="<?php echo $row_products['id']; ?>" />
           </label>
           &nbsp;  </div></td>
         <td><a href="update.php?id=<?php echo $row_products['id']; ?>"><?php echo $row_products['name']; ?>&nbsp;</a> </td>
@@ -215,6 +266,28 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
+    <br />
+      <table width="200" border="0" class="phpshop123_infobox">
+        <tr>
+          <td width="5%"><label>
+            <select name="op_id" id="op_id">
+              <option value="0">请选择操作..</option>
+              <option value="100">放入回收站</option>
+              <option value="200">上架</option>
+              <option value="300">下架</option>
+              <option value="400">设为热销</option>
+              <option value="500">取消热销</option>
+			  <option value="600">设为推荐</option>
+              <option value="700">取消推荐</option>
+            </select>
+          </label></td>
+          <td width="95%"><label>
+            <input type="submit" name="Submit3" value="确定" />
+			<input type="hidden" value="batch_op" name="form_op"  />
+          </label></td>
+        </tr>
+      </table>
+  </form>
   <br>
   <table border="0" width="50%" align="right">
     <tr>
@@ -236,7 +309,8 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
   <?php } // Show if recordset not empty ?>	
 
 
-<?php if ($totalRows_products == 0) { // Show if recordset empty ?>
+  <p>&nbsp;</p>
+  <?php if ($totalRows_products == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox">没有记录，欢迎添加。</p>
   <?php } // Show if recordset empty ?>
 </body>

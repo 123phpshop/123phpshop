@@ -19,6 +19,19 @@
 <?php
 $doc_url="order.html#recycled";
 $support_email_question="查看订单回收站";
+
+// 处理批量操作
+if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+
+ 	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `orders` set is_delete=0 where id in (".implode(",",$_POST['order_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+	}
+
+}
+
+
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
 $orders = mysql_query($query_orders, $localhost) or die(mysql_error());
@@ -37,32 +50,49 @@ $totalRows_orders = mysql_num_rows($orders);
   <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="订单列表" /></a>
 
   <?php if ($totalRows_orders > 0) { // Show if recordset not empty ?>
-  
-    <table width="100%" border="1" class="phpshop123_list_box">
+  	    <form id="order_unrecycle_form" name="order_unrecycle_form" method="post">
+
+     <table width="100%" border="1" class="phpshop123_list_box">
        <tr>
          <th width="12%" scope="col"><label>
            <input type="checkbox" id="select_all" onClick="select_all_item()" />
          </label></th>
         <th width="12%" scope="col">订单序列号</th>
-        <th scope="col">用户</th>
-        <th scope="col">&nbsp;</th>
-        <th scope="col">&nbsp;</th>
+        <th scope="col">应付</th>
+        <th scope="col">实付</th>
+        <th scope="col">创建时间</th>
         <th scope="col"><div align="right">操作</div></th>
       </tr>
       <?php do { ?>
-        <tr>
+         <tr>
           <th scope="col"><label>
-            <input type="checkbox" name="order_id"  class="item_checkbox" value="<?php echo $row_orders['id']; ?>" />
+            <input name="order_id[]" type="checkbox"  class="item_checkbox" id="order_id[]" value="<?php echo $row_orders['id']; ?>" />
           </label></th>
           <th scope="col"><a href="detail.php?recordID=<?php echo $row_orders['id']; ?>"><?php echo $row_orders['sn']; ?></a></th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
+          <th scope="col"><?php echo $row_orders['should_paid']; ?></th>
+          <th scope="col"><?php echo $row_orders['actual_paid']; ?></th>
+          <th scope="col"><?php echo $row_orders['create_time']; ?></th>
           <th scope="col"><div align="right"><a onClick="return confirm('您确认要恢复这个订单么？')"href="unrecycle.php?id=<?php echo $row_orders['id']; ?>">恢复</a></div></th>
         </tr>
         <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
   </table>
-    <?php } // Show if recordset not empty ?>
+    <br />
+    <table width="200" border="0" class="phpshop123_infobox">
+      <tr>
+        <td width="5%"><label>
+          <select name="op_id" id="op_id">
+            <option value="0">请选择操作..</option>
+            <option value="100">恢复订单</option>
+          </select>
+        </label></td>
+        <td width="95%"><label>
+          <input type="submit" name="Submit3" value="确定" />
+          <input type="hidden" value="batch_op" name="form_op" />
+        </label></td>
+      </tr>
+    </table>
+	</form>
+      <?php } // Show if recordset not empty ?>
 
 <?php if ($totalRows_orders == 0) { // Show if recordset empty ?>
     <p><span class="phpshop123_infobox">回收站里面空空如也！</span>
@@ -81,6 +111,6 @@ $totalRows_orders = mysql_num_rows($orders);
    }
    
 	</script>
-  </body>
+</body>
   
 </html>

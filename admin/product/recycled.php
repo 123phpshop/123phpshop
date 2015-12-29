@@ -19,6 +19,18 @@
 <?php
 $doc_url="product.html#recycled";
 $support_email_question="浏览产品回收站";
+
+// 处理批量操作
+ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['product_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `product` set is_delete=0 where id in (".implode(",",$_POST['product_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+ 	}
+
+}
+
+
 $maxRows_products = 50;
 $pageNum_products = 0;
 if (isset($_GET['pageNum_products'])) {
@@ -39,6 +51,8 @@ if (isset($_GET['totalRows_products'])) {
   $totalRows_products = mysql_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -54,7 +68,8 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
     <div class="phpshop123_infobox">回收站中空空如也。</div>
   <?php } // Show if recordset empty ?>
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
-  <table width="100%" border="1" class="phpshop123_list_box">
+  <form id="batch_op_form" name="batch_op_form" method="post" action="">
+   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th scope="col"><label>
         <input type="checkbox" id="select_all" onclick="select_all_item()"  value="checkbox" />
@@ -70,8 +85,8 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
       <tr>
         <td><label>
           <div align="center">
-            <input type="checkbox" class="item_checkbox" name="product_id" value="<?php echo $row_products['id']; ?>" />
-            </div>
+            <input name="product_id[]" type="checkbox" class="item_checkbox" id="product_id[]" value="<?php echo $row_products['id']; ?>" />
+          </div>
         </label></td>
         <td><?php echo $row_products['name']; ?></td>
         <td><?php echo $row_products['price']; ?></td>
@@ -82,6 +97,25 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
+  
+  
+  <br />
+    <table width="200" border="0" class="phpshop123_infobox">
+      <tr>
+        <td width="5%"><label>
+          <select name="op_id">
+            <option value="0">请选择操作..</option>
+            <option value="100">恢复商品</option>
+            
+          </select>
+        </label></td>
+        <td width="95%"><label>
+          <input type="submit" name="Submit3" value="确定" />
+          <input type="hidden" value="batch_op" name="form_op" />
+        </label></td>
+      </tr>
+    </table>
+  </form>
   <?php } // Show if recordset not empty ?>
   <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
  	<script>

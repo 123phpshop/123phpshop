@@ -28,4 +28,6 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_template.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/apache-log4php-2.3.0/Logger.php"; 
 Logger::configure($_SERVER["DOCUMENT_ROOT"]."/Connections/log4php.123phpshop.properties");
+global $glogger;
+$glogger = Logger::getRootLogger(); 
 $logger = Logger::getRootLogger(); 

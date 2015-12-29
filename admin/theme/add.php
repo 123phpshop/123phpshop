@@ -35,7 +35,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO theme (name, folder_name, author, version, contact, intro) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO theme (name, folder_name, author, version, contact, intro) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['folder_name'], "text"),
                        GetSQLValueString($_POST['author'], "text"),
@@ -44,8 +44,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
+  $Result1 = mysql_query($insertSQL, $localhost);
+  if(!$Result1){
+  	 $logger->warn(mysql_error().$insertSQL);
+  }
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
@@ -57,7 +59,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 // 获取模板的文件夹列表
 mysql_select_db($database_localhost, $localhost);
 $query_get_themes = "SELECT folder_name FROM theme WHERE is_delete = 0";
-$get_themes = mysql_query($query_get_themes, $localhost) or die(mysql_error());
+$get_themes = mysql_query($query_get_themes, $localhost);
+if(!$get_themes){
+	$logger->warn("查询错误".$query_get_themes);
+}
  $totalRows_get_themes = mysql_num_rows($get_themes);
 if($totalRows_get_themes>0){
 	while($row_get_themes= mysql_fetch_assoc($get_themes)){

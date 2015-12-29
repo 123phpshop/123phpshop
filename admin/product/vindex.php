@@ -141,7 +141,7 @@ function _get_product_where($get){
 </head>
 
 <body>
-<span class="phpshop123_title">虚拟商品搜索</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+ <span class="phpshop123_title">虚拟商品搜索</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <a href="vadd.php"><input style="float:right;" type="submit" name="Submit2" value="添加虚拟商品" /></a>
 
 <form id="product_search" name="product_search" method="get" action="">
@@ -176,13 +176,18 @@ function _get_product_where($get){
     
   </table>
 </form>
+
 <?php if ($totalRows_products > 0) { // Show if recordset not empty ?>
-    <br />
+     <br />
     <span class="phpshop123_title">虚拟商品列表</span><br />
   <br />
+      <form id="batch_op_form" name="batch_op_form" method="post" action="">
+
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>
-      <th>ID</th>
+      <th><label>
+           <input type="checkbox" id="select_all" onClick="select_all_item()" />
+         </label></th>
       <th>产品名称</th>
       <th>价格</th>
       <th>是否上架</th>
@@ -193,7 +198,11 @@ function _get_product_where($get){
       </tr>
     <?php do { ?>
       <tr>
-        <td> <div align="center"><?php echo $row_products['id']; ?>&nbsp;  </div></td>
+        <td> <label>
+            <div align="center">
+              <input type="checkbox" name="product_id[]"  class="item_checkbox" value="<?php echo $row_products['id']; ?>" />
+          </div>
+        </label></td>
         <td><a href="update.php?id=<?php echo $row_products['id']; ?>"><?php echo $row_products['name']; ?>&nbsp;</a> </td>
         <td>￥<?php echo $row_products['price']; ?>&nbsp; </td>
         <td><div align="center"><?php echo $row_products['is_on_sheft']=='1'?"√":""; ?>&nbsp; </div></td>
@@ -204,6 +213,26 @@ function _get_product_where($get){
       </tr>
       <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
   </table>
+      <p>&nbsp;</p>
+      <table width="200" border="0" class="phpshop123_infobox">
+        <tr>
+          <td width="5%"><label>
+            <select name="select">
+              <option value="0">请选择操作..</option>
+              <option value="100">放入回收站</option>
+              <option value="200">上架</option>
+              <option value="300">下架</option>
+              <option value="400">设置为热销</option>
+              <option value="500">取消热销</option>
+            </select>
+          </label></td>
+          <td width="95%"><label>
+            <input type="submit" name="Submit3" value="确定" />
+            <input type="hidden" value="batch_op" name="form_op" />
+          </label></td>
+        </tr>
+      </table>
+    </form>
   <br>
   <table border="0" width="50%" align="right">
     <tr>
@@ -237,6 +266,13 @@ function _get_product_where($get){
 		$( "#on_sheft_from" ).datepicker({ dateFormat: 'yy-mm-dd' });
 		$( "#on_sheft_end" ).datepicker({ dateFormat: 'yy-mm-dd' });
    });
+   function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
 	</script>
 </html>
 <?php

@@ -19,6 +19,17 @@
 <?php
 $doc_url="consult.html#list";
 $support_email_question="查看用户咨询列表";
+
+// 处理批量操作
+ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['consult_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `product_consult` set is_delete=1 where id in (".implode(",",$_POST['consult_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+ 	}
+
+}
+
 $currentPage = $_SERVER["PHP_SELF"];
 $where_query_string=_get_consult_where_query_string();
 $maxRows_consult = 50;
@@ -113,9 +124,10 @@ function _get_consult_where_query_string(){
 </form>
 <p class="phpshop123_title">咨询列表</p>
 <?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
-  <table width="100%" border="1" align="center" class="phpshop123_list_box">
+  <form id="batch_op_form" name="batch_op_form" method="post" action="">
+   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th>ID</th>
+      <th><input name="checkbox" type="checkbox" id="select_all" onclick="select_all_item()" /></th>
       <th>商品</th>
       <th>内容</th>
       <th>是否回复</th>
@@ -124,7 +136,9 @@ function _get_consult_where_query_string(){
     </tr>
     <?php do { ?>
       <tr>
-        <td><a href="detail.php?recordID=<?php echo $row_consult['id']; ?>"> <?php echo $row_consult['id']; ?>&nbsp; </a> </td>
+        <td><div align="center"><a href="detail.php?recordID=<?php echo $row_consult['id']; ?>">
+          <input name="consult_id[]" type="checkbox"  class="item_checkbox" id="news_id[]" value="<?php echo $row_consult['id']; ?>" />
+        &nbsp; </a> </div></td>
         <td><?php echo $row_consult['product_name']; ?>&nbsp; </td>
         <td><?php echo $row_consult['content']; ?>&nbsp; </td>
         <td><?php echo $row_consult['is_replied']=="0"?"<span style='color:red'>未</span>":"√"; ?></td>
@@ -133,30 +147,42 @@ function _get_consult_where_query_string(){
       </tr>
       <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>
   </table>
+  <br />
+  <table width="200" border="0" class="phpshop123_infobox">
+    <tr>
+      <td width="5%"><label>
+        <select name="op_id" id="op_id">
+          <option value="0">请选择操作..</option>
+          <option value="100">删除咨询</option>
+                </select>
+      </label></td>
+      <td width="95%"><label>
+        <input type="submit" name="Submit3" value="确定" />
+        <input type="hidden" value="batch_op" name="form_op" />
+      </label></td>
+    </tr>
+  </table>
   <br>
   <table border="0" width="50%" align="right">
     <tr>
       <td width="23%" align="center"><?php if ($pageNum_consult > 0) { // Show if not first page ?>
             <a href="<?php printf("%s?pageNum_consult=%d%s", $currentPage, 0, $queryString_consult); ?>" class="phpshop123_paging">第一页</a>
-            <?php } // Show if not first page ?>
-      </td>
+            <?php } // Show if not first page ?>      </td>
       <td width="31%" align="center"><?php if ($pageNum_consult > 0) { // Show if not first page ?>
             <a href="<?php printf("%s?pageNum_consult=%d%s", $currentPage, max(0, $pageNum_consult - 1), $queryString_consult); ?>" class="phpshop123_paging">前一页</a>
-            <?php } // Show if not first page ?>
-      </td>
+            <?php } // Show if not first page ?>      </td>
       <td width="23%" align="center"><?php if ($pageNum_consult < $totalPages_consult) { // Show if not last page ?>
             <a href="<?php printf("%s?pageNum_consult=%d%s", $currentPage, min($totalPages_consult, $pageNum_consult + 1), $queryString_consult); ?>" class="phpshop123_paging">下一页</a>
-            <?php } // Show if not last page ?>
-      </td>
+            <?php } // Show if not last page ?>      </td>
       <td width="23%" align="center"><?php if ($pageNum_consult < $totalPages_consult) { // Show if not last page ?>
             <a href="<?php printf("%s?pageNum_consult=%d%s", $currentPage, $totalPages_consult, $queryString_consult); ?>" class="phpshop123_paging">最后一页</a>
-            <?php } // Show if not last page ?>
-      </td>
+            <?php } // Show if not last page ?>      </td>
     </tr>
   </table>
+  <br />
   记录 <?php echo ($startRow_consult + 1) ?> 到 <?php echo min($startRow_consult + $maxRows_consult, $totalRows_consult) ?> (总共 <?php echo $totalRows_consult ?>)
   </p>
-  
+  </form>
   <?php } // Show if recordset not empty ?>	
 
 
@@ -172,7 +198,17 @@ function _get_consult_where_query_string(){
 		$( "#create_end" ).datepicker({ dateFormat: 'yy-mm-dd' });
 	});
 	</script>
-   </body>
+  	<script>
+	function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
+</body>
 </html>
 <?php
 mysql_free_result($consult);

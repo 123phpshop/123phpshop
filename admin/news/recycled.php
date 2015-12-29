@@ -19,6 +19,18 @@
 <?php
 $doc_url="news.html#recycled";
 $support_email_question="查看文章回收站";
+
+// 处理批量操作
+ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['news_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+ 	}
+
+}
+
+
 $maxRows_news = 50;
 $pageNum_news = 0;
 if (isset($_GET['pageNum_news'])) {
@@ -57,6 +69,8 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
     <?php } // Show if recordset empty ?>
 
 <?php if ($totalRows_news > 0) { // Show if recordset not empty ?>
+  <form id="batch_op_form" name="batch_op_form" method="post" action="">
+
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>
       <th width="4%" scope="col"><label>
@@ -70,8 +84,8 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
       <tr>
         <td scope="col"><label>
             <div align="center">
-              <input type="checkbox" name="news_id"  class="item_checkbox" value="<?php echo $row_news['id']; ?>" />
-              </div>
+              <input name="news_id[]" type="checkbox"  class="item_checkbox" id="news_id[]" value="<?php echo $row_news['id']; ?>" />
+          </div>
         </label></td>
         <td scope="col"><?php echo $row_news['title']; ?></td>
         <td scope="col"><?php echo $row_news['create_time']; ?></td>
@@ -79,7 +93,25 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
       </tr>
       <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
   </table>
-  <?php } // Show if recordset not empty ?><script language="JavaScript" type="text/javascript"
+  <br />
+  <table width="200" border="0" class="phpshop123_infobox">
+    <tr>
+      <td width="5%"><label>
+        <select name="op_id" id="op_id">
+          <option value="0">请选择操作..</option>
+          <option value="100">恢复文章</option>
+                </select>
+      </label></td>
+      <td width="95%"><label>
+        <input type="submit" name="Submit3" value="确定" />
+        <input type="hidden" value="batch_op" name="form_op" />
+      </label></td>
+    </tr>
+  </table>
+  </form>
+  <?php } // Show if recordset not empty ?>
+  
+  <script language="JavaScript" type="text/javascript"
 	src="/js/jquery-1.7.2.min.js"></script>
  	<script>
 	function select_all_item(){

@@ -50,14 +50,16 @@ if($could_delete==1){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <?php if($could_delete==0){ ?>
-<p>由于以下原因，您不能恢复这个订单：<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div></p>
-<p>1. 	订单不存在，请检查参数之后再试。</p>
-<p>2. 	系统错误，无法删除，请示稍后再试。 </p>
-<p>您也可以<a href="index.php">点击这里返回</a>。
+<div class="phpshop123_infobox">由于以下原因，您不能恢复这个订单：
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<p >1. 	订单不存在，请检查参数之后再试。</p>
+<p >2. 	系统错误，无法删除，请示稍后再试。 </p>
+<p>您也可以<a href="index.php">点击这里返回</a>。</div>
   <?php } ?>
 </p>
 </body>

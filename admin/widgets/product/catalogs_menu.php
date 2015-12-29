@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,24 +15,54 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php
-mysql_select_db($database_localhost, $localhost);
-$query_catalogs = "SELECT * FROM `catalog`";
-$catalogs = mysql_query($query_catalogs, $localhost) or die(mysql_error());
-$row_catalogs = mysql_fetch_assoc($catalogs);
-$totalRows_catalogs = mysql_num_rows($catalogs);
+?><?php
+
+global $catalog_tree;
+$catalog_tree = array ();
+function get_catalog_tree($parent_catalog = array(), $prefix = "") {
+	// 如果是初次运行的话
+	global $db_database_localhost;
+	global $db_conn;
+	global $glogger;
+	global $catalog_tree;
+	
+	if ($parent_catalog == array ()) {
+		$pid = 0;
+	} else {
+		$pid = $parent_catalog ['id'];
+	}
+	
+	mysql_select_db ( $db_database_localhost, $db_conn );
+	$query_catalogs = "SELECT * FROM `catalog` where is_delete=0 and pid=" . $pid;
+	$glogger->debug ( $query_catalogs );
+	$catalogs = mysql_query ( $query_catalogs, $db_conn ) or die ( mysql_error () );
+	$totalRows_catalogs = mysql_num_rows ( $catalogs );
+	
+	$glogger->debug ( "获取分类的数目：" . $totalRows_catalogs );
+	
+	// 如果找不到记录的话，那么直接返回
+	if ($totalRows_catalogs == 0) {
+		return;
+	}
+	
+	// 如果可以找到记录的话，那么循环这些记录
+	$new_prefix = $prefix . "&nbsp&nbsp&nbsp";
+	while ( $catalog = mysql_fetch_assoc ( $catalogs ) ) {
+ 		$catalog ['prefix'] = $prefix;
+		$catalog_tree [] = $catalog;
+		get_catalog_tree ( $catalog, $new_prefix );
+	}
+}
+get_catalog_tree ();
 ?>
 <select name="catalog_id" id="catalog_id">
   <?php
-do {  
-?>
-  <option value="<?php echo $row_catalogs['id']?>" <?php if(isset($_GET['id']) && isset($row_product['catalog_id']) && $row_catalogs['id']==$row_product['catalog_id']){ ?>selected<?php } ?>><?php echo $row_catalogs['name']?></option>
+		foreach ( $catalog_tree as $catalog_tree_item ) {
+			?>
+  <option value="<?php echo $catalog_tree_item['id']?>"
+		<?php if(isset($_GET['id']) && isset($row_product['catalog_id']) && $catalog_tree_item['id']==$row_product['catalog_id']){ ?>
+		selected <?php } ?>><?php echo $catalog_tree_item['prefix'].$catalog_tree_item['name'];?></option>
   <?php
-} while ($row_catalogs = mysql_fetch_assoc($catalogs));
-  $rows = mysql_num_rows($catalogs);
-  if($rows > 0) {
-      mysql_data_seek($catalogs, 0);
-	  $row_catalogs = mysql_fetch_assoc($catalogs);
-  }
-?>
+		}
+		?>
 </select>

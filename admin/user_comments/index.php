@@ -19,6 +19,17 @@
 <?php
 $doc_url="comment.html#list";
 $support_email_question="查看评论列表";
+
+// 处理批量操作
+if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+	if(count($_POST['comments_id'])>0 && $_POST['op_id']=="100"){	
+			mysql_select_db($database_localhost, $localhost);
+			$sql="update `product_comment` set is_delete=1 where id in (".implode(",",$_POST['comments_id']).")";
+			mysql_query($sql, $localhost) or die(mysql_error());
+	}
+
+}
+
 $currentPage = $_SERVER["PHP_SELF"];
 $where_query_string=_get_comment_where_query_string($_GET);
 $maxRows_comments = 50;
@@ -29,7 +40,7 @@ if (isset($_GET['pageNum_comments'])) {
 $startRow_comments = $pageNum_comments * $maxRows_comments;
 
 mysql_select_db($database_localhost, $localhost);
-$query_comments = "SELECT * FROM product_comment where is_delete=0 $where_query_string ORDER BY id DESC";
+$query_comments = "SELECT product_comment.*,user.username FROM product_comment inner join user on user.id=product_comment.user_id where product_comment.is_delete=0 $where_query_string ORDER BY product_comment.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
 $comments = mysql_query($query_limit_comments, $localhost) or die(mysql_error());
 $row_comments = mysql_fetch_assoc($comments);
@@ -64,11 +75,11 @@ function _get_comment_where_query_string($get){
 	
 	if(isset($get['message']) && trim($get['message'])!=''){
   		 
-		$where_string.=" and  message like'%".$get['message']."%'";
+		$where_string.=" and  product_comment.message like'%".$get['message']."%'";
 	}
 	
 	if( isset($get['create_from']) && trim($get['create_from'])!='' && isset($get['create_end']) && trim($get['create_end'])!=''){
-  		$where_string.=" and  create_time between '".$get['create_from']. "' and '" .$get['create_end'] ." 23:59:59'";
+  		$where_string.=" and  product_comment.create_time between '".$get['create_from']. "' and '" .$get['create_end'] ." 23:59:59'";
 	}
 	
 	return $where_string;
@@ -95,16 +106,17 @@ function _get_comment_where_query_string($get){
         <td><label>
           <div align="right">
             <input type="submit" name="Submit" value="搜索" />
-            </div>
+          </div>
         </label></td>
       </tr>
     </table>
   </form>
   <p class="phpshop123_title">评论列表</p>
   <?php if ($totalRows_comments > 0) { // Show if recordset not empty ?>
-  <table width="100%" border="1" align="center" class="phpshop123_list_box">
+      <form id="batch_op_form" name="batch_op_form" method="post" action="">
+   <table width="100%" border="1" align="center" class="phpshop123_list_box">
     <tr>
-      <th>ID</th>
+      <th><input name="checkbox" type="checkbox" id="select_all" onclick="select_all_item()"  value="checkbox" /></th>
       <th>用户</th>
       <th>消息</th>
       <th>提交时间</th>
@@ -112,13 +124,30 @@ function _get_comment_where_query_string($get){
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_comments['id']; ?>&nbsp; </td>
-        <td><?php echo $row_comments['user_id']; ?>&nbsp; </td>
+        <td><div align="center">
+            <input name="comments_id[]" type="checkbox" class="item_checkbox"  value="<?php echo $row_comments['id']; ?>" />          
+        &nbsp; </div></td>
+        <td><?php echo $row_comments['username']; ?>&nbsp; </td>
         <td><a href="detail.php?recordID=<?php echo $row_comments['id']; ?>"> <?php echo $row_comments['message']; ?>&nbsp; </a> </td>
         <td><?php echo $row_comments['create_time']; ?>&nbsp; </td>
         <td><div align="right"><a onClick="return confirm('你确认要删除这条记录吗？');" href="remove.php?id=<?php echo $row_comments['id']; ?>">删除</a> </div></td>
       </tr>
       <?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+  </table>
+  <br />
+  <table width="200" border="0" class="phpshop123_infobox">
+    <tr>
+      <td width="5%"><label>
+        <select name="op_id" id="op_id">
+          <option value="0">请选择操作..</option>
+          <option value="100">删除评论</option>
+                </select>
+      </label></td>
+      <td width="95%"><label>
+        <input type="submit" name="Submit3" value="确定" />
+        <input type="hidden" value="batch_op" name="form_op">
+      </label></td>
+    </tr>
   </table>
   <br>
   <table border="0" width="50%" align="right">
@@ -137,9 +166,10 @@ function _get_comment_where_query_string($get){
             <?php } // Show if not last page ?>      </td>
     </tr>
   </table>
+  <br />
   记录 <?php echo ($startRow_comments + 1) ?> 到 <?php echo min($startRow_comments + $maxRows_comments, $totalRows_comments) ?> (总共 <?php echo $totalRows_comments ?>) 
   </p>
-   
+   </form>
   <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_comments == 0) { // Show if recordset empty ?>
     <p class="phpshop123_infobox">暂无评论！</p>
@@ -151,8 +181,18 @@ function _get_comment_where_query_string($get){
 	 $(function() {
  		$("#create_from" ).datepicker({dateFormat: 'yy-mm-dd' });
 		$("#create_end" ).datepicker({dateFormat: 'yy-mm-dd' });
-    });</script>
-	</body>
+    });
+	
+	 function select_all_item(){
+     	if($("#select_all").attr("checked")=="checked"){
+			$(".item_checkbox").attr("checked","checked");
+			return;
+		}
+		$(".item_checkbox").removeAttr("checked");
+   }
+   
+	</script>
+</body>
 </html>
 <?php
 mysql_free_result($comments);

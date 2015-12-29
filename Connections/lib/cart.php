@@ -23,6 +23,7 @@ class Cart {
 	 * 构造函数
 	 */
 	public function __construct() {
+		
 		// 这里检查session是否开启，如果没有开启，那么开启
 		if (false == $this->_is_cart_initialized ()) {
 			$this->_init_cart ();
@@ -35,6 +36,7 @@ class Cart {
 	 * @param unknown_type $product        	
 	 */
 	public function add($product) {
+		global $glogger;
 		
 		// 获取默认收货地址
 		
@@ -47,69 +49,36 @@ class Cart {
 		// 如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
 		
+		// $glogger->debug ( "添加商品到购物车：检查商品是否存在：" . $_is_product_exits_in_cart );
+		
+		// 如果购物车中没有该商品的话，那么直接进行添加
 		if (! $_is_product_exits_in_cart) {
+			// $glogger->debug ( "添加商品到购物车：购物车中没有此商品，直接添加商品。" );
 			
 			// 如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
 			$this->_do_add_product ( $product );
 		} else {
-			// 如果没有这个产品的话，那么将这个产品更新到session中的产品中
+			// 如果已经有了这个产品的话，那么需要增加这个商品的数量
+			// $glogger->debug ( "添加商品到购物车：购物车中有此商品，更新商品数量。" );
 			$this->_update_product_quantity ( $product );
 		}
 		
+		// $glogger->debug ( "添加商品到购物车：开始更新商品小计" );
 		// 更新产品总价
 		$this->_update_products_total ();
+		// $glogger->debug ( "添加商品到购物车：结束更新商品小计" );
 		
-		// 更新运费
-		$this->_update_shipping_fee ();
+		// $glogger->debug ( "添加商品到购物车：开始更新运费" );
+		// 清除购物车中的所有促销信息
+		$this->_clear_promotion ();
 		
 		// 更新订单总价
-		$this->_update_order_total ();
+		// $glogger->debug ( "添加商品到购物车：开始更新订单总价" );
+		// $this->_update_order_total ();
 		
 		// 更新购物车中的促销信息
+		// $glogger->debug ( "添加商品到购物车：开始更新购物车中的促销信息" );
 		$this->_update_promotion_info ();
-	}
-	
-	/**
-	 * 更新购物车中的促销信息
-	 */
-	private function _update_promotion_info($order = array()) {
-		
-		// 获取订单的费用
-		if ($order == array ()) {
-			$order = $_SESSION ['cart'];
-		}
-		
-		$products = $order ['products']; // 获取订单的
-		$products_fee = $order ['products_total']; // 获取所有的产品配用
-		$shipping_fee = $order ['shipping_fee']; // 获取运费费用
-		                                         
-		// 获取订单的促销信息
-		$promotion_fee_obj = $this->_123phpshop_get_promotion_fee ( $products_fee, $order ); // 获取促销费用数据
-		
-		$promotion_fee = $promotion_fee_obj ['fee']; // 获取促销的费用
-		$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
-		                                                       // 如果订单之中没有享受过的id的话，有可能是添加的第一个上牌你
-		if ($order ['promotion_id'] == null) {
-			$promotion_id_array = $promotion_fee_obj ['promotion_ids'];
-		} else {
-			$original_promotion_ids = explode ( ",", $order ['promotion_id'] );
-			$promotion_id_array = array_merge ( $original_promotion_ids, $promotion_fee_obj ['promotion_ids'] );
-			$promotion_id_array = array_unique ( $promotion_id_array );
-		}
-		
-		$promotion_fee_promotion_ids = implode ( ",", $promotion_id_array );
-		// 获取订单可以享受到的促销总费用
-		$promotion_fee = floatval ( $order ['promotion_fee'] ) + floatval ( $promotion_fee );
-		
-		// 将赠品添加到购物车中
-		$this->_123phpshop_add_order_presents ( $order, $promotion_presents );
-		
-		$this->_update_shipping_fee ();
-		$shipping_fee = $_SESSION ['cart'] ['shipping_fee'];
-		
-		$order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
-		                                                                                                    // 更新订单总额
-		$this->_do_update_order_fee ( $shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
 	}
 	
 	/**
@@ -176,6 +145,12 @@ class Cart {
 			$_SESSION ['cart'] ['products'] [] = $product;
 		}
 	}
+	
+	/**
+	 * 通过商品的id获取这个商品的图片
+	 *
+	 * @param unknown $product_id        	
+	 */
 	private function _get_product_image_by_id($product_id) {
 		$result = "";
 		global $db_conn;
@@ -262,6 +237,7 @@ class Cart {
 	 * @return unknown[]
 	 */
 	private function _123phpshop_get_promotion_fee($product_fee, $order) {
+		global $glogger;
 		
 		// 初始化结果参数
 		$results = array ();
@@ -284,8 +260,9 @@ class Cart {
 			// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
 			$promotion_ids_array = explode ( ",", $order ['promotion_id'] );
 			
-			// 如果用户已经享受了这个促销
+			// 检查用户已经享受了这个促销
 			$_promotion_in_order = in_array ( $promotion_plan ['id'], $promotion_ids_array );
+			$glogger->debug ( "检查用户是否已经享受了这个促销：" );
 			
 			// 如果用户没有享受过这个促销，而且具有享受这个促销的条件，那么直接添加
 			if ($promotion_plan ['promotion_limit'] == "1") {
@@ -302,6 +279,7 @@ class Cart {
 				
 				// 如果用户已经享受过这个促销的话
 				if ($_promotion_in_order) {
+					$glogger->debug ( "用户是否已经享受了这个促销：跳过。。。" );
 					continue;
 				}
 				
@@ -384,10 +362,11 @@ class Cart {
 				$product_product_fee = $this->_123phpshop_get_product_product_fee ( $order, $promotion_plan );
 				
 				// 然后获取这个促销的金额和赠品
-				$promotion_fee_presents = _get_promotion_fee_presents ( $promotion_plan, $product_product_fee );
+				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $product_product_fee );
 				// 如果指定商品的总额《参与促销活动的最低的金额的话
 				if (( float ) $product_product_fee < ( float ) $promotion_plan ['amount_lower_limit']) {
 					if ($_promotion_in_order) {
+						// 那么将这个促销从订单中删除
 						$this->_unset_promotion ( $promotion_plan, $promotion_fee_presents );
 					}
 					continue;
@@ -418,20 +397,25 @@ class Cart {
 	 * @param array $order        	
 	 */
 	private function _unset_promotion($promotion, $promotion_fee_presents, $order = array()) {
+		global $glogger;
+		$glogger->debug ( "删除促销开始" );
 		if ($order == array ()) {
 			$order = $_SESSION ['cart'];
 		}
 		
-		// 那么将这个促销的id从cart中删除,然后更新订单中的促销的id
+		// 从订单中删除这个促销的id
 		$promotion_ids = $this->_123phpshop_remove_promotion_id_from_order ( $order, $promotion ['id'] );
+		$glogger->debug ( "删除促销：当前订单的促销id：" . $promotion_ids );
+		
+		// 重新更新订单的id
 		$this->_123phpshop_update_order_promotion_id ( $order, $promotion_ids );
+		
+		// 更新订单中的赠品或金额
 		switch ($promotion ['promotion_type']) {
-			case "1" :
-				
+			case "1" : // 如果是满增的话
 				$presents_ids = $this->_remove_presents_id_from_order ( $order, $promotion_fee_presents ['presents'] );
 				break;
-			case "2" :
-				// 恢复促销的金额，然后更新订单中的促销金额
+			case "2" : // 如果是满减的话
 				$promotion_fee = floatval ( $order ['promotion_fee'] ) - floatval ( $promotion_fee_presents ['fee'] );
 				$this->_123phpshop_update_order_promotion_fee ( $promotion_fee, $order );
 				break;
@@ -481,12 +465,12 @@ class Cart {
 	private function _remove_presents_id_from_order($presents_ids, $order = array()) {
 		$result = array ();
 		foreach ( $_SESSION ['cart'] ['products'] as $promotion_id_item ) {
-			if ($promotion_id_item['is_present']=="0" &&　((int) $promotion_id_item != ( int ) $presents_ids)){
+			if ($promotion_id_item ['is_present'] == "0" && 　 ( ( int ) $promotion_id_item != ( int ) $presents_ids )) {
 				$result [] = $promotion_id_item;
 			}
 		}
-		$_SESSION ['cart'] ['products']=$result;
- 	}
+		$_SESSION ['cart'] ['products'] = $result;
+	}
 	/**
 	 * 更新订单的促销费用
 	 *
@@ -691,7 +675,7 @@ class Cart {
 		// 更新订单总价
 		$this->_update_order_total ();
 		
-		$this->_update_promotion_info_for_remove ();
+		$this->_update_promotion_info ();
 		// 更新促销信息
 		
 		return true;
@@ -722,31 +706,36 @@ class Cart {
 	 * @param unknown_type $quantity        	
 	 */
 	public function change_quantity($product_id, $quantity, $attr_value) {
+		global $glogger;
+		$glogger->debug ( "修改购物车中商品的数量开始。。。。" );
 		
 		// 检查产品是否存在，如果不存在，那么告知重新刷新页面
 		$product = $this->_get_product_by_id_attr_value ( $product_id, $attr_value );
+		
+		global $glogger;
+		// $glogger->debug ( "修改购物车中商品的数量：获取商品" );
+		
 		if (! $product) {
+			$glogger->warn ( "修改购物车中商品的数量：获取不到商品：" );
 			throw new Exception ( "商品不存在，请刷新页面后重试" );
 		}
 		
 		// 如果都ok的话，那么这个产品的数量+1，然后返回更新后的数据
 		if (! $this->_do_change_quantity ( $product_id, $quantity, $attr_value )) {
+			$glogger->fatal ( "修改购物车中商品的数量：_do_change_quantity操作失败" );
 			throw new Exception ( "系统错误，请稍后重试" );
 		}
 		
 		// 更新产品总价
 		$this->_update_products_total ();
 		
-		// 更新运费
-		$this->_update_shipping_fee ();
-		
 		// 更新订单总价
 		$this->_update_order_total ();
 		
+		// 清空所有的促销信息，为之后的重新计算做准备
+		$this->_clear_promotion ();
+		
 		// 这里需要检查是增加商品数量，还是减少商品数量
-		if (( int ) $product ['quantity'] > ( int ) $quantity) {
-			return $this->_update_promotion_info_for_remove ();
-		}
 		return $this->_update_promotion_info ();
 	}
 	
@@ -964,10 +953,14 @@ class Cart {
 		// 如果在的话，那么将这个产品从购物车中移除
 		$this->_do_remove_from_cart ( $product_id, $attr_value );
 		
-		// 更新总价
+		// 更新商品总价
 		$this->_update_products_total ();
 		
-		$this->_update_promotion_info_for_remove ();
+		// 清空总的全部促销信息
+		$this->_clear_promotion ();
+		
+		// 更新购物车中的促销信息
+		$this->_update_promotion_info ();
 		return true;
 	}
 	private function _update_fee_promotion($order = array()) {
@@ -980,7 +973,8 @@ class Cart {
 		// 更新产品总价
 		$this->_update_products_total ( $order );
 		
-		$this->_update_promotion_info_for_remove ( $order );
+		// 更新促销信息
+		$this->_update_promotion_info ( $order );
 	}
 	
 	/**
@@ -988,7 +982,7 @@ class Cart {
 	 *
 	 * @return number
 	 */
-	private function _update_promotion_info_for_remove($order = array()) {
+	private function _update_promotion_info($order = array()) {
 		
 		// 获取订单的费用
 		if ($order == array ()) {
@@ -998,8 +992,11 @@ class Cart {
 		$products = $order ['products']; // 获取订单的
 		$products_fee = $order ['products_total']; // 获取所有的产品配用
 		                                           
-		// 这里需要将所有已经享受的促销删除
-		$order ['promotion_id'] = "";
+		// 如果购物车中没有商品的话，那么直接初始化即可
+		if (count ( $products ) == 0) {
+			$this->_init_cart ();
+			return;
+		}
 		
 		// 获取订单的促销信息
 		$promotion_fee_obj = $this->_123phpshop_get_promotion_fee ( $products_fee, $order ); // 获取促销费用数据
@@ -1007,21 +1004,36 @@ class Cart {
 		$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
 		$promotion_fee_promotion_ids = $promotion_fee_obj ['promotion_ids'];
 		
-		// 清除购物车中的赠品
-		$this->_123phpshop_clear_order_presents ();
-		
 		// 将赠品添加到购物车中
 		$this->_123phpshop_add_order_presents ( $order, $promotion_presents );
 		
-		// 更新运费
+		// 因为有赠品添加进入，所以这里需要更新运费
 		$this->_update_shipping_fee ( $this->order );
 		$shipping_fee = $_SESSION ['cart'] ['shipping_fee']; // 获取运费费用
 		                                                     
-		// 获取订单可以享受到的促销总费用
+		// 获取订单总费用
 		$order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
 		                                                                                                    
 		// 更新订单总额
 		$this->_do_update_order_fee ( $shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
+	}
+	
+	/**
+	 * 清除订单中的促销信息
+	 *
+	 * @param array $order        	
+	 */
+	private function _clear_promotion($order = array()) {
+		
+		// 如果订单的为空的话，那么直接操作session
+		if ($order == array ()) {
+			$_SESSION ['cart'] ['promotion_id'] = array (); // 清除促销金额
+			$_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['order_total'] ) + floatval ( $_SESSION ['cart'] ['promotion_fee'] ); // 清楚
+			$_SESSION ['cart'] ['promotion_fee'] = 0.00; // 清楚
+			$this->_123phpshop_clear_cart_presents ();
+		}
+		
+		return $order;
 	}
 	
 	/**
@@ -1070,12 +1082,16 @@ class Cart {
 	/**
 	 * 初始化购物车
 	 */
-	function _init_cart() {
+	private function _init_cart() {
+		global $glogger;
+		$glogger->debug ( "购物车初始化" );
+		
 		// 检查session是否开启，如果没有开启的话，那么开启session；
 		if (! isset ( $_SESSION )) {
-			include_once $_SERVER['DOCUMENT_ROOT']."/Connections/lib/init_session.php";
+			include_once $_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/init_session.php";
 			session_start ();
 		}
+		
 		$_SESSION ['cart'] = array (); // 初始化购物车
 		$_SESSION ['cart'] ['promotion_id'] = array (); // 初始化可以享受的促销类型
 		$_SESSION ['cart'] ['promotion_fee'] = 0.00; // 初始化可以享受的促销类型
@@ -1090,7 +1106,10 @@ class Cart {
 	 *
 	 * @return number
 	 */
-	function _update_products_total() {
+	private function _update_products_total() {
+		global $glogger;
+		$glogger->debug ( "更新购物车中的商品总价" );
+		
 		$product_total = 0.00;
 		if (count ( $_SESSION ['cart'] ['products'] ) == 0) {
 			return $product_total;
@@ -1125,7 +1144,10 @@ class Cart {
 	/**
 	 * 更新购物车中的运费
 	 */
-	function _update_shipping_fee() {
+	private function _update_shipping_fee() {
+		global $glogger;
+		$glogger->debug ( "更新购物车中的运费" );
+		
 		require_once ($_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/order.php");
 		$shipping_fee = get_shipping_fee ();
 		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee ['shipping_fee'];
@@ -1134,16 +1156,22 @@ class Cart {
 	}
 	
 	// 更新运费
-	function update_shipping_fee() {
+	public function update_shipping_fee() {
 		require_once ($_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/order.php");
 		$shipping_fee = get_shipping_fee ();
+		global $glogger;
+		$glogger->debug ( "更新运费shipping_fee:" . $shipping_fee ['shipping_fee'] );
+		$glogger->debug ( "更新运费shipping_fee_plan:" . $shipping_fee ['shipping_fee_plan'] );
 		$_SESSION ['cart'] ['shipping_fee'] = $shipping_fee ['shipping_fee'];
 		$_SESSION ['cart'] ['shipping_method_id'] = $shipping_fee ['shipping_fee_plan'];
 		return true;
 	}
 	
 	// 更新订单总价
-	function _update_order_total() {
-		return $_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['products_total'] ) - floatval ( $_SESSION ['cart'] ['promotion_fee'] );
+	private function _update_order_total() {
+		$_SESSION ['cart'] ['order_total'] = floatval ( $_SESSION ['cart'] ['shipping_fee'] ) + floatval ( $_SESSION ['cart'] ['products_total'] ) - floatval ( $_SESSION ['cart'] ['promotion_fee'] );
+		global $glogger;
+		$glogger->debug ( "更新订单总价:" . $_SESSION ['cart'] ['order_total'] );
+		return $_SESSION ['cart'] ['order_total'];
 	}
 }

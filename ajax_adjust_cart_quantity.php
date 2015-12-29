@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,25 +15,43 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
+?><?php
+
+require_once ('Connections/localhost.php');
+?>
 <?php
-$result=array('code'=>'0','message'=>'SUCCEED','data'=>array());
+
+$result = array (
+		'code' => '0',
+		'message' => 'SUCCEED',
+		'data' => array () 
+);
 $cart_obj = new Cart ();
-$product_id=(int)($_POST['product_id']);
-$quantity= (int)($_POST['quantity']);
-$attr_value=$_POST['attr_value'];
-try{
-	
-	if($quantity>0){
-		$cart_obj->change_quantity($product_id, $quantity,$attr_value);
+$product_id = ( int ) ($_POST ['product_id']);
+$quantity = ( int ) ($_POST ['quantity']);
+$attr_value = $_POST ['attr_value'];
+try {
+	if ($quantity > 0) {
+		$cart_obj->change_quantity ( $product_id, $quantity, $attr_value );
 	}
 	
- 	$result['data']['total_price']=$_SESSION ['cart'] ['order_total'];
-	$result['data']['shipping_fee']=$_SESSION ['cart'] ['shipping_fee'];
-	$result['data']['products_total']=$_SESSION ['cart'] ['products_total'];
-	$result['data']['promotion_fee']=$_SESSION ['cart'] ['promotion_fee'];
-}catch(Exception $ex){
- 	$result=array('code'=>'1','message'=>$ex->getMessage());
+	$presents_ids = array ();
+	foreach ( $_SESSION ['cart'] ['products'] as $product ) {
+ 		if (isset ( $product ['is_present'] ) && $product ['is_present'] == 1) {
+			$presents_ids [] = $product ['product_id'];
+		}
+	}
+	
+	$result ['data'] ['total_price'] = $_SESSION ['cart'] ['order_total'];
+	$result ['data'] ['shipping_fee'] = $_SESSION ['cart'] ['shipping_fee'];
+	$result ['data'] ['products_total'] = $_SESSION ['cart'] ['products_total'];
+	$result ['data'] ['promotion_fee'] = $_SESSION ['cart'] ['promotion_fee'];
+	$result ['data'] ['presents_ids'] = implode ( ',', $presents_ids );
+} catch ( Exception $ex ) {
+	$result = array (
+			'code' => '1',
+			'message' => $ex->getMessage () 
+	);
 }
- 
-die(json_encode($result));
+
+die ( json_encode ( $result ) );

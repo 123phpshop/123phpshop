@@ -43,7 +43,7 @@ $support_email_question="模板列表";
         <td><div align="center"><?php echo $row_themes['version']; ?></div></td>
         <td><div align="center"><?php echo $row_themes['contact']; ?></div></td>
         <td><div align="center"><?php echo $row_themes['is_delete']==0?"√":""; ?></div></td>
-        <td>安装 <?php if($row_themes['is_delete']==1){ ?><a href="activate.php?id=<?php echo $row_themes['id']; ?>">激活</a><?php } ?> <?php if($row_themes['is_delete']==0){ ?><a href="deactivate.php?id=<?php echo $row_themes['id']; ?>">停用</a> <?php } ?><a href="update.php?id=<?php echo $row_themes['id']; ?>">更新</a> </td>
+        <td><?php if($row_themes['is_delete']==1){ ?><a href="activate.php?id=<?php echo $row_themes['id']; ?>">激活</a><?php } ?> <?php if($row_themes['is_delete']==0){ ?><a href="deactivate.php?id=<?php echo $row_themes['id']; ?>">停用</a> <?php } ?><a href="update.php?id=<?php echo $row_themes['id']; ?>">更新</a> </td>
       </tr>
       <?php } while ($row_themes = mysql_fetch_assoc($themes)); ?>
   </table>
