@@ -37,6 +37,5 @@ if(!isset($_SESSION['user_id'])){
 }
 ?>
 <?php
-mysql_free_result($check_pass);
 die($result);
 ?>

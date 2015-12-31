@@ -28,8 +28,8 @@ if (isset($_GET['accesscheck'])) {
 if (isset($_POST['username'])) {
 	
   // 这里对字段进行验证
- 	$validation->set_rules('username', '用户名', 'required|min_length[2]|alpha_dash');
-	$validation->set_rules('password', '密码',  'required|alpha_dash');
+ 	$validation->set_rules('username', '用户名', 'required|min_length[2]|alpha_dash|max_length[18]');
+	$validation->set_rules('password', '密码',  'required|alpha_dash|max_length[18]');
 	$validation->set_rules('captcha',  '验证码', 'required|exact_length[4]|alpha_numeric');
  	if (!$validation->run())
 	{

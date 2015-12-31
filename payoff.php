@@ -18,6 +18,15 @@
  ?><?php require_once('Connections/localhost.php'); ?>
 <?php
 
+// 这里对字段进行验证,如果字段不合法，那么直接跳转到主页
+$_POST=$_GET;
+$validation->set_rules('order_sn', '', 'required|is_natural_no_zero');
+if (!$validation->run())
+{
+	$MM_redirectLoginFailed = "/index.php";
+	header("Location: ". $MM_redirectLoginFailed );return;
+}
+
 // 通过s3来获取订单， 。通过订单的序列号来获取订单的详细情况。
 $colname_order = "-1";
 if (isset($_GET['order_sn'])) {

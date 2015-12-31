@@ -15,11 +15,9 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../Connections/localhost.php'); ?>
-<frameset rows="110,*" frameborder="0" scrolling="no">
-<frame src="_top.php" name="_top" scrolling="no"/>
-	<frameset cols="15%,*" scrolling="no">
-		<frame src="_left.php" name="_left"/>
-		<frame src="<?php echo isset($_GET['path'])?$_GET['path']:'order/index.php';?>" name="main"/>
-	</frameset>
-</frameset><noframes></noframes>
+ ?>﻿<script type="text/javascript" src="/widget/area/jsAddress.js"></script>
+
+<select id="province"  name="province" ></select>&nbsp;&nbsp;<select id="city"  name="city"></select>&nbsp;&nbsp;<select id="district"  name="district"></select>
+<script type="text/javascript">
+ 	addressInit('province', 'city', 'district', '上海', '上海', '黄浦区');
+</script>

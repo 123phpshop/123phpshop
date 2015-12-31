@@ -17,6 +17,14 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
+
+// 这里对字段进行验证
+$validation->set_rules('password', '', 'required|min_length[8]|max_length[18]|alpha_dash');
+if (!$validation->run())
+{
+	$result="false";
+}
+
 $result="true";
 if(!isset($_SESSION['user_id'])){
 		$result="false";
@@ -37,6 +45,5 @@ if(!isset($_SESSION['user_id'])){
 }
 ?>
 <?php
-mysql_free_result($check_pass);
 die($result);
 ?>

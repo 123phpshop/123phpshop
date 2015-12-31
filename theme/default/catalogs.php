@@ -82,9 +82,9 @@ a{
 </head>
 
 <body style="margin:0px;">
-<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/top_full_nav.php'); ?>
-<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/logo_search_cart.php'); ?>
-<?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/full_ori_nav_1210.php'); ?>
+<?php include_once($template_path.'/widget/top_full_nav.php'); ?>
+<?php include_once($template_path.'/widget/logo_search_cart.php'); ?>
+<?php include_once($template_path.'/widget/full_ori_nav_1210.php'); ?>
 <div class="catalog_row">
   <a href="/catalogs.php"> <div class="catalog_row_item_active">全部商品分类</div></a>
 <a href="/brands_list.php"> <div class="catalog_row_item">全部品牌</div></a>

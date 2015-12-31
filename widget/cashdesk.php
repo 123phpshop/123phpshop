@@ -15,26 +15,24 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?><?php
-$maxRows_DetailRS1 = 50;
-$pageNum_DetailRS1 = 0;
-if (isset($_GET['pageNum_DetailRS1'])) {
-  $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];
-}
-$startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
-
+ ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+<?php
 mysql_select_db($database_localhost, $localhost);
-$recordID = $_GET['recordID'];
-$query_DetailRS1 = "SELECT * FROM product_consult WHERE content = '$recordID' ORDER BY id DESC";
-$query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
-
-if (isset($_GET['totalRows_DetailRS1'])) {
-  $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
-} else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
-  $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
-}
-$totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
+$query_shopinfo = "SELECT logo_path FROM shop_info WHERE id = 1";
+$shopinfo = mysql_query($query_shopinfo, $localhost) or die(mysql_error());
+$row_shopinfo = mysql_fetch_assoc($shopinfo);
+$totalRows_shopinfo = mysql_num_rows($shopinfo);
 ?>
+<table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+  <tr>
+    <td>&nbsp;</td>
+    <td width="990" valign="middle" ><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="3%"><img   src="<?php echo $row_shopinfo['logo_path']; ?>" height="28" /></td>
+          <td width="86%"><strong style="line-height:58px;">收银台</strong></td>
+          <td width="11%">&nbsp;</td>
+        </tr>
+      </table></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>

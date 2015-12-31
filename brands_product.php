@@ -17,7 +17,15 @@
  */
  ?><?php require_once('Connections/localhost.php'); ?>
 <?php
- 
+// 这里对字段进行验证,如果字段不合法，那么直接跳转到主页
+$_POST=$_GET;
+$validation->set_rules('brand_id', '', 'required|is_natural_no_zero');
+if (!$validation->run())
+{
+	$MM_redirectLoginFailed = "/index.php";
+	header("Location: ". $MM_redirectLoginFailed );return;
+}
+
 $colname_brand = "-1";
 if (isset($_GET['brand_id'])) {
   $colname_brand = (get_magic_quotes_gpc()) ? $_GET['brand_id'] : addslashes($_GET['brand_id']);

@@ -22,6 +22,16 @@ require_once ('Connections/localhost.php');
 <?php require_once('Connections/lib/product.php'); ?>
 <?php
 
+// 这里对字段进行验证
+$_POST=$_GET;
+$validation->set_rules('id', '', 'required|is_natural_no_zero');
+if (!$validation->run())
+{
+	$MM_redirectLoginFailed = "/index.php";
+	header("Location: ". $MM_redirectLoginFailed );return;
+}
+
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
 	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
 	
@@ -45,6 +55,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 	}
 	return $theValue;
 }
+
 $user_favorited=false;
 $is_in_promotion = false;
 $colname_product = "-1";

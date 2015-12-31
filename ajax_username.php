@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,23 +15,35 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php
-$result="true";
-$colname_get_username = "-1";
-if (isset($_POST['username'])) {
-  $colname_get_username = (get_magic_quotes_gpc()) ? $_POST['username'] : addslashes($_POST['username']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_get_username = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_get_username);
-$get_username = mysql_query($query_get_username, $localhost) or die(mysql_error());
-$row_get_username = mysql_fetch_assoc($get_username);
-$totalRows_get_username = mysql_num_rows($get_username);
-if($totalRows_get_username>0){
-	$result="false";
-}
-?> 
-<?php
- mysql_free_result($get_username);
-	die($result);
+?><?php
+
+require_once ('Connections/localhost.php');
 ?>
+<?php
+
+try {
+	
+	// 这里对字段进行验证
+	$validation->set_rules ( 'username', '用户名', 'required|min_length[6]|max_length[18]|alpha_dash' );
+	if (! $validation->run ()) {
+		$logger->fatal ( "用户在注册候出现参数错误问题，ip是." . $_SERVER ['REMOTE_ADDR'] . ", 企图注册的用户名是：" . $_POST ['username'] );
+		throw new Exception ( "参数错误！" );
+	}
+	
+	$result = "true";
+	$colname_get_username = "-1";
+	if (isset ( $_POST ['username'] )) {
+		$colname_get_username = (get_magic_quotes_gpc ()) ? $_POST ['username'] : addslashes ( $_POST ['username'] );
+	}
+	mysql_select_db ( $database_localhost, $localhost );
+	$query_get_username = sprintf ( "SELECT * FROM `user` WHERE username = '%s'", $colname_get_username );
+	$get_username = mysql_query ( $query_get_username, $localhost ) or die ( mysql_error () );
+	$row_get_username = mysql_fetch_assoc ( $get_username );
+	$totalRows_get_username = mysql_num_rows ( $get_username );
+	if ($totalRows_get_username > 0) {
+		$result = "false";
+	}
+	die ( $result );
+} catch ( Exception $ex ) {
+	die ( "false" );
+}

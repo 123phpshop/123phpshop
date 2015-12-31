@@ -16,6 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php
+ $error="";
 global $www_root;
 global $db_hostname_localhost;
 global $db_username_localhost;

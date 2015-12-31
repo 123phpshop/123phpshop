@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,103 +15,123 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php
- 
-function ckeditor_upload(){
-	
-	if($_SERVER['REQUEST_METHOD']=='POST' && $_FILES['upload']['name']!=''){
+?><?php
+
+function ckeditor_upload() {
+	if ($_SERVER ['REQUEST_METHOD'] == 'POST' && $_FILES ['upload'] ['name'] != '') {
 		// 我们这里需要对上传文件进行检查
-  		include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
-	  
-		$up = new fileupload();
-		//设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
-		$up -> set("path", $_SERVER['DOCUMENT_ROOT']."/uploads/");
-		$up -> set("maxsize", 2000000);
-		$up -> set("allowtype", array("gif", "png", "jpg","jpeg"));
-		$up -> set("israndname", true);
-	  	
-		//使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
-		if($up->upload("upload")) {
-		   $image_path="/uploads/ad/".$up->getFileName();
-		   $callback = $_REQUEST["CKEditorFuncNum"];  
- 			echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($callback,'".$image_path."','');</script>";  die; 
-		}else {
+		include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
+		
+		$up = new fileupload ();
+		// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
+		$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/" );
+		$up->set ( "maxsize", 2000000 );
+		$up->set ( "allowtype", array (
+				"gif",
+				"png",
+				"jpg",
+				"jpeg" 
+		) );
+		$up->set ( "israndname", true );
+		
+		// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
+		if ($up->upload ( "upload" )) {
+			$image_path = "/uploads/ad/" . $up->getFileName ();
+			$callback = $_REQUEST ["CKEditorFuncNum"];
+			echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($callback,'" . $image_path . "','');</script>";
+			die ();
+		} else {
 			echo '<pre>';
-			//获取上传失败以后的错误提示
-			var_dump($up->getErrorMsg());
+			// 获取上传失败以后的错误提示
+			var_dump ( $up->getErrorMsg () );
 			echo '</pre>';
-			die;
+			die ();
 		}
 	}
 }
 
 /**
  * 是否可以撤销订单？
- * @param unknown_type $status
+ * 
+ * @param unknown_type $status        	
  */
-function could_withdraw($status){
-	 
-//	如果商家已经发货或是
- 	if((int)$status>=200 || (int)$status<0){
+function could_withdraw($status) {
+	
+	// 如果商家已经发货或是
+	if (( int ) $status >= 200 || ( int ) $status < 0) {
 		return false;
 	}
 	
-	return true	;
+	return true;
 }
 
 /**
  * 是否应该支付
- * @param unknown_type $status
+ * 
+ * @param unknown_type $status        	
  */
-function should_pay($status){
-//	如果用户已经支付过了的话，那么是不要再支付的
-//	如果用户已经撤销订单，或是已经退货退款的话，那么是不能支付的
- 	if((int)$status>=100 ||(int)$status<=-100){
+function should_pay($status) {
+	// 如果用户已经支付过了的话，那么是不要再支付的
+	// 如果用户已经撤销订单，或是已经退货退款的话，那么是不能支付的
+	if (( int ) $status >= 100 || ( int ) $status <= - 100) {
 		return FALSE;
 	}
-	return TRUE;	
+	return TRUE;
 }
-
-function could_deliver($status){
+function could_deliver($status) {
 	return false;
 }
-
-function could_recieved($status){
-	if((int)$status==200){
+function could_recieved($status) {
+	if (( int ) $status == 200) {
 		return true;
 	}
 	
 	return false;
 }
-function could_return($status){
- 	return (int)$status==300;
+function could_return($status) {
+	return ( int ) $status == 300;
 }
-function phpshop_log($message){
-		 
-	$log_file_dir=$_SERVER['DOCUMENT_ROOT']."/log/";
-	$log_file_path=$log_file_dir.date("Y-m-d");
-	$f=fopen($log_file_path,"a+");
-	if(!is_dir($log_file_dir) && !mkdir($log_file_dir)){
-		return ;
+function phpshop_log($message) {
+	$log_file_dir = $_SERVER ['DOCUMENT_ROOT'] . "/log/";
+	$log_file_path = $log_file_dir . date ( "Y-m-d" );
+	$f = fopen ( $log_file_path, "a+" );
+	if (! is_dir ( $log_file_dir ) && ! mkdir ( $log_file_dir )) {
+		return;
 	}
-  	fwrite($f,date("Y-m-d H:i:s")." ".$message."\n");
-	fclose($f);
+	fwrite ( $f, date ( "Y-m-d H:i:s" ) . " " . $message . "\n" );
+	fclose ( $f );
 	return;
 }
 
-function get_logistic_process_info(){
-	return array();
+/**
+ * 获取物流的处理过程
+ */
+function get_logistic_process_info() {
+	return array ();
 }
 
-function get_deliver_areas(){
-	$result=array();
-	$result[]="上海";
-	$result[]="上海";
-	$result[]="黄浦区";
+/**
+ * 获取运送区域
+ * 
+ * @return string[]
+ */
+function get_deliver_areas() {
+	$result = array ();
+	$result [] = "上海";
+	$result [] = "上海";
+	$result [] = "黄浦区";
 	return $result;
 }
-
-function echo_post($var){
-	echo isset($var)?$var:'';
+function echo_post($para) {
+	if ($_POST == array ()){
+		echo '';
+		return;
+	}
+	if ( ! isset ( $para ) || empty ( $para ) || ! array_key_exists ( $key, $para )) {
+		echo '';
+		return;
+	}
+	
+	echo $para;
 }
 ?>

@@ -154,6 +154,13 @@ $totalRows_info = mysql_num_rows($info);
           <td><img src="<?php echo $row_info['logo_path']; ?>" /></td>
         </tr>
         <tr valign="baseline">
+          <td nowrap align="right">支持</td>
+          <td><label>
+            <input type="checkbox" name="checkbox" value="checkbox" />
+          </label>
+            将网站的错误信息发送给123phpshop,在第一时间获取技术支持[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_parent">购买此服务</a>]</td>
+        </tr>
+        <tr valign="baseline">
           <td nowrap align="right">更新Logo:</td>
           <td><input type="file" name="logo_path" value="<?php echo isset($row_info['logo_path'])?$row_info['logo_path']:""; ?>" size="32"></td>
         </tr>
@@ -161,7 +168,7 @@ $totalRows_info = mysql_num_rows($info);
           <td nowrap align="right">统计代码：</td>
           <td><label>
             <textarea name="stat_code" cols="50" rows="10" id="stat_code"   ><?php echo isset($row_info['stat_code'])?$row_info['stat_code']:""; ?></textarea>
-            [您可以使用<a href="http://tongji.baidu.com/web/welcome/login" target="_blank">百度统计</a>或<a href="http://www.google.cn/intl/zh-CN_ALL/analytics/learn/index.html" target="_blank">google统计</a>来了解您的网站访问情况]
+            [您可以使用<a href="http://tongji.baidu.com/web/welcome/login" target="_blank"><strong><u>百度统计</u></strong></a>或<a href="http://www.google.cn/intl/zh-CN_ALL/analytics/learn/index.html" target="_blank"><strong><u>google统计</u></strong></a>来了解您的网站访问情况]
           </label></td>
         </tr>
         <tr valign="baseline">

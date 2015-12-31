@@ -31,6 +31,17 @@ $product_id = ( int ) ($_POST ['product_id']);
 $quantity = ( int ) ($_POST ['quantity']);
 $attr_value = $_POST ['attr_value'];
 try {
+	
+	// 这里对字段进行验证
+	$validation->set_rules('product_id', '', 'required|is_natural_no_zero');
+	$validation->set_rules('quantity', '', 'required|is_natural_no_zero');
+	$validation->set_rules('attr_value', '', 'required|alpha_dash');
+	if (!$validation->run())
+	{
+		$logger->fatal("用户在调整购物车商品数量的时候出现参数错误问题，ip是.".$_SERVER['REMOTE_ADDR'].", 企图调整的商品id是：".$_POST['product_id']);
+		throw new Exception("参数错误！");
+	}
+	
 	if ($quantity > 0) {
 		$cart_obj->change_quantity ( $product_id, $quantity, $attr_value );
 	}

@@ -15,18 +15,9 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php
-require_once ('Connections/localhost.php');
-?>
-<?php
-$result = array ('code' => '0', 'message' => 'SUCCEED', 'data' => array () );
-$cart_obj = new Cart ();
-$cart = $cart_obj->remove ( (int)$_POST ['product_id'],$_POST['attr_value'] );
-if (! $cart) {
-	$result = array ('code' => '1', 'message' => '删除失败，请稍后再试' );
-} else {
-	$result ['data'] ['total_price'] = $_SESSION ['cart'] ['order_total'];
-	$result ['data'] ['cart'] = $_SESSION ['cart'];
-}
-
-die ( json_encode ( $result ) );
+ ?><table width="1210" height="40" border="1" align="center" cellspacing="0" bordercolor="#E13335">
+  <tr>
+    <td width="210" height="40" bgcolor="#CD2A2C"><a href="/" style="text-decoration:none;color:#FFFFFF;"><strong style="padding-left:20px;font-size:14px;">全部商品分类</strong></a></td>
+    <td height="40" bgcolor="#E13335"> <a style="text-decoration:none;color:#FFFFFF;margin-left:20px;font-size:14px;font-weight:bold;" href="/">首页</a></td>
+  </tr>
+</table>

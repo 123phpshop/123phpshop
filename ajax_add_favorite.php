@@ -9,6 +9,13 @@ if(!isset($_SESSION['user_id'])){
 	throw new Exception("请登录后重试！");
 }
 
+// 这里对字段进行验证
+$validation->set_rules('product_id', '', 'required|is_natural_no_zero');
+if (!$validation->run())
+{
+	$logger->warn("用户在添加收藏的时候参数错误，ip是.".$_SERVER['REMOTE_ADDR'].", 企图收藏的商品id是：".$_POST['product_id']);
+	throw new Exception("参数错误！");
+}
 
 // 检查商品是否存在，如果不存在，那么告知
 $colname_product = "-1";

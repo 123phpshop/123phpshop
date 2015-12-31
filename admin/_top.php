@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -28,12 +29,14 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 
 if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
 
-  $_SESSION['admin_username'] = NULL;
-  $_SESSION['admin_id'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['admin_username']);
-  unset($_SESSION['admin_id']);
-  unset($_SESSION['PrevUrl']);
+	unset($_SESSION['admin_username']);
+	unset($_SESSION['admin_id']);
+	unset($_SESSION['role_id'] );
+	unset($_SESSION['privileges'] );
+	unset($_SESSION['PrevUrl'] );
+	unset($_SESSION['admin_username']);
+	unset($_SESSION['admin_id']);
+	unset($_SESSION['PrevUrl']);
 	
   $logoutGoTo = "login.php";
   if ($logoutGoTo) {

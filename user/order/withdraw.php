@@ -18,6 +18,16 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php require_once('../../Connections/lib/email.php'); ?>
 <?php
+
+// 这里对字段进行验证
+$_POST=$_GET;
+$validation->set_rules('id', '', 'required|is_natural_no_zero');
+if (!$validation->run())
+{
+	$MM_redirectLoginFailed = "index.php";
+	header("Location: ". $MM_redirectLoginFailed );return;
+}
+
 $could_withdraw=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {

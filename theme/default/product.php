@@ -90,8 +90,8 @@ body {
 
 </head>
 <body style="margin: 0px;">
-<?php include_once('widget/top_full_nav.php'); ?>
-<?php include_once('widget/logo_search_cart.php'); ?>
+<?php include_once($template_path.'/widget/top_full_nav.php'); ?>
+<?php include_once($template_path.'/widget/logo_search_cart.php'); ?>
 <form id="add_to_cart" name="add_to_cart" method="post"
 		action="cart.php">
 		<table width="1210" border="0" align="center" cellpadding="0"
@@ -187,7 +187,7 @@ body {
 	  <span id="could_deliver" <?php if(!$could_deliver){ ?>
 										style="color: red;" <?php } ?>><?php if($could_deliver){ ?>有货<?php }else{ ?>无货<?php } ?></span></td>
 								</tr>
-	       <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/product/single_choose_attr.php'); ?>
+	       <?php include_once($template_path.'/widget/product/single_choose_attr.php'); ?>
     <tr>
 									<td scope="row" style="padding-left: 12px;">
 										数&nbsp;&nbsp;&nbsp;&nbsp;量:</td>
@@ -251,7 +251,7 @@ body {
 	<table width="1210" border="0" align="center" style="margin: 0px auto;">
 		<tr>
 			<td width="210" valign="top"> 
-       <?php include_once($_SERVER['DOCUMENT_ROOT'].'/widget/view_buy.php'); ?>
+       <?php include_once($template_path.'/widget/view_buy.php'); ?>
       </td>
 			<td valign="top" align="center">
 				<table width="990" height="30" border="0" align="center"
@@ -277,9 +277,9 @@ body {
 						<th bordercolor="#DEDFDE" scope="col" id="product_intro"><?php echo $row_product['intro']; ?></th>
 					</tr>
 				</table>
-	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/attrs.php'); ?> 
- 	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_comment.php'); ?> 
-	 <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/product_consult.php'); ?> 
+	 <?php include($template_path.'/widget/product/attrs.php'); ?> 
+ 	 <?php include($template_path.'/widget/product/product_comment.php'); ?> 
+	 <?php include($template_path.'/widget/product/product_consult.php'); ?> 
 	</td>
 		</tr>
 	</table>
@@ -386,7 +386,7 @@ function add_favorite(product_id){
  	},'json');
 }
  </script>
-   <?php include($_SERVER['DOCUMENT_ROOT'].'/widget/footer.php'); ?>
+   <?php include($template_path.'/widget/footer.php'); ?>
 </body>
 </html>
 <?php

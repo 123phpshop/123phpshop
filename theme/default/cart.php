@@ -181,7 +181,7 @@ if (empty ( $cart_products )) {
 			?>">
 			    <?php
 			$product_price = $cart_products_item ['product_price'];
-			if ($cart_products_item ['is_present'] == 1) {
+			if (isset($cart_products_item ['is_present']) && $cart_products_item ['is_present'] == 1) {
 				$product_price = "0.00";
 			}
 			echo $product_price;
@@ -245,7 +245,7 @@ if (empty ( $cart_products )) {
 			    <?php
 			
 			$sub_total = floatval ( $cart_products_item ['quantity'] * $cart_products_item ['product_price'] );
-			if ($cart_products_item ['is_present'] == 1) {
+			if (isset($cart_products_item ['is_present']) && $cart_products_item ['is_present'] == 1) {
 				$sub_total = "0.00";
 			}
 			echo $sub_total;
@@ -253,7 +253,7 @@ if (empty ( $cart_products )) {
 			    </strong>
 					</div></td>
 				<td width="52" height="107">
-				<?php if($cart_products_item ['is_present']==0){ ?>
+				<?php if(!isset($cart_products_item ['is_present']) || $cart_products_item ['is_present']==0){ ?>
 				<a href="javascript://"
 					onClick="delete_cart_product(<?php
 				echo $cart_products_item ['product_id'];

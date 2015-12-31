@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,42 +15,91 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+?><?php
+require_once ('../../Connections/localhost.php');
+?>
 <?php
-$could_return=1;
-$colname_order = "-1";
-if (isset($_GET['id'])) {
-  $colname_order = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s and is_delete=0 ", $colname_order, $_SESSION['user_id']);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
-$row_order = mysql_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
 
-if($totalRows_order==0){
-	$could_return=0;
-} 
-
- 
-if(!could_return($row_order['order_status'])){
- 	$could_return=0;
-} 
- 
-
-if($could_return==1){
-
-	$update_catalog = sprintf("update `orders` set order_status='".ORDER_STATUS_RETURNED_APPLIED."' where id = %s", $colname_order);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
-	if(!$update_catalog_query){
-		$could_return=0;
-	}else{
+$could_return = 1;
+try {
 	
-		$order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','".申请退货."')";
-		 mysql_query($order_log_sql, $localhost);
-		$remove_succeed_url="index.php";
-		header("Location: " . $remove_succeed_url );
- 	}
+	$_POST = $_GET;
+	// 这里对字段进行验证
+	$validation->set_rules ( 'id', '', 'required|is_natural_no_zero' );
+	if (! $validation->run ()) {
+		throw new Exception ( "参数错误！" );
+	}
+	
+	$colname_order = "-1";
+	if (isset ( $_GET ['id'] )) {
+		$colname_order = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
+	}
+	mysql_select_db ( $database_localhost, $localhost );
+	$query_order = sprintf ( "SELECT * FROM orders WHERE id = %s and user_id=%s and is_delete=0 ", $colname_order, $_SESSION ['user_id'] );
+	$order = mysql_query ( $query_order, $localhost );
+	if (! $order) {
+		$logger->fatal ( "用户在退货时订单查询失败:" . $query_order );
+		throw new Exception ( "订单不存在！" );
+	}
+	$row_order = mysql_fetch_assoc ( $order );
+	$totalRows_order = mysql_num_rows ( $order );
+	
+	if ($totalRows_order == 0) {
+		$logger->fatal ( "用户在退货时订单不存在:" . $colname_order );
+		throw new Exception ( "订单不存在！" );
+	}
+	
+	if (! could_return ( $row_order ['order_status'] )) {
+		$logger->fatal ( "用户在退货时由于订单状态无法退货:" . $colname_order );
+		throw new Exception ( "用户在退货时由于订单状态无法退货！" );
+	}
+	
+	$update_catalog = sprintf ( "update `orders` set order_status='" . ORDER_STATUS_RETURNED_APPLIED . "' where id = %s", $colname_order );
+	$update_catalog_query = mysql_query ( $update_catalog, $localhost );
+	if (! $update_catalog_query) {
+		$logger->fatal ( "用户在退货时更新订单状态失败:" . $update_catalog );
+		throw new Exception ( "用户在退货时更新订单状态失败！" );
+	}
+	
+	$order_log_sql = "insert into order_log(order_id,message)values('" . $colname_order . "','" . 申请退货 . "')";
+	if (! mysql_query ( $order_log_sql, $localhost )) {
+		$logger->fatal ( "用户在退货时添加订单处理记录失败:" . $update_catalog );
+		throw new Exception ( "用户在退货时添加订单处理记录失败！" );
+	}
+	
+	$remove_succeed_url = "index.php";
+	header ( "Location: " . $remove_succeed_url );
+} catch ( Exception $ex ) {
+	$could_return = 0;
 }
 
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<?php if($could_return==0){ ?>
+<div class="phpshop123_infobox">
+		<p>由于一下原因，您不能申请退货：</p>
+		<p>1. 订单不存在，请检查参数之后再试。</p>
+		<p>2. 系统错误，请稍后再试。</p>
+		<p>3. 这个订单不属于您</p>
+		<p>4. 订单已经被删除</p>
+		<p>5. 订单只有在处于已经收获的状态下才可以要求退货</p>
+		<p>
+			您也可以<a href="index.php">点击这里返回</a>。
+		</p>
+	</div>
+	<p>
+  <?php } ?>
+</p>
+</body>
+</html>
+<?php
+mysql_free_result ( $order );
 ?>

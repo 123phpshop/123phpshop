@@ -120,5 +120,5 @@ try{
  		 $error=$ex->getMessage();
 	}
 }
-include($template_path."register.php");
+ include($template_path."register.php");
 ?>

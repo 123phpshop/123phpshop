@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $where_string=_get_comment_where_query_string();
-$query_comments = "SELECT * FROM product_comment WHERE user_id = $colname_comments  $where_string and  is_delete=0 ORDER BY id DESC";
+$query_comments = "SELECT product_comment.*, product.name  FROM product_comment inner join product on product.id=product_comment.product_id WHERE product_comment.user_id = $colname_comments  $where_string and  product_comment.is_delete=0 ORDER BY product_comment.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
 $comments = mysql_query($query_limit_comments, $localhost) or die(mysql_error());
 $row_comments = mysql_fetch_assoc($comments);
@@ -72,4 +72,70 @@ function _get_comment_where_query_string(){
  	return $result;
 	
 }
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品评论</title>
+<link href="../../css/common_user.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <?php if ($totalRows_comments > 0) { // Show if recordset not empty ?>
+    <p class="phpshop123_user_title">评论搜索</p>
+    <form id="comment_search" name="comment_search" method="get" action="">
+      <table width="100%" border="0" class="phpshop123_user_form_box">
+        <tr>
+          <td>评论内容</td>
+          <td><input name="message" type="text" id="message" maxlength="32" /></td>
+          <td><label>
+            <div align="right">
+              <input type="submit" name="Submit" value="搜索" />
+              </div>
+          </label></td>
+        </tr>
+      </table>
+    </form>
+    <?php } // Show if recordset not empty ?><p class="phpshop123_user_title">评论列表</p>
+  <?php if ($totalRows_comments > 0) { // Show if recordset not empty ?>
+  <table width="100%" border="0" align="center" class="phpshop123_user_list_box">
+    <tr>
+      <td width="62%">评论</td>
+      <td width="21%">商品</td>
+      <td width="17%"><div align="right">发布时间</div></td>
+    </tr>
+    <?php do { ?>
+      <tr>
+        <td><a href="/product.php?id=<?php echo $row_comments['product_id']; ?>#comment" target="_blank"><?php echo $row_comments['message']; ?></a></td>
+        <td><a href="/product.php?id=<?php echo $row_comments['product_id']; ?>#comment" target="_blank"><?php echo $row_comments['name']; ?></a></td>
+        <td><div align="right"><?php echo $row_comments['create_time']; ?>&nbsp; </div></td>
+      </tr>
+      <?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+  </table>
+  <br>
+  <table border="0" width="50%" align="right">
+    <tr>
+      <td width="23%" align="center"><?php if ($pageNum_comments > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_comments=%d%s", $currentPage, 0, $queryString_comments); ?>" class="phpshop123_user_paging">第一页</a>
+            <?php } // Show if not first page ?>      </td>
+      <td width="31%" align="center"><?php if ($pageNum_comments > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_comments=%d%s", $currentPage, max(0, $pageNum_comments - 1), $queryString_comments); ?>" class="phpshop123_user_paging">前一页</a>
+            <?php } // Show if not first page ?>      </td>
+      <td width="23%" align="center"><?php if ($pageNum_comments < $totalPages_comments) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_comments=%d%s", $currentPage, min($totalPages_comments, $pageNum_comments + 1), $queryString_comments); ?>" class="phpshop123_user_paging">下一页</a>
+            <?php } // Show if not last page ?>      </td>
+      <td width="23%" align="center"><?php if ($pageNum_comments < $totalPages_comments) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_comments=%d%s", $currentPage, $totalPages_comments, $queryString_comments); ?>" class="phpshop123_user_paging">最后一页</a>
+            <?php } // Show if not last page ?>      </td>
+    </tr>
+  </table>
+  记录 <?php echo ($startRow_comments + 1) ?> 到 <?php echo min($startRow_comments + $maxRows_comments, $totalRows_comments) ?> (总共 <?php echo $totalRows_comments ?>)  
+  <?php } // Show if recordset not empty ?>
+  <?php if ($totalRows_comments == 0) { // Show if recordset empty ?>
+    <p class="phpshop123_user_title">暂无评论！</p>
+    <?php } // Show if recordset empty ?></body>
+</html>
+<?php
+mysql_free_result($comments);
 ?>

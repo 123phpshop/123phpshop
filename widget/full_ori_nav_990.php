@@ -15,23 +15,9 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
-<?php
-$result="true";
-$colname_get_username = "-1";
-if (isset($_POST['username'])) {
-  $colname_get_username = (get_magic_quotes_gpc()) ? $_POST['username'] : addslashes($_POST['username']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_get_username = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_get_username);
-$get_username = mysql_query($query_get_username, $localhost) or die(mysql_error());
-$row_get_username = mysql_fetch_assoc($get_username);
-$totalRows_get_username = mysql_num_rows($get_username);
-if($totalRows_get_username>0){
-	$result="false";
-}
-?> 
-<?php
- mysql_free_result($get_username);
-	die($result);
-?>
+ ?><table width="1210" height="40" border="1" align="center" cellspacing="0" bordercolor="#E13335">
+  <tr>
+    <td width="210" height="40" bgcolor="#CD2A2C"><a href="/" style="text-decoration:none;color:#FFFFFF;"><strong>全部商品分类</strong></a></td>
+    <td height="40" bgcolor="#E13335"> <a style="text-decoration:none;color:#FFFFFF;" href="/">首页</a></td>
+  </tr>
+</table>
