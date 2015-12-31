@@ -90,15 +90,15 @@ $support_email_question="更新模板";
     <input style="float:right;" type="submit" name="Submit2" value="模板列表" />
   </a></p>
 
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form method="post" name="form1"  id="form1"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">名称:</td>
-      <td><input type="text" name="name" value="<?php echo $row_theme['name']; ?>" size="32"></td>
+      <td><input type="text" name="name" id="name"  value="<?php echo $row_theme['name']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">文件夹:</td>
-      <td><select name="folder_name">
+      <td><select name="folder_name"  id="folder_name"  >
          <?php foreach($theme_array as $them_name){ ?>
         <option value="<?php echo $them_name;?>" <?php if($row_theme['folder_name']==$them_name){ ?> selected <?php } ?>><?php echo $them_name;?></option>
      <?php } ?>
@@ -106,19 +106,19 @@ $support_email_question="更新模板";
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">作者:</td>
-      <td><input type="text" name="author" value="<?php echo $row_theme['author']; ?>" size="32"></td>
+      <td><input type="text" name="author"  id="author"  value="<?php echo $row_theme['author']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">版本:</td>
-      <td><input type="text" name="version" value="<?php echo $row_theme['version']; ?>" size="32"></td>
+      <td><input type="text" name="version"  id="version"  value="<?php echo $row_theme['version']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">联系邮箱:</td>
-      <td><input type="text" name="contact" value="<?php echo $row_theme['contact']; ?>" size="32"></td>
+      <td><input type="text" name="contact"  id="contact"  value="<?php echo $row_theme['contact']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">简介：</td>
-      <td><textarea name="intro" cols="50" rows="10"><?php echo $row_theme['intro']; ?></textarea></td>
+      <td><textarea name="intro" cols="50" rows="10" id="intro"  ><?php echo $row_theme['intro']; ?></textarea></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -141,20 +141,34 @@ $().ready(function(){
 				minlength: 2,
 				maxlength: 32
              },
-				remote:{
-                    url: "_ajax_code.php",
-                    type: "post",
-                    dataType: 'json',
-                    data: {
-                        'code': function(){return $("#code").val();}
-                    }
-				},
-            title: {
+			remote:{
+				url: "_ajax_code.php",
+				type: "post",
+				dataType: 'json',
+				data: {
+					'code': function(){return $("#code").val();}
+				}
+			},
+            author: {
                 required: true,
-  				maxlength: 50   
+				minlength: 2,
+				maxlength: 32  
             },
-            content: {
-                required: true 
+            version: {
+                required: true ,
+				minlength: 2,
+				maxlength: 10
+            },
+            contact: {
+                required: true ,
+				minlength: 2,
+				maxlength: 32,
+				email:true
+            },
+            intro: {
+                required: true,
+				minlength: 2,
+				maxlength: 200
             }
         } 
     });

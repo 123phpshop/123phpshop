@@ -43,7 +43,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-
+$error="";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -51,11 +51,27 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query($query_shopinfo, $localhost) or die(mysql_error());
+$shopinfo = mysql_query($query_shopinfo, $localhost);
+if(!$shopinfo){
+	$logger->warn("获取店铺信息数据库操作失败");
+}
+
 $row_shopinfo = mysql_fetch_assoc($shopinfo);
 $totalRows_shopinfo = mysql_num_rows($shopinfo);
+if($totalRows_shopinfo==0){
+	$logger->warn("获取店铺信息失败，没有找到店铺id为1的记录。");
+}
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+try{
+	// 这里对字段进行验证
+ 	$validation->set_rules('username', '用户名', 'required|min_length[6]|max_length[18]|alpha_dash');
+	$validation->set_rules('password', '密码',  'required|min_length[8]|max_length[18]|alpha_dash');
+	$validation->set_rules('passconf', '密码验证', 'required|matches[passconf]');
+ 	if (!$validation->run())
+	{
+	   throw new Exception($validation->error_string('<br>',''));
+   	}
 
 	//		检查用户名是否已经被占用
 	$colname_get_user_by_username = "-1";
@@ -67,36 +83,42 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	$get_user_by_username = mysql_query($query_get_user_by_username, $localhost) or die(mysql_error());
 	$row_get_user_by_username = mysql_fetch_assoc($get_user_by_username);
 	$totalRows_get_user_by_username = mysql_num_rows($get_user_by_username);
- 
+ 	if($totalRows_get_user_by_username>0){
+ 		 throw new Exception("用户名已经被占用，请修改后重试！");
+	}
  	
 	//	 如果用户名没有被占用的话
 	if($totalRows_get_user_by_username==0){
 		$insertSQL = sprintf("INSERT INTO user (username, password,register_at,last_login_at,last_login_ip) VALUES (%s, %s, %s, %s, %s)",
-						   GetSQLValueString($_POST['username'], "text"),
-						   GetSQLValueString(md5($_POST['password']), "text"),
-						    GetSQLValueString(date('Y-m-d H:i:s'), "text"),
-							 GetSQLValueString(date('Y-m-d H:i:s'), "text"),
-							  GetSQLValueString($_SERVER['REMOTE_ADDR'], "text"));
+		
+			GetSQLValueString($_POST['username'], "text"),
+			GetSQLValueString(md5($_POST['password']), "text"),
+			GetSQLValueString(date('Y-m-d H:i:s'), "text"),
+			GetSQLValueString(date('Y-m-d H:i:s'), "text"),
+			GetSQLValueString($_SERVER['REMOTE_ADDR'], "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+	  $Result1 = mysql_query($insertSQL, $localhost) or die();
+	
+		if(! $Result1>0){
+			 $logger->warn("用户注册错误：".mysql_error().$insertSQL);
+			 throw new Exception("系统错误，请稍后重试");
+		}
 	
 	  // 这里需要初始化一个session的值
 	   //declare two session variables and assign them
-    $_SESSION['username'] = $_POST['username'];
-    $_SESSION['MM_UserGroup'] = "";	      
-	$_SESSION['user_id'] = mysql_insert_id();
+		$_SESSION['username'] = $_POST['username'];
+		$_SESSION['MM_UserGroup'] = "";	      
+		$_SESSION['user_id'] = mysql_insert_id();
 	
-	
+	 // 如果注册成功的话
 	  $insertGoTo = "index.php";
-	  if (isset($_SERVER['QUERY_STRING'])) {
-		$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-		$insertGoTo .= $_SERVER['QUERY_STRING'];
-	  }
-	  header(sprintf("Location: %s", $insertGoTo));
+ 	  header(sprintf("Location: %s", $insertGoTo));
 	}
-  
+	
+	}catch(Exception $ex){
+ 		 $error=$ex->getMessage();
+	}
 }
-
 include($template_path."register.php");
 ?>

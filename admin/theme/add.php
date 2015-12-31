@@ -25,7 +25,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-$logger->debug("准备添加模板"); 
+//$logger->debug("准备添加模板"); 
 $theme_folders=array();
 $doc_url="theme.html#add";
 $support_email_question="添加模板";
@@ -35,7 +35,9 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO theme (name, folder_name, author, version, contact, intro) VALUES (%s, %s, %s, %s, %s, %s)",
+
+	//  这里需要对post过来的参数进行验证
+   $insertSQL = sprintf("INSERT INTO theme (name, folder_name, author, version, contact, intro) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['folder_name'], "text"),
                        GetSQLValueString($_POST['author'], "text"),
@@ -58,7 +60,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 // 获取模板的文件夹列表
 mysql_select_db($database_localhost, $localhost);
-$query_get_themes = "SELECT folder_name FROM theme WHERE is_delete = 0";
+$query_get_themes = "SELECT folder_name FROM theme";
 $get_themes = mysql_query($query_get_themes, $localhost);
 if(!$get_themes){
 	$logger->warn("查询错误".$query_get_themes);
@@ -69,6 +71,8 @@ if($totalRows_get_themes>0){
 		$theme_folders[]=$row_get_themes['folder_name'];
 	}
 }
+
+//	$logger->debug("数据库中的模板的文件夹列表：".print_r($theme_folders,1));
 // 获取模板文件夹的列表
 $theme_array=array();
 $theme_folder=$www_root."/theme/";
@@ -81,9 +85,16 @@ if(is_dir($theme_folder)){
 	}
 }
 
+//	$logger->debug("模板文件夹列表：".print_r($theme_array,1));
+
 // 获取这两个文件夹的差集合
 $theme_array = array_diff( $theme_array,$theme_folders);
+
+//	$logger->debug("差集：".print_r($theme_array,1));
+
+
 sort($theme_array);
+//	$logger->debug("重新排列之后：".print_r($theme_array,1));
 
 
 // 获取第一个模板的配置文件
@@ -98,18 +109,26 @@ if(count($theme_array)>0){
   	include_once($config_path);
 }
  
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.STYLE1 {color: #FF0000}
+-->
+</style>
 </head>
 
 <body>
-<p class="phpshop123_title">添加模板 <a href="index.php">
+<span class="phpshop123_title">添加模板 <a href="index.php">
   <input style="float:right;" type="submit" name="Submit2" value="模板列表" />
-</a></p>
+</a></span><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a>
+<?php if(count($theme_array)>0){ ?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">
      <tr valign="baseline">
@@ -118,7 +137,8 @@ if(count($theme_array)>0){
 	  <?php foreach($theme_array as $them_name){ ?>
         <option value="<?php echo $them_name;?>" ><?php echo $them_name;?></option>
      <?php } ?>
-      </select>[选择相应的文件夹会自动加载相关的配置]</td>
+      </select>
+      [选择相应的文件夹会自动加载相关的配置]<span class="STYLE1">[</span><a href="http://www.123phpshop.com/product_list.php?keywords=&amp;catalog=20&amp;license=&amp;version=" target="_blank" class="STYLE1">购买模板</a><span class="STYLE1">][<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank" class="STYLE1">联系客服</a>]</span></td>
     </tr>
 	<tr valign="baseline">
       <td nowrap align="right">名称:</td>
@@ -146,9 +166,14 @@ if(count($theme_array)>0){
       <td><input type="submit" value="添加"></td>
     </tr>
   </table>
-  <input type="hidden" name="MM_insert" value="form1">
+  <p>
+    <input type="hidden" name="MM_insert" value="form1">
+</p>
 </form>
-<script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<?php }else{ ?>
+   <p class="phpshop123_infobox">所有模板都已经入库，如果需要新的模板服务，请联右上角的QQ图标联系我们的客服人员，或是<a href="http://www.123phpshop.com/product_list.php?keywords=&amp;catalog=20&amp;license=&amp;version=" target="_blank">【点击这里访问我们的模板列表】</a></p>
+  <?php } ?>
+    <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script>
 
@@ -179,26 +204,37 @@ $().ready(function(){
 				minlength: 2,
 				maxlength: 32
              },
-				remote:{
-                    url: "_ajax_code.php",
-                    type: "post",
-                    dataType: 'json',
-                    data: {
-                        'code': function(){return $("#code").val();}
-                    }
-				},
-            title: {
+			remote:{
+				url: "_ajax_code.php",
+				type: "post",
+				dataType: 'json',
+				data: {
+					'code': function(){return $("#code").val();}
+				}
+			},
+            author: {
                 required: true,
-  				maxlength: 50   
+				minlength: 2,
+				maxlength: 32  
             },
-            content: {
-                required: true 
+            version: {
+                required: true ,
+				minlength: 2,
+				maxlength: 10
+            },
+            contact: {
+                required: true ,
+				minlength: 2,
+				maxlength: 32,
+				email:true
+            },
+            intro: {
+                required: true,
+				minlength: 2,
+				maxlength: 200
             }
         } 
     });
-});</script>
+});
 </body>
 </html>
-<?php
-mysql_free_result($get_themes);
-?>

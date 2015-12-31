@@ -34,13 +34,11 @@ function get_catalog_tree($parent_catalog = array(), $prefix = "") {
 	
 	mysql_select_db ( $db_database_localhost, $db_conn );
 	$query_catalogs = "SELECT * FROM `catalog` where is_delete=0 and pid=" . $pid;
-	$glogger->debug ( $query_catalogs );
+	//$glogger->debug ( $query_catalogs );
 	$catalogs = mysql_query ( $query_catalogs, $db_conn ) or die ( mysql_error () );
 	$totalRows_catalogs = mysql_num_rows ( $catalogs );
-	
-	$glogger->debug ( "获取分类的数目：" . $totalRows_catalogs );
-	
-	// 如果找不到记录的话，那么直接返回
+ 	//$glogger->debug ( "获取分类的数目：" . $totalRows_catalogs );
+ 	// 如果找不到记录的话，那么直接返回
 	if ($totalRows_catalogs == 0) {
 		return;
 	}

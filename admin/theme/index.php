@@ -6,7 +6,7 @@ $themes = mysql_query($query_themes, $localhost) or die(mysql_error());
 $row_themes = mysql_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 
-$doc_url="theme.html#list";
+$doc_url="template.html#list";
 $support_email_question="模板列表";
 
 ?>
@@ -19,9 +19,12 @@ $support_email_question="模板列表";
 </head>
 
 <body>
-<p class="phpshop123_title">模板列表<a href="add.php">
+<span class="phpshop123_title">模板列表<a href="add.php">
   <input style="float:right;" type="submit" name="Submit2" value="添加模板" />
-</a></p>
+</a></span>
+
+<a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a>
+
 <?php if ($totalRows_themes > 0) { // Show if recordset not empty ?>
   <table width="100%" border="1" class="phpshop123_list_box">
     <tr>

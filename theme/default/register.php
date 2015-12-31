@@ -51,11 +51,12 @@ body {
 	text-decoration:none;
 	color:#000000;
 }
+.STYLE2 {color: #FF0000;line-height:20px;text-align:center;}
 -->
 </style></head>
 
 <body>
-<?php include('/widget/top_full_nav_reg.php'); ?>
+<?php include($template_path.'/widget/top_full_nav_reg.php'); ?>
 <table width="990" height="60" border="0" style="margin:10px auto;">
   <tr>
     <td valign="middle"><a href="index.php"><img src="<?php echo $row_shopinfo['logo_path']; ?>"   height="60" border="0" style="float:left;" /></a><span style="font-size:30px;line-height:60px;float:left;">欢迎注册</span></td>
@@ -74,20 +75,28 @@ body {
   <table width="989" height="585" border="0" align="center" cellspacing="100" bordercolor="#dddddd" bgcolor="#FFFFFF">
      
     <tr align="left" valign="top">
-      <td width="750" valign="top"><table align="center">
+      <td width="750" valign="top">
+	  <?php if($error!=''){ ?>
+	  <div id="error_message">
+        <div align="center" class="STYLE2">
+          <div align="left" style="padding-left:100px;"><?php echo $error;?></div>
+        </div>
+      </div>
+	  <?php } ?>
+      <table align="center">
         <tr valign="baseline">
           <td height="60" align="right" nowrap="nowrap">账户:</td>
-          <td height="60"><input  name="username" id="username"  type="text" class="required register_input" value="" size="32" maxlength="18" />
+          <td height="60"><input  name="username" id="username"  type="text" class="required register_input" value="<?php  echo_post($_POST['username']);?>" size="32" maxlength="18" />
             *</td>
         </tr> 
         <tr valign="baseline">
           <td height="60" align="right" nowrap="nowrap">密码:</td>
-          <td height="60"><input    name="password" id="password"  type="password" class="required register_input" value="" size="18" maxlength="16" />
+          <td height="60"><input    name="password" id="password"  type="password" class="required register_input" value="<?php  echo_post($_POST['password']);?>" size="18" maxlength="18" />
             *</td>
         </tr>
         <tr valign="baseline">
           <td height="60" align="right" nowrap="nowrap">确认:</td>
-          <td height="60"><input  name="passconf" type="password" class="required register_input" id="passconf " value="" size="18" maxlength="16" />
+          <td height="60"><input  name="passconf" type="password" class="required register_input" id="passconf " value="<?php  echo_post($_POST['passconf']);?>" size="18" maxlength="18" />
             *</td>
         </tr>
         <tr valign="baseline">
@@ -115,17 +124,16 @@ body {
 </form>
 </div>
 <p>
-  <script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-  <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
-  
-  <script>
+  <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>
+   <script>
 $().ready(function(){
-
-	$("#register_form").validate({
+ 	$("#register_form").validate({
         rules: {
             username: {
                 required: true,
                 minlength: 6,
+				maxlength: 18,
 				remote:{
                     url: "ajax_username.php",
                     type: "post",
@@ -137,12 +145,14 @@ $().ready(function(){
             },
             password: {
                 required: true,
-                minlength: 8   
+                minlength: 8,
+				maxlength: 18,
             },
             passconf: {
                 required: true,
                 minlength: 8 ,
-				equalTo:"#password"
+				equalTo:"#password",
+				maxlength: 18
             } 
         },
         messages: {
@@ -154,10 +164,12 @@ $().ready(function(){
             },
             password: {
                 required: "必填",
+				maxlength: "最多18个字符哦",
                 minlength: "最少要8个字符哦",
               },
             passconf: {
                 required: "必填",
+				maxlength: "最多18个字符哦",
                 minlength: "最少要8个字符哦",
  				equalTo:"两个密码不一致哦"
             } 

@@ -15,12 +15,11 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../Connections/localhost.php'); ?>
-
+ ?>
 <?php 
-require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php');
+?>
 <?php
-
 $loginFormAction = $_SERVER['PHP_SELF'];
 if (isset($_GET['accesscheck'])) {
   $_SESSION['PrevUrl'] = $_GET['accesscheck'];
@@ -28,6 +27,17 @@ if (isset($_GET['accesscheck'])) {
 
 if (isset($_POST['username'])) {
 	
+  // 这里对字段进行验证
+ 	$validation->set_rules('username', '用户名', 'required|min_length[2]|alpha_dash');
+	$validation->set_rules('password', '密码',  'required|alpha_dash');
+	$validation->set_rules('captcha',  '验证码', 'required|exact_length[4]|alpha_numeric');
+ 	if (!$validation->run())
+	{
+	   $error=$validation->error_string('','');
+	   $MM_redirectLoginFailed = "login.php?error=".$error;
+	   header("Location: ". $MM_redirectLoginFailed );return;
+ 	}
+
   $loginUsername=$_POST['username'];
   $password=md5($_POST['password']);
   $MM_fldUserAuthorization = "";
@@ -37,10 +47,10 @@ if (isset($_POST['username'])) {
   
   
    //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
-  if(!isset($_POST['captcha']) OR $_POST['captcha']!=$_SESSION['captcha']){
-  		 header("Location: ". "login.php?error=验证码输入错误，请重新输入" );
-		 return;
-  }
+ 	if($_POST['captcha']!=$_SESSION['captcha']){
+		header("Location: ". "login.php?error=验证码输入错误，请重新输入" );
+		return;
+	}
   
     mysql_select_db($database_localhost, $localhost);
    $LoginRS__query=sprintf("SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0",
@@ -52,18 +62,19 @@ if (isset($_POST['username'])) {
  	
 	//	获取这个纪录
 	$user_rs=mysql_fetch_assoc( $LoginRS);
-      //declare two session variables and assign them
-    $_SESSION['admin_username'] = $loginUsername;
+     $_SESSION['admin_username'] = $loginUsername;
   	$_SESSION['admin_id'] = $user_rs['id'];	
 	$_SESSION['role_id'] = $user_rs['role_id'];	
 	$last_login_at=date('Y-m-d H:i:s');
 	$last_login_ip=$_SERVER['REMOTE_ADDR'];
  	
+	// 更新用户的登录时间和ip
 	$update_last_login_sql="update member set last_login_at='".$last_login_at."', last_login_ip='".$last_login_ip."' where id=".$user_rs['id'];
 	mysql_query($update_last_login_sql, $localhost);
 	
 	$privileges_array=array();
 	
+	// 获取这个用户的角色
 	mysql_select_db($database_localhost, $localhost);
 	$query_role = "SELECT * FROM `role` WHERE id = ".$user_rs['role_id'];
 	$role = mysql_query($query_role, $localhost) or die(mysql_error());
@@ -73,7 +84,7 @@ if (isset($_POST['username'])) {
 		$privileges_id_array=$row_role['privileges'];
 	}
 	
-	
+	// 获取这个用户的权限
 	$privileges_array=array();
 	mysql_select_db($database_localhost, $localhost);
 	$query_privilege_files = "SELECT file_name FROM privilege WHERE id in (".$privileges_id_array.")";
@@ -84,7 +95,7 @@ if (isset($_POST['username'])) {
 			$privileges_array[]=$row_privilege_files['file_name'];
 		}
  	}
- 	
+ 	 
 	 $_SESSION['privileges']=$privileges_array;
      if (isset($_SESSION['PrevUrl']) && true) {
       $MM_redirectLoginSuccess = $_SESSION['PrevUrl'];	

@@ -54,6 +54,15 @@ $support_email_question="搜索商品";
 					$sql="update `product` set is_recommanded=0 where id in (".implode(",",$_POST['product_id']).")";
 				break;
 				
+				case "800":	//设置为当季商品
+					$sql="update `product` set is_season=1 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				case "900": //取消当季商品
+					$sql="update `product` set is_season=0 where id in (".implode(",",$_POST['product_id']).")";
+				break;
+				
+				
 				
  			}	
 			
@@ -191,7 +200,7 @@ function _get_product_where($get){
 </head>
 
 <body>
-<span class="phpshop123_title">商品搜索</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<span class="phpshop123_title">商品搜索</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <label>
 <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加商品" /></a>
 </label>
@@ -234,7 +243,7 @@ $support_email_question="查看商品列表";
 if ($totalRows_products > 0) { // Show if recordset not empty ?>
        <form id="batch_op_form" name="batch_op_form" method="post" action="">
 
-    <span class="phpshop123_title">商品列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div><br />
+    <span class="phpshop123_title">商品列表</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div><br />
   <br />
     <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="phpshop123_list_box">
     <tr>
@@ -279,6 +288,8 @@ if ($totalRows_products > 0) { // Show if recordset not empty ?>
               <option value="500">取消热销</option>
 			  <option value="600">设为推荐</option>
               <option value="700">取消推荐</option>
+			  <option value="800">设为当季</option>
+              <option value="900">取消当季</option>
             </select>
           </label></td>
           <td width="95%"><label>

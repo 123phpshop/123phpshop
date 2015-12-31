@@ -132,17 +132,49 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
 
 <body>
 <span class="phpshop123_title">导入商品</span>
-  <div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
-  <a href="index.php">
-  <input style="float:right;" type="submit" name="Submit2" value="商品列表" />
-  </a>
-  <p>  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?></p>
-
-<form action="" method="post" enctype="multipart/form-data" name="import_goods_form" id="import_goods_form">
-	<input type="file" name="csv_file" />
-	<input name="导入" type="submit" id="导入" value="提交" />
-	<input name="MM_insert" type="hidden"   value="import_goods_form" />
- 	<p>提示：请按照123phpshop产品固定格式导入，且只能是csv格式，点<a href="../../uploads/impor_example.csv">击这里下载范本</a>。</p>
+  <div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+  <form action="" method="post" enctype="multipart/form-data" name="import_goods_form" id="import_goods_form">
+	<p>
+	  <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php");?>
+	</p>
+	<table width="80%" border="0" class="phpshop123_form_box">
+      <tr>
+        <td width="15%">从文件导入</td>
+        <td width="45%"><label>
+          <input type="file" name="csv_file" />
+          <input name="MM_insert" type="hidden"   value="import_goods_form" />
+        提示：请按照123phpshop产品固定格式导入，且只能是csv格式，点<a href="../../uploads/impor_example.csv">击这里下载范本</a>。</label></td>
+        <td width="40%"><label>
+          <input type="submit" name="Submit" value="导入" />
+        </label></td>
+      </tr>
+      <tr>
+        <td>从淘宝导入</td>
+        <td><input type="text" name="textfield4" placeholder="请输入淘宝店铺首页地址"/>
+          <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">          [点击购买此服务]</a></td>
+        <td><input type="submit" name="Submit32" value="导入" /></td>
+      </tr>
+      <tr>
+        <td>从京东导入</td>
+        <td><label>
+          <input type="text" name="textfield" placeholder="请输入京东店铺首页地址"/>
+          <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">[点击购买此服务]</a></label></td>
+        <td><input type="submit" name="Submit3" value="导入" /></td>
+      </tr>
+      <tr>
+        <td>从当当导入</td>
+        <td><input type="text" name="textfield2" placeholder="请输入当当店铺首页地址"/>
+        <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">[点击购买此服务]</a></td>
+        <td><input type="submit" name="Submit4" value="导入" /></td>
+      </tr>
+      <tr>
+        <td>从亚马逊中国导入</td>
+        <td><input type="text" name="textfield3" placeholder="请输入亚马逊店铺首页地址"/>
+        <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">[点击购买此服务]</a></td>
+        <td><input type="submit" name="Submit5" value="导入" /></td>
+      </tr>
+    </table>
+	<p>&nbsp;</p>
 </form>
 <?php if ($totalRows_import_logs > 0) { // Show if recordset not empty ?>
   <p class="phpshop123_title">商品导入历史</p>

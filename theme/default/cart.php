@@ -72,14 +72,11 @@ a:hover {
 </style>
 <link href="css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body style="margin: 0px;">
-
 <?php
 include_once ('widget/top_full_nav.php');
 ?>
 <?php
-
 include_once ('widget/logo_search.php');
 ?>
 <p>
@@ -105,7 +102,9 @@ if (empty ( $cart_products )) {
 		action="confirm.php">
 		<table width="990" height="37" border="0" align="center">
 			<tr>
-				<td height="37"><span class="STYLE5">全部商品<a  style="display:none;" id='please_refresh_presents_link' href="/cart.php"> [有赠品出现，点我刷新啦] </a></span></td>
+				<td height="37"><span class="STYLE5">全部商品<a style="display: none;"
+						id='please_refresh_presents_link' href="/cart.php"> [有赠品出现，点我刷新啦]
+					</a></span></td>
 			</tr>
 		</table>
 		<table width="990" border="0" align="center" cellpadding="0"
@@ -368,12 +367,11 @@ function delete_cart_product(product_id,attr_value){
 	_update_total_price(data.data.total_price);
 	_update_sub_total(product_id,attr_value);
 	_update_fee(data.data);
-	_123phpshop_please_refresh(data.data.presents_ids);
-	_123phpshop_remove_presents(data.data.presents_ids);
-	//window.location.reload();
-	return false;
+	_123phpshop_remove_presents(data.data.presents_ids);// 删除收回的赠品
+	_123phpshop_please_refresh(data.data.presents_ids);// 如果有新的赠品产生，那么显示刷新提示link
+		return true;
  	},'json');
- 	return false;
+ 		return false;
 }
 
 function _123phpshop_please_refresh(presents_ids){
@@ -387,6 +385,9 @@ function _123phpshop_please_refresh(presents_ids){
  	 $("#please_refresh_presents_link").hide();
 }
 
+/**
+ * 删除赠品
+ */
  function _123phpshop_remove_presents(presents_ids){
 	 // 如果赠品的ids为空的话，那么清楚购物车界面中所有的赠品
 	if(presents_ids==""){
@@ -412,16 +413,26 @@ function _123phpshop_clear_presents(){
 		 $(this).remove();
 		});
 }	
-
+/**
+ * 更新费用信息
+ */
 function _update_fee(data){
 	$("#shipping_fee").html(data.shipping_fee);
 	$("#promotion_fee").html(data.promotion_fee);
 	$("#products_total").html(data.products_total);
 }
 
+/**
+ * 更新总价
+ */
 function _update_total_price(total_price){
 	$("#cart_total_price").html(total_price);
 }
+
+/**
+ * 更新小计
+ */
+ 
 function _update_sub_total(product_id,attr_value){
 	//获取产品的id
 	var quantity=parseInt($(".product_quantity_"+product_id+"[attr_value='"+attr_value+"']").val());

@@ -110,3 +110,8 @@ function get_deliver_areas(){
 	$result[]="黄浦区";
 	return $result;
 }
+
+function echo_post($var){
+	echo isset($var)?$var:'';
+}
+?>
