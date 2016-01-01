@@ -16,18 +16,32 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
+
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
 ?>
 <?php
-$cart_obj = new Cart ();
-if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 
-	$logger->debug("购物车添加商品");
- 	$cart_obj->add ( $_POST );
- }
+$cart_obj = new Cart ();
+
+if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
+	$validation->set_rules ( 'quantity', '', 'required|is_natural_no_zero' );
+	$validation->set_rules ( 'product_id', '', 'required|is_natural_no_zero' );
+	$validation->set_rules ( 'attr_value', '', 'required|max_length[]|min_length[]' );
+	$validation->set_rules ( 'product_name', '', 'required|max_length[]|min_length[]' );
+	$validation->set_rules ( 'product_image', '', 'required|alpha_dash' );
+	$validation->set_rules ( 'ad_text', '', 'max_length[0]|min_length[32]' );
+	if (! $validation->run ()) {
+		$MM_redirectLoginFailed = "/index.php";
+		header ( "Location: " . $MM_redirectLoginFailed );
+		return;
+	}
+	
+	// $logger->debug("购物车添加商品");
+	$cart_obj->add ( $_POST );
+}
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
-include($template_path."cart.php");
+include ($template_path . "cart.php");
 
 ?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,98 +15,97 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php 
- 	
-	//返回用户是否已经评论过这个商品
+?><?php
+
+// 返回用户是否已经评论过这个商品
 function user_could_comment($user_id, $product_id) {
-	 
- 	global $db_conn;
-//	检查用户评论过得这个商品的数目，如果这个数目是0的话，那么直接返回true
- 	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON orders.id=order_item.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";
-	$order = mysql_query ( $query_order ,$db_conn) or die ( mysql_error () );
-	$totalRows_order = mysql_num_rows ( $order );
 	
- 	if ($totalRows_order == 0) {
+	// 检查用户购买过这个商品的数目，如果这个数目是0的话，那么直接返回true
+	global $db_conn;
+	global $glogger;
+	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON order_item.order_id=orders.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";
+	$order = mysql_query ( $query_order, $db_conn ) or die ( mysql_error () );
+	if (! $order) {
+		$glogger->fatal ( "获取用户购买过这个商品的数目失败:" . $query_order );
+	}
+	
+	$totalRows_order = mysql_num_rows ( $order );
+// 	$glogger->debug ( "用户购买过这个商品的数目:" . $totalRows_order );
+	if ($totalRows_order == 0) {
 		return false;
 	}
 	
-	global $db_conn;
-	$product_comment_num_sql="select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id";
-	$product_comment_num_query = mysql_query ( $product_comment_num_sql,$db_conn ) or die ( mysql_error () );
-	$product_comment_num=mysql_fetch_assoc($product_comment_num_query);
-	//	 检查用户购买这个商品的数目，如果这个数目是0的话，那么直接返回false
-	if((int)$product_comment_num['comment_num']==0){
- 		return true;
+	// 检查用户评论过这个商品的数目，如果这个数目是0的话，那么直接返回false
+	$product_comment_num_sql = "select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id";
+	$product_comment_num_query = mysql_query ( $product_comment_num_sql, $db_conn ) or die ( mysql_error () );
+	$product_comment_num = mysql_fetch_assoc ( $product_comment_num_query );
+// 	$glogger->debug ( "用户评论过的商品的数目:" . $product_comment_num ['comment_num'] );
+	if (( int ) $product_comment_num ['comment_num'] == 0) {
+		return true;
 	}
- 	 
-// 检查2个数目，如果购买的数目>评论的数目的话，那么可以直接返回tru不能评论了
-	return $totalRows_order>(int)$product_comment_num['comment_num'];
+	
+	// 检查2个数目，如果购买的数目>评论的数目的话，那么可以直接返回tru不能评论了
+	return $totalRows_order > ( int ) $product_comment_num ['comment_num'];
 }
-
 function add_view_history($product_id) {
-  	
-	_add_session_view_history($product_id);
+	_add_session_view_history ( $product_id );
 	
-	_add_db_view_history($product_id);
- }
-
-function _add_session_view_history($product_id){
+	_add_db_view_history ( $product_id );
+}
+function _add_session_view_history($product_id) {
 	
-	//	检查浏览记录是否设置了，如果设置过了的话，那么将其设置为空
-	if (isset ( $_SESSION ['view_history'] ) || !is_array ( $_SESSION ['view_history'] )) {
+	// 检查浏览记录是否设置了，如果设置过了的话，那么将其设置为空
+	if (isset ( $_SESSION ['view_history'] ) || ! is_array ( $_SESSION ['view_history'] )) {
 		$_SESSION ['view_history'] = array ();
 	}
 	
-	$create_time=date('Y-m-d H:i:s');
- 	//$item['user_id']=$create_time;
-	$item['product_id']=$product_id;
-	$item['creat_time']=$create_time;
- 	$_SESSION ['view_history'][]=$item;
+	$create_time = date ( 'Y-m-d H:i:s' );
+	// $item['user_id']=$create_time;
+	$item ['product_id'] = $product_id;
+	$item ['creat_time'] = $create_time;
+	$_SESSION ['view_history'] [] = $item;
 }
-
-function _add_db_view_history($product_id){
+function _add_db_view_history($product_id) {
 	global $db_conn;
-	//	检查里面是否已经存在了这个产品，如果有的话，那么删除这个产品，然后
-	if(isset($_SESSION['user_id'])){
-		$sql=sprintf("insert into user_view_history (user_id,product_id) values('%s','%s')",$_SESSION['user_id'],$product_id);
-		mysql_query($sql,$db_conn) or die(mysql_error());
+	// 检查里面是否已经存在了这个产品，如果有的话，那么删除这个产品，然后
+	if (isset ( $_SESSION ['user_id'] )) {
+		$sql = sprintf ( "insert into user_view_history (user_id,product_id) values('%s','%s')", $_SESSION ['user_id'], $product_id );
+		mysql_query ( $sql, $db_conn ) or die ( mysql_error () );
 	}
 }
 
- 
-
 /**
-	检查是否在运送范围之内
-**/
-function could_devliver($areas){
-		global $db_conn;
-		if(!is_array($areas)){
-			return false;
+ * 检查是否在运送范围之内
+ * *
+ */
+function could_devliver($areas) {
+	global $db_conn;
+	if (! is_array ( $areas )) {
+		return false;
+	}
+	$query_area = "SELECT * from shipping_method_area where is_delete=0";
+	$area = mysql_query ( $query_area, $db_conn ) or die ( mysql_error () );
+	while ( $order_area = mysql_fetch_assoc ( $area ) ) {
+		// 如果是全国范围的话，
+		if (trim ( $order_area ['area'] ) == "*_*_*;") {
+			return true;
 		}
- 		$query_area = "SELECT * from shipping_method_area where is_delete=0";
-		$area = mysql_query ( $query_area,$db_conn ) or die ( mysql_error () );
-		while($order_area=mysql_fetch_assoc($area)){
-			// 如果是全国范围的话，
-			if(trim($order_area['area'])=="*_*_*;"){
+		
+		foreach ( $areas as $area_item ) {
+			if (strpos ( $order_area ['area'], $area_item ) > - 1) {
 				return true;
 			}
-			
-			foreach($areas as $area_item){
-				if(strpos($order_area['area'],$area_item)>-1){
-  					return true;
-				}	
-			}
 		}
-		return false;
+	}
+	return false;
 }
-
-function phpshop123_is_special_price($product){
+function phpshop123_is_special_price($product) {
 	$curr_date = date ( "Y-m-d" );
-
+	
 	// 检查产品是否在优惠期之内，如果在优惠期之内，那么产品的价格就是优惠价格
 	if ($product ['is_promotion'] == 1 && $curr_date >= $product ['promotion_start'] && $curr_date <= $product ['promotion_end']) {
 		return true;
-	} 
+	}
 	
 	return false;
 }

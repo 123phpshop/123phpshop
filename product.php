@@ -23,7 +23,7 @@ require_once ('Connections/localhost.php');
 <?php
 
 // 这里对字段进行验证
-$_POST=$_GET;
+$_POST=$_REQUEST;
 $validation->set_rules('id', '', 'required|is_natural_no_zero');
 if (!$validation->run())
 {

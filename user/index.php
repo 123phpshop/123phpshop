@@ -15,13 +15,11 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); 
- // 这里对字段进行验证
- $_POST=$_GET;
- $validation->set_rules('keywords', '', 'required|max_legnth[36]|min_legnth[1]|alpha_numeric');
- if (!$validation->run())
- {
- 	header("Location:/index.php");
- }
- include($template_path."search.php");
- ?>
+ ?><?php require_once('../Connections/localhost.php'); ?>
+<frameset rows="110,*" frameborder="0" scrolling="no">
+<frame src="_top.php" name="_top" scrolling="no"/>
+	<frameset cols="15%,*" scrolling="no">
+		<frame src="_left.php" name="_left"/>
+		<frame src="<?php echo isset($_GET['path'])?$_GET['path']:'order/index.php';?>" name="main"/>
+	</frameset>
+</frameset><noframes></noframes>

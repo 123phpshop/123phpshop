@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,126 +15,154 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+?><?php
+
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
+?>
 <?php
+
 $colname_product = "-1";
-if (isset($_GET['id'])) {
-  $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+if (isset ( $_GET ['id'] )) {
+	$colname_product = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+$editFormAction = $_SERVER ['PHP_SELF'];
+if (isset ( $_SERVER ['QUERY_STRING'] )) {
+	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
-
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_consult") && $colname_product!='-1' && isset($_SESSION['user_id']) && isset($_POST['captcha']) && ($_POST['captcha']==$_SESSION['captcha']) ){
-
-
- //	  检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
- 
-   
-	  $insertSQL = sprintf("INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)",
-						   GetSQLValueString($_SESSION['user_id'], "int"),
-						   GetSQLValueString($_POST['content'], "text"),
-						   GetSQLValueString($colname_product, "int"));
+ // 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么不进行任何操作
+if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_consult") && $colname_product != '-1' && isset ( $_SESSION ['user_id'] ) && isset ( $_POST ['captcha'] ) && ($_POST ['captcha'] == $_SESSION ['captcha'])) {
 	
-	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-	  
-	  $update_sql=sprintf("update product set consulted_num=consulted_num+1 where id=%s",GetSQLValueString($colname_product, "int"));
-	  $Result2 = mysql_query($update_sql, $localhost) or die(mysql_error());
- 
+	$validation->set_rules ( 'content', '咨询', 'required|max_length[100]|min_length[10]' ); // 评论的长度最少要10个字，最长要100个字
+	if ($validation->run ()) { // 如果可以通过验证的话
+		$insertSQL = sprintf ( "INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "int" ), GetSQLValueString ( $_POST ['content'], "text" ), GetSQLValueString ( $colname_product, "int" ) );
+		
+		mysql_select_db ( $database_localhost, $localhost );
+		$Result1 = mysql_query ( $insertSQL, $localhost );
+		if (! $Result1) {
+			// 记录进入日志
+			$logger->fatal ( "添加商品咨询时数据库操作失败:" . mysql_error () . $insertSQL );
+		}
+		$update_sql = sprintf ( "update product set consulted_num=consulted_num+1 where id=%s", GetSQLValueString ( $colname_product, "int" ) );
+		$Result2 = mysql_query ( $update_sql, $localhost ) or die ( mysql_error () );
+		if (! $Result1) {
+			// 记录进入日志
+			$logger->fatal ( "更新商品咨询次数时数据库操作失败:" . mysql_error () . $update_sql );
+		}
+	}
 }
- 
-$colname_consult = "-1";
-if (isset($_GET['id'])) {
-  $colname_consult = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
-}
-mysql_select_db($database_localhost, $localhost);
-$query_consult = sprintf("SELECT product_consult.*,user.username FROM product_consult inner join user on user.id=product_consult.user_id WHERE product_consult.product_id = %s and product_consult.is_delete = 0 ORDER BY product_consult.id DESC", $colname_consult);
-$consult = mysql_query($query_consult, $localhost) or die(mysql_error());
-$row_consult = mysql_fetch_assoc($consult);
-$totalRows_consult = mysql_num_rows($consult);
 
- 
+$colname_consult = "-1";
+if (isset ( $_GET ['id'] )) {
+	$colname_consult = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
+}
+mysql_select_db ( $database_localhost, $localhost );
+$query_consult = sprintf ( "SELECT product_consult.*,user.username FROM product_consult inner join user on user.id=product_consult.user_id WHERE product_consult.product_id = %s and product_consult.is_delete = 0 ORDER BY product_consult.id DESC", $colname_consult );
+$consult = mysql_query ( $query_consult, $localhost ) or die ( mysql_error () );
+$row_consult = mysql_fetch_assoc ( $consult );
+$totalRows_consult = mysql_num_rows ( $consult );
+
 ?>
 <style type="text/css">
 <!--
-.STYLE2 {color: #666}
+.STYLE2 {
+	color: #666
+}
 -->
 </style>
 <br />
 <style>
-#consult_list{
-	font-size:12px;
+#consult_list {
+	font-size: 12px;
 }
-
 </style>
- <?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
-<table width="990" height="31" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td>
-		<table style="background-color:white;border-top:2px solid red;border-bottom-width:0px" width="105" height="33" border="1" cellpadding="0" cellspacing="0" bordercolor="#DEDFDE">
-		  <tr>
-			<td><div align="center"><a style="text-decoration:none;color:#000000;" href="javascript://" name="consult" id="consult">咨询列表</a>[<?php echo $totalRows_consult;?>]</div></td>
-		  </tr>
-		</table>
-	</td>
-	
-    <td><table  style="border-bottom:1px solid #DEDFDE " width="885" height="31" border="0">
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-      </table></td>
-  </tr>
+<?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
+<table width="990" height="31" border="0" align="center" cellpadding="0"
+	cellspacing="0">
+	<tr>
+		<td>
+			<table
+				style="background-color: white; border-top: 2px solid red; border-bottom-width: 0px"
+				width="105" height="33" border="1" cellpadding="0" cellspacing="0"
+				bordercolor="#DEDFDE">
+				<tr>
+					<td><div align="center">
+							<a style="text-decoration: none; color: #000000;"
+								href="javascript://" name="consult" id="consult">咨询列表</a>[<?php echo $totalRows_consult;?>]</div></td>
+				</tr>
+			</table>
+		</td>
+
+		<td><table style="border-bottom: 1px solid #DEDFDE" width="885"
+				height="31" border="0">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table></td>
+	</tr>
 </table>
 <?php } // Show if recordset not empty ?>
             <?php if ($totalRows_consult > 0) { // Show if recordset not empty ?>
-            <table id="consult_list" width="990" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#ddd" style="margin:0px auto;border-bottom:1px dotted grey;" >
+<table id="consult_list" width="990" border="0" align="center"
+	cellpadding="0" cellspacing="0" bordercolor="#ddd"
+	style="margin: 0px auto; border-bottom: 1px dotted grey;">
             <?php do { ?>
-                <tr >
-                  <td  height="18" style="padding-top:5px;"><div align="left"><span class="STYLE2">买家：<?php echo $row_consult['username']; ?> <?php echo $row_consult['create_time']; ?></span></div></td>
-                </tr>
- 				<?php 
-					mysql_select_db($database_localhost, $localhost);
-						$query_replay = "SELECT * FROM product_consult WHERE to_question = ".$row_consult['id']." and is_delete=0 order by id desc limit 1";
-						$replay = mysql_query($query_replay, $localhost) or die(mysql_error());
-						$row_replay = mysql_fetch_assoc($replay);
-						$totalRows_replay = mysql_num_rows($replay);
-					
-				?>
-                 <tr >
-                  <td height="18" style="padding:5px 0px;<?php if($totalRows_replay==0){ ?>border-bottom:1px dotted grey;<?php }?>"><div align="left">咨询：<?php echo $row_consult['content']; ?></div></td>
-                </tr>
- 				<?php 
- 					if($totalRows_replay>0){
-				?>
-				 <tr  >
-                  <td height="18" style="padding-top:5px 0px;border-bottom:1px dotted grey;color:#FF6500;"><div align="left">回复：<?php echo $row_replay['content']; ?></div>                    <div style="float:right;">
-                      <div align="left"><?php echo $row_replay['create_time']; ?></div>
-                   </div></td>
-                </tr>
+                <tr>
+		<td height="18" style="padding-top: 5px;"><div align="left">
+				<span class="STYLE2">买家：<?php echo $row_consult['username']; ?> <?php echo $row_consult['create_time']; ?></span>
+			</div></td>
+	</tr>
+ 				<?php
+														mysql_select_db ( $database_localhost, $localhost );
+														$query_replay = "SELECT * FROM product_consult WHERE to_question = " . $row_consult ['id'] . " and is_delete=0 order by id desc limit 1";
+														$replay = mysql_query ( $query_replay, $localhost ) or die ( mysql_error () );
+														$row_replay = mysql_fetch_assoc ( $replay );
+														$totalRows_replay = mysql_num_rows ( $replay );
+														
+														?>
+                 <tr>
+		<td height="18" style="padding:5px 0px;<?php if($totalRows_replay==0){ ?>border-bottom:1px dotted grey;<?php }?>"><div
+				align="left">咨询：<?php echo $row_consult['content']; ?></div></td>
+	</tr>
+ 				<?php
+														if ($totalRows_replay > 0) {
+															?>
+				 <tr>
+		<td height="18"
+			style="padding-top: 5px 0px; border-bottom: 1px dotted grey; color: #FF6500;"><div
+				align="left">回复：<?php echo $row_replay['content']; ?></div>
+			<div style="float: right;">
+				<div align="left"><?php echo $row_replay['create_time']; ?></div>
+			</div></td>
+	</tr>
 				 <?php } ?>
             <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>
           </table>
-		  
-          <?php } // Show if recordset not empty ?>
+
+<?php } // Show if recordset not empty ?>
 <?php if(isset($_SESSION['user_id'])){?>
-<form action="<?php echo $editFormAction; ?>" method="post" name="new_consult_form" id="new_consult_form">
-<table align="center" width="990" style="margin:0px auto;" >
-	<tr valign="baseline">
-		<td>&nbsp;</td>
-	</tr>
-	<tr valign="baseline">
-		<td><textarea name="content" cols="120" rows="10"></textarea>	</td>
-	</tr>
-	<tr valign="middle" >
-	  <td style="padding-top:10px;"><label >
-	    <input style="height:35px;font-size:20px;line-height:34px;" name="captcha" type="text" size="4" maxlength="4" />
-	  </label><img height="37" style="cursor:pointer;float:left;margin-right:5px;" title="点击刷新" src="/kcaptcha/index.php" align="absbottom" onclick="this.src='/kcaptcha/index.php?'+Math.random();"><input style="height:35px;margin-left:5px;" name="submit" type="submit" value="马上咨询" /></td>
-    </tr>
-</table>
-<input type="hidden" name="product_id2" value="<?php echo $row_product['id']; ?>" />
-<input type="hidden" name="MM_insert" value="new_consult" />
+<form action="<?php echo $editFormAction; ?>" method="post"
+	name="new_consult_form" id="new_consult_form">
+	<table align="center" width="990" style="margin: 0px auto;">
+		<tr valign="baseline">
+			<td>&nbsp;</td>
+		</tr>
+		<tr valign="baseline">
+			<td><textarea name="content" cols="120" rows="10"></textarea></td>
+		</tr>
+		<tr valign="middle">
+			<td style="padding-top: 10px;"><label> <input
+					style="height: 35px; font-size: 20px; line-height: 34px;"
+					name="captcha" type="text" size="4" maxlength="4" />
+			</label><img height="37"
+				style="cursor: pointer; float: left; margin-right: 5px;"
+				title="点击刷新" src="/kcaptcha/index.php" align="absbottom"
+				onclick="this.src='/kcaptcha/index.php?'+Math.random();"><input
+				style="height: 35px; margin-left: 5px;" name="submit" type="submit"
+				value="马上咨询" /></td>
+		</tr>
+	</table>
+	<input type="hidden"
+		name="MM_insert" value="new_consult" />
 </form>
 <?php } ?>

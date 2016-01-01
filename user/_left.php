@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,14 +15,45 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-</head>
+<style type="text/css">
+<!--
+body {
+	background-color: #f5f5f5;
+	font-size:12px;
+}
+a{
+	color:black;
+	text-decoration:none;
+}
+-->
+</style></head>
 
 <body>
+<table width="100" border="0" align="right">
+  <tr height="24">
+    <td scope="row"><a href="order/index.php" target="main">我的订单</a></td>
+  </tr>
+  <tr height="24">
+     <td scope="row"><a href="consignee/index.php" target="main">收货地址</a></td>
+  </tr>
+  <tr height="24">
+    <td scope="row"><a href="password/update.php" target="main">更新密码</a></td>
+  </tr>
+  <tr>
+    <td scope="row"><a href="info.php" target="main">账户信息</a></td>
+  </tr>
+  <tr height="24">
+    <td scope="row"><a href="user_comments/index.php" target="main">我的评论</a></td>
+  </tr>
+  <tr height="24">
+    <td scope="row"><a href="user_consult/index.php" target="main">我的咨询</a></td>
+  </tr>
+ 
+</table>
 </body>
 </html>

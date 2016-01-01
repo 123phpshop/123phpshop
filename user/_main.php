@@ -15,13 +15,15 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); 
- // 这里对字段进行验证
- $_POST=$_GET;
- $validation->set_rules('keywords', '', 'required|max_legnth[36]|min_legnth[1]|alpha_numeric');
- if (!$validation->run())
- {
- 	header("Location:/index.php");
- }
- include($template_path."search.php");
- ?>
+ ?><?php include("../Connections/localhost.php"); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<p><?php echo $_SESSION['username']; ?></p>
+</body>
+</html>

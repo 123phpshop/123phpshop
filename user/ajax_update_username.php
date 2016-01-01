@@ -15,13 +15,29 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); 
- // 这里对字段进行验证
- $_POST=$_GET;
- $validation->set_rules('keywords', '', 'required|max_legnth[36]|min_legnth[1]|alpha_numeric');
- if (!$validation->run())
- {
- 	header("Location:/index.php");
- }
- include($template_path."search.php");
- ?>
+ ?><?php require_once('../Connections/localhost.php'); ?>
+<?php
+$result="true";
+$colname_get_username = "-1";
+if (isset($_POST['username'])) {
+  $colname_get_username = (get_magic_quotes_gpc()) ? $_POST['username'] : addslashes($_POST['username']);
+}
+
+$colname_id = "-1";
+if (isset($_POST['id'])) {
+  $colname_id = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
+}
+
+mysql_select_db($database_localhost, $localhost);
+$query_get_username = sprintf("SELECT * FROM `user` WHERE username = '%s' and id != '%s'", $colname_get_username,$colname_id);
+$get_username = mysql_query($query_get_username, $localhost) or die(mysql_error());
+$row_get_username = mysql_fetch_assoc($get_username);
+$totalRows_get_username = mysql_num_rows($get_username);
+if($totalRows_get_username>0){
+	$result="false";
+}
+?> 
+<?php
+ mysql_free_result($get_username);
+	die($result);
+?>
