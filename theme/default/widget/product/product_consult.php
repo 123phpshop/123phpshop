@@ -30,12 +30,12 @@ $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
- // 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么不进行任何操作
+// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么不进行任何操作
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_consult") && $colname_product != '-1' && isset ( $_SESSION ['user_id'] ) && isset ( $_POST ['captcha'] ) && ($_POST ['captcha'] == $_SESSION ['captcha'])) {
 	
 	$validation->set_rules ( 'content', '咨询', 'required|max_length[100]|min_length[10]' ); // 评论的长度最少要10个字，最长要100个字
 	if ($validation->run ()) { // 如果可以通过验证的话
-		$insertSQL = sprintf ( "INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "int" ), GetSQLValueString ( $_POST ['content'], "text" ), GetSQLValueString ( $colname_product, "int" ) );
+		$insertSQL = sprintf ( "INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "int" ), GetSQLValueString ( strip_tags ( $_POST ['content'] ), "text" ), GetSQLValueString ( $colname_product, "int" ) );
 		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
@@ -148,7 +148,7 @@ $totalRows_consult = mysql_num_rows ( $consult );
 			<td>&nbsp;</td>
 		</tr>
 		<tr valign="baseline">
-			<td><textarea name="content" cols="120" rows="10"></textarea></td>
+			<td><textarea name="content" id="content" cols="120" rows="10"></textarea></td>
 		</tr>
 		<tr valign="middle">
 			<td style="padding-top: 10px;"><label> <input
@@ -162,7 +162,38 @@ $totalRows_consult = mysql_num_rows ( $consult );
 				value="马上咨询" /></td>
 		</tr>
 	</table>
-	<input type="hidden"
-		name="MM_insert" value="new_consult" />
+	<input type="hidden" name="MM_insert" value="new_consult" />
 </form>
 <?php } ?>
+
+<script language="JavaScript" type="text/javascript"
+	src="/js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript"
+	src="/js/jquery.validate.min.js"></script>
+<script>
+$().ready(function(){
+
+	$("#new_consult_form").validate({
+        rules: {
+        	content: {
+                required: true,
+				maxlength:100
+            },
+            captcha: {
+                required: true,
+				minlength:4
+             }
+        },
+        messages: {
+        	content: {
+                required: "必填" ,
+				maxlength:"最多只能输入100个汉字哦"
+            },
+            captcha: {
+                required: "必填",
+				minlength:"至少要输入4个字符哦"
+            }
+        }
+    });
+	
+});</script>

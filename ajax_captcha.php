@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,9 +15,19 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php 
-$result="true";
-if(!isset($_SESSION['captcha']) && $_POST['captcha']!=$_SESSION['captcha']){
-	$result="false";
+?><?php
+
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
+
+$result = "true";
+// 这里对字段进行验证
+$validation->set_rules ( 'captcha', '', 'required|exact_length[4]|alpha_numeric' ); // 必须提供，4个字符长度，字母和数字组合
+if (! $validation->run ()) {
+	$logger->notice ( "用户在进行ajax验证码操作时使用了非法字符:" . $_POST ['captcha'] . "请及时联系123phpshop寻求解决方案" );
+	die ( "false" );
 }
-echo $result;return;
+
+if (! isset ( $_SESSION ['captcha'] ) && $_POST ['captcha'] != $_SESSION ['captcha']) {
+	die ( "false" );
+}
+?>

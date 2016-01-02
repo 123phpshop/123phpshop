@@ -143,14 +143,12 @@ if (isset($_SESSION['user_id'])) {
 }
 
 mysql_select_db($database_localhost, $localhost);
-$query_user_favorite = sprintf("SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s", $colname_user_favorite,$colname_product);
+$query_user_favorite = sprintf("SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=0", $colname_user_favorite,$colname_product);
 $user_favorite = mysql_query($query_user_favorite, $localhost) or die(mysql_error());
 $row_user_favorite = mysql_fetch_assoc($user_favorite);
 $totalRows_user_favorite = mysql_num_rows($user_favorite);
 if($totalRows_user_favorite>0){
-	$user_favorited=true;
-	
-	
+	$user_favorited=true;	
 }
 include($template_path."product.php");
 ?>

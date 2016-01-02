@@ -38,13 +38,13 @@ class Cart {
 	public function add($product) {
 		global $glogger;
 		
-		// 获取默认收货地址
+		// @toto 获取默认收货地址
 		
-		// 如果用户已经登录的话，那么获取用户的默认收货地址
+		// @toto 如果用户已经登录的话，那么获取用户的默认收货地址
 		
-		// 如果用户没有登录的话，那么获取系统的默认收货区域
+		// @toto 如果用户没有登录的话，那么获取系统的默认收货区域
 		
-		// 检查商品是否可以配送到这个区域，如果不能配送到这个区域，那么返回false
+		// @toto 检查商品是否可以配送到这个区域，如果不能配送到这个区域，那么返回false
 		
 		// 如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
 		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );

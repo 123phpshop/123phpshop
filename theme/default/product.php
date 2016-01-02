@@ -38,8 +38,8 @@ table {
 	border-collapse: collapse;
 }
 
-#product_intro img{
-	max-width:989px;
+#product_intro img {
+	max-width: 989px;
 }
 
 body {
@@ -218,9 +218,13 @@ body {
 								</tr>
 								<tr>
 									<th height="231" colspan="3" align="left" scope="row"><input style="margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;<?php if($row_product['store_num']<=0 || $could_deliver==false){ ?>display:none;<?php } ?>" type="submit" name="Submit2" value="加入购物车" id="could_buy_button" onclick="return check_add_to_cart(this);"/>
-									<div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div>
-										<?php if(!$user_favorited){ ?><div id="favorite_box" onClick="add_favorite(<?php echo $row_product['id'];?>)" style="display:inline-block;cursor:pointer;text-align:center;margin-left:12px;cursor:pointer;border:1px solid #e4393c;color:#FFFFFF;font-weight:bold;border-radius:5px;height:38px;width:137px;background-color:#e4393c;border：1px solid #e4393c;">添加收藏</div><?php }else{ ?>
- 										<div  id="favorite_box" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;" onclick="return false;">已收藏</div>
+										<div  id="could_not_buy_button" style="border:1px solid #CCCCCC;font-weight:bold;text-align:center;height:38px;line-height:36px;width:137px;margin-left:12px;background-color:#CCCCCC;<?php if($row_product['store_num']>0  && $could_deliver==true){ ?>display:none;<?php } ?>" onclick="return false;">库存不足</div>
+										<?php if(!$user_favorited){ ?><div id="favorite_box"
+											onClick="add_favorite(<?php echo $row_product['id'];?>)"
+											style="color:white;display:inline-block;cursor: pointer;border-radius:5px;border: 1px solid #CCCCCC; font-weight: bold; text-align: center; height: 38px; line-height: 36px; width: 137px; margin-left: 12px; background-color: #e4393c;">添加收藏</div><?php }else{ ?>
+ 										<div id="favorite_box"
+											style="display:inline-block;cursor: pointer;border-radius:5px;border: 1px solid #CCCCCC; font-weight: bold; text-align: center; height: 38px; line-height: 36px; width: 137px; margin-left: 12px; background-color: #CCCCCC;"
+											onclick="cancel_favorite(<?php echo $row_product['id'];?>);">已收藏</div>
  										<?php }?>
 										<p>
 
@@ -290,7 +294,7 @@ body {
  <?php if($row_consignee['province']!='' && !isset($_SESSION['user']['province']) && !isset($_SESSION['user']['city']) && !isset($_SESSION['user']['district'])){ ?>
 addressInit('province', 'city', 'district', '<?php echo $row_consignee['province']; ?>', '<?php echo $row_consignee['city']; ?>', '<?php echo $row_consignee['district']; ?>');
  <?php } else{?>
- addressInit('province', 'city', 'district', '<?php echo $_SESSION['user']['province']; ?>', '<?php echo $_SESSION['user']['city']; ?>', '<?php echo $_SESSION['user']['distict']; ?>');
+ addressInit('province', 'city', 'district', "<?php echo $_SESSION['user']['province']; ?>", "<?php echo $_SESSION['user']['city']; ?>", "<?php echo $_SESSION['user']['distict']; ?>");
   <?php }?>
 jq('#demo1').banqh({
 	box:"#demo1",//总框架
@@ -382,7 +386,30 @@ function add_favorite(product_id){
 		}
 		// 更新ui
 		$("#favorite_box").html('已收藏');	
-		$("#favorite_box").attr('enabled','false');
+		$("#favorite_box").css("backgroundColor","#CCCCCC");
+		$("#favorite_box").css("color","black");
+ 		$("#favorite_box").attr('onClick','cancel_favorite('+product_id+')');
+  	},'json');
+}
+
+function cancel_favorite(product_id){
+// 	检查用户是否已经登录，如果没有登录，那么跳到登录页面
+	var user_is_logged_in=<?php echo isset($_SESSION['user_id'])?"1":"0";?>;
+	if(user_is_logged_in==0){
+		window.location="/login.php";return;
+	}
+	var url="/ajax_cancel_favorite.php";
+	
+	$.post(url,{product_id:product_id},function(data){
+		if(data.code=="1"){
+			alert(data.message);return;
+		}
+		// 更新ui
+		$("#favorite_box").html('添加收藏');	
+ 		$("#favorite_box").css("backgroundColor","#e4393c");
+		$("#favorite_box").css("color","white");
+		$("#favorite_box").attr('onClick','add_favorite('+product_id+')');
+
  	},'json');
 }
  </script>
@@ -390,5 +417,5 @@ function add_favorite(product_id){
 </body>
 </html>
 <?php
-add_view_history($colname_product);
+add_view_history ( $colname_product );
 ?>

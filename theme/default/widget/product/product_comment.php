@@ -173,7 +173,7 @@ $().ready(function(){
         rules: {
             message: {
                 required: true,
-				maxlength:50
+				maxlength:100
             },
             captcha: {
                 required: true,
@@ -183,7 +183,7 @@ $().ready(function(){
         messages: {
             message: {
                 required: "必填" ,
-				maxlength:"最多只能输入50个汉字哦"
+				maxlength:"最多只能输入100个汉字哦"
             },
             captcha: {
                 required: "必填",

@@ -15,13 +15,59 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); 
- // 这里对字段进行验证
- $_POST=$_GET;
- $validation->set_rules('keywords', '', 'required|max_legnth[36]|min_legnth[1]|alpha_numeric');
- if (!$validation->run())
- {
- 	header("Location:/index.php");
- }
- include($template_path."search.php");
  ?>
+<?php require_once('Connections/localhost.php'); 
+
+// 这里对字段进行验证
+$_POST=$_GET;
+$validation->set_rules('keywords', '', 'required|max_legnth[36]|min_legnth[1]|alpha_numeric');
+if (!$validation->run())
+{
+header("Location:/index.php");
+}
+
+$currentPage = $_SERVER["PHP_SELF"];
+$colname_products = "-1";
+if (isset($_GET['keywords'])) {
+  $colname_products = (get_magic_quotes_gpc()) ? $_GET['keywords'] : addslashes($_GET['keywords']);
+}
+$order_by=_get_order_by();
+$maxRows_products = 20;
+$pageNum_products = 0;
+if (isset($_GET['pageNum_products'])) {
+  $pageNum_products = $_GET['pageNum_products'];
+}
+$startRow_products = $pageNum_products * $maxRows_products;
+
+mysql_select_db($database_localhost, $localhost);
+$query_products = "SELECT * FROM product WHERE name like '%".$colname_products."%' and is_delete=0 $order_by";
+$query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
+$products = mysql_query($query_limit_products, $localhost) or die(mysql_error());
+//$row_products = mysql_fetch_assoc($products);
+
+if (isset($_GET['totalRows_products'])) {
+  $totalRows_products = $_GET['totalRows_products'];
+} else {
+  $all_products = mysql_query($query_products);
+  $totalRows_products = mysql_num_rows($all_products);
+}
+$totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
+
+$queryString_products = "";
+if (!empty($_SERVER['QUERY_STRING'])) {
+  $params = explode("&", $_SERVER['QUERY_STRING']);
+  $newParams = array();
+  foreach ($params as $param) {
+    if (stristr($param, "pageNum_products") == false && 
+        stristr($param, "totalRows_products") == false) {
+      array_push($newParams, $param);
+    }
+  }
+  if (count($newParams) != 0) {
+    $queryString_products = "&" . htmlentities(implode("&", $newParams));
+  }
+}
+$queryString_products = sprintf("&totalRows_products=%d%s", $totalRows_products, $queryString_products);
+ 
+include($template_path."search.php");
+?>

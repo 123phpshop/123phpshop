@@ -78,7 +78,7 @@ table{
 </table>
 <table style="border-top:1px solid #DDD;border-bottom:1px solid #DDD;" width="1210" height="35" align="center" cellpadding="0" cellspacing="0"  bgcolor="#F1F1F1">
   <tr>
-    <td height="24"><strong style="margin-left:10px;"><?php echo $_GET['keywords']; ?></strong></td>
+    <td height="24"><strong style="margin-left:10px;"><?php echo strip_tags($_GET['keywords']); ?></strong></td>
   </tr>
 </table>
 <br />
@@ -95,7 +95,7 @@ table{
     </table></td>
   </tr>
    <tr>
-    <td valign="top"><?php include($_SERVER['DOCUMENT_ROOT'].'/widget/product/search.php'); ?></td>
+    <td valign="top"><?php include($template_path.'/widget/product/search.php'); ?></td>
   </tr>
 </table>
 <?php include('widget/footer.php'); ?>

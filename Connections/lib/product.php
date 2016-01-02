@@ -30,16 +30,16 @@ function user_could_comment($user_id, $product_id) {
 	}
 	
 	$totalRows_order = mysql_num_rows ( $order );
-// 	$glogger->debug ( "用户购买过这个商品的数目:" . $totalRows_order );
+	// $glogger->debug ( "用户购买过这个商品的数目:" . $totalRows_order );
 	if ($totalRows_order == 0) {
 		return false;
 	}
 	
 	// 检查用户评论过这个商品的数目，如果这个数目是0的话，那么直接返回false
-	$product_comment_num_sql = "select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id";
+	$product_comment_num_sql = "select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id ";
 	$product_comment_num_query = mysql_query ( $product_comment_num_sql, $db_conn ) or die ( mysql_error () );
 	$product_comment_num = mysql_fetch_assoc ( $product_comment_num_query );
-// 	$glogger->debug ( "用户评论过的商品的数目:" . $product_comment_num ['comment_num'] );
+	// $glogger->debug ( "用户评论过的商品的数目:" . $product_comment_num ['comment_num'] );
 	if (( int ) $product_comment_num ['comment_num'] == 0) {
 		return true;
 	}
@@ -47,11 +47,22 @@ function user_could_comment($user_id, $product_id) {
 	// 检查2个数目，如果购买的数目>评论的数目的话，那么可以直接返回tru不能评论了
 	return $totalRows_order > ( int ) $product_comment_num ['comment_num'];
 }
+/**
+ * 添加浏览历史
+ * 
+ * @param unknown $product_id        	
+ */
 function add_view_history($product_id) {
 	_add_session_view_history ( $product_id );
 	
 	_add_db_view_history ( $product_id );
 }
+
+/**
+ * 向SESSION中添加浏览历史
+ * 
+ * @param unknown $product_id        	
+ */
 function _add_session_view_history($product_id) {
 	
 	// 检查浏览记录是否设置了，如果设置过了的话，那么将其设置为空
@@ -65,6 +76,12 @@ function _add_session_view_history($product_id) {
 	$item ['creat_time'] = $create_time;
 	$_SESSION ['view_history'] [] = $item;
 }
+
+/**
+ * 添加浏览历史的数据库操作
+ * 
+ * @param unknown $product_id        	
+ */
 function _add_db_view_history($product_id) {
 	global $db_conn;
 	// 检查里面是否已经存在了这个产品，如果有的话，那么删除这个产品，然后
@@ -99,6 +116,11 @@ function could_devliver($areas) {
 	}
 	return false;
 }
+/**
+ * 检查商品是否属于特价商品
+ * 
+ * @param unknown $product        	
+ */
 function phpshop123_is_special_price($product) {
 	$curr_date = date ( "Y-m-d" );
 	

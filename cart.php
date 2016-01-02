@@ -27,8 +27,8 @@ $cart_obj = new Cart ();
 if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	$validation->set_rules ( 'quantity', '', 'required|is_natural_no_zero' );
 	$validation->set_rules ( 'product_id', '', 'required|is_natural_no_zero' );
-	$validation->set_rules ( 'attr_value', '', 'required|max_length[]|min_length[]' );
-	$validation->set_rules ( 'product_name', '', 'required|max_length[]|min_length[]' );
+	$validation->set_rules ( 'attr_value', '', 'required|max_length[20]|min_length[2]|alpha_numeric' );
+	$validation->set_rules ( 'product_name', '', 'required|max_length[35]|min_length[2]' );
 	$validation->set_rules ( 'product_image', '', 'required|alpha_dash' );
 	$validation->set_rules ( 'ad_text', '', 'max_length[0]|min_length[32]' );
 	if (! $validation->run ()) {

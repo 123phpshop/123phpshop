@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
-
+header ( 'Content-type: application/json' );
 require_once ('Connections/localhost.php');
 ?>
 <?php
