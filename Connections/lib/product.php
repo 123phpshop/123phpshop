@@ -1,3 +1,4 @@
+<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 /**
  * 123PHPSHOP
@@ -15,7 +16,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
+?>
+<?php
 
 // 返回用户是否已经评论过这个商品
 function user_could_comment($user_id, $product_id) {
@@ -54,8 +56,7 @@ function user_could_comment($user_id, $product_id) {
  */
 function add_view_history($product_id) {
 	_add_session_view_history ( $product_id );
-	
-	_add_db_view_history ( $product_id );
+ 	_add_db_view_history ( $product_id );
 }
 
 /**
@@ -83,12 +84,39 @@ function _add_session_view_history($product_id) {
  * @param unknown $product_id        	
  */
 function _add_db_view_history($product_id) {
-	global $db_conn;
+	
 	// 检查里面是否已经存在了这个产品，如果有的话，那么删除这个产品，然后
 	if (isset ( $_SESSION ['user_id'] )) {
-		$sql = sprintf ( "insert into user_view_history (user_id,product_id) values('%s','%s')", $_SESSION ['user_id'], $product_id );
-		mysql_query ( $sql, $db_conn ) or die ( mysql_error () );
-	}
+		global $db_conn;
+		global $glogger;
+		global $db_database_localhost;
+		mysql_select_db ( $db_database_localhost );
+ 		$colname_get_last_view_product = "-1";
+		if (isset($_SESSION['user_id'])) {
+		  $colname_get_last_view_product = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
+		}
+		mysql_select_db($db_database_localhost, $db_conn);
+		$query_get_last_view_product = sprintf("SELECT * FROM user_view_history WHERE user_id = %s and product_id= %s ORDER BY id DESC limit 1", $colname_get_last_view_product,$product_id);
+		$get_last_view_product = mysql_query($query_get_last_view_product, $db_conn);
+		if(!$get_last_view_product){
+				$glogger->fatal("获取用户最后一条查看历史数据库操作失败:".$query_get_last_view_product);
+				return;
+		}
+		
+		$row_get_last_view_product = mysql_fetch_assoc($get_last_view_product);
+		$totalRows_get_last_view_product = mysql_num_rows($get_last_view_product);
+		if($totalRows_get_last_view_product==0){
+			// 如果最后一条不是这个用户的数据的话,那么直接插入
+			$sql = sprintf ( "insert into user_view_history (user_id,product_id) values('%s','%s')", $_SESSION ['user_id'], $product_id );
+ 		}else{
+			// 如果最后一条是这个用户的数据的话，那么只更新浏览历史的时间
+			$sql = sprintf ( "update  user_view_history set create_time='%s'  where id=%s", date("Y-m-d H:i:s"),$row_get_last_view_product['id'] );
+  }
+ 		$query=mysql_query ( $sql, $db_conn );
+		if(!$query){
+				$glogger->fatal("添加/更新用户查看历史时数据库操作失败".$sql);
+		}
+   	}
 }
 
 /**
@@ -127,7 +155,6 @@ function phpshop123_is_special_price($product) {
 	// 检查产品是否在优惠期之内，如果在优惠期之内，那么产品的价格就是优惠价格
 	if ($product ['is_promotion'] == 1 && $curr_date >= $product ['promotion_start'] && $curr_date <= $product ['promotion_end']) {
 		return true;
-	}
-	
-	return false;
+ }
+ 	return false;
 }

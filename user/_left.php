@@ -54,10 +54,10 @@ a{
     <td scope="row"><a href="user_consult/index.php" target="main">我的咨询</a></td>
   </tr>
   <tr height="24">
-    <td scope="row"><a href="user_consult/index.php" target="main">我的收藏</a></td>
+    <td scope="row"><a href="favorite/index.php" target="main">我的收藏</a></td>
   </tr>
   <tr height="24">
-    <td scope="row"><a href="user_consult/index.php" target="main">浏览历史</a></td>
+    <td scope="row"><a href="history/index.php" target="main">浏览历史</a></td>
   </tr>
  
 </table>
