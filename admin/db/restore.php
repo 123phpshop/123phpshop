@@ -7,7 +7,10 @@
 </head>
 
 <body>
-<p class="phpshop123_title">恢复数据库</p>
+<span class="phpshop123_title">恢复数据库</span>
+
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes";?>[购买]</a></div>
+
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <label>
   <input type="file" name="file" />

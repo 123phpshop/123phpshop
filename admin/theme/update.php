@@ -24,6 +24,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
+ 
+
 
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -73,10 +75,8 @@ if(is_dir($theme_folder)){
 	}
 }
 
-
-$doc_url="theme.html#update";
+$doc_url="template.html#update";
 $support_email_question="更新模板";
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -86,9 +86,12 @@ $support_email_question="更新模板";
 </head>
 
 <body>
-  <p><span class="phpshop123_title">更新模板</span><a href="index.php">
+  <span><span class="phpshop123_title">更新模板</span><a href="index.php">
     <input style="float:right;" type="submit" name="Submit2" value="模板列表" />
-  </a></p>
+  </a></span>
+  
+  <a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a>
+  
 
 <form method="post" name="form1"  id="form1"  action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">

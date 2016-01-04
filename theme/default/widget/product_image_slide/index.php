@@ -94,7 +94,7 @@ img{ border:0;}
 			</ul>
 	</div>
 	<div class="min_pic" >
-		<div class="prev_btn1" valign="middle" id="prev_btn1" style="height:56px;"><img style="margin-top:20px;" src="/widget/product_image_slide/images/feel3.png" width="9" height="18"  alt=""/></div>
+		<div class="prev_btn1" valign="middle" id="prev_btn1" style="height:56px;"><img style="margin-top:20px;" src="<?php echo $template_url;?>widget/product_image_slide/images/feel3.png" width="9" height="18"  alt=""/></div>
 		<div class="num clearfix" id="ban_num1">
 			<ul>
 			<?php if($totalRows_product_image_small>0){ ?>
@@ -108,7 +108,7 @@ img{ border:0;}
 				</ul>
  			</ul>
 		</div>
-		<div class="next_btn1" style="height:56px;" id="next_btn1"><img src="/widget/product_image_slide/images/feel4.png" width="9" height="18" style="margin-top:20px;" alt=""/></div>
+		<div class="next_btn1" style="height:56px;" id="next_btn1"><img src="<?php echo $template_url;?>widget/product_image_slide/images/feel4.png" width="9" height="18" style="margin-top:20px;" alt=""/></div>
 	</div>
 </div>
 

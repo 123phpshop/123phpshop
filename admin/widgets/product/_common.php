@@ -28,7 +28,8 @@
 	     腾讯微博</label>
 	     <label>
 	     <input type="checkbox" name="checkbox3" value="checkbox" />
-	     朋友圈[购买此功能]</label></td>
+	     朋友圈<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes";?>[购买此功能]</a></div>
+	     </label></td>
   </tr>
 	 <tr valign="baseline">
 	   <td nowrap align="right">同步频率:</td>
@@ -40,7 +41,7 @@
        <input type="radio" name="radiobutton" value="radiobutton" />
        每
        <input name="textfield" type="text" value="2" size="2" />
-       天同步一次[购买此功能]</label></td>
+       天同步一次<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes";?>[购买此功能]</a></div></label></td>
   </tr>
 	 <tr valign="baseline">
       <td nowrap align="right">分类:</td>

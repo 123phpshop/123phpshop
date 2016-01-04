@@ -5,4 +5,5 @@ $theme = mysql_query($query_theme, $localhost) or die(mysql_error());
 $row_theme = mysql_fetch_assoc($theme);
 $totalRows_theme = mysql_num_rows($theme);
 $template_path=$www_root.'/theme/'.$row_theme['folder_name']."/";
+$template_url='/theme/'.$row_theme['folder_name']."/";
 ?>

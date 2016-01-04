@@ -11,7 +11,12 @@ $support_email_question="设置数据库读写分离";
 </head>
 
 <body>
-<span class="phpshop123_title">数据库读写分离</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.4/".$doc_url:"http://www.123phpshop.com/doc/";?>">[购买]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<span class="phpshop123_title">数据库读写分离</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://baike.baidu.com/link?url=-4O22FjOY_e-cS_CJTa34UEABLHcDqJZcNC3V0f9a0qcoCQJdScCxt_NeJNDWXu_Shw-S5IHG0_4_-XOKvxrp_";?>[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes";?>[购买]</a></div>
+<div class="phpshop123_infobox">
+<p>为什么要进行数据库读写分离：</p>
+<p>1.多台数据库备份，一台服务器崩溃，其他服务器就可以马上代替其工作，可以大幅度提升网站的稳定性。</p>
+<p>2.多台服务器共同为数据库操作服务，可以大幅度降低单个服务器压力，提升整个网站的反应性能。</p>
+</div>
 <form id="form1" name="form1" method="post" action="">
   <p>读数据设置：</p>
   <table width="200" border="0" class="phpshop123_form_box">

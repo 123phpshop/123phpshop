@@ -27,7 +27,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 //$logger->debug("准备添加模板"); 
 $theme_folders=array();
-$doc_url="theme.html#add";
+$doc_url="template.html#add";
 $support_email_question="添加模板";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {

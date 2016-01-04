@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<p class="phpshop123_title">修改数据库表前缀</p>
+<span class="phpshop123_title">修改数据库表前缀</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes";?>[购买]</a></div>
 <form id="form1" name="form1" method="post" action="">
   <p>&nbsp;</p>
   <table width="100%" border="0" align="center" class="phpshop123_form_box">

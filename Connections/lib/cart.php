@@ -105,7 +105,7 @@ class Cart {
 		
 		// 如果有商品的话，那么循环这些商品，然后将不是赠品的商品调出来
 		foreach ( $_SESSION ['cart'] ['products'] as $product ) {
-			if ($product ['is_present'] == "0" || $product ['is_present'] == 0) {
+			if (!isset($product ['is_present']) || $product ['is_present'] == "0" || $product ['is_present'] == 0) {
 				$result [] = $product;
 			}
 		}
@@ -1008,7 +1008,7 @@ class Cart {
 		$this->_123phpshop_add_order_presents ( $order, $promotion_presents );
 		
 		// 因为有赠品添加进入，所以这里需要更新运费
-		$this->_update_shipping_fee ( $this->order );
+		$this->_update_shipping_fee ();
 		$shipping_fee = $_SESSION ['cart'] ['shipping_fee']; // 获取运费费用
 		                                                     
 		// 获取订单总费用
