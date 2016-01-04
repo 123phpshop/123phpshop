@@ -60,7 +60,8 @@ $totalRows_product_atts = mysql_num_rows($product_atts);
         <td  height="38" scope="row" style="padding-left:12px;"><?php echo $row_product_atts['name']; ?></td>
         <td width="990" height="38" style="border-color:#CCCCCC;">
  		<?php  $attr_value_array=explode("\n",$row_product_atts['selectable_value']);$is_first_attr=true;
-foreach($attr_value_array as $attr_value_item){ ?><span <?php if($is_first_attr==true){ ?>class="attr_value_item_active"<?php ;$attr_value.=$row_product_atts['name'].":".trim($attr_value_item).";";$is_first_attr=false; }else{ ?>class="attr_value_item"<?php  }?> onclick="select_attr(<?php echo $row_product_atts['id']; ?>,'<?php echo trim($attr_value_item);?>')" attr_value=<?php echo trim($attr_value_item);?>  attr_name=<?php echo $row_product_atts['name']; ?> attr_value_id="<?php echo $row_product_atts['id']; ?>"><?php echo trim($attr_value_item);?></span><?php } ?>
+foreach($attr_value_array as $attr_value_item){ if(trim($attr_value_item)!=''){?>
+<span <?php if($is_first_attr==true){ ?> class="attr_value_item_active"<?php ;$attr_value.=$row_product_atts['name'].":".trim($attr_value_item).";";$is_first_attr=false; }else{ ?> class="attr_value_item"<?php  }?> onclick="select_attr(<?php echo $row_product_atts['id']; ?>,'<?php echo trim($attr_value_item);?>')" attr_value=<?php echo trim($attr_value_item);?>  attr_name=<?php echo $row_product_atts['name']; ?> attr_value_id="<?php echo $row_product_atts['id']; ?>"><?php echo trim($attr_value_item);?></span><?php } } ?>
   		</td>
       </tr>
       <?php } while ($row_product_atts = mysql_fetch_assoc($product_atts)); ?>

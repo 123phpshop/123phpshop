@@ -45,7 +45,7 @@
   </tr>
 	 <tr valign="baseline">
       <td nowrap align="right">分类:</td>
-      <td><?php include_once($_SERVER['DOCUMENT_ROOT']."/admin/widgets/product/catalogs_menu.php");?>      <a href="../../catalog/index.php"><u>添加分类</u></a>*</td>
+      <td><?php include_once($_SERVER['DOCUMENT_ROOT']."/admin/widgets/product/catalogs_menu.php");?>      <a href="/admin/catalog/index.php"><u>添加分类</u></a>*</td>
     </tr>
 	<?php } ?>
     <tr valign="baseline">
@@ -83,7 +83,7 @@ do {
 	  $row_brands = mysql_fetch_assoc($brands);
   }
 ?>
-      </select>        <a href="../../brands/add.php"><u>添加品牌</u></a></td>
+      </select>        <a href="/admin/brands/add.php"><u>添加品牌</u></a></td>
     </tr>
 	
     <tr valign="baseline">
@@ -102,7 +102,7 @@ do {
 	  $row_product_types = mysql_fetch_assoc($product_types);
   }
 ?>
-      </select>      <a href="../../product_type/index.php"><u>添加商品类型</u></a></td>
+      </select>      <a href="/admin/product_type/index.php"><u>添加商品类型</u></a></td>
     </tr>
     
     <tr valign="baseline">

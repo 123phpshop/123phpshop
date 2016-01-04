@@ -157,6 +157,7 @@ $totalRows_product_types = mysql_num_rows($product_types);
   <input type="hidden" name="catalog_id" value="<?php echo $_GET['catalog_id']; ?>">
   <?php } ?>
   <input type="hidden" name="MM_insert" value="form1">
+  <input type="submit"   value="添加">
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
