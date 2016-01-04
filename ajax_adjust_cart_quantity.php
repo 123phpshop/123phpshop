@@ -35,7 +35,7 @@ try {
 	// 这里对字段进行验证
 	$validation->set_rules('product_id', '', 'required|is_natural_no_zero');
 	$validation->set_rules('quantity', '', 'required|is_natural_no_zero');
-	$validation->set_rules('attr_value', '', 'required|alpha_dash');
+	$validation->set_rules('attr_value', '', 'alpha_dash');
 	if (!$validation->run())
 	{
 		$logger->fatal("用户在调整购物车商品数量的时候出现参数错误问题，ip是.".$_SERVER['REMOTE_ADDR'].", 企图调整的商品id是：".$_POST['product_id']);

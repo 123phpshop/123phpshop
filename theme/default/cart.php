@@ -102,9 +102,7 @@ if (empty ( $cart_products )) {
 		action="confirm.php">
 		<table width="990" height="37" border="0" align="center">
 			<tr>
-				<td height="37"><span class="STYLE5">全部商品<a style="display: none;"
-						id='please_refresh_presents_link' href="/cart.php"> [有赠品出现，点我刷新啦]
-					</a></span></td>
+				<td height="37"><span class="STYLE5">全部商品</span></td>
 			</tr>
 		</table>
 		<table width="990" border="0" align="center" cellpadding="0"
@@ -379,7 +377,7 @@ function _123phpshop_please_refresh(presents_ids){
 	var present_num=$("tr[is_present=1]").length;
 	// 当当前的赠品数量《购物车中的赠品数量时，说明有新的赠品出现
  	if(present_ids_num>present_num){
-		$("#please_refresh_presents_link").show();
+		window.location="/cart.php";
 		return;
 	} 
  	 $("#please_refresh_presents_link").hide();
