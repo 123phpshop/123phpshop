@@ -69,7 +69,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
         <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>网银支付</strong></a></td>
         <td>http://www.chinabank.com.cn/</td>
         <td>微信支付</td>
-        <td><div align="right">[未购买]</div></td>
+        <td><div align="right">[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">购买</a>]</div></td>
         <td>
 		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
       </tr>
@@ -77,7 +77,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
         <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>微信支付</strong></a></td>
         <td><a href="<?php echo $row_pay_methods['www']; ?>" target="_blank">http://weixin.qq.com/cgi-bin/readtemplate?t=win_weixin</a></td>
         <td>微信支付</td>
-        <td><div align="right">[未购买]</div></td>
+        <td><div align="right">[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">购买</a>]</div></td>
         <td>
 		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
       </tr>
@@ -85,7 +85,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
         <td><a href="<?php echo $row_pay_methods['folder']; ?>"><strong>贝宝支付</strong></a></td>
         <td>https://www.paypal.com/c2/webapps/mpp/home</td>
         <td>贝宝支付,外贸支付神器</td>
-        <td><div align="right">[未购买]</div></td>
+        <td><div align="right">[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">购买</a>]</div></td>
         <td>
 		  <div align="right">[点击购买]<a href="update.php?id=<?php echo $row_pay_methods['id']; ?>"></a></div></td>
       </tr>
