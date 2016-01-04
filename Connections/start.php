@@ -26,7 +26,6 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_template.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/validation/Form_validation.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
-
+include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_validation.php";
 ?>

@@ -158,7 +158,7 @@ $totalRows_info = mysql_num_rows($info);
           <td><label>
             <input type="checkbox" name="checkbox" value="checkbox" />
           </label>
-            将网站的错误信息发送给123phpshop,在第一时间获取技术支持[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_parent">购买此服务</a>]</td>
+            网站发生问题时，系统自动发送邮件给123phpshop,123phpshop的团队会在第一时间进行修复[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_parent">购买此服务</a>]</td>
         </tr>
         <tr valign="baseline">
           <td nowrap align="right">更新Logo:</td>

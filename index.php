@@ -17,7 +17,7 @@
  */
  ?><?php require_once('Connections/localhost.php'); ?>
 <?php 
-
+$logger->debug("asdasd");
 //var_export(get_catalog_path(array(4)));die;
 
 // ** Logout the current user. **
