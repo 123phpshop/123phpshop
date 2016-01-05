@@ -280,7 +280,7 @@ tr {
 				<td><label> <select name="select">
 							<option value="1">默认</option>
 					</select>
-			        [点击<a href="http://www.123phpshop.com/product_list.php?keywords=&amp;catalog=20&amp;license=&amp;version=" target="_blank"><strong>购买其他模板</strong></a>，或是<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank"><strong>联系我们的客服</strong></a>进行定制]
+			        [<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank"><strong>联系我们的客服进行定制</strong></a>]
 				</label></td>
 			</tr>
 			<tr>

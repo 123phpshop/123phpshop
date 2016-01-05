@@ -4,10 +4,10 @@
 # Type="MYSQL"
 # HTTP="true"
 error_reporting(0); 
-$hostname_localhost = "";
-$database_localhost = "";
-$username_localhost = "";
-$password_localhost = "";
+$hostname_localhost = "localhost";
+$database_localhost = "155";
+$username_localhost = "root";
+$password_localhost = "root";
 if($hostname_localhost==""){
 	require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 	return;
