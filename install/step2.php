@@ -255,8 +255,8 @@ tr {
 			</tr>
 			<tr style="border-top: 2px solid #CCCCCC;">
 				<th scope="row">表前缀：</th>
-				<td><label> <input name="pre_fix" type="text" id="pre_fix" />
-						[标准版不能指定表前缀，如需指定，请点击购买专业版]
+				<td><label> <input name="pre_fix" type="text" id="pre_fix" disabled="disabled"/>
+						[<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">购买此功能</a>]
 				</label></td>
 			</tr>
 			<tr style="border-top: 2px solid #CCCCCC;">
@@ -279,15 +279,16 @@ tr {
 				<th scope="row"><div align="right">模板：</div></th>
 				<td><label> <select name="select">
 							<option value="1">默认</option>
-					</select> [点击购买其他模板，或是联系我们的客服进行定制]
+					</select>
+			        [点击<a href="http://www.123phpshop.com/product_list.php?keywords=&amp;catalog=20&amp;license=&amp;version=" target="_blank"><strong>购买其他模板</strong></a>，或是<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank"><strong>联系我们的客服</strong></a>进行定制]
 				</label></td>
 			</tr>
 			<tr>
 				<th scope="row"><div align="right">安装路径：</div></th>
 				<td><label> <input type="text" name="textfield"
 						value="<?php echo $_SERVER['DOCUMENT_ROOT'];?>" readonly="true"
-						disabled="disabled" /> [标准版不能指定安装路径，如需要，请点击购买专业版]
-				</label></td>
+						disabled="disabled" />
+				    <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=1718101117&amp;site=qq&amp;menu=yes" target="_blank">[购买此功能] </a></label></td>
 			</tr>
 			<tr>
 				<td scope="row">&nbsp;</td>
