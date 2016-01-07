@@ -264,7 +264,7 @@ a{
         <td height="33">PHP版本:</td>
         <td height="33"><?php echo phpversion();?></td>
         <td height="33">123PHPSHOP版本:</td>
-        <td height="33">1.5</td>
+        <td height="33">1.6</td>
       </tr>
       <tr>
         <td height="33">网站目录:</td>
@@ -282,7 +282,7 @@ a{
 $().ready(function(){
 	var new_version_string=<?php echo file_get_contents("http://www.123phpshop.com/version.php");?>;
  	var new_version_obj=eval(new_version_string);
-	var current_version=1.5;
+	var current_version=1.6;
 	if(parseFloat(current_version)<parseFloat(new_version_obj.version)){
 		var new_version_indicator_string="123phpshop出新版本啦！新的版本号是:"+new_version_obj.version+". 各位亲,<a target='_blank' href='"+new_version_obj.download_url+"'>请点击这里下载</a>, <a  target='_blank' href='"+new_version_obj.doc_url+"'>点击这里查看详细介绍</a>,<a target='_blank' href='http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes'>点击这里联系123phpshop进行升级</a>";
 		$("#new_version_indicator").html(new_version_indicator_string);
