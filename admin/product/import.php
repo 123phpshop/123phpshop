@@ -49,8 +49,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")) {
 	try{
 	// 我们这里需要对上传文件进行检查
-   include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
-  include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/csv.php'); 
+	  include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
+	  include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/csv.php'); 
 	$up = new fileupload;
     //设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
     $up -> set("path", $_SERVER['DOCUMENT_ROOT']."/uploads/import/");
@@ -66,11 +66,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")
 						   GetSQLValueString($image_path, "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+	  $Result1 = mysql_query($insertSQL, $localhost) ;
+	  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
  	  import_product($image_path);	  
      } else {
          //获取上传失败以后的错误提示
-        	$error=$up->getErrorMsg();
+ 		 throw new Exception($up->getErrorMsg());
      }
 	
 	}catch(Exception $ex){
@@ -95,7 +96,8 @@ if (isset($_SESSION['admin_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_import_logs = sprintf("SELECT * FROM product_import WHERE user_id = %s ORDER BY id DESC", $colname_import_logs);
 $query_limit_import_logs = sprintf("%s LIMIT %d, %d", $query_import_logs, $startRow_import_logs, $maxRows_import_logs);
-$import_logs = mysql_query($query_limit_import_logs, $localhost) or die(mysql_error());
+$import_logs = mysql_query($query_limit_import_logs, $localhost) ;
+if(!$import_logs){$logger->fatal("数据库操作失败:".$query_limit_import_logs);}
 $row_import_logs = mysql_fetch_assoc($import_logs);
 
 if (isset($_GET['totalRows_import_logs'])) {

@@ -57,7 +57,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
-	$consignees = mysql_query($query_consignees, $localhost) or die(mysql_error());
+	$consignees = mysql_query($query_consignees, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
  	$totalRows_consignees = mysql_num_rows($consignees);
 	if($totalRows_consignees==0){
 		$is_default=1;
@@ -79,7 +79,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_SESSION['user_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 }
 
 $colname_consignees = "-1";
@@ -88,7 +88,7 @@ if (isset($_SESSION['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
-$consignees = mysql_query($query_consignees, $localhost) or die(mysql_error());
+$consignees = mysql_query($query_consignees, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_consignees = mysql_fetch_assoc($consignees);
 $totalRows_consignees = mysql_num_rows($consignees);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

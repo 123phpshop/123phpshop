@@ -21,7 +21,8 @@ if($row_promotion['promotion_limit_value']==''){
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name FROM catalog WHERE id in (".$row_promotion['promotion_limit_value'].")";
-$goods = mysql_query($query_goods, $localhost) or die(mysql_error());
+$goods = mysql_query($query_goods, $localhost) ;
+if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
 $row_goods = mysql_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 ?>

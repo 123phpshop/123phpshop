@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news = sprintf("SELECT * FROM ad WHERE id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost) or die(mysql_error());
+$news = mysql_query($query_news, $localhost) ;if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysql_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
   
@@ -45,7 +45,10 @@ if($could_delete==1){
 	
 	mysql_select_db($database_localhost, $localhost);
 	$query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
-	$ad_images = mysql_query($query_ad_images, $localhost) or die(mysql_error());
+	$ad_images = mysql_query($query_ad_images, $localhost) ;
+ 	if(!$ad_images){
+		$logger->fatal("更新用户登记操作失败:".$query_ad_images);
+	  }
 	$totalRows_ad_images = mysql_num_rows($ad_images);
 	
  	if($totalRows_ad_images>0){
@@ -57,6 +60,7 @@ if($could_delete==1){
  	$update_catalog = sprintf("delete from `ad` where id = %s", $colname_news);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("删除广告操作失败:".$updateSQL);
 		$could_delete=0;
 	}else{
 		$remove_succeed_url="index.php";

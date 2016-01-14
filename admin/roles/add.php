@@ -25,7 +25,8 @@ if (isset($_POST['name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s' and is_delete=0 ", $colname_getByName);
-$getByName = mysql_query($query_getByName, $localhost) or die(mysql_error());
+$getByName = mysql_query($query_getByName, $localhost) ;
+if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
 $row_getByName = mysql_fetch_assoc($getByName);
 $totalRows_getByName = mysql_num_rows($getByName);
 
@@ -67,7 +68,8 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
 						   GetSQLValueString($pid, "int"));
 	 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   $insertGoTo = "index.php";
   header(sprintf("Location: %s", $insertGoTo));
 }

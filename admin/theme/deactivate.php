@@ -26,13 +26,15 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM theme WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 mysql_select_db($database_localhost, $localhost);
 $query_themes = sprintf("SELECT * FROM theme WHERE is_delete=0 and  id != %s", $colname_order);
-$themes = mysql_query($query_themes, $localhost) or die(mysql_error());
+$themes = mysql_query($query_themes, $localhost) ;
+if(!$themes){$logger->fatal("数据库操作失败:".$query_themes);}
 $row_themes = mysql_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 
@@ -52,6 +54,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `theme` set is_delete=1 where id = %s", $colname_order);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		$remove_succeed_url="index.php";

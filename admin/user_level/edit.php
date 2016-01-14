@@ -37,14 +37,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
-
-  $updateGoTo = "index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
+  $Result1 = mysql_query($updateSQL, $localhost);
+  if(!$Result1){
+  	$logger->fatal("更新用户登记操作失败:".$updateSQL);
   }
-  header(sprintf("Location: %s", $updateGoTo));
+  $updateGoTo = "index.php";
+   header(sprintf("Location: %s", $updateGoTo));
 }
 
 $colname_item = "-1";
@@ -53,7 +51,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_item = sprintf("SELECT * FROM user_levels WHERE id = %s", $colname_item);
-$item = mysql_query($query_item, $localhost) or die(mysql_error());
+$item = mysql_query($query_item, $localhost) ;
+if(!$item){$logger->fatal("数据库操作失败:".$query_item);}
 $row_item = mysql_fetch_assoc($item);
 $totalRows_item = mysql_num_rows($item);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -80,13 +79,11 @@ $totalRows_item = mysql_num_rows($item);
           <td nowrap align="right">&nbsp;</td>
           <td><input type="submit" value="更新记录"></td>
         </tr>
-      </table>
+  </table>
       <input type="hidden" name="MM_update" value="form1">
       <input type="hidden" name="id" value="<?php echo $row_item['id']; ?>">
-    </form>
-    <p>&nbsp;</p>
-    <p>&nbsp; </p>
-</body>
+</form>
+    </body>
 </html>
 <?php
 mysql_free_result($item);

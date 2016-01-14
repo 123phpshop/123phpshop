@@ -63,7 +63,10 @@ if (isset ( $_GET ['id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_comments = sprintf ( "SELECT product_comment.*,user.username FROM product_comment inner join user on user.id=product_comment.user_id WHERE product_comment.product_id = %s and product_comment.is_delete=0 ORDER BY product_comment.id DESC", $colname_comments );
-$comments = mysql_query ( $query_comments, $localhost ) or die ( mysql_error () );
+$comments = mysql_query ( $query_comments, $localhost );
+if (! $comments) {
+				$logger->fatal ( "更新商品评论次数时失败:" . mysql_error () . $query_comments );
+			}
 $row_comments = mysql_fetch_assoc ( $comments );
 $totalRows_comments = mysql_num_rows ( $comments );
 ?>

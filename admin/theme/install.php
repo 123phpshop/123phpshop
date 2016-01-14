@@ -79,7 +79,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString(isset($_POST['is_default']) ? "true" : "", "defined","1","0"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {

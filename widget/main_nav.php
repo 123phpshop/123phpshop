@@ -19,7 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_top_catas = "SELECT * FROM `catalog` WHERE pid = 0";
-$top_catas = mysql_query($query_top_catas, $localhost) or die(mysql_error());
+$top_catas = mysql_query($query_top_catas, $localhost) ;
+if(!$top_catas){$logger->fatal("数据库操作失败:".$query_top_catas);}
 $row_top_catas = mysql_fetch_assoc($top_catas);
 $totalRows_top_catas = mysql_num_rows($top_catas);
 if($totalRows_top_catas==0){

@@ -30,7 +30,8 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM brands WHERE id = $recordID ORDER BY id DESC";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 
 if (isset($_GET['totalRows_DetailRS1'])) {

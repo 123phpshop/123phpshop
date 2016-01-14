@@ -19,7 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_buy_view = "SELECT * FROM product WHERE is_on_sheft = 1 and is_delete=0 limit 6";
-$buy_view = mysql_query($query_buy_view, $localhost) or die(mysql_error());
+$buy_view = mysql_query($query_buy_view, $localhost) ;
+if(!$buy_view){$logger->fatal("数据库操作失败:".$query_buy_view);}
 $row_buy_view = mysql_fetch_assoc($buy_view);
 $totalRows_buy_view = mysql_num_rows($buy_view);
 ?>
@@ -55,7 +56,7 @@ table{
  		<?php 
  	   	mysql_select_db($database_localhost, $localhost);
 		$query_get_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id =". $row_buy_view['id'];
-		$get_images = mysql_query($query_get_images, $localhost) or die(mysql_error());
+		$get_images = mysql_query($query_get_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 		$row_get_images = mysql_fetch_assoc($get_images);
 		$totalRows_get_images = mysql_num_rows($get_images);
  	   ?>
@@ -77,7 +78,3 @@ table{
 </tr>
 		    <?php } while ($row_buy_view = mysql_fetch_assoc($buy_view)); ?><p>&nbsp;</p>
 </table>
-
-<?php
-mysql_free_result($buy_view);
-?>

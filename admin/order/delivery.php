@@ -63,27 +63,33 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($colname_order, "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
   
 $order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','".商家已发货."')";
-mysql_query($order_log_sql, $localhost);
-		
-  $MM_redirectLoginSuccess="index.php";
-  header("Location: " . $MM_redirectLoginSuccess );
+$Result1=mysql_query($order_log_sql, $localhost);
+		if(!$Result1){
+				$logger->fatal("数据库操作失败:".$order_log_sql);
+		}else{
+		  $MM_redirectLoginSuccess="index.php";
+		  header("Location: " . $MM_redirectLoginSuccess );
+		}
   
 }
 
 
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost);
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 mysql_select_db($database_localhost, $localhost);
 $query_logistics = "SELECT * FROM express_company";
-$logistics = mysql_query($query_logistics, $localhost) or die(mysql_error());
+$logistics = mysql_query($query_logistics, $localhost) ;
+if(!$logistics){$logger->fatal("数据库操作失败:".$query_logistics);}
 $row_logistics = mysql_fetch_assoc($logistics);
 $totalRows_logistics = mysql_num_rows($logistics);
 

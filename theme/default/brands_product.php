@@ -98,6 +98,3 @@ table{
 <script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
 </body>
 </html>
-<?php
-mysql_free_result($brand);
-?>

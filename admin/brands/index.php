@@ -30,7 +30,8 @@ $startRow_brands = $pageNum_brands * $maxRows_brands;
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT * FROM brands where is_delete=0 ORDER BY id DESC";
 $query_limit_brands = sprintf("%s LIMIT %d, %d", $query_brands, $startRow_brands, $maxRows_brands);
-$brands = mysql_query($query_limit_brands, $localhost) or die(mysql_error());
+$brands = mysql_query($query_limit_brands, $localhost) ;
+if(!$brands){$logger->fatal("数据库操作失败:".$query_limit_brands);}
 $row_brands = mysql_fetch_assoc($brands);
 
 if (isset($_GET['totalRows_brands'])) {

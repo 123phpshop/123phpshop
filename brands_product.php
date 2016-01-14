@@ -33,7 +33,8 @@ if (isset($_GET['brand_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_brand = sprintf("SELECT * FROM brands WHERE id = %s and is_delete=0", $colname_brand);
-$brand = mysql_query($query_brand, $localhost) or die(mysql_error());
+$brand = mysql_query($query_brand, $localhost) ;
+if(!$brand){$logger->fatal("数据库操作失败:".$query_brand);}
 $row_brand = mysql_fetch_assoc($brand);
 $totalRows_brand = mysql_num_rows($brand);
 include($template_path."brands_product.php");

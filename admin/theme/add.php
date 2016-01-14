@@ -65,7 +65,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($insertSQL, $localhost);
   if(!$Result1){
-  	 $logger->warn(mysql_error().$insertSQL);
+	  
+  	 $logger->fatal(mysql_error().$insertSQL);
   }
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {

@@ -27,7 +27,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM shipping_method WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) or die(mysql_error());
+$admin = mysql_query($query_admin, $localhost) ;
+if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
  if($totalRows_admin==0){
@@ -42,6 +43,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `shipping_method` set is_delete=1 where id = %s", $colname_admin);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		header("Location: " . $remove_succeed_url );

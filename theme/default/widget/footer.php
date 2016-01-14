@@ -30,7 +30,8 @@ $startRow_friend_links = $pageNum_friend_links * $maxRows_friend_links;
 mysql_select_db($database_localhost, $localhost);
 $query_friend_links = "SELECT * FROM friend_links WHERE is_delete = 0 order by sort desc";
 $query_limit_friend_links = sprintf("%s LIMIT %d, %d", $query_friend_links, $startRow_friend_links, $maxRows_friend_links);
-$friend_links = mysql_query($query_limit_friend_links, $localhost) or die(mysql_error());
+$friend_links = mysql_query($query_limit_friend_links, $localhost) ;
+if(!$friend_links){$logger->fatal("数据库操作失败:".$query_limit_friend_links);}
 $row_friend_links = mysql_fetch_assoc($friend_links);
 
 if (isset($_GET['totalRows_friend_links'])) {

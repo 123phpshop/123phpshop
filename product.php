@@ -66,7 +66,10 @@ if (isset ( $_GET ['id'] )) {
 // 根据id获取商品信息
 mysql_select_db ( $database_localhost, $localhost );
 $query_product = sprintf ( "SELECT product.*,brands.name as brand_name FROM product left join brands on product.brand_id=brands.id WHERE product.id = %s and product.is_delete=0 and product.is_on_sheft=1", $colname_product );
-$product = mysql_query ( $query_product, $localhost ) or die ( mysql_error () );
+$product = mysql_query ( $query_product, $localhost );
+if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
+
+
 $row_product = mysql_fetch_assoc ( $product );
 $totalRows_product = mysql_num_rows ( $product );
 // 如果找不到这个商品的话,那么跳转到主页
@@ -82,7 +85,9 @@ if (isset ( $_GET ['id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images );
-$product_images = mysql_query ( $query_product_images, $localhost ) or die ( mysql_error () );
+$product_images = mysql_query ( $query_product_images, $localhost ) ;
+if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
+
 $row_product_images = mysql_fetch_assoc ( $product_images );
 $totalRows_product_images = mysql_num_rows ( $product_images );
 
@@ -93,7 +98,10 @@ if (isset ( $_GET ['id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_image_small = sprintf ( "SELECT * FROM product_images WHERE product_id = %s", $colname_product_image_small );
-$product_image_small = mysql_query ( $query_product_image_small, $localhost ) or die ( mysql_error () );
+$product_image_small = mysql_query ( $query_product_image_small, $localhost );
+if(!$product_image_small){$logger->fatal("数据库操作失败:".$query_product_image_small);}
+
+
 $row_product_image_small = mysql_fetch_assoc ( $product_image_small );
 $totalRows_product_image_small = mysql_num_rows ( $product_image_small );
 $could_deliver = false;
@@ -104,7 +112,9 @@ if (isset ( $_SESSION ['user_id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_consignee = sprintf ( "SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 and is_default=1", $colname_consignee );
-$consignee = mysql_query ( $query_consignee, $localhost ) or die ( mysql_error () );
+$consignee = mysql_query ( $query_consignee, $localhost );
+if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}
+
 $row_consignee = mysql_fetch_assoc ( $consignee );
 $totalRows_consignee = mysql_num_rows ( $consignee );
 $areas = array ();
@@ -132,7 +142,8 @@ $could_deliver = could_devliver ( $areas );
 // 获取分类信息
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_catalog = "SELECT id,name FROM `catalog` WHERE id = " . $row_product ['catalog_id'];
-$product_catalog = mysql_query ( $query_product_catalog, $localhost ) or die ( mysql_error () );
+$product_catalog = mysql_query ( $query_product_catalog, $localhost );
+if(!$product_catalog){$logger->fatal("数据库操作失败:".$query_product_catalog);}
 $row_product_catalog = mysql_fetch_assoc ( $product_catalog );
 $totalRows_product_catalog = mysql_num_rows ( $product_catalog );
 
@@ -144,7 +155,8 @@ if (isset($_SESSION['user_id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_user_favorite = sprintf("SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=0", $colname_user_favorite,$colname_product);
-$user_favorite = mysql_query($query_user_favorite, $localhost) or die(mysql_error());
+$user_favorite = mysql_query($query_user_favorite, $localhost) ;
+if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}
 $row_user_favorite = mysql_fetch_assoc($user_favorite);
 $totalRows_user_favorite = mysql_num_rows($user_favorite);
 if($totalRows_user_favorite>0){

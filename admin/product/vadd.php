@@ -48,7 +48,8 @@ $editFormAction = $_SERVER['PHP_SELF'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$brands = mysql_query($query_brands, $localhost) ;
+if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
@@ -119,7 +120,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 }
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
    $insertGoTo = "detail.php?recordID=".mysql_insert_id();
    header(sprintf("Location: %s", $insertGoTo));
 }
@@ -127,7 +129,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
+$product_types = mysql_query($query_product_types, $localhost) ;
+if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}
 $row_product_types = mysql_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
 $is_vproduct_add_page=true;
@@ -158,6 +161,7 @@ $is_vproduct_add_page=true;
 <?php if(isset($_GET['catalog_id']) && trim($_GET['catalog_id'])!=""){ ?>
 	<input type="hidden" name="catalog_id" value="<?php echo $_GET['catalog_id']; ?>">
 <?php } ?>
+<input type="submit" name="" value="添加">
   	<input type="hidden" name="MM_insert" value="form1">
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
@@ -325,11 +329,8 @@ $().ready(function(){
 		var market_price_float=parseFloat($("#price").val())*1.2
 		$("#market_price").val(market_price_float);
 	}
-	 
-
-</script>
-
-</body>
+ </script>
+ </body>
 
 </html>
 <?php

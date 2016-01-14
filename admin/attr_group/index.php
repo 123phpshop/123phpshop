@@ -33,7 +33,8 @@ if (isset($_GET['product_type_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_attr = sprintf("SELECT * FROM product_type_attr WHERE product_type_id = %s and is_delete=0", $colname_attr);
 $query_limit_attr = sprintf("%s LIMIT %d, %d", $query_attr, $startRow_attr, $maxRows_attr);
-$attr = mysql_query($query_limit_attr, $localhost) or die(mysql_error());
+$attr = mysql_query($query_limit_attr, $localhost) ;
+if(!$attr){$logger->fatal("数据库操作失败:".$query_limit_attr);}
 $row_attr = mysql_fetch_assoc($attr);
 
 if (isset($_GET['totalRows_attr'])) {

@@ -56,7 +56,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 }
 
 $maxRows_news_catalogs = 50;
@@ -69,7 +69,8 @@ $startRow_news_catalogs = $pageNum_news_catalogs * $maxRows_news_catalogs;
 mysql_select_db($database_localhost, $localhost);
 $query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
 $query_limit_news_catalogs = sprintf("%s LIMIT %d, %d", $query_news_catalogs, $startRow_news_catalogs, $maxRows_news_catalogs);
-$news_catalogs = mysql_query($query_limit_news_catalogs, $localhost) or die(mysql_error());
+$news_catalogs = mysql_query($query_limit_news_catalogs, $localhost) ;
+if(!$news_catalogs){$logger->fatal("数据库操作失败:".$query_limit_news_catalogs);}
 $row_news_catalogs = mysql_fetch_assoc($news_catalogs);
 
 if (isset($_GET['totalRows_news_catalogs'])) {

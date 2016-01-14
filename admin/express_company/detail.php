@@ -22,7 +22,8 @@ $support_email_question="查看快递公司详情";
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM express_company WHERE id = $recordID";
-$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

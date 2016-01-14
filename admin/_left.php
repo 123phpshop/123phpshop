@@ -25,7 +25,8 @@ if (isset($_SESSION['role_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $colname_role_menu);
-$role_menu = mysql_query($query_role_menu, $localhost) or die(mysql_error());
+$role_menu = mysql_query($query_role_menu, $localhost) ;
+if(!$role_menu){$logger->fatal("数据库操作失败:".$query_role_menu);}
 $row_role_menu = mysql_fetch_assoc($role_menu);
 $totalRows_role_menu = mysql_num_rows($role_menu);
 mysql_select_db($database_localhost, $localhost);
@@ -36,7 +37,8 @@ if($row_role_menu['privileges']=="1"){
 	// 如果是有限权限的话，那么进行过滤
 	$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
 }
-$menu = mysql_query($query_menu, $localhost) or die(mysql_error());
+$menu = mysql_query($query_menu, $localhost) ;
+if(!$menu){$logger->fatal("数据库操作失败:".$query_menu);}
 $row_menu = mysql_fetch_assoc($menu);
 $totalRows_menu = mysql_num_rows($menu);
 ?>
@@ -120,7 +122,7 @@ a[parent] .menu_item_row{
 		$query_sub_menu = "SELECT * FROM privilege WHERE pid = ".$row_menu['id']." and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
 	}
 	
-	$sub_menu = mysql_query($query_sub_menu, $localhost) or die(mysql_error());
+	$sub_menu = mysql_query($query_sub_menu, $localhost) ;if(!$sub_menu){$logger->fatal("数据库操作失败:".$query_sub_menu);}
 	$row_sub_menu = mysql_fetch_assoc($sub_menu);
 	$totalRows_sub_menu = mysql_num_rows($sub_menu);
  

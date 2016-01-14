@@ -33,13 +33,16 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT * FROM product_type  WHERE id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 
 if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
   $all_DetailRS1 = mysql_query($query_DetailRS1);
+  if(!$all_DetailRS1){$logger->fatal("数据库操作失败:".$query_DetailRS1);}
+
   $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
@@ -53,7 +56,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 
 <body>
 		
-<span class="phpshop123_title">产品类型详细</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<span class="phpshop123_title">商品类型详细</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <a href="index.php">
 <input style="float:right;" type="submit" name="Submit2" value="商品类型列表" />
 </a>

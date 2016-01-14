@@ -34,7 +34,7 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s ", $colname_order, $_SESSION['user_id']);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 

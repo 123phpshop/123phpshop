@@ -61,12 +61,14 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 				GetSQLValueString($_POST['id'], "int"));
  
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 }
 
 mysql_select_db($database_localhost, $localhost);
 $query_smtp_info = "SELECT * FROM shop_info WHERE id = 1";
-$smtp_info = mysql_query($query_smtp_info, $localhost) or die(mysql_error());
+$smtp_info = mysql_query($query_smtp_info, $localhost) ;
+if(!$smtp_info){$logger->fatal("数据库操作失败:".$query_smtp_info);}
 $row_smtp_info = mysql_fetch_assoc($smtp_info);
 $totalRows_smtp_info = mysql_num_rows($smtp_info);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

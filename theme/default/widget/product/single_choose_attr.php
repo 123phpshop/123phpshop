@@ -49,7 +49,8 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_atts = sprintf("SELECT * FROM product_type_attr where is_delete=0 and input_method=2 and product_type_id=".$row_product['product_type_id']);
-$product_atts = mysql_query($query_product_atts, $localhost) or die(mysql_error());
+$product_atts = mysql_query($query_product_atts, $localhost) ;
+if(!$product_atts){$logger->fatal("数据库操作失败:".$query_product_atts);}
 $row_product_atts = mysql_fetch_assoc($product_atts);
 $totalRows_product_atts = mysql_num_rows($product_atts);
 

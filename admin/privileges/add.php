@@ -88,7 +88,8 @@ if (isset($_POST['name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getByName = sprintf("SELECT * FROM privilege WHERE name = '%s'", $colname_getByName);
-$getByName = mysql_query($query_getByName, $localhost) or die(mysql_error());
+$getByName = mysql_query($query_getByName, $localhost) ;
+if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
 $row_getByName = mysql_fetch_assoc($getByName);
 $totalRows_getByName = mysql_num_rows($getByName);
 
@@ -119,7 +120,8 @@ if ($totalRows_getByName==0 && (isset($_POST["MM_insert"])) && ($_POST["MM_inser
 					   );
 	 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 	/**
 	if(isset($_POST['biz_rule']) && $_POST['biz_rule']!=""){
 	
@@ -150,7 +152,8 @@ if ( isset($_GET['parent_id']) && $_GET['parent_id']!="") {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getParent = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getParent);
-$getParent = mysql_query($query_getParent, $localhost) or die(mysql_error());
+$getParent = mysql_query($query_getParent, $localhost) ;
+if(!$getParent){$logger->fatal("数据库操作失败:".$query_getParent);}
 $row_getParent = mysql_fetch_assoc($getParent);
 $totalRows_getParent = mysql_num_rows($getParent);
 
@@ -160,7 +163,8 @@ if (isset($_GET['parent_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_privileges = sprintf("SELECT * FROM privilege WHERE pid = %s  and is_delete=0 ORDER BY sort asc", $colname_privileges);
-$privileges = mysql_query($query_privileges, $localhost) or die(mysql_error());
+$privileges = mysql_query($query_privileges, $localhost) ;
+if(!$privileges){$logger->fatal("数据库操作失败:".$query_privileges);}
 $row_privileges = mysql_fetch_assoc($privileges);
 $totalRows_privileges = mysql_num_rows($privileges);
 ?>

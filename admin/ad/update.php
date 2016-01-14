@@ -60,8 +60,10 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
-
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+ 	if(!$Result1){
+		$logger->fatal("删除广告操作失败:".$updateSQL);
+ 	}
   $updateGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
@@ -76,7 +78,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_ad = sprintf("SELECT * FROM ad WHERE id = %s", $colname_ad);
-$ad = mysql_query($query_ad, $localhost) or die(mysql_error());
+$ad = mysql_query($query_ad, $localhost) ;
+if(!$ad){$logger->fatal("数据库操作失败:".$query_ad);}
 $row_ad = mysql_fetch_assoc($ad);
 $totalRows_ad = mysql_num_rows($ad);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -55,7 +55,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['pid'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
   $insertGoTo = "index.php?pid=" . isset($_GET['pid'])?$_GET['pid']:"0";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -79,7 +80,8 @@ if (isset($_GET['pid'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_product_type = sprintf("SELECT * FROM product_type WHERE pid = %s and is_delete=0", $colname_product_type);
 $query_limit_product_type = sprintf("%s LIMIT %d, %d", $query_product_type, $startRow_product_type, $maxRows_product_type);
-$product_type = mysql_query($query_limit_product_type, $localhost) or die(mysql_error());
+$product_type = mysql_query($query_limit_product_type, $localhost) ;
+if(!$product_type){$logger->fatal("数据库操作失败:".$query_limit_product_type);}
 $row_product_type = mysql_fetch_assoc($product_type);
 
 if (isset($_GET['totalRows_product_type'])) {

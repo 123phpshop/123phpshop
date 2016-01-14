@@ -34,7 +34,7 @@ $where=_get_order_where($_GET);
 
 $query_orders = "SELECT * from orders $where order by id desc";
 $query_limit_orders = sprintf("%s LIMIT %d, %d ", $query_orders, $startRow_orders, $maxRows_orders);
-$orders = mysql_query($query_limit_orders, $localhost) or die(mysql_error());
+$orders = mysql_query($query_limit_orders, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_orders = mysql_fetch_assoc($orders);
 
 if (isset($_GET['totalRows_orders'])) {
@@ -198,7 +198,7 @@ a{
 		
  		mysql_select_db($database_localhost, $localhost);
 		$query_order_items = "SELECT * FROM order_item WHERE order_id =". $row_orders['id'];
-		$order_items = mysql_query($query_order_items, $localhost) or die(mysql_error());
+		$order_items = mysql_query($query_order_items, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 		//$row_order_items = mysql_fetch_assoc($order_items);
 		//var_dump($row_order_items);
 		$totalRows_order_items = mysql_num_rows($order_items);
@@ -208,7 +208,7 @@ a{
 			while($order_item_row=mysql_fetch_object($order_items)){
  				mysql_select_db($database_localhost, $localhost);
 				$query_order_images = "SELECT * FROM product_images WHERE  is_delete=0 and product_id = ".$order_item_row->product_id." limit 1";
-				$order_images = mysql_query($query_order_images, $localhost) or die(mysql_error());
+				$order_images = mysql_query($query_order_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 				//	$row_order_images = mysql_fetch_assoc($order_images);
 				$totalRows_order_images = mysql_num_rows($order_images);
 				

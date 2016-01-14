@@ -68,14 +68,11 @@ $support_email_question="搜索商品";
 			
 			if($sql!=""){
 				mysql_select_db($database_localhost, $localhost);
-				mysql_query($sql, $localhost) or die(mysql_error());
+				$Result1=mysql_query($sql, $localhost) ;
+				if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 			}
   	}
 }
-
-
-
-
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;
@@ -96,7 +93,8 @@ if (isset($_GET['catalog_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE is_delete=0 $where order by id desc";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
-$products = mysql_query($query_limit_products, $localhost) or die(mysql_error());
+$products = mysql_query($query_limit_products, $localhost) ;
+if(!$products){$logger->fatal("数据库操作失败:".$query_limit_products);}
 $row_products = mysql_fetch_assoc($products);
 
 if (isset($_GET['totalRows_products'])) {

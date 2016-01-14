@@ -27,7 +27,8 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `orders` set is_delete=1 where id in (".implode(",",$_POST['order_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
 }
@@ -43,13 +44,16 @@ $where=_get_order_where($_GET);
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id where orders.is_delete=0 and merge_to=0  $where order by orders.id desc";
 $query_limit_orders = sprintf("%s LIMIT %d, %d", $query_orders, $startRow_orders, $maxRows_orders);
-$orders = mysql_query($query_limit_orders, $localhost) or die(mysql_error());
+$orders = mysql_query($query_limit_orders, $localhost) ;
+if(!$orders){$logger->fatal("数据库操作失败:".$query_limit_orders);}
 $row_orders = mysql_fetch_assoc($orders);
 
 if (isset($_GET['totalRows_orders'])) {
   $totalRows_orders = $_GET['totalRows_orders'];
 } else {
   $all_orders = mysql_query($query_orders);
+  if(!$all_orders){$logger->fatal("数据库操作失败:".$query_orders);}
+
   $totalRows_orders = mysql_num_rows($all_orders);
 }
 $totalPages_orders = ceil($totalRows_orders/$maxRows_orders)-1;

@@ -60,7 +60,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -76,7 +77,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_theme = sprintf("SELECT * FROM theme WHERE id = %s", $colname_theme);
-$theme = mysql_query($query_theme, $localhost) or die(mysql_error());
+$theme = mysql_query($query_theme, $localhost) ;
+if(!$theme){$logger->fatal("数据库操作失败:".$query_theme);}
 $row_theme = mysql_fetch_assoc($theme);
 $totalRows_theme = mysql_num_rows($theme);
 

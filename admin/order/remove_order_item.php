@@ -31,7 +31,9 @@ if (isset ( $_GET ['id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_news = sprintf ( "SELECT * FROM order_item WHERE id = %s", $colname_news );
-$news = mysql_query ( $query_news, $localhost ) or die ( mysql_error () );
+$news = mysql_query ( $query_news, $localhost );
+if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
+
 $row_news = mysql_fetch_assoc ( $news );
 $totalRows_news = mysql_num_rows ( $news );
 if ($totalRows_news == 0) {

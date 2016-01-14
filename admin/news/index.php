@@ -43,7 +43,8 @@ $where_string="where is_delete=0 ";
   	 
 	if($sql!=""){
 		mysql_select_db($database_localhost, $localhost);
- 		mysql_query($sql, $localhost) or die(mysql_error());
+ 		$query=mysql_query($sql, $localhost) ;
+		if(!$query){$logger->fatal("数据库操作失败:".$sql);}
  	}			
 }
  $colname_catalog = "-1";
@@ -61,7 +62,8 @@ $startRow_catalog = $pageNum_catalog * $maxRows_catalog;
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = "SELECT * FROM news_catalog WHERE id = $colname_catalog";
 $query_limit_catalog = sprintf("%s LIMIT %d, %d", $query_catalog, $startRow_catalog, $maxRows_catalog);
-$catalog = mysql_query($query_limit_catalog, $localhost) or die(mysql_error());
+$catalog = mysql_query($query_limit_catalog, $localhost) ;
+if(!$catalog){$logger->fatal("数据库操作失败:".$query_limit_catalog);}
 $row_catalog = mysql_fetch_assoc($catalog);
 
 if (isset($_GET['totalRows_catalog'])) {
@@ -105,7 +107,8 @@ $startRow_news = $pageNum_news * $maxRows_news;
 mysql_select_db($database_localhost, $localhost);	
 $query_news = "SELECT * FROM news $where_string order by id desc";
  $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
-$news = mysql_query($query_limit_news, $localhost) or die(mysql_error());
+$news = mysql_query($query_limit_news, $localhost) ;
+if(!$news){$logger->fatal("数据库操作失败:".$query_limit_news);}
 $row_news = mysql_fetch_assoc($news);
 
 if (isset($_GET['totalRows_news'])) {

@@ -68,7 +68,8 @@ try {
 	}
 	mysql_select_db ( $database_localhost, $localhost );
 	$query_product = sprintf ( "SELECT * FROM product WHERE is_delete=0 and id = %s", $colname_product );
-	$product = mysql_query ( $query_product, $localhost ) or die ( mysql_error () );
+	$product = mysql_query ( $query_product, $localhost );
+	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 	$row_product = mysql_fetch_assoc ( $product );
 	$totalRows_product = mysql_num_rows ( $product );
 	if ($totalRows_product == 0) {
@@ -81,7 +82,9 @@ try {
 	}
 	mysql_select_db ( $database_localhost, $localhost );
 	$query_user_favorite = sprintf ( "SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=1", $colname_user_favorite, $colname_product );
-	$user_favorite = mysql_query ( $query_user_favorite, $localhost ) or die ( mysql_error () );
+	$user_favorite = mysql_query ( $query_user_favorite, $localhost );
+		if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}
+
 	$row_user_favorite = mysql_fetch_assoc ( $user_favorite );
 	$totalRows_user_favorite = mysql_num_rows ( $user_favorite );
 	// 如果有取消收藏的，那么恢复这个收藏
@@ -91,7 +94,7 @@ try {
  		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
 		if (! $Result1) {
-			$logger->debug("系统错误，收藏失败，请稍后重试:".$insertSQL);
+			$logger->fatal("系统错误，收藏失败，请稍后重试:".$insertSQL);
 			throw new Exception ( "系统错误，收藏失败，请稍后重试！" );
 		}
 		
@@ -106,6 +109,7 @@ try {
 	mysql_select_db ( $database_localhost, $localhost );
 	$Result1 = mysql_query ( $insertSQL, $localhost );
 	if (! $Result1) {
+		$logger->fatal("系统错误，收藏失败，请稍后重试:".$insertSQL);
 		throw new Exception ( "系统错误，收藏失败，请稍后重试！" );
 	}
 	

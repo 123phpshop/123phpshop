@@ -23,7 +23,8 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news_cata = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and pid = %s", $colname_news_cata);
-$news_cata = mysql_query($query_news_cata, $localhost) or die(mysql_error());
+$news_cata = mysql_query($query_news_cata, $localhost) ;
+if(!$news_cata){$logger->fatal("数据库操作失败:".$query_news_cata);}
 $row_news_cata = mysql_fetch_assoc($news_cata);
 $totalRows_news_cata = mysql_num_rows($news_cata);
 ?>
@@ -61,7 +62,3 @@ $totalRows_news_cata = mysql_num_rows($news_cata);
 </div>
 <p>
 <?php } ?>
-<?php
-
-mysql_free_result($news_cata);
-?>

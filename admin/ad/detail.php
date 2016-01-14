@@ -71,8 +71,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 						   GetSQLValueString($_POST['link_url'], "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-	  
+	  $Result1 = mysql_query($insertSQL, $localhost);
+	  if(!$Result1){
+		$logger->fatal("更新用户登记操作失败:".$insertSQL);
+	  }
     } else {
          //获取上传失败以后的错误提示
         $error=$up->getErrorMsg();
@@ -85,7 +87,7 @@ if (isset($_GET['recordID'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
-$ad_images = mysql_query($query_ad_images, $localhost) or die(mysql_error());
+$ad_images = mysql_query($query_ad_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_ad_images = mysql_fetch_assoc($ad_images);
 $totalRows_ad_images = mysql_num_rows($ad_images);
 
@@ -100,7 +102,7 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 
 if (isset($_GET['totalRows_DetailRS1'])) {

@@ -100,10 +100,3 @@ table{
 <?php include_once('widget/footer.php'); ?>
 </body>
 </html>
-<?php
-mysql_free_result($news_catalog);
-
-mysql_free_result($news);
-
-mysql_free_result($news_catalogs);
-?>

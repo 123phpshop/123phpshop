@@ -19,7 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_catlogs = "SELECT * FROM `catalog` WHERE pid = 0 and is_delete=0 ";
-$catlogs = mysql_query($query_catlogs, $localhost) or die(mysql_error());
+$catlogs = mysql_query($query_catlogs, $localhost) ;
+if(!$catlogs){$logger->fatal("数据库操作失败:".$query_catlogs);}
 $totalRows_catlogs = mysql_num_rows($catlogs);
 ?>
 
@@ -37,7 +38,7 @@ $totalRows_catlogs = mysql_num_rows($catlogs);
 <?php while($row_catlogs = mysql_fetch_assoc($catlogs)){
 
 $query_season = "SELECT * FROM product WHERE is_delete=0 and is_on_sheft=1 and cata_path like '%|".$row_catlogs['id']."|%' limit 6";
-$season = mysql_query($query_season, $localhost) or die(mysql_error());
+$season = mysql_query($query_season, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $totalRows_season = mysql_num_rows($season);
  if($totalRows_season>0){
  ?>
@@ -52,7 +53,7 @@ $totalRows_season = mysql_num_rows($season);
   		while ($row_season = mysql_fetch_assoc($season)){
  			mysql_select_db($database_localhost, $localhost);
 			$query_get_images = "SELECT * FROM product_images WHERE is_delete=0  and  product_id =". $row_season['id'];
-			$get_images = mysql_query($query_get_images, $localhost) or die(mysql_error());
+			$get_images = mysql_query($query_get_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 			$row_get_images = mysql_fetch_assoc($get_images);
 			$totalRows_get_images = mysql_num_rows($get_images);
  	   ?>
@@ -75,8 +76,3 @@ $totalRows_season = mysql_num_rows($season);
 <br />
 <?php }?>
 <?php }?>
-<?php
-mysql_free_result($season);
-
-mysql_free_result($catlogs);
-?>

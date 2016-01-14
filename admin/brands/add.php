@@ -72,22 +72,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['sort'], "int"),
                        GetSQLValueString($_POST['desc'], "text"));
 
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+		  mysql_select_db($database_localhost, $localhost);
+		  $Result1 = mysql_query($insertSQL, $localhost) ;
+		  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
-  $insertGoTo = "index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
-  
+		  $insertGoTo = "index.php";
+		  header(sprintf("Location: %s", $insertGoTo));
  	}else {
-	
-        echo '<pre>';
         //获取上传失败以后的错误提示
-        var_dump($up->getErrorMsg());
-        echo '</pre>';
+        $error=$up->getErrorMsg();
     }
   }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

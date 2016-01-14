@@ -60,7 +60,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 	 mysql_select_db($database_localhost, $localhost);
 	$query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0", trim($colname_product));
-	$product = mysql_query($query_product, $localhost) or die(mysql_error());
+	$product = mysql_query($query_product, $localhost) ;
+	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 	$row_product = mysql_fetch_assoc($product);
 	$totalRows_product = mysql_num_rows($product);
 	if($totalRows_product>0){
@@ -75,7 +76,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['content'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {

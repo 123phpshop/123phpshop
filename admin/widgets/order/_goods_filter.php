@@ -23,7 +23,8 @@ if (isset($_GET['product_name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name,price FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
-$goods = mysql_query($query_goods, $localhost) or die(mysql_error());
+$goods = mysql_query($query_goods, $localhost) ;
+if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
 $goods_num = mysql_num_rows($goods);
 $row_goods = mysql_fetch_assoc($goods);
 ?>

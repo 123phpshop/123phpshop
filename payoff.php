@@ -34,7 +34,8 @@ if (isset($_GET['order_sn'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0 ", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
@@ -51,7 +52,7 @@ if($row_order['order_status']!=0){
 
 mysql_select_db($database_localhost, $localhost);
 $query_pay_method = "SELECT * FROM pay_method WHERE is_activated = 1";
-$pay_method = mysql_query($query_pay_method, $localhost) or die(mysql_error());
+$pay_method = mysql_query($query_pay_method, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_pay_method = mysql_fetch_assoc($pay_method);
 $totalRows_pay_method = mysql_num_rows($pay_method);
 $consignee_id=0;

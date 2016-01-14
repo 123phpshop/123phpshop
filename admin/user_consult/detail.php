@@ -28,7 +28,8 @@ $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT product_consult.*,user.username FROM product_consult inner join user on  product_consult.user_id=user.id WHERE product_consult.id = ".$recordID;
-$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

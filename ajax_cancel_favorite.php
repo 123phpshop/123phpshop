@@ -84,7 +84,10 @@ try {
 	}
 	mysql_select_db ( $database_localhost, $localhost );
 	$query_user_favorite = sprintf ( "SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s", $colname_user_favorite, $colname_product );
-	$user_favorite = mysql_query ( $query_user_favorite, $localhost ) or die ( mysql_error () );
+	$user_favorite = mysql_query ( $query_user_favorite, $localhost );
+	if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}
+
+	
 	$row_user_favorite = mysql_fetch_assoc ( $user_favorite );
 	$totalRows_user_favorite = mysql_num_rows ( $user_favorite );
 	if ($totalRows_user_favorite == 0) {
@@ -100,7 +103,7 @@ try {
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
 		if (! $Result1) {
-			$logger->warn ( "收藏失败:".$insertSQL);
+			$logger->fatal ( "收藏失败:".$insertSQL);
 			throw new Exception ( "系统错误，收藏失败，请稍后重试！" );
 		}
 	}

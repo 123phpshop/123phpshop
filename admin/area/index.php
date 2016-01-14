@@ -25,7 +25,8 @@ if (isset($_GET['pid'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_areas = sprintf("SELECT * FROM area WHERE pid = %s", $colname_areas);
-$areas = mysql_query($query_areas, $localhost) or die(mysql_error());
+$areas = mysql_query($query_areas, $localhost) ;
+if(!$areas){$logger->fatal("数据库操作失败:".$query_areas);}
 $row_areas = mysql_fetch_assoc($areas);
 $totalRows_areas = mysql_num_rows($areas);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

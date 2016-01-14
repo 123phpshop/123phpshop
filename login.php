@@ -25,7 +25,9 @@ require_once ('Connections/localhost.php');
 
 mysql_select_db ( $database_localhost, $localhost );
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query ( $query_shopinfo, $localhost ) or die ( mysql_error () );
+$shopinfo = mysql_query ( $query_shopinfo, $localhost );
+if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
+
 $row_shopinfo = mysql_fetch_assoc ( $shopinfo );
 $totalRows_shopinfo = mysql_num_rows ( $shopinfo );
 ?>
@@ -62,7 +64,9 @@ try {
 		
 		$LoginRS__query = sprintf ( "SELECT id,username, password FROM user WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc () ? $loginUsername : addslashes ( $loginUsername ), get_magic_quotes_gpc () ? md5 ( $password ) : addslashes ( md5 ( $password ) ) );
 		
-		$LoginRS = mysql_query ( $LoginRS__query, $localhost ) or die ( mysql_error () );
+		$LoginRS = mysql_query ( $LoginRS__query, $localhost );
+		if(!$LoginRS){$logger->fatal("数据库操作失败:".$LoginRS__query);}
+
 		$user = mysql_fetch_assoc ( $LoginRS );
 		$loginFoundUser = mysql_num_rows ( $LoginRS );
 		if ($loginFoundUser) {
@@ -75,7 +79,9 @@ try {
 			$last_login_at = date ( 'Y-m-d H:i:s' );
 			$last_login_ip = $_SERVER ['REMOTE_ADDR'];
 			$update_last_login_sql = "update user set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user ['id'];
-			mysql_query ( $update_last_login_sql, $localhost );
+			$query=mysql_query ( $update_last_login_sql, $localhost );
+					if(!$query){$logger->fatal("数据库操作失败:".$update_last_login_sql);}
+
 			if (isset ( $_SESSION ['PrevUrl'] ) && true) {
 				$MM_redirectLoginSuccess = $_SESSION ['PrevUrl'];
 			}

@@ -15,7 +15,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+ ?>
+ <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $result="true";
 $colname_product = "-1";
@@ -26,7 +27,8 @@ if (isset($_POST['code'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0", trim($colname_product));
-$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$product = mysql_query($query_product, $localhost) ;
+if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 if($totalRows_product>0){

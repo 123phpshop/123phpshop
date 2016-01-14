@@ -35,11 +35,17 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "set_attr")) {
 			$check_exists_sql="select * from product_type_attr_val WHERE product_id=".$colname_product." and product_type_attr_id=".str_replace("attr_","",$key) ;
 			$check_exists_query=mysql_query($check_exists_sql);
 			if(mysql_num_rows($check_exists_query)==0){
-				mysql_query("insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')")or die("系统错误");
+				$sql="insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')";
+				$query=mysql_query($sql);
+				
+				if(!$query){$logger->fatal("数据库操作失败:".$sql);}
+
+				
  			}else{
   			//  这里需要检查这个属性是否已经设置了，如果没有设置的话，那么进行添加
  			$sql="update product_type_attr_val set product_type_attr_value='".$value."' where product_id='".$colname_product."' and product_type_attr_id='".str_replace("attr_","",$key)."'";
- 			mysql_query($sql)or die("系统错误");
+ 			$query=mysql_query($sql);
+			if(!$query){$logger->fatal("数据库操作失败:".$sql);}
 			}
  		}
 	}
@@ -48,7 +54,8 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "set_attr")) {
 //	获取这个产品的类型id
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT id, name, product_type_id FROM product WHERE id = %s", $colname_product);
-$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$product = mysql_query($query_product, $localhost) ;
+if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
@@ -56,7 +63,8 @@ $totalRows_product = mysql_num_rows($product);
 // 根据类型的id获取相关的属性
 mysql_select_db($database_localhost, $localhost);
 $query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_id = ".$row_product['product_type_id']." and is_delete=0 and input_method!=2";
-$product_type_attrs = mysql_query($query_product_type_attrs, $localhost) or die(mysql_error());
+$product_type_attrs = mysql_query($query_product_type_attrs, $localhost) ;
+if(!$product_type_attrs){$logger->fatal("数据库操作失败:".$query_product_type_attrs);}
 $row_product_type_attrs = mysql_fetch_assoc($product_type_attrs);
 $totalRows_product_type_attrs = mysql_num_rows($product_type_attrs);
 
@@ -68,7 +76,8 @@ if($totalRows_product_type_attrs>0){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
-	$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) or die(mysql_error());
+	$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) ;
+	if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 	$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
 	$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 }
@@ -89,7 +98,8 @@ if($totalRows_product_type_attrs>0){
 			}
 			mysql_select_db($database_localhost, $localhost);
 			$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_product,$row_product_type_attrs['id']);
-			$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) or die(mysql_error());
+			$get_product_attr_val = mysql_query($query_get_product_attr_val, $localhost) ;
+			if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 			$row_get_product_attr_val = mysql_fetch_assoc($get_product_attr_val);
 			$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
 			

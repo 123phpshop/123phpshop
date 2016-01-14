@@ -25,7 +25,8 @@ $support_email_question="查看文章回收站";
 	if(count($_POST['news_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
 
 }
@@ -41,7 +42,8 @@ $startRow_news = $pageNum_news * $maxRows_news;
 mysql_select_db($database_localhost, $localhost);
 $query_news = "SELECT * FROM news WHERE is_delete = 1";
 $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
-$news = mysql_query($query_limit_news, $localhost) or die(mysql_error());
+$news = mysql_query($query_limit_news, $localhost) ;
+if(!$news){$logger->fatal("数据库操作失败:".$query_limit_news);}
 $row_news = mysql_fetch_assoc($news);
 
 if (isset($_GET['totalRows_news'])) {

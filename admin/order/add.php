@@ -59,7 +59,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
-	$user = mysql_query($query_user, $localhost) or die(mysql_error());
+	$user = mysql_query($query_user, $localhost) ;
+	if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 	$row_user = mysql_fetch_assoc($user);
 	$totalRows_user = mysql_num_rows($user);
 	if($totalRows_user==0){
@@ -84,7 +85,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 						   GetSQLValueString(100, "int"));
 	
 		mysql_select_db($database_localhost, $localhost);
-		$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+		$Result1 = mysql_query($insertSQL, $localhost) ;
+		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 		
 		$new_order_id=mysql_insert_id();
 		phpshop123_log_order_new($new_order_id);

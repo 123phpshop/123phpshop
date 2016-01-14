@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
-$catalog = mysql_query($query_catalog, $localhost) or die(mysql_error());
+$catalog = mysql_query($query_catalog, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_catalog = mysql_fetch_assoc($catalog);
 $totalRows_catalog = mysql_num_rows($catalog);
 if($totalRows_catalog==0){
@@ -43,7 +43,8 @@ if($could_delete==1){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_catalog_children = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalog_children);
-	$catalog_children = mysql_query($query_catalog_children, $localhost) or die(mysql_error());
+	$catalog_children = mysql_query($query_catalog_children, $localhost) ;
+	if(!$catalog_children){$logger->fatal("数据库操作失败:".$query_catalog_children);}
 	$row_catalog_children = mysql_fetch_assoc($catalog_children);
 	$totalRows_catalog_children = mysql_num_rows($catalog_children);
 	
@@ -61,7 +62,8 @@ if($could_delete==1){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_products = sprintf("SELECT * FROM product WHERE catalog_id = %s and is_delete=0", $colname_products);
-	$products = mysql_query($query_products, $localhost) or die(mysql_error());
+	$products = mysql_query($query_products, $localhost) ;
+	if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
 	$row_products = mysql_fetch_assoc($products);
 	$totalRows_products = mysql_num_rows($products);
 	
@@ -77,6 +79,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `catalog` set is_delete=1 where id = %s", $colname_catalog);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		header("Location: " . $remove_succeed_url );
@@ -96,8 +99,8 @@ if($could_delete==1){
 <?php if($could_delete==0){ ?>
 <div class="phpshop123_infobox">
   <p>由于一下原因，您不能删除这个分类，请及时修正，或是联系123phpshop.com的技术支持人员！<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div></p>
-  <p>1. 	分类不存在，请检查参数之后再试。</p>
-  <p>2. 	这个分类下面还有子分类，请删除子分类之后再试。</p>
+  <p>1. 分类不存在，请检查参数之后再试。</p>
+  <p>2. 这个分类下面还有子分类，请删除子分类之后再试。</p>
   <p>3.	这个分类下面有产品，请删除产品之后再试。</p>
   <p>4. 系统错误，无法删除，请稍后再试。	</p>
   <p>您也可以<a href="index.php">点击这里返回</a>。    </p>

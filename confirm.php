@@ -86,7 +86,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['zip'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 }
 
 // 获取这个用户的所有的收货人信息
@@ -96,7 +97,8 @@ if (isset($_SESSION['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 order by is_default desc", $colname_consignee);
-$consignee_obj = mysql_query($query_consignee, $localhost) or die(mysql_error());
+$consignee_obj = mysql_query($query_consignee, $localhost) ;
+if(!$consignee_obj){$logger->fatal("数据库操作失败:".$query_consignee);}
 $row_consignee = mysql_fetch_assoc($consignee_obj);
 $totalRows_consignee = mysql_num_rows($consignee_obj);
  
@@ -135,7 +137,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
 					   GetSQLValueString($_SESSION['cart']['promotion_id'], "text"),
 					   GetSQLValueString($_SESSION['cart']['promotion_fee'], "double")					   );
   
-	$Result1 = mysql_query($insertSQL) or die(mysql_error());
+	$Result1 = mysql_query($insertSQL) ;
+	if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 	$order_id=mysql_insert_id();
   
   //	检查参数，如果参数不正确的话，能否告知？
@@ -143,7 +146,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_form")) {
   //	如果参数正确的话，那么进行数据插入
   foreach($cart_products as $product){
   	$sql="insert into order_item(attr_value,product_id,quantity,should_pay_price,actual_pay_price,order_id)values('".$product['attr_value']."','".$product['product_id']."','".$product['quantity']."','".$product['product_price']."','".$product['product_price']."','".$order_id."')";
-  	mysql_query($sql);
+  	$query=mysql_query($sql);
+		if(!$query){$logger->fatal("数据库操作失败:".$sql);}
+
   }
   
 	//	如果插入成功，那么清空购物有车

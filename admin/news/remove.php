@@ -27,7 +27,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news = sprintf("SELECT * FROM news WHERE id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost) or die(mysql_error());
+$news = mysql_query($query_news, $localhost) ;
+if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysql_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
@@ -40,6 +41,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `news` set is_delete=1 where id = %s", $colname_news);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		$remove_succeed_url="index.php?catalog_id=".$row_news['catalog_id'];

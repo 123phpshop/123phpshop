@@ -26,7 +26,8 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
  	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `orders` set is_delete=0 where id in (".implode(",",$_POST['order_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
 }
@@ -34,7 +35,8 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
-$orders = mysql_query($query_orders, $localhost) or die(mysql_error());
+$orders = mysql_query($query_orders, $localhost) ;
+if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}
 $row_orders = mysql_fetch_assoc($orders);
 $totalRows_orders = mysql_num_rows($orders);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

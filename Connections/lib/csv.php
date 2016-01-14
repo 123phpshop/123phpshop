@@ -155,7 +155,7 @@ function import_product($file_path){
 			global $db_conn;
  			//mysql_select_db($database_localhost, $db_conn);
 			 $query_get_product_by_id = "SELECT id, name FROM product WHERE name = '".trim($product_name)."'";
- 			$get_product_by_id = mysql_query($query_get_product_by_id, $db_conn) or die(mysql_error());
+ 			$get_product_by_id = mysql_query($query_get_product_by_id, $db_conn) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 			$row_get_product_by_id = mysql_fetch_assoc($get_product_by_id);
 			$totalRows_get_product_by_id = mysql_num_rows($get_product_by_id);
 			if($totalRows_get_product_by_id >0){

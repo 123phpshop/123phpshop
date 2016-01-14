@@ -25,7 +25,8 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['comments_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `product_comment` set is_delete=1 where id in (".implode(",",$_POST['comments_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
 }
@@ -42,7 +43,8 @@ $startRow_comments = $pageNum_comments * $maxRows_comments;
 mysql_select_db($database_localhost, $localhost);
 $query_comments = "SELECT product_comment.*,user.username FROM product_comment inner join user on user.id=product_comment.user_id where product_comment.is_delete=0 $where_query_string ORDER BY product_comment.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
-$comments = mysql_query($query_limit_comments, $localhost) or die(mysql_error());
+$comments = mysql_query($query_limit_comments, $localhost) ;
+if(!$comments){$logger->fatal("数据库操作失败:".$query_limit_comments);}
 $row_comments = mysql_fetch_assoc($comments);
 
 if (isset($_GET['totalRows_comments'])) {

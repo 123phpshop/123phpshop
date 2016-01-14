@@ -59,8 +59,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['role_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
-
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("添加管理员数据库操作失败:".$insertSQL);}
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
@@ -71,7 +71,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query($query_roles, $localhost) or die(mysql_error());
+$roles = mysql_query($query_roles, $localhost) ;
+if(!$roles){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_roles = mysql_fetch_assoc($roles);
 $totalRows_roles = mysql_num_rows($roles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -54,7 +54,9 @@ if (isset ( $_POST ['username'] )) {
 	
 	mysql_select_db ( $database_localhost, $localhost );
 	$LoginRS__query = sprintf ( "SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc () ? $loginUsername : addslashes ( $loginUsername ), get_magic_quotes_gpc () ? $password : addslashes ( $password ) );
-	$LoginRS = mysql_query ( $LoginRS__query, $localhost ) or die ( mysql_error () );
+	$LoginRS = mysql_query ( $LoginRS__query, $localhost );
+	if(!$LoginRS){$logger->fatal("数据库操作失败:".$LoginRS__query);}
+
 	$loginFoundUser = mysql_num_rows ( $LoginRS );
 	if ($loginFoundUser) {
 		$loginStrGroup = "";
@@ -69,14 +71,17 @@ if (isset ( $_POST ['username'] )) {
 		
 		// 更新用户的登录时间和ip
 		$update_last_login_sql = "update member set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user_rs ['id'];
-		mysql_query ( $update_last_login_sql, $localhost );
-		
+		$query=mysql_query ( $update_last_login_sql, $localhost );
+		if(!$query){$logger->fatal("数据库操作失败:".$update_last_login_sql);}
+
 		$privileges_array = array ();
 		
 		// 获取这个用户的角色
 		mysql_select_db ( $database_localhost, $localhost );
 		$query_role = "SELECT * FROM `role` WHERE id = " . $user_rs ['role_id'];
-		$role = mysql_query ( $query_role, $localhost ) or die ( mysql_error () );
+		$role = mysql_query ( $query_role, $localhost );
+		if(!$role){$logger->fatal("数据库操作失败:".$query_role);}
+		
 		$row_role = mysql_fetch_assoc ( $role );
 		$totalRows_role = mysql_num_rows ( $role );
 		if ($totalRows_role > 0) {
@@ -87,7 +92,9 @@ if (isset ( $_POST ['username'] )) {
 		$privileges_array = array ();
 		mysql_select_db ( $database_localhost, $localhost );
 		$query_privilege_files = "SELECT file_name FROM privilege WHERE id in (" . $privileges_id_array . ")";
-		$privilege_files = mysql_query ( $query_privilege_files, $localhost ) or die ( mysql_error () );
+		$privilege_files = mysql_query ( $query_privilege_files, $localhost );
+		if(!$privilege_files){$logger->fatal("数据库操作失败:".$query_privilege_files);}
+
 		$totalRows_privilege_files = mysql_num_rows ( $privilege_files );
 		if ($totalRows_privilege_files > 0) {
 			while ( $row_privilege_files = mysql_fetch_assoc ( $privilege_files ) ) {

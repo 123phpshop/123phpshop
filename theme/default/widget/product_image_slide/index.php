@@ -23,7 +23,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $colname_product_image);
-$product_image = mysql_query($query_product_image, $localhost) or die(mysql_error());
+$product_image = mysql_query($query_product_image, $localhost) ;
+if(!$product_image){$logger->fatal("数据库操作失败:".$query_product_image);}
 $row_product_image = mysql_fetch_assoc($product_image);
 $totalRows_product_image = mysql_num_rows($product_image);
 
@@ -33,7 +34,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_image_small = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_product_image_small);
-$product_image_small = mysql_query($query_product_image_small, $localhost) or die(mysql_error());
+$product_image_small = mysql_query($query_product_image_small, $localhost) ;
+if(!$product_image_small){$logger->fatal("数据库操作失败:".$query_product_image_small);}
 $row_product_image_small = mysql_fetch_assoc($product_image_small);
 $totalRows_product_image_small = mysql_num_rows($product_image_small);
 
@@ -43,7 +45,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_big_images = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_big_images);
-$big_images = mysql_query($query_big_images, $localhost) or die(mysql_error());
+$big_images = mysql_query($query_big_images, $localhost) ;
+if(!$big_images){$logger->fatal("数据库操作失败:".$query_big_images);}
 $row_big_images = mysql_fetch_assoc($big_images);
 $totalRows_big_images = mysql_num_rows($big_images);
 ?><script src="/js/jquery-1.7.2.min.js" ></script>
@@ -153,10 +156,3 @@ jq('#demo1').banqh({
 })
 </script>
 <!-- 代码end -->
-<?php
-mysql_free_result($product_image);
-
-mysql_free_result($product_image_small);
-
-mysql_free_result($big_images);
-?>

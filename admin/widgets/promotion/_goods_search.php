@@ -31,7 +31,8 @@ if (isset($_GET['name'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name FROM product WHERE name like '%".$colname_goods."%' and is_delete=0";
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
-$goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
+$goods = mysql_query($query_limit_goods, $localhost) ;
+if(!$goods){$logger->fatal("数据库操作失败:".$query_limit_goods);}
 $row_goods = mysql_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 ?>

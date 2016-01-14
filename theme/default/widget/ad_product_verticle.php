@@ -19,7 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_ad_products = "SELECT * FROM product where is_delete=0";
-$ad_products = mysql_query($query_ad_products, $localhost) or die(mysql_error());
+$ad_products = mysql_query($query_ad_products, $localhost) ;
+if(!$ad_products){$logger->fatal("数据库操作失败:".$query_ad_products);}
 $row_ad_products = mysql_fetch_assoc($ad_products);
 $totalRows_ad_products = mysql_num_rows($ad_products);
 
@@ -60,7 +61,8 @@ hr:last-child{
 	<?php 
 	mysql_select_db($database_localhost, $localhost);
 	$query_product_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id = ".$row_ad_products['id'];
-	$product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
+	$product_images = mysql_query($query_product_images, $localhost) ;
+	if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 	$row_product_images = mysql_fetch_assoc($product_images);
 	$totalRows_product_images = mysql_num_rows($product_images);
  	?>

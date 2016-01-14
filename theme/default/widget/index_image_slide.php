@@ -27,7 +27,8 @@ $startRow_ad_one = $pageNum_ad_one * $maxRows_ad_one;
 mysql_select_db($database_localhost, $localhost);
 $query_ad_one = "SELECT * FROM ad_images WHERE ad_id = 1";
 $query_limit_ad_one = sprintf("%s LIMIT %d, %d", $query_ad_one, $startRow_ad_one, $maxRows_ad_one);
-$ad_one = mysql_query($query_limit_ad_one, $localhost) or die(mysql_error());
+$ad_one = mysql_query($query_limit_ad_one, $localhost) ;
+if(!$ad_one){$logger->fatal("数据库操作失败:".$query_limit_ad_one);}
 $row_ad_one = mysql_fetch_assoc($ad_one);
 
 if (isset($_GET['totalRows_ad_one'])) {
@@ -67,9 +68,3 @@ $(function () {
 
 });
 </script>
-  
-<?php 
-
-mysql_free_result($ad_one);
-
-?>

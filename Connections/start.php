@@ -17,6 +17,7 @@
  */
  ?>
 <?php
+include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_session.php";
@@ -26,6 +27,5 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_template.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_validation.php";
 ?>

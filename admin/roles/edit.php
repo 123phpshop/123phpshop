@@ -55,7 +55,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
  				   GetSQLValueString($_POST['id'], "int"));
 	 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php";
   header(sprintf("Location: %s", $updateGoTo));
@@ -67,7 +68,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getById = sprintf("SELECT * FROM `role` WHERE id = %s", $colname_getById);
-$getById = mysql_query($query_getById, $localhost) or die(mysql_error());
+$getById = mysql_query($query_getById, $localhost) ;
+if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
 $row_getById = mysql_fetch_assoc($getById);
 $totalRows_getById = mysql_num_rows($getById);
 
@@ -77,7 +79,8 @@ if (isset($_POST['name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s'", $colname_getByName);
-$getByName = mysql_query($query_getByName, $localhost) or die(mysql_error());
+$getByName = mysql_query($query_getByName, $localhost) ;
+if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
 $row_getByName = mysql_fetch_assoc($getByName);
 $totalRows_getByName = mysql_num_rows($getByName);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

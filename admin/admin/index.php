@@ -30,7 +30,8 @@ $startRow_admins = $pageNum_admins * $maxRows_admins;
 mysql_select_db($database_localhost, $localhost);
 $query_admins = "SELECT * FROM member where is_delete=0";
 $query_limit_admins = sprintf("%s LIMIT %d, %d", $query_admins, $startRow_admins, $maxRows_admins);
-$admins = mysql_query($query_limit_admins, $localhost) or die(mysql_error());
+$admins = mysql_query($query_limit_admins, $localhost) ;
+if(!$admins){$logger->fatal("数据库操作失败:".$query_limit_admins);}
 $row_admins = mysql_fetch_assoc($admins);
 
 if (isset($_GET['totalRows_admins'])) {

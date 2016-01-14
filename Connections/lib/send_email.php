@@ -32,7 +32,7 @@ if(!in_array($email_template_code,$global_phpshop123_email_send_time_array)){
 // 获取这个网店的邮件地址
 mysql_select_db($database_localhost, $localhost);
 $query_shop_email = "SELECT email FROM shop_info WHERE id = 1";
-$shop_email = mysql_query($query_shop_email, $localhost) or die(mysql_error());
+$shop_email = mysql_query($query_shop_email, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_shop_email = mysql_fetch_assoc($shop_email);
 $totalRows_shop_email = mysql_num_rows($shop_email);
 
@@ -47,7 +47,7 @@ $shop_email=$row_shop_email['email'];
 // 检查邮件发送模板的id，然后获取相应的模板，如果不能获取的话，那么直接返回
 mysql_select_db($database_localhost, $localhost);
 $query_email_template = "SELECT * FROM email_templates WHERE is_delete=0 and  code = '".$email_template_code."'";
-$email_template = mysql_query($query_email_template, $localhost) or die(mysql_error());
+$email_template = mysql_query($query_email_template, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_email_template = mysql_fetch_assoc($email_template);
 $totalRows_email_template = mysql_num_rows($email_template);
 if($totalRows_email_template==0){

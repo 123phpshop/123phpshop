@@ -57,7 +57,8 @@ if (isset($_GET['id'])) {
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	 mysql_select_db($database_localhost, $localhost);
 	$query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0 and id!='%s'", trim($_POST['code']),$colname_email_template);
-	$product = mysql_query($query_product, $localhost) or die(mysql_error());
+	$product = mysql_query($query_product, $localhost) ;
+	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 	$row_product = mysql_fetch_assoc($product);
 	$totalRows_product = mysql_num_rows($product);
 	if($totalRows_product>0){
@@ -71,11 +72,11 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
-
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}else{
   $updateGoTo = "index.php";
   header(sprintf("Location: %s", $updateGoTo));
-}
+}}
 }
 
 $colname_email_template = "-1";
@@ -84,7 +85,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_email_template = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_email_template);
-$email_template = mysql_query($query_email_template, $localhost) or die(mysql_error());
+$email_template = mysql_query($query_email_template, $localhost) ;
+if(!$email_template){$logger->fatal("数据库操作失败:".$query_email_template);}
 $row_email_template = mysql_fetch_assoc($email_template);
 $totalRows_email_template = mysql_num_rows($email_template);
 ?>

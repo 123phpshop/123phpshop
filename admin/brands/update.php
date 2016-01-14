@@ -51,7 +51,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_brand = sprintf("SELECT * FROM brands WHERE id = %s", $colname_brand);
-$brand = mysql_query($query_brand, $localhost) or die(mysql_error());
+$brand = mysql_query($query_brand, $localhost) ;
+if(!$brand){$logger->fatal("数据库操作失败:".$query_brand);}
 $row_brand = mysql_fetch_assoc($brand);
 $totalRows_brand = mysql_num_rows($brand);
 
@@ -89,7 +90,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 									   GetSQLValueString($_POST['id'], "int"));
 				
 				  mysql_select_db($database_localhost, $localhost);
-				  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+				  $Result1 = mysql_query($updateSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 				
 //					 如果原来有logo的话，那么将其删除	
 				if($row_brand['image_path']!=''){
@@ -123,7 +124,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['id'], "int"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+	  $Result1 = mysql_query($updateSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 	
 	  $updateGoTo = "index.php";
 	  if (isset($_SERVER['QUERY_STRING'])) {

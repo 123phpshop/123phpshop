@@ -51,12 +51,13 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_catalog_form")) {
-  $insertSQL = sprintf("INSERT INTO catalog (name, pid) VALUES (%s, %s)",
+    $insertSQL = sprintf("INSERT INTO catalog (name, pid) VALUES (%s, %s)",
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['pid'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失1败:".$insertSQL);}
 }
 
 $maxRows_catalogs = 50;
@@ -73,13 +74,18 @@ if (isset($_GET['pid'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_catalogs = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and  pid = %s", $colname_catalogs);
 $query_limit_catalogs = sprintf("%s LIMIT %d, %d", $query_catalogs, $startRow_catalogs, $maxRows_catalogs);
-$catalogs = mysql_query($query_limit_catalogs, $localhost) or die(mysql_error());
+$logger->debug($query_limit_catalogs);
+$catalogs = mysql_query($query_limit_catalogs, $localhost) ;
+if(!$catalogs){$logger->fatal("数据库操d作失败:".$query_limit_catalogs);}
 $row_catalogs = mysql_fetch_assoc($catalogs);
 
 if (isset($_GET['totalRows_catalogs'])) {
   $totalRows_catalogs = $_GET['totalRows_catalogs'];
 } else {
   $all_catalogs = mysql_query($query_catalogs);
+  if(!$all_catalogs){
+	$logger->fatal($totalRows_catalogs);
+  }
   $totalRows_catalogs = mysql_num_rows($all_catalogs);
 }
 $totalPages_catalogs = ceil($totalRows_catalogs/$maxRows_catalogs)-1;
@@ -109,9 +115,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
 
 <body>
 <span class="phpshop123_title">商品分类 </span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
-<a href="add.php">
-<input style="float:right;" type="submit" name="Submit2" value="添加分类" />
-</a>
+<a href="add.php"></a>
 <form  action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="new_catalog_form" id="new_catalog_form">
   <table align="center" class="phpshop123_search_box">
     <tr valign="baseline">

@@ -32,13 +32,15 @@ $startRow_email_templates = $pageNum_email_templates * $maxRows_email_templates;
 mysql_select_db($database_localhost, $localhost);
 $query_email_templates = "SELECT * FROM email_templates WHERE is_delete = 0 ORDER BY id DESC";
 $query_limit_email_templates = sprintf("%s LIMIT %d, %d", $query_email_templates, $startRow_email_templates, $maxRows_email_templates);
-$email_templates = mysql_query($query_limit_email_templates, $localhost) or die(mysql_error());
+$email_templates = mysql_query($query_limit_email_templates, $localhost) ;
+if(!$email_templates){$logger->fatal("数据库操作失败:".$query_limit_email_templates);}
 $row_email_templates = mysql_fetch_assoc($email_templates);
 
 if (isset($_GET['totalRows_email_templates'])) {
   $totalRows_email_templates = $_GET['totalRows_email_templates'];
 } else {
   $all_email_templates = mysql_query($query_email_templates);
+  if(!$all_email_templates){$logger->fatal("数据库操作失败:".$query_email_templates);}
   $totalRows_email_templates = mysql_num_rows($all_email_templates);
 }
 $totalPages_email_templates = ceil($totalRows_email_templates/$maxRows_email_templates)-1;

@@ -34,7 +34,7 @@ mysql_select_db($database_localhost, $localhost);
 $where_string=_get_comment_where_query_string();
 $query_comments = "SELECT user_favorite.*, product.name  FROM user_favorite inner join product on product.id=user_favorite.product_id WHERE user_favorite.user_id = $colname_comments  and  user_favorite.is_delete=0 ORDER BY user_favorite.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
-$comments = mysql_query($query_limit_comments, $localhost) or die(mysql_error());
+$comments = mysql_query($query_limit_comments, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_comments = mysql_fetch_assoc($comments);
 
 if (isset($_GET['totalRows_comments'])) {

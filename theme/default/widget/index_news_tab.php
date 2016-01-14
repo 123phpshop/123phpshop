@@ -19,14 +19,16 @@
  <?php 
 mysql_select_db($database_localhost, $localhost);
 $query_news = "SELECT * FROM news where is_delete=0 and catalog_id=1 ORDER BY id DESC limit 15";
-$news = mysql_query($query_news, $localhost) or die(mysql_error());
+$news = mysql_query($query_news, $localhost) ;
+if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysql_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
  
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = "SELECT * FROM `news_catalog` WHERE is_delete=0 and id = 1";
-$catalog = mysql_query($query_catalog, $localhost) or die(mysql_error());
+$catalog = mysql_query($query_catalog, $localhost) ;
+if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysql_fetch_assoc($catalog);
 $totalRows_catalog = mysql_num_rows($catalog);
 

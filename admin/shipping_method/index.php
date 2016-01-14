@@ -21,7 +21,8 @@ $doc_url="shipping.html#list";
 $support_email_question="查看送货方式列表";
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_methods = "SELECT * FROM shipping_method where is_delete=0";
-$shipping_methods = mysql_query($query_shipping_methods, $localhost) or die(mysql_error());
+$shipping_methods = mysql_query($query_shipping_methods, $localhost) ;
+if(!$shipping_methods){$logger->fatal("数据库操作失败:".$query_shipping_methods);}
 $row_shipping_methods = mysql_fetch_assoc($shipping_methods);
 $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -59,6 +60,3 @@ $totalRows_shipping_methods = mysql_num_rows($shipping_methods);
 </div>
 </body>
 </html>
-<?php
-mysql_free_result($shipping_methods);
-?>

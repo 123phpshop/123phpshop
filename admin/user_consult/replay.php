@@ -56,13 +56,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_SESSION['admin_id'], "int"));
 	
 	mysql_select_db($database_localhost, $localhost);
-	$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+	$Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
 	$update_sql=sprintf("update product_consult set is_replied=1 where id=%s",GetSQLValueString($_POST['to_question'], "int"));
-	$Result1 = mysql_query($update_sql, $localhost) or die(mysql_error());
+	$Result1 = mysql_query($update_sql, $localhost) ;
+	if(!$Result1){$logger->fatal("数据库操作失败:".$update_sql);}
 	
-  $insertGoTo = "index.php";
-  header(sprintf("Location: %s", $insertGoTo));
+	  $insertGoTo = "index.php";
+	  header(sprintf("Location: %s", $insertGoTo));
 }
 
 $colname_consult = "-1";
@@ -71,7 +72,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consult = sprintf("SELECT product_consult.* , product.name as product_name, product.id as product_id FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.id = %s", $colname_consult);
-$consult = mysql_query($query_consult, $localhost) or die(mysql_error());
+$consult = mysql_query($query_consult, $localhost) ;
+if(!$consult){$logger->fatal("数据库操作失败:".$query_consult);}
 $row_consult = mysql_fetch_assoc($consult);
 $totalRows_consult = mysql_num_rows($consult);
 
@@ -81,7 +83,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_replies = sprintf("SELECT product_consult.*,member.username as username FROM product_consult inner join member on member.id= product_consult.user_id WHERE product_consult.to_question = %s", $colname_replies);
-$replies = mysql_query($query_replies, $localhost) or die(mysql_error());
+$replies = mysql_query($query_replies, $localhost) ;
+if(!$replies){$logger->fatal("数据库操作失败:".$query_replies);}
 $row_replies = mysql_fetch_assoc($replies);
 $totalRows_replies = mysql_num_rows($replies);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

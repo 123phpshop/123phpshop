@@ -67,7 +67,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 	
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php";
    
@@ -80,13 +81,13 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) or die(mysql_error());
+$admin = mysql_query($query_admin, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
 
 mysql_select_db($database_localhost, $localhost);
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query($query_roles, $localhost) or die(mysql_error());
+$roles = mysql_query($query_roles, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_roles = mysql_fetch_assoc($roles);
 $totalRows_roles = mysql_num_rows($roles);
 

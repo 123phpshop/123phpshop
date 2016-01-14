@@ -28,7 +28,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE id = %s", $colname_news_catalog);
-$news_catalog = mysql_query($query_news_catalog, $localhost) or die(mysql_error());
+$news_catalog = mysql_query($query_news_catalog, $localhost) ;
+if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
 $row_news_catalog = mysql_fetch_assoc($news_catalog);
 $totalRows_news_catalog = mysql_num_rows($news_catalog);
 
@@ -45,7 +46,8 @@ if($could_delete==1){
 
 	mysql_select_db($database_localhost, $localhost);
 	$query_news = sprintf("SELECT * FROM news WHERE catalog_id = %s", $colname_news);
-	$news = mysql_query($query_news, $localhost) or die(mysql_error());
+	$news = mysql_query($query_news, $localhost) ;
+	if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 	$row_news = mysql_fetch_assoc($news);
 	$totalRows_news = mysql_num_rows($news);
 	
@@ -61,6 +63,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `news_catalog` set is_delete=1 where id = %s", $colname_news_catalog);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		header("Location: " . $remove_succeed_url );

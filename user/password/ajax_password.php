@@ -36,7 +36,7 @@ if(!isset($_SESSION['user_id'])){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_check_pass = sprintf("SELECT * FROM `user` WHERE password = '%s' and id= '%s'", md5($colname_check_pass),$_SESSION['user_id']);
-	$check_pass = mysql_query($query_check_pass, $localhost) or die(mysql_error());
+	$check_pass = mysql_query($query_check_pass, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 	$row_check_pass = mysql_fetch_assoc($check_pass);
 	$totalRows_check_pass = mysql_num_rows($check_pass);
 	if($totalRows_check_pass==0){

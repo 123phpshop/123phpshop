@@ -1,4 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php require_once('../../Connections/localhost.php'); ?>
+<?php
+$colname_item = "-1";
+if (isset($_GET['id'])) {
+  $colname_item = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+}
+mysql_select_db($database_localhost, $localhost);
+$query_item = sprintf("SELECT * FROM user_levels WHERE id = %s", $colname_item);
+$item = mysql_query($query_item, $localhost) ;
+if(!$item){$logger->fatal("数据库操作失败:".$query_item);}
+$row_item = mysql_fetch_assoc($item);
+$totalRows_item = mysql_num_rows($item);
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -8,3 +20,6 @@
 <body>
 </body>
 </html>
+<?php
+mysql_free_result($item);
+?>

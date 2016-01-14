@@ -36,7 +36,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['min_consumption_amount'], "double"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost);
+  if(!$Result1){
+  	$logger->fatal("添加用户登记操作失败:".$insertSQL);
+  }
   
   $remove_succeed_url="index.php";
   header("Location: " . $remove_succeed_url );

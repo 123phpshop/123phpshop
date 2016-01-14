@@ -24,7 +24,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and is_delete=0", $colname_consignee);
-$consignee = mysql_query($query_consignee, $localhost) or die(mysql_error());
+$consignee = mysql_query($query_consignee, $localhost) ;
+if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}
 $row_consignee = mysql_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
 
@@ -50,6 +51,7 @@ if($could_delete==1){
  		$update_catalog = sprintf("update `user_consignee` set is_default=0 where user_id=%s and id != %s",$_SESSION['user_id'], $colname_consignee);
 		$update_catalog_query = mysql_query($update_catalog, $localhost);
 		if(!$update_catalog_query){
+			$logger->fatal("数据库操作失败:".$update_catalog);
 			$could_delete=0;
 		}else{
 			$remove_succeed_url="/confirm.php";

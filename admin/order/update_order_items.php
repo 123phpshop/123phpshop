@@ -23,7 +23,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
@@ -33,7 +34,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order_items = sprintf("SELECT * FROM order_item WHERE order_id = '%s'", $colname_order_items);
-$order_items = mysql_query($query_order_items, $localhost) or die(mysql_error());
+$order_items = mysql_query($query_order_items, $localhost) ;
+if(!$order_items){$logger->fatal("数据库操作失败:".$query_order_items);}
 $row_order_items = mysql_fetch_assoc($order_items);
 $totalRows_order_items = mysql_num_rows($order_items);
 

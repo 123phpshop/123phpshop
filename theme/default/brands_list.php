@@ -124,6 +124,3 @@ $row=ceil($totalRows_brands/$cols);
 </table>
 </body>
 </html>
-<?php
-mysql_free_result($brands);
-?>

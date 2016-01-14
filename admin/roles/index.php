@@ -21,7 +21,8 @@ $doc_url="role.html#list";
 $support_email_question="查看角色列表";
 mysql_select_db($database_localhost, $localhost);
 $query_getRoles = "SELECT * FROM `role` where is_delete=0 ORDER BY id DESC";
-$getRoles = mysql_query($query_getRoles, $localhost) or die(mysql_error());
+$getRoles = mysql_query($query_getRoles, $localhost) ;
+if(!$getRoles){$logger->fatal("数据库操作失败:".$query_getRoles);}
 $row_getRoles = mysql_fetch_assoc($getRoles);
 $totalRows_getRoles = mysql_num_rows($getRoles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

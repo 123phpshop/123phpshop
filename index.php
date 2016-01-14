@@ -15,11 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('Connections/localhost.php'); ?>
+ ?>
+<?php require_once('Connections/localhost.php'); ?>
 <?php 
-$logger->debug("asdasd");
-//var_export(get_catalog_path(array(4)));die;
-
+ 
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -48,7 +47,8 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query($query_shopinfo, $localhost) or die(mysql_error());
+$shopinfo = mysql_query($query_shopinfo, $localhost) ;
+if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
 $row_shopinfo = mysql_fetch_assoc($shopinfo);
 $totalRows_shopinfo = mysql_num_rows($shopinfo);
 include($template_path."index.php");

@@ -189,8 +189,3 @@ $().ready(function(){
 <p>&nbsp;</p>
 </body>
 </html>
-<?php
-mysql_free_result($shopinfo);
-
-isset($get_user_by_username)?mysql_free_result($get_user_by_username):'';
-?>

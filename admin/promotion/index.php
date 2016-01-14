@@ -30,13 +30,16 @@ $startRow_promotions = $pageNum_promotions * $maxRows_promotions;
 mysql_select_db($database_localhost, $localhost);
 $query_promotions = "SELECT * FROM promotion where is_delete=0 ORDER BY id DESC";
 $query_limit_promotions = sprintf("%s LIMIT %d, %d", $query_promotions, $startRow_promotions, $maxRows_promotions);
-$promotions = mysql_query($query_limit_promotions, $localhost) or die(mysql_error());
+$promotions = mysql_query($query_limit_promotions, $localhost) ;
+if(!$promotions){$logger->fatal("数据库操作失败:".$query_limit_promotions);}
 $row_promotions = mysql_fetch_assoc($promotions);
 
 if (isset($_GET['totalRows_promotions'])) {
   $totalRows_promotions = $_GET['totalRows_promotions'];
 } else {
   $all_promotions = mysql_query($query_promotions);
+  if(!$all_promotions){$logger->fatal("数据库操作失败:".$query_promotions);}
+
   $totalRows_promotions = mysql_num_rows($all_promotions);
 }
 $totalPages_promotions = ceil($totalRows_promotions/$maxRows_promotions)-1;

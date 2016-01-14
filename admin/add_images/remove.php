@@ -28,7 +28,10 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
-$ad_images = mysql_query($query_ad_images, $localhost) or die(mysql_error());
+$ad_images = mysql_query($query_ad_images, $localhost) ;
+ if(!$ad_images){
+		$logger->fatal("删除广告操作失败:".$query_ad_images);
+ 	}
 $row_ad_images=mysql_fetch_assoc($ad_images);
 $totalRows_ad_images = mysql_num_rows($ad_images);
 if($totalRows_ad_images==0){
@@ -41,6 +44,7 @@ if($could_delete==1){
  		$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
 		$update_catalog_query = mysql_query($update_catalog, $localhost);
 		if(!$update_catalog_query){
+			$logger->fatal("数据库操作失败:".$update_catalog);
 			$could_delete=0;
 		}else{
  			$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];

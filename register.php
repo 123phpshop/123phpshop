@@ -81,7 +81,8 @@ try{
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_get_user_by_username = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_get_user_by_username);
-	$get_user_by_username = mysql_query($query_get_user_by_username, $localhost) or die(mysql_error());
+	$get_user_by_username = mysql_query($query_get_user_by_username, $localhost) ;
+	if(!$get_user_by_username){$logger->fatal("数据库操作失败:".$query_get_user_by_username);}
 	$row_get_user_by_username = mysql_fetch_assoc($get_user_by_username);
 	$totalRows_get_user_by_username = mysql_num_rows($get_user_by_username);
  	if($totalRows_get_user_by_username>0){
@@ -99,10 +100,10 @@ try{
 			GetSQLValueString($_SERVER['REMOTE_ADDR'], "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) or die();
-	
+	  $Result1 = mysql_query($insertSQL, $localhost);
+ 
 		if(! $Result1>0){
-			 $logger->warn("用户注册错误：".mysql_error().$insertSQL);
+			 $logger->fatal("用户注册错误：".mysql_error().$insertSQL);
 			 throw new Exception("系统错误，请稍后重试");
 		}
 	

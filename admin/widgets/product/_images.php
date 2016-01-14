@@ -51,7 +51,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "product_image_form"
 					   GetSQLValueString($image_files, "text"));
 		
 		  mysql_select_db($database_localhost, $localhost);
-		  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+		  $Result1 = mysql_query($insertSQL, $localhost);
+		  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   	}else {
           //获取上传失败以后的错误提示
         $error=$up->getErrorMsg();
@@ -61,7 +62,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "product_image_form"
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images);
-$product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
+$product_images = mysql_query($query_product_images, $localhost) ;
+if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 $row_product_images = mysql_fetch_assoc($product_images);
 $totalRows_product_images = mysql_num_rows($product_images);
 
@@ -80,7 +82,8 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['id'];
 $query_DetailRS1 = sprintf("SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  left join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 //	如果找不到这个产品的话，那么直接跳转到index。php

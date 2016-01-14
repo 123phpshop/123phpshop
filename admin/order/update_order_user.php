@@ -65,7 +65,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php?id=" . $row_order['id'] . "";
   header(sprintf("Location: %s", $updateGoTo));
@@ -77,13 +78,15 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 mysql_select_db($database_localhost, $localhost);
 $query_user = "SELECT id, username FROM `user` WHERE id = ".$row_order['user_id'];
-$user = mysql_query($query_user, $localhost) or die(mysql_error());
+$user = mysql_query($query_user, $localhost) ;
+if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 $row_user = mysql_fetch_assoc($user);
 $totalRows_user = mysql_num_rows($user);
 

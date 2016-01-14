@@ -53,7 +53,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 	mysql_select_db($database_localhost, $localhost);
 	$query_alipay_config = "SELECT * FROM pay_alipay limit 1";
-	$alipay_config = mysql_query($query_alipay_config, $localhost) or die(mysql_error());
+	$alipay_config = mysql_query($query_alipay_config, $localhost) ;
+	if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}
 	$row_alipay_config = mysql_fetch_assoc($alipay_config);
 	$totalRows_alipay_config = mysql_num_rows($alipay_config);
 
@@ -65,7 +66,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['cooperate_user_info'], "text") 
 	);
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+	  $Result1 = mysql_query($updateSQL, $localhost) ;
+	  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
  	}else{
 	
 		$updateSQL = sprintf("UPDATE pay_alipay SET account=%s, security_code=%s, cooperate_user_info=%s WHERE id=%s",
@@ -75,14 +77,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($row_alipay_config['id'], "int"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+	  $Result1 = mysql_query($updateSQL, $localhost) ;
+	  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 	
 	}
 }
 
 mysql_select_db($database_localhost, $localhost);
 $query_alipay_config = "SELECT * FROM pay_alipay limit 1";
-$alipay_config = mysql_query($query_alipay_config, $localhost) or die(mysql_error());
+$alipay_config = mysql_query($query_alipay_config, $localhost) ;
+if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}
 $row_alipay_config = mysql_fetch_assoc($alipay_config);
 $totalRows_alipay_config = mysql_num_rows($alipay_config);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

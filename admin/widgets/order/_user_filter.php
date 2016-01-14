@@ -26,7 +26,8 @@ if($colname_goods == "-1" || trim($colname_goods)==''){
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,username FROM user WHERE username like '%".$colname_goods."%' and is_delete=0";
-$goods = mysql_query($query_goods, $localhost) or die(mysql_error());
+$goods = mysql_query($query_goods, $localhost) ;
+if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
 $row_goods = mysql_fetch_assoc($goods);
 $row_goods_num=mysql_num_rows($goods);
 if($row_goods_num>0){

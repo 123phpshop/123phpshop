@@ -21,7 +21,8 @@ $doc_url="logistics.html#list";
 $support_email_question="查看快递公司列表";
 mysql_select_db($database_localhost, $localhost);
 $query_expresses = "SELECT * FROM express_company";
-$expresses = mysql_query($query_expresses, $localhost) or die(mysql_error());
+$expresses = mysql_query($query_expresses, $localhost) ;
+if(!$expresses){$logger->fatal("数据库操作失败:".$query_expresses);}
 $row_expresses = mysql_fetch_assoc($expresses);
 $totalRows_expresses = mysql_num_rows($expresses);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -79,7 +79,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 	
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -95,7 +96,7 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
-$user = mysql_query($query_user, $localhost) or die(mysql_error());
+$user = mysql_query($query_user, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_user = mysql_fetch_assoc($user);
 $totalRows_user = mysql_num_rows($user);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

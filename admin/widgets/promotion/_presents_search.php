@@ -31,13 +31,16 @@ if (isset($_GET['name'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name,price FROM product WHERE name like '%".$colname_goods."%' and is_delete=0";
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
-$goods = mysql_query($query_limit_goods, $localhost) or die(mysql_error());
+$goods = mysql_query($query_limit_goods, $localhost) ;
+if(!$goods){$logger->fatal("数据库操作失败:".$query_limit_goods);}
 $row_goods = mysql_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = $_GET['totalRows_goods'];
 } else {
   $all_goods = mysql_query($query_goods);
+  if(!$all_goods){$logger->fatal("数据库操作失败:".$query_goods);}
+
   $totalRows_goods = mysql_num_rows($all_goods);
 }
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;

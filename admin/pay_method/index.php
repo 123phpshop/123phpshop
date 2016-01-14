@@ -21,7 +21,8 @@ $doc_url="payment.html#list";
 $support_email_question="查看支付方式列表";
 mysql_select_db($database_localhost, $localhost);
 $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
-$pay_methods = mysql_query($query_pay_methods, $localhost) or die(mysql_error());
+$pay_methods = mysql_query($query_pay_methods, $localhost) ;
+if(!$pay_methods){$logger->fatal("数据库操作失败:".$query_pay_methods);}
 $row_pay_methods = mysql_fetch_assoc($pay_methods);
 $totalRows_pay_methods = mysql_num_rows($pay_methods);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

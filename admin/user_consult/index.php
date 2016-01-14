@@ -25,7 +25,8 @@ $support_email_question="查看用户咨询列表";
 	if(count($_POST['consult_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `product_consult` set is_delete=1 where id in (".implode(",",$_POST['consult_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
 
 }
@@ -43,13 +44,16 @@ $startRow_consult = $pageNum_consult * $maxRows_consult;
 mysql_select_db($database_localhost, $localhost);
 $query_consult = "SELECT product_consult.*,user.username as username, product.name as product_name FROM product_consult inner join user on user.id=product_consult.user_id inner join product on product.id=product_consult.product_id where product_consult.is_delete=0 and product_consult.to_question=0 $where_query_string ORDER BY id DESC";
 $query_limit_consult = sprintf("%s LIMIT %d, %d", $query_consult, $startRow_consult, $maxRows_consult);
-$consult = mysql_query($query_limit_consult, $localhost) or die(mysql_error());
+$consult = mysql_query($query_limit_consult, $localhost) ;
+if(!$consult){$logger->fatal("数据库操作失败:".$query_limit_consult);}
 $row_consult = mysql_fetch_assoc($consult);
 
 if (isset($_GET['totalRows_consult'])) {
   $totalRows_consult = $_GET['totalRows_consult'];
 } else {
   $all_consult = mysql_query($query_consult);
+  if(!$all_consult){$logger->fatal("数据库操作失败:".$query_consult);}
+
   $totalRows_consult = mysql_num_rows($all_consult);
 }
 $totalPages_consult = ceil($totalRows_consult/$maxRows_consult)-1;

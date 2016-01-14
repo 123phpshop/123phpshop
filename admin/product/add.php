@@ -20,7 +20,8 @@ $doc_url="product.html#add";
 $support_email_question="添加商品";
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$brands = mysql_query($query_brands, $localhost) ;
+if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -117,7 +118,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 }
 mysql_select_db($database_localhost, $localhost);
-$Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+$Result1 = mysql_query($insertSQL, $localhost) ;
+if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 $insertGoTo = "update.php?id=".mysql_insert_id();
 header(sprintf("Location: %s", $insertGoTo));
 }
@@ -125,7 +127,8 @@ header(sprintf("Location: %s", $insertGoTo));
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
+$product_types = mysql_query($query_product_types, $localhost) ;
+if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}
 $row_product_types = mysql_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

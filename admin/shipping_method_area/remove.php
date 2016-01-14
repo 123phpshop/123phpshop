@@ -26,7 +26,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM shipping_method_area WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
@@ -39,6 +40,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `shipping_method_area` set is_delete=1 where id = %s", $colname_order);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		$remove_succeed_url="index.php?shipping_method_id=".$row_order['shipping_method_id'];

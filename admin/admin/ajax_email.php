@@ -24,7 +24,10 @@ if (isset($_POST['email'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_member = sprintf("SELECT * FROM member WHERE email = '%s'", $colname_member);
-$member = mysql_query($query_member, $localhost) or die(mysql_error());
+$member = mysql_query($query_member, $localhost) ;
+if(!$member){
+		$logger->fatal("删除广告操作失败:".$updateSQL);
+ 	}
 $row_member = mysql_fetch_assoc($member);
 $totalRows_member = mysql_num_rows($member);
 if($totalRows_member>0){

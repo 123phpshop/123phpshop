@@ -50,7 +50,8 @@ if (isset($_GET['order_id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost) or die(mysql_error());
+$order = mysql_query($query_order, $localhost) ;
+if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysql_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
@@ -66,13 +67,15 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order_item = sprintf("SELECT * FROM order_item WHERE is_delete=0 and  id = %s", $colname_order_item);
-$order_item = mysql_query($query_order_item, $localhost) or die(mysql_error());
+$order_item = mysql_query($query_order_item, $localhost) ;
+if(!$order_item){$logger->fatal("数据库操作失败:".$query_order_item);}
 $row_order_item = mysql_fetch_assoc($order_item);
 $totalRows_order_item = mysql_num_rows($order_item);
 
 mysql_select_db($database_localhost, $localhost);
 $query_product = "SELECT * FROM product WHERE is_delete=0 and  id = ".$row_order_item['product_id'];
-$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$product = mysql_query($query_product, $localhost) ;
+if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
@@ -89,7 +92,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_check_product = sprintf("SELECT * FROM order_item WHERE product_id = %s", $colname_check_product);
-	$check_product = mysql_query($query_check_product, $localhost) or die(mysql_error());
+	$check_product = mysql_query($query_check_product, $localhost) ;
+	if(!$check_product){$logger->fatal("数据库操作失败:".$query_check_product);}
 	$row_check_product = mysql_fetch_assoc($check_product);
 	$totalRows_check_product = mysql_num_rows($check_product);
 
@@ -106,7 +110,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
                        GetSQLValueString($_POST['quantity'], "int"),
                        GetSQLValueString($_POST['attr_value'], "text"),
                        GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
-
+		$check_product = mysql_query($insertSQL, $localhost) ;
+		if(!$check_product){$logger->fatal("数据库操作失败:".$insertSQL);}
 		 	// 如果一切都ok，那么进行跳转		
 		  $insertGoTo = "detail.php?recordID=" . $colname_order;
 		  header(sprintf("Location: %s", $insertGoTo));
@@ -122,7 +127,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
                        GetSQLValueString($_POST['quantity'], "int"),
                        GetSQLValueString($_POST['attr_value'], "text"),
                        GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
-
+		
+		$check_product = mysql_query($insertSQL, $localhost) ;
+		if(!$check_product){$logger->fatal("数据库操作失败:".$insertSQL);}
 		 	// 如果一切都ok，那么进行跳转		
 		  $insertGoTo = "detail.php?recordID=" . $colname_order;
 		  header(sprintf("Location: %s", $insertGoTo));
@@ -155,7 +162,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 		// 如果是优惠价怎么办？
 		
  		$update_quantity_sql="";
-		mysql_query($update_quantity_sql, $localhost);
+		$check_product =mysql_query($update_quantity_sql, $localhost);
+ 		if(!$check_product){$logger->fatal("数据库操作失败:".$update_quantity_sql);}
   	}
 	
 	// 如果这张订单中已经有了相同的产品，而且当前需要添加的产品是赠品，那么直接添加即可，然后进行跳转即可
@@ -199,7 +207,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
                        GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
   	// 	更新订单的产品总价，运费总价和订单总额
 	$products_total_fee="";

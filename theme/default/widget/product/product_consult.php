@@ -58,7 +58,11 @@ if (isset ( $_GET ['id'] )) {
 }
 mysql_select_db ( $database_localhost, $localhost );
 $query_consult = sprintf ( "SELECT product_consult.*,user.username FROM product_consult inner join user on user.id=product_consult.user_id WHERE product_consult.product_id = %s and product_consult.is_delete = 0 ORDER BY product_consult.id DESC", $colname_consult );
-$consult = mysql_query ( $query_consult, $localhost ) or die ( mysql_error () );
+$consult = mysql_query ( $query_consult, $localhost );
+if (! $consult) {
+	// 记录进入日志
+	$logger->fatal ( "数据库操作失败:" . mysql_error () . $query_consult );
+}
 $row_consult = mysql_fetch_assoc ( $consult );
 $totalRows_consult = mysql_num_rows ( $consult );
 

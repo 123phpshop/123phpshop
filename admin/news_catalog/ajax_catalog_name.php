@@ -26,14 +26,12 @@ if (isset($_POST['name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = sprintf("SELECT * FROM news_catalog WHERE name = '%s'", $colname_catalog);
-$catalog = mysql_query($query_catalog, $localhost) or die(mysql_error());
+$catalog = mysql_query($query_catalog, $localhost) ;
+if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysql_fetch_assoc($catalog);
 $totalRows_catalog = mysql_num_rows($catalog);
 if($totalRows_catalog>0){
 	$result="false";
 }
-?>
-<?php
-mysql_free_result($catalog);
 die($result);
 ?>

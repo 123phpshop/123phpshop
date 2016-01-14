@@ -25,7 +25,8 @@ if (isset($_GET['shipping_method_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT * FROM shipping_method_area  WHERE id = $recordID", $colname_shipping_method);
-$DetailRS1 = mysql_query($query_DetailRS1, $localhost) or die(mysql_error());
+$DetailRS1 = mysql_query($query_DetailRS1, $localhost) ;
+if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_DetailRS1);}
 $row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
 $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 

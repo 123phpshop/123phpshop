@@ -58,7 +58,8 @@ $row=ceil($totalRows_products/$cols);
 	<?php $curr=$row_i*$cols_i+$cols_i;if(isset($products_array[$curr])){ ?>
 	 <?php 
    		$query_product_images = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = ".$products_array[$curr]['id'];
-		$product_images = mysql_query($query_product_images, $localhost) or die(mysql_error());
+		$product_images = mysql_query($query_product_images, $localhost) ;
+		if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 		$row_product_images = mysql_fetch_assoc($product_images);
 		$totalRows_product_images = mysql_num_rows($product_images);
  	 ?>

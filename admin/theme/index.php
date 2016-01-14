@@ -19,7 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_themes = "SELECT * FROM theme";
-$themes = mysql_query($query_themes, $localhost) or die(mysql_error());
+$themes = mysql_query($query_themes, $localhost) ;
+if(!$themes){$logger->fatal("数据库操作失败:".$query_themes);}
 $row_themes = mysql_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 

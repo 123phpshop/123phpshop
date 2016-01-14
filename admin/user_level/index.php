@@ -2,7 +2,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_leveles = "SELECT * FROM user_levels ORDER BY id ASC";
-$leveles = mysql_query($query_leveles, $localhost) or die(mysql_error());
+$leveles = mysql_query($query_leveles, $localhost) ;
+if(!$leveles){$logger->fatal("数据库操作失败:".$query_leveles);}
 $row_leveles = mysql_fetch_assoc($leveles);
 $totalRows_leveles = mysql_num_rows($leveles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -26,7 +26,8 @@ $currentPage = $_SERVER["PHP_SELF"];
 	if(count($_POST['user_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `user` set is_delete=1 where id in (".implode(",",$_POST['user_id']).")";
-			mysql_query($sql, $localhost) or die(mysql_error());
+			$Result1=mysql_query($sql, $localhost) ;
+			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
 }
 
@@ -41,7 +42,8 @@ $where=_get_user_where($_GET);
 mysql_select_db($database_localhost, $localhost);
 $query_users = "SELECT * FROM `user` where is_delete=0 $where";
 $query_limit_users = sprintf("%s LIMIT %d, %d", $query_users, $startRow_users, $maxRows_users);
-$users = mysql_query($query_limit_users, $localhost) or die(mysql_error());
+$users = mysql_query($query_limit_users, $localhost) ;
+if(!$users){$logger->fatal("数据库操作失败:".$query_limit_users);}
 $row_users = mysql_fetch_assoc($users);
 
 if (isset($_GET['totalRows_users'])) {

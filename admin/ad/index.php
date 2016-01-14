@@ -31,7 +31,7 @@ $startRow_ads = $pageNum_ads * $maxRows_ads;
 mysql_select_db($database_localhost, $localhost);
 $query_ads = "SELECT * FROM ad";
 $query_limit_ads = sprintf("%s LIMIT %d, %d", $query_ads, $startRow_ads, $maxRows_ads);
-$ads = mysql_query($query_limit_ads, $localhost) or die(mysql_error());
+$ads = mysql_query($query_limit_ads, $localhost) ;if(!$ads){$logger->fatal("数据库操作失败:".$query_limit_ads);}
 $row_ads = mysql_fetch_assoc($ads);
 
 if (isset($_GET['totalRows_ads'])) {

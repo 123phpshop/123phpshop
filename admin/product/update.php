@@ -50,19 +50,22 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM product WHERE id = %s", $colname_product);
-$product = mysql_query($query_product, $localhost) or die(mysql_error());
+$product = mysql_query($query_product, $localhost) ;
+if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query($query_brands, $localhost) or die(mysql_error());
+$brands = mysql_query($query_brands, $localhost) ;
+if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
 $row_brands = mysql_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query($query_product_types, $localhost) or die(mysql_error());
+$product_types = mysql_query($query_product_types, $localhost) ;
+if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}
 $row_product_types = mysql_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
 
@@ -114,7 +117,8 @@ if (isset($_SERVER['QUERY_STRING'])) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $localhost) ;
+  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   $updateGoTo = "../product/index.php";
   header(sprintf("Location: %s", $updateGoTo));
 }
@@ -131,7 +135,8 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 <body>
 
-  <span class="phpshop123_title">更新产品信息</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+  <span class="phpshop123_title">编辑商品信息</span>
+  <div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
 	
 	<form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
@@ -153,9 +158,9 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	
 	<div id="tabs-4" aria-labelledby="ui-id-11" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_images.php'); ?></div>
 	<div id="tabs-5" aria-labelledby="ui-id-12" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;background-color:#FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_attr.php'); ?></div>
-	
+	<input type="submit"   value="更新">
 </div>
-   <input type="submit"   value="更新">
+   
 </form>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>

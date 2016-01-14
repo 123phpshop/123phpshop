@@ -20,7 +20,8 @@
  
 mysql_select_db($database_localhost, $localhost);
 $query_shop_info = sprintf("SELECT * FROM shop_info WHERE id = 1");
-$shop_info = mysql_query($query_shop_info, $localhost) or die(mysql_error());
+$shop_info = mysql_query($query_shop_info, $localhost) ;
+if(!$shop_info){$logger->fatal("数据库操作失败:".$query_shop_info);}
 $row_shop_info = mysql_fetch_assoc($shop_info);
 $totalRows_shop_info = mysql_num_rows($shop_info);
 ?><table width="990" height="60" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -43,7 +44,3 @@ $totalRows_shop_info = mysql_num_rows($shop_info);
     </table></td>
   </tr>
 </table>
-
-<?php
-mysql_free_result($shop_info);
-?>
