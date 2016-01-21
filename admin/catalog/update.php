@@ -19,6 +19,7 @@
 <?php
 $doc_url="catalogs.html#udpate";
 $support_email_question="更新商品分类";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

@@ -18,6 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $doc_url="admin.html#detail";
 $support_email_question="查看管理员详细";
+log_admin("查看管理员详细");
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM member WHERE id = $recordID";

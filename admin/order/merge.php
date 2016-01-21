@@ -24,6 +24,7 @@
 
 $doc_url = "order.html#merge";
 $support_email_question = "订单合并";
+log_admin($support_email_question);
 $error = "";
 if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_order")) {
 	try {

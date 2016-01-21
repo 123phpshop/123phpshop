@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="user.html#udpate";
-$support_email_question="更新用户信息";
+$support_email_question="更新用户信息";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

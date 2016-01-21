@@ -32,7 +32,7 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
-if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_comment") && $colname_product != '-1' && isset ( $_SESSION ['user_id'] ) && user_could_comment ( $_SESSION ['user_id'], $colname_product ) && isset ( $_POST ['captcha'] ) && ($_POST ['captcha'] == $_SESSION ['comment_captcha'])) {
+if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_comment") && $colname_product != '-1' && isset ( $_SESSION ['user_id'] ) && user_could_comment ( $_SESSION ['user_id'], $colname_product ) && isset ( $_POST ['captcha'] ) && (strtolower($_POST ['captcha']) == $_SESSION ['comment_captcha'])) {
 	
 	// 在这里进行数据验证
 	$validation->set_rules ( 'message', '评论消息', 'required|max_length[100]|min_length[10]' ); // 评论的长度最少要10个字，最长要100个字

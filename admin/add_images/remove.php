@@ -25,7 +25,7 @@ $colname_ad_images = "-1";
 if (isset($_GET['id'])) {
 	$colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-
+log_admin("删除广告");
 mysql_select_db($database_localhost, $localhost);
 $query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
 $ad_images = mysql_query($query_ad_images, $localhost) ;

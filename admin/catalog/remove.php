@@ -19,6 +19,7 @@
 <?php
 $doc_url="catalogs.html#delete";
 $support_email_question="删除商品分类";
+log_admin($support_email_question);
 $could_delete=1;
 $colname_catalog = "-1";
 $remove_succeed_url="index.php";

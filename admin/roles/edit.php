@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#update";
-$support_email_question="更新角色信息";
+$support_email_question="更新角色信息";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

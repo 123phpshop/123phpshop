@@ -22,7 +22,8 @@
 <?php
 
 $doc_url = "order.html#update_product";
-$support_email_question = "删除订单产品";
+$support_email_question = "删除订单商品";
+log_admin($support_email_question);
 $could_delete = 1;
 $colname_news = "-1";
 

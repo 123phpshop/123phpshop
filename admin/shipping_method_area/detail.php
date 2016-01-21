@@ -17,7 +17,7 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); 
 $doc_url="shipping.html#area_detail";
-$support_email_question="查看配送区域详情";
+$support_email_question="查看配送区域详情";log_admin($support_email_question);
 $colname_DetailRS1 = "-1";
 if (isset($_GET['shipping_method_id'])) {
   $colname_DetailRS1 = (get_magic_quotes_gpc()) ? $_GET['shipping_method_id'] : addslashes($_GET['shipping_method_id']);

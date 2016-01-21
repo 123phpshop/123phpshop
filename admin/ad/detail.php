@@ -19,6 +19,7 @@
 <?php
 $doc_url="ad.html#list";
 $support_email_question="查看广告详细";
+ log_admin("查看广告详细");
 $error='';
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

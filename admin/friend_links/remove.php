@@ -19,6 +19,7 @@
 <?php
 $doc_url="links.html#delete";
 $support_email_question="删除友情链接";
+log_admin($support_email_question);
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

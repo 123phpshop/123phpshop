@@ -19,6 +19,7 @@
 <?php
 $doc_url="links.html#list";
 $support_email_question="查看友情链接列表";
+log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_links = "SELECT * FROM friend_links WHERE is_delete = 0 ORDER BY sort DESC";
 $links = mysql_query($query_links, $localhost) ;

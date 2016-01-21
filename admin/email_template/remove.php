@@ -20,6 +20,7 @@
 
 $doc_url="email_template.html#delete";
 $support_email_question="删除邮件模板";
+log_admin($support_email_question);
 $could_delete=1;
 $colname_news = "-1";
 $remove_succeed_url="index.php";

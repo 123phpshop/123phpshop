@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="comment.html#delete";
-$support_email_question="删除用户评论";
+$support_email_question="删除用户评论";log_admin($support_email_question);
 $could_delete=1;
 
 $colname_news = "-1";

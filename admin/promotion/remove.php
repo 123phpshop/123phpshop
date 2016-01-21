@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="promotion.html#delete";
-$support_email_question="删除促销";
+$support_email_question="删除促销";log_admin($support_email_question);
 $could_delete=1;
 $colname_news = "-1";
 $remove_succeed_url="index.php";

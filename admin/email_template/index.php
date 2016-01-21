@@ -19,7 +19,7 @@
 <?php
 $doc_url="email_template.html#list";
 $support_email_question="浏览邮件模板";
-
+log_admin($support_email_question);
 $currentPage = $_SERVER["PHP_SELF"];
 
 $maxRows_email_templates = 50;

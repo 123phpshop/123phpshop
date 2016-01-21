@@ -20,6 +20,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="news_catalog.html#list";
 $support_email_question="添加文章分类";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

@@ -19,7 +19,7 @@
 <?php require_once('../../Connections/lib/csv.php'); ?>
 <?php 
 $doc_url="product.html#export";
-$support_email_question="导出商品";
+$support_email_question="导出商品";log_admin($support_email_question);
 if ((isset($_POST["phpshop_op"])) && ($_POST["phpshop_op"] == "export_goods_form")) {
 	export_goods();die;
 }

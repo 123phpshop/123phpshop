@@ -6,6 +6,10 @@ $leveles = mysql_query($query_leveles, $localhost) ;
 if(!$leveles){$logger->fatal("数据库操作失败:".$query_leveles);}
 $row_leveles = mysql_fetch_assoc($leveles);
 $totalRows_leveles = mysql_num_rows($leveles);
+
+$doc_url="user_level.html#index";
+$support_email_question="查看用户等级列表";log_admin($support_email_question);
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

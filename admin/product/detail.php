@@ -17,7 +17,7 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $doc_url="product.html#detail";
-$support_email_question="查看商品详细";
+$support_email_question="查看商品详细";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $doc_url="logistics.html#detail";
 $support_email_question="查看快递公司详情";
-
+log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM express_company WHERE id = $recordID";

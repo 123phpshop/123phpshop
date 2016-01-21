@@ -20,6 +20,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="news.html#list";
 $support_email_question="查看杂志列表";
+log_admin($support_email_question);
 $where_string="where is_delete=0 ";
 
 

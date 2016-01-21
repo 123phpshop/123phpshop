@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#list";
-$support_email_question="查看角色列表";
+$support_email_question="查看角色列表";log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_getRoles = "SELECT * FROM `role` where is_delete=0 ORDER BY id DESC";
 $getRoles = mysql_query($query_getRoles, $localhost) ;

@@ -20,6 +20,7 @@
 $could_delete=1;
 $doc_url="news.html#delete";
 $support_email_question="删除文章";
+log_admin($support_email_question);
 $colname_news = "-1";
 
 if (isset($_GET['id'])) {

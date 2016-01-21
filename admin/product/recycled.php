@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="product.html#recycled";
-$support_email_question="浏览产品回收站";
+$support_email_question="浏览产品回收站";log_admin($support_email_question);
 
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {

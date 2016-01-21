@@ -21,6 +21,7 @@ $colname_admin = "-1";
 $could_delete=1;
 $doc_url="brand.html#delete";
 $support_email_question="删除品牌";
+log_admin($support_email_question);
 $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {
   $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);

@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="payment.html#list";
-$support_email_question="激活支付方式";
+$support_email_question="激活支付方式";log_admin($support_email_question);
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

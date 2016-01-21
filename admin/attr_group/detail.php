@@ -20,6 +20,7 @@ $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
 $doc_url="type.html#attr_detail";
 $support_email_question="查看商品分类属性详细";
+log_admin($support_email_question);
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];
 }

@@ -20,7 +20,7 @@
 $doc_url="ad.html#list";
 $support_email_question="查看广告列表";
 $currentPage = $_SERVER["PHP_SELF"];
-
+ log_admin("查看广告列表");
 $maxRows_ads = 50;
 $pageNum_ads = 0;
 if (isset($_GET['pageNum_ads'])) {

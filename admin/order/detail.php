@@ -21,7 +21,7 @@
 <?php
 $colname_products = "-1";
 $doc_url="order.html#detail";
-$support_email_question="查看订单详细";
+$support_email_question="查看订单详细";log_admin($support_email_question);
 if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }

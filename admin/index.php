@@ -15,7 +15,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../Connections/localhost.php'); ?>
+ ?><?php require_once('../Connections/localhost.php'); 
+ ?>
 <frameset rows="46,*" frameborder=no scrolling="no" >
 <frame src="_top.php" name="_top" scrolling="no"/>
 	<frameset cols="235,*" frameborder=no scrolling="auto">

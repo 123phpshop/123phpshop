@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="payment.html#list";
-$support_email_question="查看支付方式列表";
+$support_email_question="查看支付方式列表";log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
 $pay_methods = mysql_query($query_pay_methods, $localhost) ;

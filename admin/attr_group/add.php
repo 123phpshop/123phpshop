@@ -19,6 +19,7 @@
 <?php
 $doc_url="type.html#attr_add";
 $support_email_question="添加商品分类属性";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -76,7 +77,7 @@ if (isset($_GET['product_type_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_product_type);
-$product_type = mysql_query($query_product_type, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+$product_type = mysql_query($query_product_type, $localhost) ;if(!$product_type){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_product_type = mysql_fetch_assoc($product_type);
 $totalRows_product_type = mysql_num_rows($product_type);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -170,6 +171,3 @@ $().ready(function(){
 });</script>
 </body>
 </html>
-<?php
-mysql_free_result($product_type);
-?>

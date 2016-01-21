@@ -19,6 +19,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="type.html#attr_list";
 $support_email_question="查看商品分类属性列表";
+log_admin($support_email_question);
 $maxRows_attr = 50;
 $pageNum_attr = 0;
 if (isset($_GET['pageNum_attr'])) {
@@ -73,7 +74,7 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
   <tr>
     <td class="phpshop123_title">商品分类属性列表</td>
     <td><div align="right">
-      <a href="add.php"><input style="float:right;" type="submit" name="Submit2" value="添加属性" /></a>
+      <a href="add.php?product_type_id=<?php echo $colname_attr;?>"><input style="float:right;" type="submit" name="Submit2" value="添加属性" /></a>
     </div></td>
   </tr>
 </table>

@@ -19,6 +19,7 @@
 <?php
 $doc_url="ad.html#udpate";
 $support_email_question="更新广告";
+ log_admin("更新广告");
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

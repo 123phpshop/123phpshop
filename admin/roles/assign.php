@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#assign";
-$support_email_question="为角色分配权限";
+$support_email_question="为角色分配权限";log_admin($support_email_question);
 $colname_role = "-1";
 $privileges_id_array=array();
 

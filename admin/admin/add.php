@@ -19,6 +19,7 @@
 <?php
 $doc_url="admin.html#add";
 $support_email_question="添加管理员";
+log_admin("添加管理员");
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

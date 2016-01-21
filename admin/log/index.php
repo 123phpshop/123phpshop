@@ -1,8 +1,10 @@
 <?php
-
+ require_once('../../Connections/localhost.php');
 global $global_file_list_array;
 $add_privielges_exception="";
-
+$doc_url="log.html";
+$support_email_question="查看日志文件";
+log_admin($support_email_question);
 function log_file_list_select($path)  
 {  
 	if ($handle = opendir($path))//打开路径成功  

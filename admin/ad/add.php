@@ -52,7 +52,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  
   // @todo 验证参数	
- 
+ log_admin("添加广告");
 
   $insertSQL = sprintf("INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['image_width'], "int"),

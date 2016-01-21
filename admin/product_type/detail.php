@@ -19,7 +19,7 @@
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
 $doc_url="type.html#detail";
-$support_email_question="查看产品类型详细";
+$support_email_question="查看商品类型详细";log_admin($support_email_question);
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];
 }

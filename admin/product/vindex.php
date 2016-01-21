@@ -17,7 +17,7 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); 
 $doc_url="product.html#vlist";
-$support_email_question="查看虚拟产品列表";
+$support_email_question="查看虚拟商品列表";log_admin($support_email_question);
 $currentPage = $_SERVER["PHP_SELF"];
 $where="";
 $maxRows_products = 50;

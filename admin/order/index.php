@@ -20,7 +20,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="order.html#list";
 $support_email_question="查看订单列表";
-
+log_admin($support_email_question);
 
 // 处理批量操作
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
@@ -78,36 +78,32 @@ $queryString_orders = sprintf("&totalRows_orders=%d%s", $totalRows_orders, $quer
 
 function _get_order_where($get){
 	
-	 
-	 
-	$where_string='';
+ 	$where_string='';
 	
 	if(isset($get['sn']) && trim($get['sn'])!=''){
-  		$where_string.=" and  sn='".$get['sn']."'";
+  		$where_string.=" and  sn='".trim($get['sn'])."'";
 	}
 	
 	if(isset($get['status']) && trim($get['status'])!=''){
-  		
-		$where_string.=" and order_status='".$get['status']."'";
+ 		$where_string.=" and order_status='".trim($get['status'])."'";
 	}
 	
 	if( isset($get['delivery_from']) && trim($get['delivery_from'])!='' && isset($get['delivery_end']) && trim($get['delivery_end'])!=''){
   		
-		$where_string.=" and delivery_at between '".$get['delivery_from']. "' and '" .$get['delivery_end'] ."  23:59:59'";
+		$where_string.=" and delivery_at between '".trim($get['delivery_from']). "' and '" .trim($get['delivery_end']) ."  23:59:59'";
 	}
 	
 	if(isset($get['pay_from']) && trim($get['pay_from'])!='' && isset($get['pay_end']) && trim($get['pay_end'])!=''){
 		 
-		$where_string.=" and  pay_at between '".$get['pay_from']. "' and '" .$get['pay_end']."  23:59:59'" ;
+		$where_string.=" and  pay_at between '".trim($get['pay_from']). "' and '" .trim($get['pay_end'])."  23:59:59'" ;
 	
 	}
 	
 	if(isset($get['create_from']) && trim($get['create_from'])!='' && isset($get['create_from']) && trim($get['create_end'])!=''){
  		
-		$where_string.=" and create_time between '".$get['create_from']. "' and '" .$get['create_end']."  23:59:59'" ;
+		$where_string.=" and create_time between '".trim($get['create_from']). "' and '" .trim($get['create_end'])."  23:59:59'" ;
 	}
-	
-	 
+ 	 
 	return $where_string;
 }
 

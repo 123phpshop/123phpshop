@@ -19,6 +19,7 @@
 <?php
 $doc_url="order.html#return";
 $support_email_question="查看退货订单";
+log_admin($support_email_question);
 $could_delete=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {

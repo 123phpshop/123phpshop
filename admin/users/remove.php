@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="user.html#delete";
-$support_email_question="删除用户";
+$support_email_question="删除用户";log_admin($support_email_question);
 $colname_user = "-1";
 $remove_succeed_url="index.php";
 $could_delete=1;

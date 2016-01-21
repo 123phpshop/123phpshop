@@ -17,7 +17,7 @@
  */
  ?><?php require_once('../../Connections/localhost.php');
 $doc_url="product.html#search";
-$support_email_question="搜索商品"; 
+$support_email_question="搜索商品"; log_admin($support_email_question);
 
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
@@ -128,13 +128,14 @@ function _get_product_where($get){
 	$_should_and=1;	
 	$where_string='';
 	
+	
 	if(isset($get['name']) && trim($get['name'])!=''){
 		 
 		if($_should_and==1){
 			$where_string.=" and ";
 		}
 			
-		$where_string.=" name like'%".$get['name']."%'";
+		$where_string.=" name like'%".trim($get['name'])."%'";
 	}
 	
 	if(isset($get['is_on_sheft']) && trim($get['is_on_sheft'])!=''){
@@ -143,7 +144,7 @@ function _get_product_where($get){
 			$where_string.=" and ";
 		}
 		
-		$where_string.=" is_on_sheft='".$get['is_on_sheft']."'";
+		$where_string.=" is_on_sheft='".trim($get['is_on_sheft'])."'";
 	}
 	
 	if(isset($get['is_hot']) && trim($get['is_hot'])!=''){
@@ -152,7 +153,7 @@ function _get_product_where($get){
 			$where_string.=" and ";
 		}
 		
-		$where_string.=" is_hot='".$get['is_hot']."'";
+		$where_string.=" is_hot='".trim($get['is_hot'])."'";
 	}
 	
 	if(isset($get['is_recommanded']) && trim($get['is_recommanded'])!=''){
@@ -161,7 +162,7 @@ function _get_product_where($get){
 			$where_string.=" and ";
 		}
 		
-		$where_string.=" is_recommanded='".$get['is_recommanded']."'";
+		$where_string.=" is_recommanded='".trim($get['is_recommanded'])."'";
 	}
 	
 	
@@ -171,7 +172,7 @@ function _get_product_where($get){
 			$where_string.=" and ";
 		}
 		
-		$where_string.=" on_sheft_time between '".$get['on_sheft_from']. "' and '" .$get['on_sheft_end'] ."  23:59:59'";
+		$where_string.=" on_sheft_time between '".trim($get['on_sheft_from']). "' and '" .trim($get['on_sheft_end']) ."  23:59:59'";
 	}
 	
  	
@@ -182,11 +183,9 @@ function _get_product_where($get){
 			$where_string.=" and ";
 		}
 		
-		$where_string.=" price between '".$get['price_from']. "' and '" .$get['price_end']."'" ;
+		$where_string.=" price between '".trim($get['price_from']). "' and '" .trim($get['price_end'])."'" ;
 	}
-	
-	 
-	return $where_string;
+ 	return $where_string;
 }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

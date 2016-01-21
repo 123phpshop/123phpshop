@@ -15,10 +15,12 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
+ ?><?php 
+ob_start();
+require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="product.html#udpate";
-$support_email_question="编辑商品";
+$support_email_question="编辑商品";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -54,7 +56,11 @@ $product = mysql_query($query_product, $localhost) ;
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
-
+if($totalRows_product==0){
+	// 如果没有相应的商品，那么跳转到商品列表页面
+ 	header ( "Location: " . "index.php" );
+	return;
+}
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) ;
@@ -77,6 +83,39 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "update_order")) {
  	 
+	 // 这里对字段进行验证
+ 	$validation->set_rules ( 'consumption_pointers', '消费积分', 'trim|required|integer' );
+	$validation->set_rules ( 'user_level_pointers', '用户等级积分', 'trim|required|integer' );
+	$validation->set_rules ( 'catalog_id', '分类', 'trim|required|is_natural' );
+	$validation->set_rules ( 'is_promotion', '是否是促销', 'trim|required|is_natural|exact_length[1]' );
+	$validation->set_rules ( 'promotion_price', '促销价格', 'trim|is_float' );
+	$validation->set_rules ( 'promotion_start', '促销起始日期', 'trim|is_natural_no_zero' );
+	$validation->set_rules ( 'promotion_end', '促销结束日期', 'trim|is_natural' );
+ 	$validation->set_rules ( 'is_shipping_free', '运费免费', 'trim|is_natural' );
+	$validation->set_rules ( 'meta_keywords', 'meta关键词', 'trim' );
+	$validation->set_rules ( 'meta_desc', 'meta描述', 'trim' );
+	$validation->set_rules ( 'description', '描述', 'trim|required' );
+	$validation->set_rules ( 'unit', '单位', 'trim|required' );
+	$validation->set_rules ( 'weight', '重量', 'trim|required|is_natural' );
+	$validation->set_rules ( 'is_virtual', '是否为虚拟', 'trim|required|is_natural' );
+	$validation->set_rules ( 'name', '商品名称', 'trim|required' );
+	$validation->set_rules ( 'ad_text', '广告text', 'trim|required' );
+	$validation->set_rules ( 'price', '价格', 'trim|required|is_float' );
+	$validation->set_rules ( 'market_price', '市场价格', 'trim|required|is_float' );
+	$validation->set_rules ( 'is_on_sheft', '是否上架', 'trim|required|is_natural' );
+	$validation->set_rules ( 'is_hot', '是否为热销商品', 'trim|required|is_natural' );
+	$validation->set_rules ( 'is_season', '是否为当季商品', 'trim|required|is_natural' );
+	$validation->set_rules ( 'is_recommanded', '是否为推荐商品', 'trim|required|is_natural' );
+ 	$validation->set_rules ( 'store_num', '库存', 'trim|required|is_natural' );
+ 	$validation->set_rules ( 'intro', '简介', 'trim|required' );
+ 	$validation->set_rules ( 'brand_id', '品牌', 'trim|required|is_natural' );
+ 	$validation->set_rules ( 'id', '商品id', 'trim|required|is_natural' );
+ 
+ 	if (! $validation->run ()) {
+ 		$error = $validation->error_string ( '', '</br>' );
+		$logger->fatal("用户在添加商品的时候未通过验证：".$error);
+ 	}else{
+	
 	
 	$on_sheft_time='';
 	if($_POST['is_on_sheft']=='1' && $row_product['on_sheft_time']==null){
@@ -88,8 +127,10 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	}
 
 //	如果需要上架的话
- $updateSQL = sprintf("UPDATE product SET catalog_id=%s,is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
-				 GetSQLValueString($_POST['catalog_id'], "int"),
+ $updateSQL = sprintf("UPDATE product SET consumption_pointers=%s,user_level_pointers=%s,catalog_id=%s,is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s",
+  						GetSQLValueString($_POST['consumption_pointers'], "int"),
+   						GetSQLValueString($_POST['user_level_pointers'], "int"),
+				 		GetSQLValueString($_POST['catalog_id'], "int"),
 						GetSQLValueString($_POST['is_promotion'], "text"),
 						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
@@ -118,9 +159,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) ;
-  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-  $updateGoTo = "../product/index.php";
-  header(sprintf("Location: %s", $updateGoTo));
+  // 如果数据库操作失败的话
+  if(!$Result1){
+	  $error="商品更新的数据库操作失败，请联系123phpshop寻求解决方案";
+	  $logger->fatal("数据库操作失败:".$updateSQL);
+  }else{
+	  $updateGoTo = "../product/index.php";
+	  header(sprintf("Location: %s", $updateGoTo));
+	  return;
+  }
+}
 }
 ?>
 
@@ -138,10 +186,11 @@ if (isset($_SERVER['QUERY_STRING'])) {
   <span class="phpshop123_title">编辑商品信息</span>
   <div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
-	
-	<form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
+	<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); ?>
+
+<form method="post" name="form1"  id="form1"  enctype="multipart/form-data" action="<?php echo $editFormAction; ?>">
 <input type="hidden" name="form_op" value="update_order">
-  <input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
+<input type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
   
    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">

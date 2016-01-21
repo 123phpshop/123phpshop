@@ -22,6 +22,7 @@ $maxRows_brands = 20;
 $pageNum_brands = 0;
 $doc_url="brand.html#list";
 $support_email_question="查看品牌列表";
+log_admin($support_email_question);
 if (isset($_GET['pageNum_brands'])) {
   $pageNum_brands = $_GET['pageNum_brands'];
 }

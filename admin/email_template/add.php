@@ -43,6 +43,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 $doc_url="email_template.html#add";
 $support_email_question="添加邮件模板";
+log_admin($support_email_question);
 $error="";
 
 $editFormAction = $_SERVER['PHP_SELF'];

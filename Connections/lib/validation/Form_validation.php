@@ -40,6 +40,7 @@ class Form_validation {
 	 $this->lang['decimal']			= "%s只能是10进制数字.";
 	 $this->lang['less_than']			= "%s只能是小于 %s的数字.";
 	 $this->lang['greater_than']		= "%s只能是大于%s的数字.";
+	 $this->lang['is_chinese']		 = "%s是中文哦.";
 	}
 
 	// --------------------------------------------------------------------
@@ -1344,6 +1345,15 @@ class Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
+	
+	public function is_chinese($str){
+		
+		if(!eregi("[^\x80-\xff]","$str"))
+		{
+			return true;
+		}
+			return false;
+ 	}
 
 }
 // END Form Validation Class

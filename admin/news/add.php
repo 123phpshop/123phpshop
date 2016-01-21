@@ -19,6 +19,7 @@
 <?php
 $doc_url="news_catalog.html#news_add";
 $support_email_question="添加文章";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

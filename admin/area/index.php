@@ -19,6 +19,7 @@
 <?php
 $doc_url="areas.html";
 $support_email_question="查看区域列表";
+log_admin($support_email_question);
 $colname_areas = "0";
 if (isset($_GET['pid'])) {
   $colname_areas = (get_magic_quotes_gpc()) ? $_GET['pid'] : addslashes($_GET['pid']);

@@ -25,7 +25,7 @@ $row_themes = mysql_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 
 $doc_url="template.html#list";
-$support_email_question="模板列表";
+$support_email_question="模板列表";log_admin($support_email_question);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

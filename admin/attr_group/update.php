@@ -18,6 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); 
 $doc_url="type.html#attr_update";
 $support_email_question="编辑商品分类属性";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

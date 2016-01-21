@@ -19,7 +19,7 @@
 require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="promotion.html#add";
-$support_email_question="添加促销活动";
+$support_email_question="添加促销活动";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

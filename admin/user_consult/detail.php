@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $maxRows_DetailRS1 = 50;
 $doc_url="consult.html#replay";
-$support_email_question="查看用户咨询详情";
+$support_email_question="查看用户咨询详情";log_admin($support_email_question);
 $pageNum_DetailRS1 = 0;
 if (isset($_GET['pageNum_DetailRS1'])) {
   $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];

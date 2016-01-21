@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#add";
-$support_email_question="添加角色";
+$support_email_question="添加角色";log_admin($support_email_question);
 $colname_getByName = "-1";
 if (isset($_POST['name'])) {
   $colname_getByName = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);

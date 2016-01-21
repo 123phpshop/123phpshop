@@ -19,6 +19,7 @@
 <?php
 $doc_url="logistics.html#list";
 $support_email_question="查看快递公司列表";
+log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_expresses = "SELECT * FROM express_company";
 $expresses = mysql_query($query_expresses, $localhost) ;

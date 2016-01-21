@@ -18,7 +18,7 @@
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="role.html#delete";
-$support_email_question="删除角色";
+$support_email_question="删除角色";log_admin($support_email_question);
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

@@ -24,6 +24,7 @@ $privielges_exceptions="";
 $privielges_biz_rule="";
 $doc_url="privilege.html#update";
 $support_email_question="编辑权限";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

@@ -19,7 +19,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="theme.html#activate";
-$support_email_question="激活模板";
+$support_email_question="激活模板";log_admin($support_email_question);
 $could_delete=1;
 $colname_order = "-1";
 if (isset($_GET['id'])) {

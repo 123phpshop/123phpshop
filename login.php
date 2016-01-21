@@ -58,7 +58,7 @@ try {
 		mysql_select_db ( $database_localhost, $localhost );
 		
 		// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
-		if (! isset ( $_POST ['captcha'] ) or $_POST ['captcha'] != $_SESSION ['captcha']) {
+		if (! isset ( $_POST ['captcha'] ) or strtolower($_POST ['captcha']) != $_SESSION ['captcha']) {
 			throw new Exception ( "验证码错误，请重新输入" );
 		}
 		

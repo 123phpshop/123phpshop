@@ -19,6 +19,7 @@
 <?php
 $doc_url="mail.html#send_when";
 $support_email_question="设置邮件发送时间";
+log_admin($support_email_question);
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

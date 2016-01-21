@@ -20,6 +20,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="privilege.html#list";
 $support_email_question="查看权限列表";
+log_admin($support_email_question);
 $maxRows_getPrivileges = 50;
 $pageNum_getPrivileges = 0;
 if (isset($_GET['pageNum_getPrivileges'])) {

@@ -21,7 +21,7 @@ $doc_url="ad.html#delete";
 $support_email_question="删除广告";
 $could_delete=1;
 $colname_news = "-1";
-
+ log_admin("删除广告");
 if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }

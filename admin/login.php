@@ -47,7 +47,7 @@ if (isset ( $_POST ['username'] )) {
 	$MM_redirecttoReferrer = true;
 	
 	// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
-	if ($_POST ['captcha'] != $_SESSION ['captcha']) {
+	if (strtolower($_POST ['captcha']) != $_SESSION ['captcha']) {
 		header ( "Location: " . "login.php?error=验证码输入错误，请重新输入" );
 		return;
 	}
@@ -187,9 +187,8 @@ table {
 						</tr>
 						<tr>
 							<td align="right" valign="bottom">&nbsp;</td>
-							<td height="76" align="right" valign="bottom"><input
-								style="margin: 15px; width: 70px; height: 35px; background-color: #1e91cf; border: #1978ab; color: #FFFFFF;"
-								type="submit" name="Submit" value="登录" />&nbsp;</td>
+							<td height="76" align="right" valign="bottom">
+							<input style="margin: 15px; width: 70px; height: 35px; background-color: #1e91cf; border: #1978ab; color: #FFFFFF;" type="submit" name="Submit" value="登录" />&nbsp;</td>
 						</tr>
 					</table>
 				</td>

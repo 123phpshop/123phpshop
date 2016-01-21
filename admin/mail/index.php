@@ -19,6 +19,7 @@
 <?php
 $doc_url="mail.html";
 $support_email_question="设置邮件服务器";
+log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

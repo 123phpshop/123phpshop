@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="user.html#list";
-$support_email_question="查看用户列表";
+$support_email_question="查看用户列表";log_admin($support_email_question);
 $currentPage = $_SERVER["PHP_SELF"];
 
 // 处理批量操作

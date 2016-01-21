@@ -20,6 +20,7 @@
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="admin.html#list";
 $support_email_question="查看管理员列表";
+log_admin($support_email_question);
 $maxRows_admins = 10;
 $pageNum_admins = 0;
 if (isset($_GET['pageNum_admins'])) {

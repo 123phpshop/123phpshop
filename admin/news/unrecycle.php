@@ -19,6 +19,7 @@
 <?php
 $doc_url="news.html#recover";
 $support_email_question="恢复文章";
+log_admin($support_email_question);
 $could_delete=1;
 $colname_product = "-1";
 if (isset($_GET['id'])) {

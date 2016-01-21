@@ -17,7 +17,7 @@
  */
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); 
 $doc_url="product.html#add";
-$support_email_question="添加商品";
+$support_email_question="添加商品";log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysql_query($query_brands, $localhost) ;
@@ -144,8 +144,8 @@ $totalRows_product_types = mysql_num_rows($product_types);
 <span class="phpshop123_title" style="display:inline;">添加商品</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 </div>
 <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="商品列表" /></a>
+<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); ?>
 <form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-
   <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="border:none;background:none;">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist" style="border:none;background:none;">
 		<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true" style="background-color:#000000;"><a href="#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-8">一般信息</a></li>

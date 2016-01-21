@@ -18,7 +18,7 @@
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 $doc_url="product.html#import";
-$support_email_question="导入产品";
+$support_email_question="导入产品";log_admin($support_email_question);
 $error="";
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 

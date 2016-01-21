@@ -17,6 +17,7 @@
  */
  ?><?php require_once('../Connections/localhost.php'); ?>
 <?php
+log_admin("查看控制面板");
 $doc_url="dash.html";
 $support_email_question="查看控制面板";
 mysql_select_db($database_localhost, $localhost);

@@ -19,7 +19,7 @@
 <?php
 $doc_url="comment.html#list";
 $support_email_question="查看评论列表";
-
+log_admin($support_email_question);
 // 处理批量操作
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['comments_id'])>0 && $_POST['op_id']=="100"){	

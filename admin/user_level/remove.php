@@ -10,6 +10,10 @@ $item = mysql_query($query_item, $localhost) ;
 if(!$item){$logger->fatal("数据库操作失败:".$query_item);}
 $row_item = mysql_fetch_assoc($item);
 $totalRows_item = mysql_num_rows($item);
+
+$doc_url="user_level.html#remove";
+$support_email_question="删除用户等级";log_admin($support_email_question);
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

@@ -19,7 +19,7 @@
 <?php
 $doc_url="order.html#recycled";
 $support_email_question="查看订单回收站";
-
+log_admin($support_email_question);
 // 处理批量操作
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 

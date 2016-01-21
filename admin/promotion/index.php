@@ -19,7 +19,7 @@
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
 $doc_url="promotion.html#list";
-$support_email_question="查看促销活动列表";
+$support_email_question="查看促销活动列表";log_admin($support_email_question);
 $maxRows_promotions = 15;
 $pageNum_promotions = 0;
 if (isset($_GET['pageNum_promotions'])) {

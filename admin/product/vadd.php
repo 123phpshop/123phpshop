@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); 
 
 $doc_url="product.html#vadd";
-$support_email_question="添加虚拟产品";
+$support_email_question="添加虚拟商品";log_admin($support_email_question);
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;

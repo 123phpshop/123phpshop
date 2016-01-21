@@ -127,11 +127,31 @@ function echo_post($para) {
 		echo '';
 		return;
 	}
-	if ( ! isset ( $para ) || empty ( $para ) || ! array_key_exists ( $key, $para )) {
+	if ( ! isset ( $para ) || empty ( $para ) || ! array_key_exists ( $para, $_POST )) {
 		echo '';
 		return;
 	}
 	
-	echo $para;
+	echo $_POST[$para];
 }
+
+function include_error(){
+ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); 
+}
+
+
+function log_admin($message){
+	
+	// 初始化变量
+	global $db_conn;
+	global $db_database_localhost;
+ 
+	// 检查是否允许代表这个code的邮件模板可以发送
+	mysql_select_db ( $db_database_localhost, $db_conn );
+ 	$query_email_template = "insert into admin_op(message,admin_id)values('".$message."','".$_SESSION['admin_username']."') ";
+	$email_template = mysql_query ( $query_email_template, $db_conn ) or die ( mysql_error () );
+ 	if (!$email_template) {
+		return false;
+	}
+ }
 ?>
