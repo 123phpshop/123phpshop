@@ -96,7 +96,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	$validation->set_rules ( 'meta_desc', 'meta描述', 'trim' );
 	$validation->set_rules ( 'description', '描述', 'trim|required' );
 	$validation->set_rules ( 'unit', '单位', 'trim|required' );
-	$validation->set_rules ( 'weight', '重量', 'trim|required|is_natural' );
+	$validation->set_rules ( 'weight', '重量', 'trim|required|is_float' );
 	$validation->set_rules ( 'is_virtual', '是否为虚拟', 'trim|required|is_natural' );
 	$validation->set_rules ( 'name', '商品名称', 'trim|required' );
 	$validation->set_rules ( 'ad_text', '广告text', 'trim|required' );
