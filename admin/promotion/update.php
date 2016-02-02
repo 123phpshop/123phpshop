@@ -15,7 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+ ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -109,14 +109,14 @@ $totalRows_promotion = mysql_num_rows($promotion);
       <td nowrap align="right">促销范围:</td>
       <td> 
         <select name="promotion_limit"  id="promotion_limit" onchange="show_limit_filter()">
-		 <?php foreach($const_promotion_limit as $key=>$value){ ?>
+		<?php foreach($const_promotion_limit as $key=>$value){ ?>
 		<option value="<?php echo $key;?>" <?php if (!(strcmp($key, $row_promotion['promotion_limit']))) {echo "selected=\"selected\"";} ?>><?php echo $value;?></option>
-       	<?php } ?>
-           <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php } ?>"  id="name_filter"  oninput="do_filter()"/>         
- 		  </td>
+       	<?php } ?> <input name="name_filter" style="margin-left:7px;<?php if($row_promotion['promotion_limit']==1){?>display:none;<?php }?>"  id="name_filter"  oninput="do_filter()"/> 
+		    </td>
          </td>
     </tr>
-     <tr valign="baseline" id="filter_results_row" <?php if($row_promotion['promotion_limit']==1){ ?>style="display:none;"<?php } ?>>
+     
+	 <tr valign="baseline" id="filter_results_row" <?php if($row_promotion['promotion_limit']==1){ ?> style="display:none;" <?php } ?>>
       <td nowrap align="right">参与对象：</td>
       <td id="filter_results_td"><?php
 	  if($row_promotion['promotion_limit']>1){ 
@@ -135,8 +135,21 @@ $totalRows_promotion = mysql_num_rows($promotion);
 		  include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/".$widget_file);
 	  }
 	  ?></td>
+     </tr>
+	  <tr valign="baseline">
+      <td nowrap align="right">可参与用户:</td>
+      <td><label>
+        <select name="user_group_id" id="user_group_id" onchange="show_user_group()">
+          <option value="100" <?php if($row_promotion['user_group']==100){?>selected<?php } ?>>注册用户</option>
+          <option value="200" <?php if($row_promotion['user_group']==200){?>selected<?php } ?>>指定用户组</option>
+        </select>
+      </label></td>
     </tr>
-       <tr valign="baseline"> 
+  	<tr valign="baseline" <?php if($row_promotion['user_group']==100){ ?>style="display:none;"<?php } ?> id="user_level_tr">
+      <td nowrap align="right">用户组：</td>
+      <td id="user_level_td"><?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/promotion/_usergroups.php");?></td>
+    </tr>
+     <tr valign="baseline"> 
       <td align="right">促销类型:</td> 
       <td>满 <input name="amount_lower_limit" maxlength="10" id="amount_lower_limit"  type="text" value="<?php echo (int)$row_promotion['amount_lower_limit'];?>"/> 元 <select name="promotion_type"  id="promotion_type" onchange="promotion_type_filter()">
 	  	<?php foreach($const_promotion_types as $key=>$value){ ?>

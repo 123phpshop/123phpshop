@@ -51,8 +51,10 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-	 
-  $insertSQL = sprintf("INSERT INTO promotion (amount_lower_limit,name, start_date, end_date, promotion_limit, promotion_limit_value,promotion_type, present_products,promotion_type_val) VALUES (%s,%s, %s, %s,%s, %s, %s, %s, %s)",
+try{
+   $insertSQL = sprintf("INSERT INTO promotion (user_group_id,user_group_value,amount_lower_limit,name, start_date, end_date, promotion_limit, promotion_limit_value,promotion_type, present_products,promotion_type_val) VALUES (%s,%s,%s,%s,%s, %s, %s,%s, %s, %s, %s, %s)",
+   						GetSQLValueString($_POST['user_group_id'], "int"),
+  					   GetSQLValueString(implode(",",$_POST['user_group_value']), "text"),
   					   GetSQLValueString($_POST['amount_lower_limit'], "double"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
@@ -62,12 +64,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['promotion_type'], "int"),
                        GetSQLValueString(implode(",",$_POST['present_products']), "text"),
 					   GetSQLValueString($_POST['promotion_type_val'], "int"));
-
+	 
 	mysql_select_db($database_localhost, $localhost);
 	$Result1 = mysql_query($insertSQL, $localhost) ;
 	if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 	$insertGoTo = "index.php";
 	header(sprintf("Location: %s", $insertGoTo));
+	}catch(Exception $ex){
+		$logger->fatal($ex->getMessage());
+	}
 }
 
 ?>
@@ -100,6 +105,20 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td><input name="end_date" type="text" id="end_date" value="" size="32" maxlength="11"></td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right">可参与的用户:</td>
+      <td><label>
+        <select name="user_group_id" id="user_group_id" onchange="show_user_group()">
+          <option value="100">注册用户</option>
+          <option value="200">指定用户组</option>
+        </select>
+      </label></td>
+    </tr>
+   <tr valign="baseline" style="display:none;" id="user_level_tr">
+      <td nowrap align="right">用户组：</td>
+      <td id="user_level_td">&nbsp;</td>
+    </tr>
+	
+    <tr valign="baseline">
       <td nowrap align="right">促销范围:</td>
       <td><select name="promotion_limit" id="promotion_limit" onchange="show_limit_filter()">
         <?php foreach($const_promotion_limit as $key=>$value){ ?>
@@ -117,8 +136,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       <td>满
         <label>
         <input name="amount_lower_limit" type="text" id="amount_lower_limit" size="10" maxlength="10" />
-        元
-        </label>
+        元        </label>
         <select name="promotion_type" id="promotion_type" onchange="promotion_type_filter()">
         <?php foreach($const_promotion_types as $key=>$value){ ?>
 			<option value="<?php echo $key;?>"><?php echo $value;?></option>
@@ -126,8 +144,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       </select>
         <span id="free_shipping_bugy_label" style="display:none;color:red;">[ 点击购买此功能]</span>
         <input name="promotion_type_val" type="text" id="promotion_type_val" maxlength="32" style="display:none;"/>
-         [如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入折扣的百分比例如：7折，就输入70%]
-      </td>
+         [如果是满减的话，请输入满减的金额例如：12.58；如果是满折的话，请输入折扣的百分比例如：7折，就输入70%]      </td>
     </tr>
     <tr valign="baseline" id="presents_tr">
       <td nowrap align="right">赠送产品:</td>
@@ -248,6 +265,17 @@ $().ready(function(){
             }
         } 
     });
-});</script>
+});
+
+var show_user_group=function(){
+ 	var user_group_id=$("#user_group_id").val();
+	console.log(user_group_id);
+ 	if(user_group_id==200){
+		$("#user_level_tr").show();
+		$("#user_level_td").load("/admin/widgets/promotion/_usergroups.php");
+		return;
+	}
+}
+</script>
 </body>
 </html>

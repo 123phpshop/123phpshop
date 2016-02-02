@@ -939,7 +939,7 @@ class Cart {
 	}
 	
 	/**
-	 * 删除这个产品
+	 * 删除这个商品
 	 *
 	 * @param unknown_type $product        	
 	 */

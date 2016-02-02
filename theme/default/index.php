@@ -29,7 +29,8 @@
 	<?php include_once($template_path.'widget/index_news_tab.php'); ?>
   </tr>
 </table>
-<?php include_once($template_path.'widget/index_catalog_floor.php'); ?> 
+<?php
+  include_once($template_path.'widget/index_catalog_floor.php'); ?> 
 <?php include_once($template_path.'widget/footer.php'); ?>
  </body>
 </html>

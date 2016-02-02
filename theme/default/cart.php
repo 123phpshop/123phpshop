@@ -106,7 +106,7 @@ if (empty ( $cart_products )) {
 			</tr>
 		</table>
 		<table width="990" border="0" align="center" cellpadding="0"
-			cellspacing="0" bordercolor="#666">
+			cellspacing="0" bordercolor="#666666">
 			<tr>
 				<td width="133" height="43" bgcolor="#f3f3f3" scope="col">&nbsp;</td>
 				<td width="340" bgcolor="#f3f3f3" scope="col"><div align="center">
@@ -128,8 +128,8 @@ if (empty ( $cart_products )) {
 					class="STYLE1">操作</span></td>
 			</tr>
 		</table>
-		<table style="font-size: 12px;" width="990" border="1" align="center"
-			cellpadding="0" cellspacing="0" bordercolor="#fff4e8">
+		<table style="font-size: 12px;" width="990" style="border:none" align="center"
+			cellpadding="0" cellspacing="0">
     <?php
 	foreach ( $cart_products as $cart_products_item ) {
 		if (isset ( $cart_products_item ['product_id'] )) {
@@ -266,8 +266,8 @@ if (empty ( $cart_products )) {
 	}
 	?>
   </table>
-		<table width="990" height="50" border="1" align="center"
-			cellpadding="0" cellspacing="0" bordercolor="#dddddd">
+		<table width="990" height="50" style="border:1px solid #dddddd" align="center"
+			cellpadding="0" cellspacing="0">
 			<tr>
 				<td>
 					<table border="0" align="right">

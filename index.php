@@ -16,7 +16,10 @@
  *  邮箱:	service@123phpshop.com
  */
  ?>
-<?php require_once('Connections/localhost.php'); ?>
+<?php 
+require_once('Connections/localhost.php');
+$logger->debug("index connection loadded");
+?>
 <?php 
  
 // ** Logout the current user. **

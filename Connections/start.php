@@ -16,7 +16,8 @@
  *  邮箱:	service@123phpshop.com
  */
  ?>
-<?php
+<?php 
+
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";

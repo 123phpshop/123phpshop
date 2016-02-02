@@ -17,14 +17,14 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
-$doc_url="news.html#recycled";
-$support_email_question="查看edm杂志回收站";
+$doc_url="edm_news.html#recycled";
+$support_email_question="查看杂志回收站";
 log_admin($support_email_question);
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['news_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
-			$sql="update `news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
+			$sql="update `edm_news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
 			$Result1=mysql_query($sql, $localhost) ;
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
@@ -40,7 +40,7 @@ if (isset($_GET['pageNum_news'])) {
 $startRow_news = $pageNum_news * $maxRows_news;
 
 mysql_select_db($database_localhost, $localhost);
-$query_news = "SELECT * FROM news WHERE is_delete = 1";
+$query_news = "SELECT * FROM edm_news WHERE is_delete = 1";
 $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
 $news = mysql_query($query_limit_news, $localhost) ;
 if(!$news){$logger->fatal("数据库操作失败:".$query_limit_news);}
@@ -62,7 +62,8 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 </head>
 
 <body>
-<span class="phpshop123_title">文章回收站</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<span class="phpshop123_title">杂志回收站</span>
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
   <a href="../拷贝于 news/index.php"><input style="float:right;" type="submit" name="Submit2" value="文章列表" />
   </a>
 

@@ -80,4 +80,7 @@ $global_phpshop123_email_send_time[100]="订单支付完成";
 $global_phpshop123_email_send_time[200]="订单创建";
 $global_phpshop123_email_send_time[300]="订单撤销";
 $global_phpshop123_email_send_time_array=array(100,200,300);
+
+$global_edm_status[100]="正在排队中";
+$global_edm_status[200]="已发送";
 ?>

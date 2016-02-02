@@ -67,7 +67,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 </head>
 
 <body>
-<p class="phpshop123_title">添加用户等级 </p>
+<span class="phpshop123_title">添加用户等级 </span>
+ <a href="index.php">
+  <input style="float:right;" type="submit" name="Submit2" value="等级列表" />
+</a>
+</p>
 <?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); ?>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table align="center" class="phpshop123_form_box">

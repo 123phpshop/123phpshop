@@ -20,7 +20,11 @@ $support_email_question="查看用户等级列表";log_admin($support_email_ques
 </head>
 
 <body>
-<p class="phpshop123_title">用户等级 </p>
+<span class="phpshop123_title">用户等级 </span>
+<a href="add.php">
+  <input style="float:right;" type="submit" name="Submit2" value="添加用户等级" />
+</a>
+</p>
 <?php if ($totalRows_leveles > 0) { // Show if recordset not empty ?>
   <table width="100%" border="0" class="phpshop123_list_box">
     <tr>
@@ -32,7 +36,7 @@ $support_email_question="查看用户等级列表";log_admin($support_email_ques
       <tr>
         <td scope="col"><a href="edit.php?id=<?php echo $row_leveles['id']; ?>"><?php echo $row_leveles['name']; ?></a></td>
         <td scope="col"><?php echo $row_leveles['min_consumption_amount']; ?></td>
-        <td scope="col"><a href="remove.php?id=<?php echo $row_leveles['id']; ?>">删除</a> <a href="edit.php?id=<?php echo $row_leveles['id']; ?>">更新</a></td>
+        <td scope="col"><a href="remove.php?id=<?php echo $row_leveles['id']; ?>" onclick="return confirm('您确认要删除这条记录吗？')">删除</a> <a href="edit.php?id=<?php echo $row_leveles['id']; ?>">更新</a></td>
       </tr>
       <?php } while ($row_leveles = mysql_fetch_assoc($leveles)); ?>
   </table>

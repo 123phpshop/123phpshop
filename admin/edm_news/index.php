@@ -130,7 +130,7 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
         </label></td>
         <td><a href="update.php?id=<?php echo $row_news['id']; ?>"><?php echo $row_news['title']; ?></a></td>
         <td><div align="center"><?php echo $row_news['is_published']==1?"√":""; ?></div></td>
-        <td><div align="center"><a onClick="return confirm('您确定要删除这条记录吗？')" href="../拷贝于 news/remove.php?id=<?php echo $row_news['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_news['id']; ?>">更新</a></div></td>
+        <td><div align="center"><a onClick="return confirm('您确定要删除这条记录吗？')" href="../拷贝于 news/remove.php?id=<?php echo $row_news['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_news['id']; ?>">更新</a> <a href="javascript://" onclick="send_to_edm_list(<?php echo $row_news['id']; ?>)">群发</a></div></td>
       </tr>
       <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
   </table>
@@ -175,6 +175,18 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
 		$(".item_checkbox").removeAttr("checked");
    }
    
+   function send_to_edm_list(magazine_id){
+   		if(!confirm("您确认要群发这篇文章么？")){
+			return;
+		}
+		var url="ajax_send.php";
+   		$.post(url,{magazine_id:magazine_id},function(data){
+				if(data.code=="0"){
+					alert("恭喜，创建邮件列队成功！");return;
+				}
+ 				alert(data.message);return;
+		},'json');
+   }
 	</script>
 </body>
 </html>
