@@ -148,8 +148,8 @@ a{
 <div id="new_version_indicator" style="display:none;">123phpshop出新版本啦！新的版本号是：。各位亲，点击这里下载，点击这里查看详细介绍</div>
 <table width="100%" height="148" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td><div align="left">
-      <table width="385" height="148" border="0" cellpadding="0" cellspacing="0">
+    <td align="center"><div align="center">
+      <table width="98%" height="148" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td height="28" bgcolor="#1E91CF"><span class="STYLE2" style="font-size:12px;color:white;padding-left:8px;">订单总数</span></td>
           </tr>
@@ -161,7 +161,7 @@ a{
           </tr>
         </table>
     </div></td>
-    <td><table width="385" height="148" border="0" cellpadding="0" cellspacing="0">
+    <td align="center"><table width="98%" height="148" border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td height="28" bgcolor="#1E91CF"><span class="STYLE2" style="font-size:12px;color:white;padding-left:8px;">用户总数</span></td>
       </tr>
@@ -172,8 +172,8 @@ a{
         <td height="28" bgcolor="#3DA9E3"><span class="STYLE2" style="font-size:12px;color:white;padding-left:8px;"><a href="/admin/users/index.php" style="color:#FFFFFF;">查看更多</a>...</span></td>
       </tr>
     </table></td>
-    <td><div align="center">
-      <table width="385" height="148" border="0" cellpadding="0" cellspacing="0">
+    <td align="center"><div align="right">
+      <table width="98%" height="148" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td height="28" bgcolor="#1E91CF"><span class="STYLE2" style="font-size:12px;color:white;padding-left:8px;">评论总数</span></td>
         </tr>
@@ -185,8 +185,8 @@ a{
         </tr>
       </table>
     </div></td>
-    <td><div align="right">
-      <table width="385" height="148" border="0" cellpadding="0" cellspacing="0">
+    <td align="center"><div align="center">
+      <table width="98%" height="148" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td height="28" bgcolor="#1E91CF"><span class="STYLE2" style="font-size:12px;color:white;padding-left:8px;">咨询总数</span></td>
         </tr>
