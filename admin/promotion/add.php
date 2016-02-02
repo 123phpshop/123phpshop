@@ -52,9 +52,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 try{
-   $insertSQL = sprintf("INSERT INTO promotion (user_group_id,user_group_value,amount_lower_limit,name, start_date, end_date, promotion_limit, promotion_limit_value,promotion_type, present_products,promotion_type_val) VALUES (%s,%s,%s,%s,%s, %s, %s,%s, %s, %s, %s, %s)",
+
+	// @todo 参数验证
+
+   $insertSQL = sprintf("INSERT INTO promotion (user_group,user_group_value,amount_lower_limit,name, start_date, end_date, promotion_limit, promotion_limit_value,promotion_type, present_products,promotion_type_val) VALUES (%s,%s,%s,%s,%s, %s, %s,%s, %s, %s, %s)",
    						GetSQLValueString($_POST['user_group_id'], "int"),
-  					   GetSQLValueString(implode(",",$_POST['user_group_value']), "text"),
+  					   GetSQLValueString(isset($_POST['user_group_value'])?implode(",",$_POST['user_group_value']):"", "text"),
   					   GetSQLValueString($_POST['amount_lower_limit'], "double"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
@@ -65,11 +68,11 @@ try{
                        GetSQLValueString(implode(",",$_POST['present_products']), "text"),
 					   GetSQLValueString($_POST['promotion_type_val'], "int"));
 	 
-	mysql_select_db($database_localhost, $localhost);
-	$Result1 = mysql_query($insertSQL, $localhost) ;
-	if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
-	$insertGoTo = "index.php";
-	header(sprintf("Location: %s", $insertGoTo));
+		mysql_select_db($database_localhost, $localhost);
+		$Result1 = mysql_query($insertSQL, $localhost) ;
+		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL.mysql_error());}
+		$insertGoTo = "index.php";
+		header(sprintf("Location: %s", $insertGoTo));
 	}catch(Exception $ex){
 		$logger->fatal($ex->getMessage());
 	}
@@ -269,12 +272,15 @@ $().ready(function(){
 
 var show_user_group=function(){
  	var user_group_id=$("#user_group_id").val();
-	console.log(user_group_id);
- 	if(user_group_id==200){
+  	if(user_group_id==200){
 		$("#user_level_tr").show();
 		$("#user_level_td").load("/admin/widgets/promotion/_usergroups.php");
 		return;
 	}
+	$("#user_level_tr").hide();
+	$("#user_level_td").html("");
+	return;
+	 
 }
 </script>
 </body>

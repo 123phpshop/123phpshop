@@ -49,7 +49,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE promotion SET name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, promotion_limit_value=%s, promotion_type=%s, promotion_type_val=%s,present_products=%s WHERE id=%s",
+	
+ // @todo 参数验证
+
+  $updateSQL = sprintf("UPDATE promotion SET user_group=%s,user_group_value=%s, name=%s, start_date=%s, end_date=%s, promotion_limit=%s, amount_lower_limit=%s, promotion_limit_value=%s, promotion_type=%s, promotion_type_val=%s,present_products=%s WHERE id=%s",
+  					   GetSQLValueString($_POST['user_group'], "int"),
+					   GetSQLValueString(isset($_POST['user_group_value'])?implode(",",$_POST['user_group_value']):"", "text"),
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['start_date'], "date"),
                        GetSQLValueString($_POST['end_date'], "date"),
@@ -139,7 +144,7 @@ $totalRows_promotion = mysql_num_rows($promotion);
 	  <tr valign="baseline">
       <td nowrap align="right">可参与用户:</td>
       <td><label>
-        <select name="user_group_id" id="user_group_id" onchange="show_user_group()">
+        <select name="user_group" id="user_group_id" onchange="show_user_group()">
           <option value="100" <?php if($row_promotion['user_group']==100){?>selected<?php } ?>>注册用户</option>
           <option value="200" <?php if($row_promotion['user_group']==200){?>selected<?php } ?>>指定用户组</option>
         </select>
@@ -266,6 +271,21 @@ $().ready(function(){
             }
         } 
     });
-});</script>
+});
+
+var show_user_group=function(){
+ 	var user_group_id=$("#user_group_id").val();
+  	if(user_group_id==200){
+		$("#user_level_tr").show();
+		$("#user_level_td").load("/admin/widgets/promotion/_usergroups.php");
+		return;
+	}
+	$("#user_level_tr").hide();
+	$("#user_level_td").html("");
+	return;
+	 
+}
+
+</script>
 </body>
 </html>
