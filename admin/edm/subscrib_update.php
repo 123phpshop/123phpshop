@@ -60,12 +60,13 @@ $totalRows_item = mysql_num_rows($item);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
+<link href="../../css/common_admin.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<p>邮件订阅更新 </p>
+<span class="phpshop123_title">邮件订阅更新 </span>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center">
+  <table align="center" class="phpshop123_form_box">
     <tr valign="baseline">
       <td nowrap align="right">Email地址:</td>
       <td><input type="text" name="email" value="<?php echo $row_item['email']; ?>" size="32"></td>

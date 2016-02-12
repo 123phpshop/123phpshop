@@ -47,7 +47,9 @@ $queryString_edm_list = sprintf("&totalRows_edm_list=%d%s", $totalRows_edm_list,
 </head>
 
 <body>
-<p class="phpshop123_title">EDM群发列队</p>
+<span class="phpshop123_title">EDM群发列队</span>
+
+<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 <?php if ($totalRows_edm_list == 0) { // Show if recordset empty ?>
   <p class="phpshop123_infobox">当前还没有列队</p>
   <?php }else{ // Show if recordset empty ?><table width="50%" border="0" align="right">
@@ -73,7 +75,7 @@ $queryString_edm_list = sprintf("&totalRows_edm_list=%d%s", $totalRows_edm_list,
 <p>&nbsp;</p>
 <table width="100%" border="0" align="center" class="phpshop123_list_box">
   <tr>
-    <td>id</td>
+    <td>ID</td>
     <td>邮件地址</td>
     <td>杂志</td>
     <td>状态</td>
