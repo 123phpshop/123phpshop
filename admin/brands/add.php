@@ -53,12 +53,14 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
+// 如果有文件上传的话
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	try {
 		// @todo 这里需要进行服务器方面参数的验证，如果验证不通过，那么告知
 		$insertSQL = sprintf ( "INSERT INTO brands (name, url, sort, `desc`) VALUES (%s,  %s, %s, %s)", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['url'], "text" ), GetSQLValueString ( $_POST ['sort'], "int" ), GetSQLValueString ( $_POST ['desc'], "text" ) );
 		// 如果有文件上传的话
-		if (! empty ( $_FILES ['image_path'] ['temp_name'] )) {
+		if (! empty ( $_FILES ['image_path'] ['tmp_name'] )) {
+			$glogger->debug('貌似有文件要上传！');
 			include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
 			
 			$up = new fileupload ();
@@ -76,13 +78,17 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 			// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
 			if ($up->upload ( "image_path" )) {
 				$image_path = "/uploads/brands/" . $up->getFileName ();
+				$glogger->debug('文件上传成功！'.$image_path);
 				$insertSQL = sprintf ( "INSERT INTO brands (name, image_path, url, sort, `desc`) VALUES (%s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $image_path, "text" ), GetSQLValueString ( $_POST ['url'], "text" ), GetSQLValueString ( $_POST ['sort'], "int" ), GetSQLValueString ( $_POST ['desc'], "text" ) );
 			} else {
+				
+				$glogger->fatal($up->getErrorMsg ());
 				// 获取上传失败以后的错误提示
 				throw new Exception ( $up->getErrorMsg () );
 			}
 		}
 		
+		$logger->debug(__FILE__." ".$insertSQL);
 		// 这里需要检查是否有问题，如果没有问题，那么执行添加品牌的操作
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
