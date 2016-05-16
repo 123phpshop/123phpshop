@@ -93,7 +93,7 @@ $totalRows_getByName = mysql_num_rows($getByName);
 
 <body>
 <span class="phpshop123_title">更新角色</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
-  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="角色列表" />
+  <a href="index.php"><input style="float:right;" type="button" name="Submit2" value="角色列表" />
   </a>
 
 <?php if ($totalRows_getById == 0) { // Show if recordset empty ?>

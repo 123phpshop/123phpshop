@@ -87,12 +87,14 @@ foreach($privileges_array as $row_privileges){
 </head>
 <body>
 <span class="phpshop123_title"><?php echo $row_role['name']; ?> : 分配权限</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+<a href="index.php">
+  <input style="float:right;" type="button" name="Submit2" value="角色列表" />
+  </a>
+  
 <form id="form1" name="form1" method="post" action="">
 <input name="" value="更新权限" type="submit" />
 <input type="hidden" name="123phpshop_op" value="update_privileges">
-  <a href="index.php">
-  <input style="float:right;" type="submit" name="Submit2" value="角色列表" />
-  </a>
+  
   <table width="200%" border="1" class="phpshop123_list_box">
     <?php foreach ($final_privileges_array as $row_privileges ){ ?>
       <tr>
