@@ -19,29 +19,6 @@
  */
 ?><?php
 
-mysql_select_db ( $database_localhost, $localhost );
-$query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
-$catalogs = mysql_query ( $query_catalogs, $localhost ) or die ( mysql_error () );
-$row_catalogs = mysql_fetch_assoc ( $catalogs );
-$totalRows_catalogs = mysql_num_rows ( $catalogs );
-if ($totalRows_catalogs == 0) {
-	$insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/catalog/index.php';
-	header ( sprintf ( "Location: %s", $insertGoTo ) );return;
-}
-
-// 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
-
-$doc_url = "product.html#add";
-$support_email_question = "添加商品";
-log_admin ( $support_email_question );
-mysql_select_db ( $database_localhost, $localhost );
-$query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query ( $query_brands, $localhost );
-if (! $brands) {
-	$logger->fatal ( "数据库操作失败:" . $query_brands );
-}
-$row_brands = mysql_fetch_assoc ( $brands );
-$totalRows_brands = mysql_num_rows ( $brands );
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
 	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
 	
@@ -66,13 +43,42 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 	return $theValue;
 }
 
+// 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
+mysql_select_db ( $database_localhost, $localhost );
+$query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
+$catalogs = mysql_query ( $query_catalogs, $localhost ) or die ( mysql_error () );
+$row_catalogs = mysql_fetch_assoc ( $catalogs );
+$totalRows_catalogs = mysql_num_rows ( $catalogs );
+if ($totalRows_catalogs == 0) {
+	$insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/catalog/index.php';
+	header ( sprintf ( "Location: %s", $insertGoTo ) );return;
+}
+
+$doc_url = "product.html#add";
+$support_email_question = "添加商品";
+log_admin ( $support_email_question );
+
+// 获取所有的品牌
+mysql_select_db ( $database_localhost, $localhost );
+$query_brands = "SELECT id, name FROM brands where is_delete=0";
+$brands = mysql_query ( $query_brands, $localhost );
+if (! $brands) {
+	$logger->fatal ( "数据库操作失败:" . $query_brands );
+}
+$row_brands = mysql_fetch_assoc ( $brands );
+$totalRows_brands = mysql_num_rows ( $brands );
+
 $is_vproduct_add_page = false;
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
+
+// 真理要正式开始插入数据库了
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
+	
+	
 	require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/catalogs.php');
 	
 	if ($_POST ['is_on_sheft'] == '0') {
@@ -89,12 +95,15 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	if (! $Result1) {
 		$logger->fatal ( "数据库操作失败:" . $insertSQL );
 	}
+	
+	// 如果数据库插入成功，那么跳转到这个页面
 	$insertGoTo = "update.php?id=" . mysql_insert_id ();
 	header ( sprintf ( "Location: %s", $insertGoTo ) );
 }
 ?>
 <?php
 
+// 获取商品类型信息
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
 $product_types = mysql_query ( $query_product_types, $localhost );
