@@ -94,38 +94,41 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 
 if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 	
-	// 这里对字段进行验证
-	$validation->set_rules ( 'consumption_pointers', '消费积分', 'trim|required|integer' );
-	$validation->set_rules ( 'user_level_pointers', '用户等级积分', 'trim|required|integer' );
-	$validation->set_rules ( 'catalog_id', '分类', 'trim|required|is_natural' );
-	$validation->set_rules ( 'is_promotion', '是否是促销', 'trim|required|is_natural|exact_length[1]' );
-	$validation->set_rules ( 'promotion_price', '促销价格', 'trim|is_float' );
-	$validation->set_rules ( 'promotion_start', '促销起始日期', 'trim|is_natural_no_zero' );
-	$validation->set_rules ( 'promotion_end', '促销结束日期', 'trim|is_natural' );
-	$validation->set_rules ( 'is_shipping_free', '运费免费', 'trim|is_natural' );
-	$validation->set_rules ( 'meta_keywords', 'meta关键词', 'trim' );
-	$validation->set_rules ( 'meta_desc', 'meta描述', 'trim' );
-	$validation->set_rules ( 'description', '描述', 'trim' );
-	$validation->set_rules ( 'unit', '单位', 'trim|required' );
-	$validation->set_rules ( 'weight', '重量', 'trim|required|is_float' );
-	$validation->set_rules ( 'is_virtual', '是否为虚拟', 'trim|required|is_natural' );
-	$validation->set_rules ( 'name', '商品名称', 'trim|required' );
-	$validation->set_rules ( 'ad_text', '广告text', 'trim' );
-	$validation->set_rules ( 'price', '价格', 'trim|required|is_float' );
-	$validation->set_rules ( 'market_price', '市场价格', 'trim|required|is_float' );
-	$validation->set_rules ( 'is_on_sheft', '是否上架', 'trim|required|is_natural' );
-	$validation->set_rules ( 'is_hot', '是否为热销商品', 'trim|required|is_natural' );
-	$validation->set_rules ( 'is_season', '是否为当季商品', 'trim|required|is_natural' );
-	$validation->set_rules ( 'is_recommanded', '是否为推荐商品', 'trim|required|is_natural' );
-	$validation->set_rules ( 'store_num', '库存', 'trim|required|is_natural' );
-	$validation->set_rules ( 'intro', '简介', 'trim' );
-	$validation->set_rules ( 'brand_id', '品牌', 'trim|required|is_natural' );
-	$validation->set_rules ( 'id', '商品id', 'trim|required|is_natural' );
-	
-	if (! $validation->run ()) {
-		$error = $validation->error_string ( '', '</br>' );
-		$logger->fatal ( "用户在添加商品的时候未通过验证：" . $error );
-	} else {
+	try {
+		// 这里对字段进行验证
+		$validation->set_rules ( 'consumption_pointers', '消费积分', 'trim|required|integer' );
+		$validation->set_rules ( 'user_level_pointers', '用户等级积分', 'trim|required|integer' );
+		$validation->set_rules ( 'catalog_id', '分类', 'trim|required|is_natural' );
+		$validation->set_rules ( 'is_promotion', '是否是促销', 'trim|required|is_natural|exact_length[1]' );
+		$validation->set_rules ( 'promotion_price', '促销价格', 'trim|is_float' );
+		$validation->set_rules ( 'promotion_start', '促销起始日期', 'trim|is_natural_no_zero' );
+		$validation->set_rules ( 'promotion_end', '促销结束日期', 'trim|is_natural' );
+		$validation->set_rules ( 'is_shipping_free', '运费免费', 'trim|is_natural' );
+		$validation->set_rules ( 'meta_keywords', 'meta关键词', 'trim' );
+		$validation->set_rules ( 'meta_desc', 'meta描述', 'trim' );
+		$validation->set_rules ( 'description', '描述', 'trim' );
+		$validation->set_rules ( 'unit', '单位', 'trim|required' );
+		$validation->set_rules ( 'weight', '重量', 'trim|required|is_float' );
+		$validation->set_rules ( 'is_virtual', '是否为虚拟', 'trim|required|is_natural' );
+		$validation->set_rules ( 'name', '商品名称', 'trim|required' );
+		$validation->set_rules ( 'ad_text', '广告text', 'trim' );
+		$validation->set_rules ( 'price', '价格', 'trim|required|is_float' );
+		$validation->set_rules ( 'market_price', '市场价格', 'trim|required|is_float' );
+		$validation->set_rules ( 'is_on_sheft', '是否上架', 'trim|required|is_natural' );
+		$validation->set_rules ( 'is_hot', '是否为热销商品', 'trim|required|is_natural' );
+		$validation->set_rules ( 'is_season', '是否为当季商品', 'trim|required|is_natural' );
+		$validation->set_rules ( 'is_recommanded', '是否为推荐商品', 'trim|required|is_natural' );
+		$validation->set_rules ( 'store_num', '库存', 'trim|required|is_natural' );
+		$validation->set_rules ( 'intro', '简介', 'trim' );
+		$validation->set_rules ( 'brand_id', '品牌', 'trim|required|is_natural' );
+		$validation->set_rules ( 'id', '商品id', 'trim|required|is_natural' );
+		
+		// 检查用户提交上来的参数是否合法，如果不合法，那么告知
+		if (! $validation->run ()) {
+			$error = $validation->error_string ( '', '</br>' );
+			$logger->fatal ( "用户在添加商品的时候未通过验证：" . $error );
+			throw new Exception ( $error );
+		}
 		
 		$on_sheft_time = '';
 		if ($_POST ['is_on_sheft'] == '1' && $row_product ['on_sheft_time'] == null) {
@@ -141,15 +144,57 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $updateSQL, $localhost );
+		
 		// 如果数据库操作失败的话
 		if (! $Result1) {
 			$error = "商品更新的数据库操作失败，请联系123phpshop寻求解决方案";
-			$logger->fatal ( "数据库操作失败:" . mysql_error().$updateSQL );
-		} else {
-			$updateGoTo = "../product/index.php";
-			header ( sprintf ( "Location: %s", $updateGoTo ) );
-			return;
+			$logger->fatal ( "数据库操作失败:" . mysql_error () . $updateSQL );
+			throw new Exception ( $error );
 		}
+		
+		// 如果用户需要上传图片的话
+		if (! empty ( $_FILES ['image_files'] ['tmp_name'] )) {
+			$logger->debug ( __FILE__ . '貌似有图片要上传啊' );
+			include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
+			$up = new fileupload ();
+			
+			// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
+			$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/product/" );
+			$up->set ( "maxsize", 2000000 );
+			$up->set ( "allowtype", array (
+					"gif",
+					"png",
+					"jpg",
+					"jpeg" 
+			) );
+			$up->set ( "israndname", true );
+			
+			// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
+			if ($up->upload ( "image_files" )) {
+				$image_files = "/uploads/product/" . $up->getFileName ();
+				
+				$insertSQL = sprintf ( "INSERT INTO product_images (product_id, image_files) VALUES (%s, %s)", GetSQLValueString ( $_POST ['id'], "int" ), GetSQLValueString ( $image_files, "text" ) );
+				$logger->fatal ( __FILE__ . $insertSQL );
+				mysql_select_db ( $database_localhost, $localhost );
+				$Result1 = mysql_query ( $insertSQL, $localhost );
+				if (! $Result1) {
+					$logger->fatal ( "数据库操作失败:" . mysql_error () . $insertSQL );
+					throw new Exception ( '系统错误，请联系123phpshop！' );
+				}
+			}
+			
+			// 获取上传失败以后的错误提示
+			$error = $up->getErrorMsg ();
+			$logger->fatal ( "数据库操作失败:" . mysql_error () . $updateSQL );
+			throw new Exception ( $error );
+		}
+		
+		// 如果什么问题都没有，那么轻松的跳转吧
+		$updateGoTo = "../product/index.php";
+		header ( sprintf ( "Location: %s", $updateGoTo ) );
+		return;
+	} catch ( Exception $ex ) {
+		$error = $ex->getMessage ();
 	}
 }
 ?>
@@ -186,66 +231,66 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 		<input type="hidden" name="form_op" value="update_order"> <input
 			type="hidden" name="id" value="<?php echo $row_product['id']; ?>">
 
-				<div id="tabs"
-					class="ui-tabs ui-widget ui-widget-content ui-corner-all"
-					style="border: none; background: none;">
-					<ul
-						class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"
-						role="tablist" style="border: none; background: none;">
-						<li
-							class="ui-state-default ui-corner-top ui-tabs-active ui-state-active"
-							role="tab" tabindex="0" aria-controls="tabs-1"
-							aria-labelledby="ui-id-8" aria-selected="true"
-							aria-expanded="true" style="background-color: #000000;"><a
-							href="#tabs-1" class="ui-tabs-anchor" role="presentation"
-							tabindex="-1" id="ui-id-8">一般信息</a></li>
-						<li class="ui-state-default ui-corner-top" role="tab"
-							tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-9"
-							aria-selected="false" aria-expanded="false"><a href="#tabs-2"
-							class="ui-tabs-anchor" role="presentation" tabindex="-1"
-							id="ui-id-9">详细介绍</a></li>
-						<li class="ui-state-default ui-corner-top" role="tab"
-							tabindex="-1" aria-controls="tabs-3" aria-labelledby="ui-id-10"
-							aria-selected="false" aria-expanded="false"><a href="#tabs-3"
-							class="ui-tabs-anchor" role="presentation" tabindex="-1"
-							id="ui-id-10">其他信息</a></li>
-						<li class="ui-state-default ui-corner-top" role="tab"
-							tabindex="-1" aria-controls="tabs-4" aria-labelledby="ui-id-11"
-							aria-selected="false" aria-expanded="false"><a href="#tabs-4"
-							class="ui-tabs-anchor" role="presentation" tabindex="-1"
-							id="ui-id-11">图片列表</a></li>
-						<li class="ui-state-default ui-corner-top" role="tab"
-							tabindex="-1" aria-controls="tabs-5" aria-labelledby="ui-id-12"
-							aria-selected="false" aria-expanded="false"><a href="#tabs-5"
-							class="ui-tabs-anchor" role="presentation" tabindex="-1"
-							id="ui-id-11">设置属性</a></li>
-					</ul>
-					<div id="tabs-1" aria-labelledby="ui-id-8"
-						class="ui-tabs-panel ui-widget-content ui-corner-bottom"
-						role="tabpanel" aria-hidden="false"
-						style="background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_common.php'); ?></div>
-					<div id="tabs-2" aria-labelledby="ui-id-9"
-						class="ui-tabs-panel ui-widget-content ui-corner-bottom"
-						role="tabpanel" aria-hidden="true"
-						style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_intro.php'); ?></div>
+		<div id="tabs"
+			class="ui-tabs ui-widget ui-widget-content ui-corner-all"
+			style="border: none; background: none;">
+			<ul
+				class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"
+				role="tablist" style="border: none; background: none;">
+				<li
+					class="ui-state-default ui-corner-top ui-tabs-active ui-state-active"
+					role="tab" tabindex="0" aria-controls="tabs-1"
+					aria-labelledby="ui-id-8" aria-selected="true" aria-expanded="true"
+					style="background-color: #000000;"><a href="#tabs-1"
+					class="ui-tabs-anchor" role="presentation" tabindex="-1"
+					id="ui-id-8">一般信息</a></li>
+				<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+					aria-controls="tabs-2" aria-labelledby="ui-id-9"
+					aria-selected="false" aria-expanded="false"><a href="#tabs-2"
+					class="ui-tabs-anchor" role="presentation" tabindex="-1"
+					id="ui-id-9">详细介绍</a></li>
+				<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+					aria-controls="tabs-3" aria-labelledby="ui-id-10"
+					aria-selected="false" aria-expanded="false"><a href="#tabs-3"
+					class="ui-tabs-anchor" role="presentation" tabindex="-1"
+					id="ui-id-10">其他信息</a></li>
+				<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+					aria-controls="tabs-4" aria-labelledby="ui-id-11"
+					aria-selected="false" aria-expanded="false"><a href="#tabs-4"
+					class="ui-tabs-anchor" role="presentation" tabindex="-1"
+					id="ui-id-11">图片列表</a></li>
+				<li class="ui-state-default ui-corner-top" role="tab" tabindex="-1"
+					aria-controls="tabs-5" aria-labelledby="ui-id-12"
+					aria-selected="false" aria-expanded="false"><a href="#tabs-5"
+					class="ui-tabs-anchor" role="presentation" tabindex="-1"
+					id="ui-id-11">设置属性</a></li>
+			</ul>
+			<div id="tabs-1" aria-labelledby="ui-id-8"
+				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+				role="tabpanel" aria-hidden="false"
+				style="background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_common.php'); ?></div>
+			<div id="tabs-2" aria-labelledby="ui-id-9"
+				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+				role="tabpanel" aria-hidden="true"
+				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_intro.php'); ?></div>
 
-					<div id="tabs-3" aria-labelledby="ui-id-10"
-						class="ui-tabs-panel ui-widget-content ui-corner-bottom"
-						role="tabpanel" aria-hidden="true"
-						style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_other_info.php'); ?></div>
+			<div id="tabs-3" aria-labelledby="ui-id-10"
+				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+				role="tabpanel" aria-hidden="true"
+				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_other_info.php'); ?></div>
 
-					<div id="tabs-4" aria-labelledby="ui-id-11"
-						class="ui-tabs-panel ui-widget-content ui-corner-bottom"
-						role="tabpanel" aria-hidden="true"
-						style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_images.php'); ?></div>
-					<div id="tabs-5" aria-labelledby="ui-id-12"
-						class="ui-tabs-panel ui-widget-content ui-corner-bottom"
-						role="tabpanel" aria-hidden="true"
-						style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_attr.php'); ?></div>
-					<input type="submit" value="更新">
-				
-				</div>
-	
+			<div id="tabs-4" aria-labelledby="ui-id-11"
+				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+				role="tabpanel" aria-hidden="true"
+				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_images.php'); ?></div>
+			<div id="tabs-5" aria-labelledby="ui-id-12"
+				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+				role="tabpanel" aria-hidden="true"
+				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_attr.php'); ?></div>
+			<input type="submit" value="更新">
+
+		</div>
+
 	</form>
 	<script type="text/javascript" charset="utf-8"
 		src="/js/ueditor/ueditor.config.js"></script>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,6 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php if(isset($error) && trim($error)!=''){ ?>
-	<p class="phpshop123_infobox" style="width:auto;"><?php echo $error;?></p>
+?><?php
+
+if (isset ( $error ) && trim ( $error ) != '') {
+	
+	?>
+<p class="phpshop123_infobox" style="width: auto;"><?php echo $error;?></p>
 <?php } ?>

@@ -31,44 +31,6 @@ if (isset ( $_GET ['id'] )) {
 	$colname_product_images = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
 
-if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "product_image_form")) {
-	$logger->debug ( __FILE__ . var_export ( $_POST, true ) );
-	// 检查用户是否要上传图片
-	if (! empty ( $_FILES ['image_files'] ['tmp_name'] )) {
-		$logger->debug ( __FILE__ . '貌似有图片要上传啊' );
-		include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
-		$up = new fileupload ();
-		
-		// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
-		$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/product/" );
-		$up->set ( "maxsize", 2000000 );
-		$up->set ( "allowtype", array (
-				"gif",
-				"png",
-				"jpg",
-				"jpeg" 
-		) );
-		$up->set ( "israndname", true );
-		
-		// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
-		if ($up->upload ( "image_files" )) {
-			$image_files = "/uploads/product/" . $up->getFileName ();
-			
-			$insertSQL = sprintf ( "INSERT INTO product_images (product_id, image_files) VALUES (%s, %s)", GetSQLValueString ( $colname_product_images, "int" ), GetSQLValueString ( $image_files, "text" ) );
-			$logger->fatal ( __FILE__ . $insertSQL );
-			mysql_select_db ( $database_localhost, $localhost );
-			$Result1 = mysql_query ( $insertSQL, $localhost );
-			if (! $Result1) {
-				$logger->fatal ( "数据库操作失败:" . mysql_error () . $insertSQL );
-				throw new Exception ( '系统错误，请联系123phpshop！' );
-			}
-		} else {
-			// 获取上传失败以后的错误提示
-			$error = $up->getErrorMsg ();
-		}
-	}
-}
-
 $logger->debug ( '获取商品的图片列表' );
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images );
