@@ -22,8 +22,11 @@ $colname_catalog = "-1";
 if (isset($_POST['name'])) {
   $colname_catalog = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);
 }
+
+// 这里需要对post过来的参数进行验证
+
 mysql_select_db($database_localhost, $localhost);
-$query_catalog = sprintf("SELECT * FROM `catalog` WHERE name = '%s'", $colname_catalog);
+$query_catalog = sprintf("SELECT * FROM `catalog` WHERE name = '%s' and is_delete=0", $colname_catalog);
 $catalog = mysql_query($query_catalog, $localhost) ;
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysql_fetch_assoc($catalog);
