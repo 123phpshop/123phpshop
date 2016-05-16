@@ -219,6 +219,9 @@ $().ready(function(){
             store_num: {
 				 digits:true    				 
             },
+			unit:{
+			 required: true
+			},
             tags: {
 				 required: true   				 
             }
