@@ -115,7 +115,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 <span class="phpshop123_title">数据库导出</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
 
 <form id="form_db_export" name="form_db_export" method="post" action="">
-   <input type="submit" name="Submit" value="导出" />
+   <input type="submit" name="Submit" value="导出" id="db_export_button" onclick="export_db()" />
    <input type="hidden" name="MM_insert" value="form_db_export" />
 </form>
 
@@ -124,5 +124,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
  	<?php echo $backup_info;?>
 </p>
 <?php } ?>
+<script language="JavaScript" type="text/javascript"
+		src="/js/jquery-1.7.2.min.js"></script>
+<script>
+function export_db(){
+	$("#db_export_button").val('正在导出...');
+	$("#db_export_button").attr('disabeld','disabled');
+	return true;
+}
+</script>
 </body>
 </html>

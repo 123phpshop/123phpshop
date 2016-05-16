@@ -29,7 +29,7 @@ if (isset($_GET['pageNum_admins'])) {
 $startRow_admins = $pageNum_admins * $maxRows_admins;
 
 mysql_select_db($database_localhost, $localhost);
-$query_admins = "SELECT * FROM member where is_delete=0";
+$query_admins = "SELECT member.*,role.name as role_name FROM member inner join role on role.id =member.role_id where member.is_delete=0";
 $query_limit_admins = sprintf("%s LIMIT %d, %d", $query_admins, $startRow_admins, $maxRows_admins);
 $admins = mysql_query($query_limit_admins, $localhost) ;
 if(!$admins){$logger->fatal("数据库操作失败:".$query_limit_admins);}
@@ -77,6 +77,7 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
     <table width="100%" border="1" align="center" class="phpshop123_list_box">
       <tr>
         <th>账户</th>
+        <th>角色</th>
         <th>手机</th>
         <th>邮箱</th>
         <th>注册时间</th>
@@ -85,6 +86,7 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
       <?php do { ?>
         <tr>
           <td><a href="detail.php?recordID=<?php echo $row_admins['id']; ?>"> <?php echo $row_admins['username']; ?>&nbsp; </a> </td>
+          <td><?php echo $row_admins['role_name']; ?></td>
           <td><?php echo $row_admins['mobile']; ?>&nbsp; </td>
           <td><?php echo $row_admins['email']; ?>&nbsp; </td>
           <td><?php echo $row_admins['register_at']; ?>&nbsp; </td>

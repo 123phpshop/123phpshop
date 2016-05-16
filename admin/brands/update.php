@@ -52,7 +52,7 @@ if (isset ( $_GET ['id'] )) {
 	$colname_brand = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
 mysql_select_db ( $database_localhost, $localhost );
-$query_brand = sprintf ( "SELECT * FROM brands WHERE id = %s", $colname_brand );
+$query_brand = sprintf ( "SELECT * FROM brands WHERE is_delete=0 and id = %s", $colname_brand );
 $brand = mysql_query ( $query_brand, $localhost );
 if (! $brand) {
 	$logger->fatal ( "数据库操作失败:" . $query_brand );
