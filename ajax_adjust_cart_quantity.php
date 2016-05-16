@@ -16,6 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
+
 header ( 'Content-type: application/json' );
 require_once ('Connections/localhost.php');
 ?>
@@ -32,31 +33,32 @@ $quantity = ( int ) ($_POST ['quantity']);
 $attr_value = $_POST ['attr_value'];
 try {
 	
-	// 这里对字段进行验证
-	$validation->set_rules('product_id', '', 'required|is_natural_no_zero');
-	$validation->set_rules('quantity', '', 'required|is_natural_no_zero');
-	$validation->set_rules('attr_value', '', 'alpha_dash');
-	if (!$validation->run())
-	{
-		$logger->fatal("用户在调整购物车商品数量的时候出现参数错误问题，ip是.".$_SERVER['REMOTE_ADDR'].", 企图调整的商品id是：".$_POST['product_id']);
-		throw new Exception("参数错误！");
+	// 这里对字段进行验证,如果参数没有通过验证，那么告知
+	$validation->set_rules ( 'product_id', '', 'required|is_natural_no_zero' );
+	$validation->set_rules ( 'quantity', '', 'required|is_natural_no_zero' );
+	$validation->set_rules ( 'attr_value', '', 'alpha_dash' );
+	if (! $validation->run ()) {
+		$logger->fatal ( "用户在调整购物车商品数量的时候出现参数错误问题，ip是." . $_SERVER ['REMOTE_ADDR'] . ", 企图调整的商品id是：" . $_POST ['product_id'] );
+		throw new Exception ( "参数错误！" );
 	}
 	
+	// 如果数量》0的话，那么进行调整
 	if ($quantity > 0) {
 		$cart_obj->change_quantity ( $product_id, $quantity, $attr_value );
 	}
 	
 	$presents_ids = array ();
 	foreach ( $_SESSION ['cart'] ['products'] as $product ) {
- 		if (isset ( $product ['is_present'] ) && $product ['is_present'] == 1) {
+		if (isset ( $product ['is_present'] ) && $product ['is_present'] == 1) {
 			$presents_ids [] = $product ['product_id'];
 		}
 	}
 	
-	$result ['data'] ['total_price'] = $_SESSION ['cart'] ['order_total'];
-	$result ['data'] ['shipping_fee'] = $_SESSION ['cart'] ['shipping_fee'];
-	$result ['data'] ['products_total'] = $_SESSION ['cart'] ['products_total'];
-	$result ['data'] ['promotion_fee'] = $_SESSION ['cart'] ['promotion_fee'];
+	// 返回数据
+	$result ['data'] ['total_price'] = $_SESSION ['cart'] ['order_total']; // 订单总额
+	$result ['data'] ['shipping_fee'] = $_SESSION ['cart'] ['shipping_fee']; // 运费总额
+	$result ['data'] ['products_total'] = $_SESSION ['cart'] ['products_total']; // 商品总额
+	$result ['data'] ['promotion_fee'] = $_SESSION ['cart'] ['promotion_fee']; // 促销需要扣除的费用
 	$result ['data'] ['presents_ids'] = implode ( ',', $presents_ids );
 } catch ( Exception $ex ) {
 	$result = array (
@@ -64,5 +66,5 @@ try {
 			'message' => $ex->getMessage () 
 	);
 }
-
+// 最后输出结果
 die ( json_encode ( $result ) );

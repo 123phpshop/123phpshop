@@ -5,7 +5,7 @@
 # HTTP="true"
 error_reporting(0); 
 $hostname_localhost = "localhost";
-$database_localhost = "123phpshop_v16";
+$database_localhost = "123phpshop";
 $username_localhost = "root";
 $password_localhost = "root";
 if($hostname_localhost==""){
