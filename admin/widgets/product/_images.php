@@ -17,7 +17,6 @@
  */
 ?><?php
 
-
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 ?><?php
 
@@ -33,10 +32,10 @@ if (isset ( $_GET ['id'] )) {
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "product_image_form")) {
-	
+	$logger->debug ( __FILE__ . var_export ( $_POST, true ) );
 	// 检查用户是否要上传图片
 	if (! empty ( $_FILES ['image_files'] ['tmp_name'] )) {
-		$logger->debug(__FILE__.'貌似有图片要上传啊');
+		$logger->debug ( __FILE__ . '貌似有图片要上传啊' );
 		include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
 		$up = new fileupload ();
 		
@@ -56,11 +55,12 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "product_image_
 			$image_files = "/uploads/product/" . $up->getFileName ();
 			
 			$insertSQL = sprintf ( "INSERT INTO product_images (product_id, image_files) VALUES (%s, %s)", GetSQLValueString ( $colname_product_images, "int" ), GetSQLValueString ( $image_files, "text" ) );
-			
+			$logger->fatal ( __FILE__ . $insertSQL );
 			mysql_select_db ( $database_localhost, $localhost );
 			$Result1 = mysql_query ( $insertSQL, $localhost );
 			if (! $Result1) {
-				$logger->fatal ( "数据库操作失败:" . $insertSQL );
+				$logger->fatal ( "数据库操作失败:" . mysql_error () . $insertSQL );
+				throw new Exception ( '系统错误，请联系123phpshop！' );
 			}
 		} else {
 			// 获取上传失败以后的错误提示
@@ -69,7 +69,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "product_image_
 	}
 }
 
-$logger->debug('获取商品的图片列表');
+$logger->debug ( '获取商品的图片列表' );
 mysql_select_db ( $database_localhost, $localhost );
 $query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images );
 $product_images = mysql_query ( $query_product_images, $localhost );
