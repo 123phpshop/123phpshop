@@ -66,13 +66,17 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 }
 
 if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
-	
+	$logger->debug ( __FILE__ . ' 貌似开始更新了' );
 	try {
 		
 		$updateSQL = sprintf ( "UPDATE brands SET name=%s, url=%s, sort=%s, `desc`=%s WHERE id=%s", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['url'], "text" ), GetSQLValueString ( $_POST ['sort'], "int" ), GetSQLValueString ( $_POST ['desc'], "text" ), GetSQLValueString ( $_POST ['id'], "int" ) );
 		
+		$logger->debug ( __FILE__ . '图片上传：' . var_export ( $_FILES , true ) );
+		
 		// 如果用户上传了新的logo图片，那么说明他需要更新品牌logo，那么开始上传新的logo
 		if (! empty ( $_FILES ['image_path'] ['tmp_name'] )) {
+			
+			$logger->debug ( __FILE__ . '貌似有图片上传上来！' );
 			
 			include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
 			
@@ -122,6 +126,8 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 		}
 		header ( sprintf ( "Location: %s", $insertGoTo ) );
 	} catch ( Exception $ex ) {
+		var_export ( $ex->getMessage () );
+		$logger->fatal ( __FILE__ . $ex->getMessage () );
 		$error = $ex->getMessage ();
 	}
 }
@@ -136,10 +142,10 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 </head>
 
 <body>
+	<span class="phpshop123_title">编辑品牌：<?php echo $row_brand['name']; ?></span>
 <?php include_once $_SERVER['DOCUMENT_ROOT'].'/admin/widgets/_error.php';?>
 	<form action="<?php echo $editFormAction; ?>" method="post"
 		enctype="multipart/form-data" name="form1" id="form1">
-		<span class="phpshop123_title">更新品牌信息：<?php echo $row_brand['name']; ?></span>
 		<div id="doc_help"
 			style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
 			<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
@@ -158,7 +164,7 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 				<td nowrap align="right">名称:</td>
 				<td><input name="name" type="text"
 					value="<?php echo $row_brand['name']; ?>" size="32" maxlength="32">
-						*</td>
+					*</td>
 			</tr>
 			<tr valign="baseline">
 				<td nowrap align="right">网址:</td>
@@ -192,9 +198,10 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 				<td><input type="submit" value="更新"></td>
 			</tr>
 		</table>
-		<input type="hidden" name="MM_update" value="form1"> <input
+		<input type="hidden" name="MM_update" value="form1">
+		 <input
 			type="hidden" name="id" value="<?php echo $row_brand['id']; ?>">
-	
+
 	</form>
 	<script language="JavaScript" type="text/javascript"
 		src="/js/jquery-1.7.2.min.js"></script>

@@ -70,12 +70,12 @@
 	<tr valign="baseline">
 	  <td nowrap align="right">消费级分数：</td>
 	  <td> 
-	    <input type="text" name="consumption_pointers" value="<?php echo isset($row_product['consumption_pointers'])?$row_product['consumption_pointers']:""; ?>" />
+	    <input type="text" name="consumption_pointers" value="<?php echo isset($row_product['consumption_pointers'])?$row_product['consumption_pointers']:"-1"; ?>" />
 	   [购买该商品时赠送的消费积分数,如果设置为-1表示系统将会按照商品价格赠送，例如5元的商品将会赠送消费积分5分]</td>
   </tr>
 	<tr valign="baseline">
 	  <td nowrap align="right">用户等级积分数：</td>
-	  <td><input type="text" name="user_level_pointers" value="<?php echo isset($row_product['user_level_pointers'])?$row_product['user_level_pointers']:""; ?>" />[购买该商品时赠送的等级积分数,如果设置为-1表示系统将会按照商品价格赠送，例如5元的商品将会赠送用户等级积分5分]</td>
+	  <td><input type="text" name="user_level_pointers" value="<?php echo isset($row_product['user_level_pointers'])?$row_product['user_level_pointers']:"-1"; ?>" />[购买该商品时赠送的等级积分数,如果设置为-1表示系统将会按照商品价格赠送，例如5元的商品将会赠送用户等级积分5分]</td>
   </tr>
 	<tr valign="baseline">
       <td nowrap align="right">品牌:</td>

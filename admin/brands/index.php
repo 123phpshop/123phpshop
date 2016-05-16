@@ -32,6 +32,8 @@ mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT * FROM brands where is_delete=0 ORDER BY id DESC";
 $query_limit_brands = sprintf("%s LIMIT %d, %d", $query_brands, $startRow_brands, $maxRows_brands);
 $brands = mysql_query($query_limit_brands, $localhost) ;
+
+
 if(!$brands){$logger->fatal("数据库操作失败:".$query_limit_brands);}
 $row_brands = mysql_fetch_assoc($brands);
 
@@ -40,6 +42,10 @@ if (isset($_GET['totalRows_brands'])) {
 } else {
   $all_brands = mysql_query($query_brands);
   $totalRows_brands = mysql_num_rows($all_brands);
+  if($totalRows_brands==0){
+	  $insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/brands/add.php';
+	  header ( sprintf ( "Location: %s", $insertGoTo ) );return;
+  }
 }
 $totalPages_brands = ceil($totalRows_brands/$maxRows_brands)-1;
 
