@@ -117,7 +117,7 @@ $totalRows_roles = mysql_num_rows($roles);
           <?php
 do {  
 ?>
-          <option value="<?php echo $row_roles['id']?>"<?php if ((strcmp($row_roles['id'], $row_admin['role_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
+          <option value="<?php echo $row_roles['id']?>"<?php if ($row_roles['id']==$row_admin['role_id']) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
           <?php
 } while ($row_roles = mysql_fetch_assoc($roles));
   $rows = mysql_num_rows($roles);
