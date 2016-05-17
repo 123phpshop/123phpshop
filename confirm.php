@@ -71,12 +71,17 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	// @todo 这里需要对post过来的参数进行验证
-	$insertSQL = sprintf ( "INSERT INTO user_consignee (user_id,name, mobile, province, city, district, address, zip) VALUES (%s,%s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "text" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['province'], "text" ), GetSQLValueString ( $_POST ['city'], "text" ), GetSQLValueString ( $_POST ['district'], "text" ), GetSQLValueString ( $_POST ['address'], "text" ), GetSQLValueString ( $_POST ['zip'], "text" ) );
 	
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
-	if (! $Result1) {
-		$logger->fatal ( "数据库操作失败:" . $insertSQL );
+	try{
+		$insertSQL = sprintf ( "INSERT INTO user_consignee (user_id,name, mobile, province, city, district, address, zip) VALUES (%s,%s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "text" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['province'], "text" ), GetSQLValueString ( $_POST ['city'], "text" ), GetSQLValueString ( $_POST ['district'], "text" ), GetSQLValueString ( $_POST ['address'], "text" ), GetSQLValueString ( $_POST ['zip'], "text" ) );
+		
+		mysql_select_db ( $database_localhost, $localhost );
+		$Result1 = mysql_query ( $insertSQL, $localhost );
+		if (! $Result1) {
+			throw new Exception();
+			$logger->fatal ( "数据库操作失败:" . $insertSQL );
+		}
+		
 	}
 }
 
@@ -102,6 +107,8 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	// 插入订单信息，().
 	
 	require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/order.php');
+	
+	// 插入订单表
 	$sn = gen_order_sn ();
 	$should_paid = $_SESSION ['cart'] ['order_total'];
 	$actual_paid = "0.00";
@@ -113,9 +120,11 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	}
 	$order_id = mysql_insert_id ();
 	
-	// 检查参数，如果参数不正确的话，能否告知？
+	// @todo检查参数，如果参数不正确的话，能否告知？
 	
 	// 如果参数正确的话，那么进行数据插入
+	
+	// 插入订单商品表
 	foreach ( $cart_products as $product ) {
 		$sql = "insert into order_item(attr_value,product_id,quantity,should_pay_price,actual_pay_price,order_id)values('" . $product ['attr_value'] . "','" . $product ['product_id'] . "','" . $product ['quantity'] . "','" . $product ['product_price'] . "','" . $product ['product_price'] . "','" . $order_id . "')";
 		$query = mysql_query ( $sql );
@@ -141,6 +150,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 		$email_template_code = 200;
 		require_once ($_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/send_email.php");
 	} catch ( Exception $ex ) {
+		$logger->warn ( __FILE__ . " 通知邮件发送错误：200 订单号码是:" . $new_order_id );
 		// 如果发送失败，这里需要记录进入日志
 		phpshop_log ( "通知邮件发送错误：200 订单号码是:" . $new_order_id );
 	}
@@ -149,5 +159,4 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	header ( "Location: " . $MM_redirectLoginSuccess );
 }
 include ($template_path . "confirm.php");
-
 ?>

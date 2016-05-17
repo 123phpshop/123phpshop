@@ -89,6 +89,8 @@ hr {
 <body style="margin: 0px;">	
  <?php 	include_once('widget/top_full_nav.php'); ?>
 <?php  	include_once('widget/logo_step.php'); ?>
+<?php  	include_once('widget/_error.php'); ?>
+
 <div align="left"
 		style="width: 990px; margin: 0 auto; height: 42px; line-height: 42px; font-size: 16px; color: #666;">填写并核对订单信息</div>
 	<table width="990" border="1" align="center" cellpadding="0"
@@ -143,7 +145,7 @@ hr {
 							<td height="30" colspan="2"><table width="100%" border="0">
 		   <?php
 					
-if ($totalRows_consignee > 0) {
+					if ($totalRows_consignee > 0) {
 						
 						$default_address = true;
 						?>

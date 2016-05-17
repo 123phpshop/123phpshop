@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,20 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?>
-<?php 
+?><?php
 
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_session.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/common.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_user_login.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_template.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_validation.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/int_language.php";// 初始化语言
-
-?>
+if (isset ( $error ) && trim ( $error ) != '') {
+	
+	?>
+<p class="phpshop123_infobox" style="width: auto;"><?php echo $error;?></p>
+<?php } ?>
