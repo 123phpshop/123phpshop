@@ -51,7 +51,8 @@ $row_catalogs = mysql_fetch_assoc ( $catalogs );
 $totalRows_catalogs = mysql_num_rows ( $catalogs );
 if ($totalRows_catalogs == 0) {
 	$insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/catalog/index.php';
-	header ( sprintf ( "Location: %s", $insertGoTo ) );return;
+	header ( sprintf ( "Location: %s", $insertGoTo ) );
+	return;
 }
 
 $doc_url = "product.html#add";
@@ -74,10 +75,8 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
-
 // 真理要正式开始插入数据库了
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	
 	
 	require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/catalogs.php');
 	
@@ -93,7 +92,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	mysql_select_db ( $database_localhost, $localhost );
 	$Result1 = mysql_query ( $insertSQL, $localhost );
 	if (! $Result1) {
-		$logger->fatal ( "数据库操作失败:" . $insertSQL );
+		$logger->fatal ( "数据库操作失败:" . mysql_error().$insertSQL );
 	}
 	
 	// 如果数据库插入成功，那么跳转到这个页面

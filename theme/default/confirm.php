@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,341 +15,418 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>订单确认</title>
- <style>
- *{font-size:12px;font-family:"Microsoft Yahei"}
- table{
- 	border-collapse:collapse;
- }
- hr{
- 	width:948px;
- 	border:none;
-	border-top:1px solid #F0F0F0;
- }
-.consignee_row:hover{
- 	background-color:#fff3f3;
-}
-.consignee_row:hover .consignee_selector{
- 	background-color:#ffffff;
-	border-collapse:collapse;
+<style>
+* {
+	font-size: 12px;
+	font-family: "Microsoft Yahei"
 }
 
-
-.consignee_row:hover .consignee_op{
- 	display:block;
+table {
+	border-collapse: collapse;
 }
 
-.consignee_selector{
-	font-size:12px;
+hr {
+	width: 948px;
+	border: none;
+	border-top: 1px solid #F0F0F0;
 }
 
-.set_consingee:hover{
-	cursor:pointer;
+.consignee_row:hover {
+	background-color: #fff3f3;
 }
 
-.consignee_selected{
-	border:1px solid #FF0000;
+.consignee_row:hover .consignee_selector {
+	background-color: #ffffff;
+	border-collapse: collapse;
 }
 
-.consignee_unselected{
-	border:1px solid #FF0000;
+.consignee_row:hover .consignee_op {
+	display: block;
 }
 
-.consignee_op{
-	float:right;
-	display:none;
+.consignee_selector {
+	font-size: 12px;
 }
 
-.consignee_op a{
-	text-decoration:none;
-	color:#005ea7;
+.set_consingee:hover {
+	cursor: pointer;
 }
- .STYLE1 {font-weight: bold}
- .STYLE2 {color: #999999}
- </style>
+
+.consignee_selected {
+	border: 1px solid #FF0000;
+}
+
+.consignee_unselected {
+	border: 1px solid #FF0000;
+}
+
+.consignee_op {
+	float: right;
+	display: none;
+}
+
+.consignee_op a {
+	text-decoration: none;
+	color: #005ea7;
+}
+
+.STYLE1 {
+	font-weight: bold
+}
+
+.STYLE2 {
+	color: #999999
+}
+</style>
 </head>
 
-<body style="margin:0px;">	
+<body style="margin: 0px;">	
  <?php 	include_once('widget/top_full_nav.php'); ?>
 <?php  	include_once('widget/logo_step.php'); ?>
-<div align="left" style="width:990px;margin:0 auto;height:42px;line-height:42px;font-size:16px;color:#666;">填写并核对订单信息</div>
-<table width="990" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#F0F0F0">
-  <tr>
-    <td><div align="center">
-      <table width="948" border="0" cellpadding="0">
-         <tr>
-          <td><strong>收货人信息</strong></td>
-          <td height="40"><div align="right"><a style="color:#005ea7;text-decoration:none;" href="javascript://" onclick="return show_add_consignee_form();">新增收货地址</a></div></td>
-        </tr>
+<div align="left"
+		style="width: 990px; margin: 0 auto; height: 42px; line-height: 42px; font-size: 16px; color: #666;">填写并核对订单信息</div>
+	<table width="990" border="1" align="center" cellpadding="0"
+		cellspacing="0" bordercolor="#F0F0F0">
 		<tr>
-		<td>
-		<form action="<?php echo $editFormAction; ?>" method="post" name="add_consignee_form" id="add_consignee_form">
-     <table align="center">
-      <tr valign="baseline">
-        <td nowrap align="right">姓名:</td>
-        <td><input type="text" name="name" value="" size="32" >
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right">手机:</td>
-        <td><input type="text" name="mobile" value="" size="32" >
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right">省市:</td>
-        <td><?php include($_SERVER['DOCUMENT_ROOT'].'/widget/area/index.php');?></td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right" class="required">地址:</td>
-        <td><input type="text" name="address" value="" size="32">
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right" class="required">邮编:</td>
-        <td><input type="text" name="zip" value="" size="32">
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right">&nbsp;</td>
-        <td><input type="submit" value="添加"></td>
-      </tr>
-    </table>
-    <input type="hidden" name="MM_insert" value="form1">
-  </form>
-		</td>
-		</tr>
-        <tr >
-          <td height="30" colspan="2"><table width="100%" border="0">
-		   <?php if ($totalRows_consignee > 0) { $default_address=true;?>
+			<td><div align="center">
+					<table width="948" border="0" cellpadding="0">
+						<tr>
+							<td><strong>收货人信息</strong></td>
+							<td height="40"><div align="right">
+									<a style="color: #005ea7; text-decoration: none;"
+										href="javascript://"
+										onclick="return show_add_consignee_form();">新增收货地址</a>
+								</div></td>
+						</tr>
+						<tr>
+							<td>
+								<form action="<?php echo $editFormAction; ?>" method="post"
+									name="add_consignee_form" id="add_consignee_form">
+									<table align="center">
+										<tr valign="baseline">
+											<td nowrap align="right">姓名:</td>
+											<td><input type="text" name="name" value="" size="32"> *</td>
+										</tr>
+										<tr valign="baseline">
+											<td nowrap align="right">手机:</td>
+											<td><input type="text" name="mobile" value="" size="32"> *</td>
+										</tr>
+										<tr valign="baseline">
+											<td nowrap align="right">省市:</td>
+											<td><?php include($_SERVER['DOCUMENT_ROOT'].'/widget/area/index.php');?></td>
+										</tr>
+										<tr valign="baseline">
+											<td nowrap align="right" class="required">地址:</td>
+											<td><input type="text" name="address" value="" size="32"> *</td>
+										</tr>
+										<tr valign="baseline">
+											<td nowrap align="right" class="required">邮编:</td>
+											<td><input type="text" name="zip" value="" size="32"> *</td>
+										</tr>
+										<tr valign="baseline">
+											<td nowrap align="right">&nbsp;</td>
+											<td><input type="submit" value="添加"></td>
+										</tr>
+									</table>
+									<input type="hidden" name="MM_insert" value="form1">
+								
+								</form>
+							</td>
+						</tr>
+						<tr>
+							<td height="30" colspan="2"><table width="100%" border="0">
+		   <?php
+					
+if ($totalRows_consignee > 0) {
+						
+						$default_address = true;
+						?>
 		    <?php do { ?>
               <tr class="consignee_row">
-                <td width="11%">
+										<td width="11%">
 		    	<?php if($default_address==true || $totalRows_consignee==1){?>
-				<?php 
- 					$_SESSION['consignee']['id']=$row_consignee['id'];
-					$_SESSION['consignee']['name']=$row_consignee['name'];
-					$_SESSION['consignee']['mobile']=$row_consignee['mobile'];
-					$_SESSION['consignee']['province']=$row_consignee['province'];
-					$_SESSION['consignee']['city']=$row_consignee['city'];
-					$_SESSION['consignee']['district']=$row_consignee['district'];
-					$_SESSION['consignee']['address']=$row_consignee['address'];
-					$_SESSION['consignee']['zip']=$row_consignee['zip'];
-				?>
-				<table class="consignee_selector" id="consignee_selector_<?php echo $row_consignee['id'];?>"  width="98" height="30" border="2" cellpadding="0" cellspacing="0" bordercolor="#E4393C">
-                  <tr>
-                    <td width="98" height="30" bordercolor="#E4393C">
-                    <div align="center" class="set_consingee" onclick="select_consignee(<?php echo $row_consignee['id'];?>)">默认地址</div>
-                    </td>
-                  </tr>
-                </table>
+				<?php
+								$_SESSION ['consignee'] ['id'] = $row_consignee ['id'];
+								$_SESSION ['consignee'] ['name'] = $row_consignee ['name'];
+								$_SESSION ['consignee'] ['mobile'] = $row_consignee ['mobile'];
+								$_SESSION ['consignee'] ['province'] = $row_consignee ['province'];
+								$_SESSION ['consignee'] ['city'] = $row_consignee ['city'];
+								$_SESSION ['consignee'] ['district'] = $row_consignee ['district'];
+								$_SESSION ['consignee'] ['address'] = $row_consignee ['address'];
+								$_SESSION ['consignee'] ['zip'] = $row_consignee ['zip'];
+								?>
+				<table class="consignee_selector"
+												id="consignee_selector_<?php echo $row_consignee['id'];?>"
+												width="98" height="30" border="2" cellpadding="0"
+												cellspacing="0" bordercolor="#E4393C">
+												<tr>
+													<td width="98" height="30" bordercolor="#E4393C">
+														<div align="center" class="set_consingee"
+															onclick="select_consignee(<?php echo $row_consignee['id'];?>)">默认地址</div>
+													</td>
+												</tr>
+											</table>
                  <?php }else{?>
-                 <table class="consignee_selector" id="consignee_selector_<?php echo $row_consignee['id'];?>"   width="98" height="30" border="1" cellpadding="0" cellspacing="0" bordercolor="#cccccc">
-                  <tr>
-                     <td width="98" height="30" bordercolor="#cccccc">
-                     	<div align="center" class="set_consingee" onclick="select_consignee(<?php echo $row_consignee['id'];?>)"><?php echo $row_consignee['name']; ?> <?php echo $row_consignee['province']; ?></div>
-                     </td>
-                   </tr>
-                </table>
+                 <table class="consignee_selector"
+												id="consignee_selector_<?php echo $row_consignee['id'];?>"
+												width="98" height="30" border="1" cellpadding="0"
+												cellspacing="0" bordercolor="#cccccc">
+												<tr>
+													<td width="98" height="30" bordercolor="#cccccc">
+														<div align="center" class="set_consingee"
+															onclick="select_consignee(<?php echo $row_consignee['id'];?>)"><?php echo $row_consignee['name']; ?> <?php echo $row_consignee['province']; ?></div>
+													</td>
+												</tr>
+											</table>
                      <?php 	}?>
                     <?php $default_address=false;?>
                 </td>
-                <td width="89%">
- 				<span class="consignee_name" id="consignee_name_<?php echo $row_consignee['id']; ?>"><?php echo $row_consignee['name']; ?></span>
-				<span class="consignee_province" id="consignee_province_<?php echo $row_consignee['id']; ?>"><?php echo $row_consignee['province']; ?> </span>
-				<span class="consignee_city" id="consignee_city_<?php echo $row_consignee['id']; ?>"> <?php echo $row_consignee['city']; ?></span>
-				<span class="consignee_district" id="consignee_district_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['district']; ?> </span>
-				<span class="consignee_address" id="consignee_address_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['address']; ?> </span>
-				<span class="consignee_zip" id="consignee_zip_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['zip']; ?> </span>
-				
-				<span class="consignee_mobile" id="consignee_mobile_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['mobile']; ?></span>
-				<div class="consignee_op" onhover="toggle_consignee_op(<?php echo $row_consignee['id']; ?>)">
-					<a href="consignee_default.php?id=<?php echo $row_consignee['id']; ?>">设为默认</a>
-					<a href="consignee_del.php?id=<?php echo $row_consignee['id']; ?>" onclick="return confirm('您确定要删除这个收货地址吗？');">删除</a>
-					<a href="/user/index.php?path=consignee/update.php?id=<?php echo $row_consignee['id']; ?>">更新</a>
-				</div>
-				</td>
-              </tr>
-			   <?php } while ($row_consignee = mysql_fetch_assoc($consignee)); ?>
-			  <?php } ?>
-             </table>
-          </td>
-        </tr>
-      </table>
-      <hr width="98%" noshade="noshade" />
-	  
-	<form id="order_form" name="order_form" method="post" onSubmit="return check_consignee();">
+										<td width="89%"><span class="consignee_name"
+											id="consignee_name_<?php echo $row_consignee['id']; ?>"><?php echo $row_consignee['name']; ?></span>
+											<span class="consignee_province"
+											id="consignee_province_<?php echo $row_consignee['id']; ?>"><?php echo $row_consignee['province']; ?> </span>
+											<span class="consignee_city"
+											id="consignee_city_<?php echo $row_consignee['id']; ?>"> <?php echo $row_consignee['city']; ?></span>
+											<span class="consignee_district"
+											id="consignee_district_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['district']; ?> </span>
+											<span class="consignee_address"
+											id="consignee_address_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['address']; ?> </span>
+											<span class="consignee_zip"
+											id="consignee_zip_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['zip']; ?> </span>
 
-      <table width="948" border="0" cellpadding="0">
-        <tr>
-          <td height="40"><strong>支付方式</strong></td>
-        </tr>
-        <tr>
-          <td height="40"><table width="98" height="30" border="2" cellpadding="0" cellspacing="0" bordercolor="#E4393C">
-            <tr>
-              <td width="98" height="30" bordercolor="#E4393C"><div align="center">在线支付</div></td>
-            </tr>
-          </table></td>
-        </tr>
-      </table>
-      <hr width="98%" noshade="noshade" />
-      <table width="948" border="0" cellpadding="0">
-        <tr>
-          <td height="40"><strong>送货清单</strong></td>
-        </tr>
-        <tr>
-          <td height="184" valign="top">
-		  <table width="948" border="0" cellpadding="0">
-            <tr>
-              <td width="330" height="187" valign="top" bgcolor="#f7f7f7"><table width="100%" border="0" cellpadding="0">
-                <tr>
-                  <td height="24">配送方式</td>
-                </tr>
-                <tr>
-                  <td height="50"><table width="145" height="30" border="2" cellpadding="0" cellspacing="0" bordercolor="#E4393C">
-  <tr>
-    <td width="145" height="30" bordercolor="#E4393C"><div align="center">快递</div></td>
-  </tr>
-</table>
-</td>
-                </tr>
-                <tr>
-                  <td height="33">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td></td>
-                </tr>
-              </table></td>
-              <td height="187" valign="top" bgcolor="#f3fbfe"><table width="576" height="102" border="0" align="center" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td height="24" colspan="5">商家：自营</td>
-                </tr>
+											<span class="consignee_mobile"
+											id="consignee_mobile_<?php echo $row_consignee['id']; ?>">  <?php echo $row_consignee['mobile']; ?></span>
+											<div class="consignee_op"
+												onhover="toggle_consignee_op(<?php echo $row_consignee['id']; ?>)">
+												<a
+													href="consignee_default.php?id=<?php echo $row_consignee['id']; ?>">设为默认</a>
+												<a
+													href="consignee_del.php?id=<?php echo $row_consignee['id']; ?>"
+													onclick="return confirm('您确定要删除这个收货地址吗？');">删除</a> <a
+													href="/user/index.php?path=consignee/update.php?id=<?php echo $row_consignee['id']; ?>">更新</a>
+											</div></td>
+									</tr>
+			   <?php } while ($row_consignee = mysql_fetch_assoc($consignee_obj)); ?>
+			  <?php } ?>
+             </table></td>
+						</tr>
+					</table>
+					<hr width="98%" noshade="noshade" />
+
+					<form id="order_form" name="order_form" method="post"
+						onSubmit="return check_consignee();">
+
+						<table width="948" border="0" cellpadding="0">
+							<tr>
+								<td height="40"><strong>支付方式</strong></td>
+							</tr>
+							<tr>
+								<td height="40"><table width="98" height="30" border="2"
+										cellpadding="0" cellspacing="0" bordercolor="#E4393C">
+										<tr>
+											<td width="98" height="30" bordercolor="#E4393C"><div
+													align="center">在线支付</div></td>
+										</tr>
+									</table></td>
+							</tr>
+						</table>
+						<hr width="98%" noshade="noshade" />
+						<table width="948" border="0" cellpadding="0">
+							<tr>
+								<td height="40"><strong>送货清单</strong></td>
+							</tr>
+							<tr>
+								<td height="184" valign="top">
+									<table width="948" border="0" cellpadding="0">
+										<tr>
+											<td width="330" height="187" valign="top" bgcolor="#f7f7f7"><table
+													width="100%" border="0" cellpadding="0">
+													<tr>
+														<td height="24">配送方式</td>
+													</tr>
+													<tr>
+														<td height="50"><table width="145" height="30" border="2"
+																cellpadding="0" cellspacing="0" bordercolor="#E4393C">
+																<tr>
+																	<td width="145" height="30" bordercolor="#E4393C"><div
+																			align="center">快递</div></td>
+																</tr>
+															</table></td>
+													</tr>
+													<tr>
+														<td height="33">&nbsp;</td>
+													</tr>
+													<tr>
+														<td></td>
+													</tr>
+												</table></td>
+											<td height="187" valign="top" bgcolor="#f3fbfe"><table
+													width="576" height="102" border="0" align="center"
+													cellpadding="0" cellspacing="0">
+													<tr>
+														<td height="24" colspan="5">商家：自营</td>
+													</tr>
                  <?php
-					foreach ( $cart_products as $cart_products_item ) {
-						/*if(!isset($cart_products_item ['product_name'])){
-							continue;
-						}	*/
-						mysql_select_db($database_localhost, $localhost);
-						$query_product_image = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = ".$cart_products_item['product_id'];
-						$product_image = mysql_query($query_product_image, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-						$row_product_image = mysql_fetch_assoc($product_image);
-						$totalRows_product_image = mysql_num_rows($product_image);
-			
-					?>
+																	foreach ( $cart_products as $cart_products_item ) {
+																		/*
+																		 * if(!isset($cart_products_item ['product_name'])){
+																		 * continue;
+																		 * }
+																		 */
+																		mysql_select_db ( $database_localhost, $localhost );
+																		$query_product_image = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = " . $cart_products_item ['product_id'];
+																		$product_image = mysql_query ( $query_product_image, $localhost );
+																		if (! $Result1) {
+																			$logger->fatal ( "数据库操作失败:" . $updateSQL );
+																		}
+																		$row_product_image = mysql_fetch_assoc ( $product_image );
+																		$totalRows_product_image = mysql_num_rows ( $product_image );
+																		
+																		?>
 				<tr>
-                  <td height="102" rowspan="2" align="center" valign="top"><a href="/product.php?id=<?php echo $cart_products_item['product_id'];?>"><img style="border:1px solid #ddd;padding:1px;" src="<?php echo $row_product_image['image_files']==NULL?"/uploads/default_product.png":$row_product_image['image_files']; ?>" alt="正在下载..." width="82" height="82" /></a></td>
-                  <td width="240" height="102" valign="top"><?php
-		echo isset($cart_products_item ['product_name'])?$cart_products_item ['product_name']:$cart_products_item ['name'];
-					?><br /><?php
-					echo str_replace(";"," ",$cart_products_item ['attr_value']);
-					?></td>
-                  <td width="100" height="102" valign="top"><span style="color:#FF0000;font-weight:bold;">￥<?php
-					echo $cart_products_item ['product_price'];
-					?></span></td>
-                  <td width="70" height="102" valign="top">X<?php
-					echo $cart_products_item ['quantity'];
-					?></td>
-                  <td height="102" valign="top">有货</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td colspan="3">&nbsp;</td>
-                </tr>
+														<td height="102" rowspan="2" align="center" valign="top"><a
+															href="/product.php?id=<?php echo $cart_products_item['product_id'];?>"><img
+																style="border: 1px solid #ddd; padding: 1px;"
+																src="<?php echo $row_product_image['image_files']==NULL?"/uploads/default_product.png":$row_product_image['image_files']; ?>"
+																alt="正在下载..." width="82" height="82" /></a></td>
+														<td width="240" height="102" valign="top"><?php
+																		echo isset ( $cart_products_item ['product_name'] ) ? $cart_products_item ['product_name'] : $cart_products_item ['name'];
+																		?><br /><?php
+																		echo str_replace ( ";", " ", $cart_products_item ['attr_value'] );
+																		?></td>
+														<td width="100" height="102" valign="top"><span
+															style="color: #FF0000; font-weight: bold;">￥<?php
+																		echo $cart_products_item ['product_price'];
+																		?></span></td>
+														<td width="70" height="102" valign="top">X<?php
+																		echo $cart_products_item ['quantity'];
+																		?></td>
+														<td height="102" valign="top">有货</td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td colspan="3">&nbsp;</td>
+													</tr>
  				  <?php  } ?>
               </table></td>
-            </tr>
-           </table></td>
-        </tr>
-      </table>
-      <table width="948" border="0" cellpadding="0" align="center">
-        <tr>
-          <td height="38"><hr width="98%" noshade="noshade" />
-            <p><strong>发票信息</strong></p></td>
-        </tr>
-        <tr>
-          <td height="38" align="left"><p>需要发票：
-            <input name="invoice_is_needed" type="checkbox" id="invoice_is_needed " />
-            </p>
-            <p>发票抬头： 
-              <input name="invoice_title" type="text" id="invoice_title " />
-            </p>
-            <p>发票备注：
-              <input name="invoice_message" type="text" id="invoice_message " />
-            </p></td>
-        </tr>
-		
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<table width="948" border="0" cellpadding="0" align="center">
+							<tr>
+								<td height="38"><hr width="98%" noshade="noshade" />
+									<p>
+										<strong>发票信息</strong>
+									</p></td>
+							</tr>
+							<tr>
+								<td height="38" align="left"><p>
+										需要发票： <input name="invoice_is_needed" type="checkbox"
+											id="invoice_is_needed " />
+									</p>
+									<p>
+										发票抬头： <input name="invoice_title" type="text"
+											id="invoice_title " />
+									</p>
+									<p>
+										发票备注： <input name="invoice_message" type="text"
+											id="invoice_message " />
+									</p></td>
+							</tr>
+
+							<tr>
+								<td align="left">
+									<p>
+										<strong>收货时间：</strong> <select name="please_delivery_at"
+											id="please_delivery_at">
+											<option value="1">每天都可以</option>
+											<option value="2">工作日可以</option>
+											<option value="3">周六周日可以</option>
+										</select>
+									</p> <input name="payment_method" type="hidden" value="100" />
+								</td>
+							</tr>
+						</table>
+				
+				</div></td>
+		</tr>
+	</table>
+	<table width="990" height="116" border="0" align="center"
+		cellpadding="0">
 		<tr>
-        <td align="left">  <p><strong>收货时间：</strong>     
-        <select name="please_delivery_at" id="please_delivery_at">
-          <option value="1">每天都可以</option>
-          <option value="2">工作日可以</option>
-          <option value="3">周六周日可以</option>
-        </select></p>
-		 <input name="payment_method" type="hidden" value="100" />
-		</td>
-      </tr>
-  </table>
-      </div></td>
-  </tr>
-</table>
-<table width="990" height="116" border="0" align="center" cellpadding="0">
-  <tr>
-    <td><div align="right">件商品，总商品金额：</div></td>
-    <td width="100"><div align="right">￥<?php echo  $_SESSION['cart']['products_total'];?></div></td>
-  </tr>
-  <tr>
-    <td><div align="right">返现：</div></td>
-    <td><div align="right">-￥<?php echo  $_SESSION['cart']['promotion_fee'];?></div></td>
-  </tr>
-  <tr>
-    <td><div align="right">运费：</div></td>
-    <td><div align="right">￥<?php echo  $_SESSION['cart']['shipping_fee'];?></div></td>
-  </tr>
-  <tr>
-    <td><div align="right"> 应付总额：</div></td>
-    <td><div align="right">￥<?php echo  $_SESSION['cart']['order_total'];?></div></td>
-  </tr>
-</table>
-<hr align="center" width="990" />
-<table width="990" border="0" align="center" cellpadding="0">
-  <tr>
-    <td height="90"><div align="right">
-      <span style="font-size:14px;">应付总额：</span><span style="color:#e4393c;font-size:20px;font-weight:700;">￥<?php echo  $_SESSION['cart']['order_total'];?></span>
-	  <?php 
-	  	$could_deliver=false;
- 		$areas[]=trim($_SESSION['consignee']['province'])."_*_*";
-		$areas[]=trim($_SESSION['consignee']['province'])."_".trim($_SESSION['consignee']['s'])."_*";
-		$areas[]=trim($_SESSION['consignee']['province'])."_".trim($_SESSION['consignee']['city'])."_".trim($_SESSION['consignee']['district']);
- 	  	if(could_devliver($areas)){
-	  ?>
-          <input id="new_order_button" style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="提交" />
+			<td><div align="right">件商品，总商品金额：</div></td>
+			<td width="100"><div align="right">￥<?php echo  $_SESSION['cart']['products_total'];?></div></td>
+		</tr>
+		<tr>
+			<td><div align="right">返现：</div></td>
+			<td><div align="right">-￥<?php echo  $_SESSION['cart']['promotion_fee'];?></div></td>
+		</tr>
+		<tr>
+			<td><div align="right">运费：</div></td>
+			<td><div align="right">￥<?php echo  $_SESSION['cart']['shipping_fee'];?></div></td>
+		</tr>
+		<tr>
+			<td><div align="right">应付总额：</div></td>
+			<td><div align="right">￥<?php echo  $_SESSION['cart']['order_total'];?></div></td>
+		</tr>
+	</table>
+	<hr align="center" width="990" />
+	<table width="990" border="0" align="center" cellpadding="0">
+		<tr>
+			<td height="90"><div align="right">
+					<span style="font-size: 14px;">应付总额：</span><span
+						style="color: #e4393c; font-size: 20px; font-weight: 700;">￥<?php echo  $_SESSION['cart']['order_total'];?></span>
+	  <?php
+			$could_deliver = false;
+			$areas [] = trim ( $_SESSION ['consignee'] ['province'] ) . "_*_*";
+			$areas [] = trim ( $_SESSION ['consignee'] ['province'] ) . "_" . trim ( $_SESSION ['consignee'] ['s'] ) . "_*";
+			$areas [] = trim ( $_SESSION ['consignee'] ['province'] ) . "_" . trim ( $_SESSION ['consignee'] ['city'] ) . "_" . trim ( $_SESSION ['consignee'] ['district'] );
+			if (could_devliver ( $areas )) {
+				?>
+          <input id="new_order_button"
+						style="margin-left: 10px; border-radius: 4px; width: 135px; height: 36px; line-height: 20px; border: 0px; background-color: #FF0000; color: white; font-size: 20px;"
+						type="submit" name="Submit" value="提交" />
 		  <?php }else{ ?>
 		  
-		  <input id="new_order_button" style="margin-left:10px;border-radius:4px;width:135px;height:36px;line-height:20px;border:0px;background-color:#FF0000;color:white;font-size:20px;" type="submit" name="Submit" value="此地址无货" disabled="true"/>
+		  <input id="new_order_button"
+						style="margin-left: 10px; border-radius: 4px; width: 135px; height: 36px; line-height: 20px; border: 0px; background-color: #FF0000; color: white; font-size: 20px;"
+						type="submit" name="Submit" value="此地址无货" disabled="true" />
 		  <?php } ?>
-		  <input name="shipping_method" type="hidden" id="shipping_method" value="100" />
-		  <input name="MM_insert" type="hidden" id="MM_insert" value="order_form" />
-     	<input name="consignee_id" type="hidden" id="consignee_id" value="" />
-     </div></td>
-  </tr>
-</table>
-</form>
-<table width="990" border="0" align="center" cellpadding="0" bgcolor="#F4F4F4">
-  <tr>
-    <td height="110">
-	<div align="right">
-      <table width="100%" border="0">
-        <tr><td height="40"></td></tr>
-       </table>
-    </div></td>
-  </tr>
-</table>
+		  <input name="shipping_method" type="hidden" id="shipping_method"
+						value="100" /> <input name="MM_insert" type="hidden"
+						id="MM_insert" value="order_form" /> <input name="consignee_id"
+						type="hidden" id="consignee_id" value="" />
+				</div></td>
+		</tr>
+	</table>
+	</form>
+	<table width="990" border="0" align="center" cellpadding="0"
+		bgcolor="#F4F4F4">
+		<tr>
+			<td height="110">
+				<div align="right">
+					<table width="100%" border="0">
+						<tr>
+							<td height="40"></td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
 </body>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+<script language="JavaScript" type="text/javascript"
+	src="../../js/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript"
+	src="../../js/jquery.validate.min.js"></script>
 <script>
 $().ready(function(){
 
