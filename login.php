@@ -1,5 +1,5 @@
 <?php
-ob_start();
+ob_start ();
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -12,21 +12,23 @@ ob_start();
  * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
  * 解释权！
  * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
+ * 作者: 123PHPSHOP团队
+ * 手机: 13391334121
+ * 邮箱: service@123phpshop.com
  */
 ?><?php
-
 
 require_once ('Connections/localhost.php');
 ?>
 <?php
 
+// 获取信息
 mysql_select_db ( $database_localhost, $localhost );
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
 $shopinfo = mysql_query ( $query_shopinfo, $localhost );
-if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
+if (! $shopinfo) {
+	$logger->fatal ( "数据库操作失败:" . $query_shopinfo );
+}
 
 $row_shopinfo = mysql_fetch_assoc ( $shopinfo );
 $totalRows_shopinfo = mysql_num_rows ( $shopinfo );
@@ -41,7 +43,7 @@ if (isset ( $_GET ['accesscheck'] )) {
 try {
 	if (isset ( $_POST ['username'] )) {
 		
-		// 这里对字段进行验证
+		// 这里对字段进行验证，如果字段非法，那么告知
 		$validation->set_rules ( 'username', '用户名', 'required|min_length[6]|max_length[18]|alpha_dash' );
 		$validation->set_rules ( 'password', '密码', 'required|alpha_dash|max_length[18]|min_length[8]' );
 		$validation->set_rules ( 'captcha', '验证码', 'required|exact_length[4]|alpha_numeric' );
@@ -58,30 +60,35 @@ try {
 		mysql_select_db ( $database_localhost, $localhost );
 		
 		// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
-		if (! isset ( $_POST ['captcha'] ) or strtolower($_POST ['captcha']) != $_SESSION ['captcha']) {
+		if (! isset ( $_POST ['captcha'] ) or strtolower ( $_POST ['captcha'] ) != $_SESSION ['captcha']) {
 			throw new Exception ( "验证码错误，请重新输入" );
 		}
 		
 		$LoginRS__query = sprintf ( "SELECT id,username, password FROM user WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc () ? $loginUsername : addslashes ( $loginUsername ), get_magic_quotes_gpc () ? md5 ( $password ) : addslashes ( md5 ( $password ) ) );
 		
 		$LoginRS = mysql_query ( $LoginRS__query, $localhost );
-		if(!$LoginRS){$logger->fatal("数据库操作失败:".$LoginRS__query);}
-
+		if (! $LoginRS) {
+			$logger->fatal ( "数据库操作失败:" . $LoginRS__query );
+		}
+		
 		$user = mysql_fetch_assoc ( $LoginRS );
 		$loginFoundUser = mysql_num_rows ( $LoginRS );
 		if ($loginFoundUser) {
 			$loginStrGroup = "";
 			
-			// declare two session variables and assign them
+			// 如果验证通过，那么将用户的信息保存到session中
 			$_SESSION ['username'] = $loginUsername;
 			$_SESSION ['MM_UserGroup'] = $loginStrGroup;
 			$_SESSION ['user_id'] = $user ['id'];
 			$last_login_at = date ( 'Y-m-d H:i:s' );
 			$last_login_ip = $_SERVER ['REMOTE_ADDR'];
 			$update_last_login_sql = "update user set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user ['id'];
-			$query=mysql_query ( $update_last_login_sql, $localhost );
-					if(!$query){$logger->fatal("数据库操作失败:".$update_last_login_sql);}
-
+			$query = mysql_query ( $update_last_login_sql, $localhost );
+			if (! $query) {
+				$logger->fatal ( "数据库操作失败:" . $update_last_login_sql );
+				throw new Exception('系统错误，请稍后重试！');
+			}
+			
 			if (isset ( $_SESSION ['PrevUrl'] ) && true) {
 				$MM_redirectLoginSuccess = $_SESSION ['PrevUrl'];
 			}

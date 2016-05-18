@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,104 +15,115 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+?><?php
+
+require_once ('../../Connections/localhost.php');
+?>
 <?php
-$doc_url="ad.html#list";
-$support_email_question="查看广告详细";
- log_admin("查看广告详细");
-$error='';
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
-}
-
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-
-	// 我们这里需要对上传文件进行检查
-  include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
-  
-	$up = new fileupload;
-    //设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
-    $up -> set("path", $_SERVER['DOCUMENT_ROOT']."/uploads/ad/");
-    $up -> set("maxsize", 2000000);
-    $up -> set("allowtype", array("gif", "png", "jpg","jpeg"));
-    $up -> set("israndname", true);
-  
-    //使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
-    if($up->upload("image_path")) {
-       $image_path="/uploads/ad/".$up->getFileName(); 
-	   $insertSQL = sprintf("INSERT INTO ad_images (ad_id, image_path, link_url) VALUES (%s, %s, %s)",
-						   GetSQLValueString($_POST['ad_id'], "int"),
-						   GetSQLValueString($image_path, "text"),
-						   GetSQLValueString($_POST['link_url'], "text"));
+$doc_url = "ad.html#list";
+$support_email_question = "查看广告详细";
+log_admin ( "查看广告详细" );
+$error = '';
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
+	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
 	
-	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost);
-	  if(!$Result1){
-		$logger->fatal("更新用户登记操作失败:".$insertSQL);
-	  }
-    } else {
-         //获取上传失败以后的错误提示
-        $error=$up->getErrorMsg();
-    }
+	switch ($theType) {
+		case "text" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "long" :
+		case "int" :
+			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
+			break;
+		case "double" :
+			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
+			break;
+		case "date" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "defined" :
+			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+			break;
+	}
+	return $theValue;
+}
+
+$editFormAction = $_SERVER ['PHP_SELF'];
+if (isset ( $_SERVER ['QUERY_STRING'] )) {
+	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
+}
+
+if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
+	
+	// 我们这里需要对上传文件进行检查
+	include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
+	
+	$up = new fileupload ();
+	// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
+	$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/ad/" );
+	$up->set ( "maxsize", 2000000 );
+	$up->set ( "allowtype", array (
+			"gif",
+			"png",
+			"jpg",
+			"jpeg" 
+	) );
+	$up->set ( "israndname", true );
+	
+	// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
+	if ($up->upload ( "image_path" )) {
+		$image_path = "/uploads/ad/" . $up->getFileName ();
+		$insertSQL = sprintf ( "INSERT INTO ad_images (ad_id, image_path, link_url) VALUES (%s, %s, %s)", GetSQLValueString ( $_POST ['ad_id'], "int" ), GetSQLValueString ( $image_path, "text" ), GetSQLValueString ( $_POST ['link_url'], "text" ) );
+		
+		mysql_select_db ( $database_localhost, $localhost );
+		$Result1 = mysql_query ( $insertSQL, $localhost );
+		if (! $Result1) {
+			$logger->fatal ( "更新用户登记操作失败:" . $insertSQL );
+		}
+	} else {
+		// 获取上传失败以后的错误提示
+		$error = $up->getErrorMsg ();
+	}
 }
 
 $colname_ad_images = "-1";
-if (isset($_GET['recordID'])) {
-  $colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
+if (isset ( $_GET ['recordID'] )) {
+	$colname_ad_images = (get_magic_quotes_gpc ()) ? $_GET ['recordID'] : addslashes ( $_GET ['recordID'] );
 }
-mysql_select_db($database_localhost, $localhost);
-$query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
-$ad_images = mysql_query($query_ad_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_ad_images = mysql_fetch_assoc($ad_images);
-$totalRows_ad_images = mysql_num_rows($ad_images);
+mysql_select_db ( $database_localhost, $localhost );
+$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
+$ad_images = mysql_query ( $query_ad_images, $localhost );
+if (! $Result1) {
+	$logger->fatal ( "数据库操作失败:" . $updateSQL );
+}
+$row_ad_images = mysql_fetch_assoc ( $ad_images );
+$totalRows_ad_images = mysql_num_rows ( $ad_images );
 
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
-if (isset($_GET['pageNum_DetailRS1'])) {
-  $pageNum_DetailRS1 = $_GET['pageNum_DetailRS1'];
+if (isset ( $_GET ['pageNum_DetailRS1'] )) {
+	$pageNum_DetailRS1 = $_GET ['pageNum_DetailRS1'];
 }
 $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 
-mysql_select_db($database_localhost, $localhost);
-$recordID = $_GET['recordID'];
+mysql_select_db ( $database_localhost, $localhost );
+$recordID = $_GET ['recordID'];
 $query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
-$query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
-
-if (isset($_GET['totalRows_DetailRS1'])) {
-  $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
-} else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
-  $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
+$query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
+$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
+if (! $Result1) {
+	$logger->fatal ( "数据库操作失败:" . $updateSQL );
 }
-$totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
+$row_DetailRS1 = mysql_fetch_assoc ( $DetailRS1 );
+
+if (isset ( $_GET ['totalRows_DetailRS1'] )) {
+	$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
+} else {
+	$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
+	$totalRows_DetailRS1 = mysql_num_rows ( $all_DetailRS1 );
+}
+$totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -123,82 +134,103 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 </head>
 
 <body>
-<span class="phpshop123_title">广告详细</span>
-<div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
+	<span class="phpshop123_title">广告详细</span>
+	<div id="doc_help"
+		style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
+		<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
+			href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+			style="color: #CCCCCC; margin-left: 3px;" target="_blank"
+			href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
+			href=mailto:service@123phpshop.com?subject=我在
+			<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+			style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
+	</div>
 <?php if($error!=''){ ?>
-<a href="index.php">
-<input style="float:right;" type="submit" name="Submit2" value="广告列表" />
-</a>
-<p class="phpshop123_infobox"><?php echo $error;?></p>
+<a href="index.php"> <input style="float: right;" type="submit"
+		name="Submit2" value="广告列表" />
+	</a>
+	<p class="phpshop123_infobox"><?php echo $error;?></p>
 <?php } ?>
-<table width="100%" border="0" align="center" class="phpshop123_form_box">
-  <tr>
-    <td>广告名称</td>
-    <td><?php echo $row_DetailRS1['name']; ?> </td>
-  </tr>
-  <tr>
-    <td>备忘</td>
-    <td><?php echo $row_DetailRS1['intro']; ?> </td>
-  </tr>
-  <tr>
-    <td>高度</td>
-    <td><?php echo $row_DetailRS1['image_height']; ?></td>
-  </tr>
-  <tr>
-    <td>宽度</td>
-    <td><?php echo $row_DetailRS1['image_width']; ?></td>
-  </tr>
-  <tr>
-    <td>创建时间</td>
-    <td><?php echo $row_DetailRS1['create_time']; ?> </td>
-  </tr>
-</table>
-<br />
-<span class="phpshop123_title">添加图片</span>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1"  id="form1" style="border:1px solid #e8e8e8;margin-top:10px;padding:10px;">
-     <table width="100%" align="center">
-      <tr valign="baseline">
-        <td nowrap align="right">上传图片:</td>
-        <td><input name="image_path"   type="file" id="image_path" value="" size="32">
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right">链接网址:</td>
-        <td><input name="link_url" type="text"  id="link_url" value="http://www." size="32" maxlength="100">
-        *</td>
-      </tr>
-      <tr valign="baseline">
-        <td nowrap align="right">&nbsp;</td>
-        <td><input type="submit" value="添加图片"></td>
-      </tr>
-  </table>
-    <input type="hidden" name="ad_id" value="<?php echo $row_DetailRS1['id']; ?> ">
-    <input type="hidden" name="MM_insert" value="form1">
-</form>
+<table width="100%" border="0" align="center"
+		class="phpshop123_form_box">
+		<tr>
+			<td>广告名称</td>
+			<td><?php echo $row_DetailRS1['name']; ?> </td>
+		</tr>
+		<tr>
+			<td>备忘</td>
+			<td><?php echo $row_DetailRS1['intro']; ?> </td>
+		</tr>
+		<tr>
+			<td>高度</td>
+			<td><?php echo $row_DetailRS1['image_height']; ?></td>
+		</tr>
+		<tr>
+			<td>宽度</td>
+			<td><?php echo $row_DetailRS1['image_width']; ?></td>
+		</tr>
+		<tr>
+			<td>创建时间</td>
+			<td><?php echo $row_DetailRS1['create_time']; ?> </td>
+		</tr>
+	</table>
+	<br />
+	<span class="phpshop123_title">添加图片</span>
+	<form action="<?php echo $editFormAction; ?>" method="post"
+		enctype="multipart/form-data" name="form1" id="form1"
+		style="border: 1px solid #e8e8e8; margin-top: 10px; padding: 10px;">
+		<table width="100%" align="center">
+			<tr valign="baseline">
+				<td nowrap align="right">上传图片:</td>
+				<td><input name="image_path" type="file" id="image_path" value=""
+					size="32"> *</td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">链接网址:</td>
+				<td><input name="link_url" type="text" id="link_url"
+					value="http://www." size="32" maxlength="100"> *</td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">&nbsp;</td>
+				<td><input type="submit" value="添加图片"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="ad_id"
+			value="<?php echo $row_DetailRS1['id']; ?> "> <input type="hidden"
+			name="MM_insert" value="form1">
+	
+	</form>
    
  <?php if ($totalRows_ad_images > 0) { // Show if recordset not empty ?>
   <p class="phpshop123_title">图片列表</p>
-  <table width="100%" border="0" class="phpshop123_list_box">
-    <tr>
-      <th scope="row">图片</th>
-      <td>链接地址</td>
-      <td>创建时间</td>
-      <td>操作</td>
-    </tr>
+	<table width="100%" border="0" class="phpshop123_list_box">
+		<tr>
+			<th scope="row">图片</th>
+			<td>链接地址</td>
+			<td>创建时间</td>
+			<td>操作</td>
+		</tr>
     <?php do { ?>
       <tr>
-        <th scope="row"><img src="<?php echo $row_ad_images['image_path']; ?>" width="20" height="20" /></th>
-        <td><?php echo $row_ad_images['link_url']; ?></td>
-        <td><?php echo $row_ad_images['create_time']; ?></td>
-        <td><a onClick="return confirm('你确定要删除这条广告吗？');" href="../add_images/remove.php?id=<?php echo $row_ad_images['id']; ?>">删除</a> <a href="../add_images/update.php?id=<?php echo $row_ad_images['id']; ?>"></a></td>
-      </tr>
+			<th scope="row"><img
+				src="<?php echo $row_ad_images['image_path']; ?>" width="20"
+				height="20" /></th>
+			<td><?php echo $row_ad_images['link_url']; ?></td>
+			<td><?php echo $row_ad_images['create_time']; ?></td>
+			<td><a onClick="return confirm('你确定要删除这条广告吗？');"
+				href="../add_images/remove.php?id=<?php echo $row_ad_images['id']; ?>">删除</a>
+				<a
+				href="../add_images/update.php?id=<?php echo $row_ad_images['id']; ?>"></a></td>
+		</tr>
       <?php } while ($row_ad_images = mysql_fetch_assoc($ad_images)); ?>
   </table>
   <?php } // Show if recordset not empty ?>
   
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js"></script>
-<script>
+<script language="JavaScript" type="text/javascript"
+		src="../../js/jquery-1.7.2.min.js"></script>
+	<script language="JavaScript" type="text/javascript"
+		src="../../js/jquery.validate.min.js"></script>
+	<script>
 $().ready(function(){
 
 	$("#form1").validate({

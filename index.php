@@ -40,6 +40,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
   unset($_SESSION['user_id']);
   unset($_SESSION['PrevUrl']);
 	
+  // 跳转
   $logoutGoTo = "index.php";
   if ($logoutGoTo) {
     header("Location: $logoutGoTo");
@@ -48,6 +49,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
 }
 ?>
 <?php
+// 获取
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
 $shopinfo = mysql_query($query_shopinfo, $localhost) ;
