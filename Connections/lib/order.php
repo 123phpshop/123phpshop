@@ -190,12 +190,12 @@ function _123phpshop_product_is_in_order($order, $product) {
 
 /**
  * 更新产品数量
- * @param unknown $order
- * @param unknown $product
- * @param unknown $quantity
+ * 
+ * @param unknown $order        	
+ * @param unknown $product        	
+ * @param unknown $quantity        	
  * @return mixed
  */
-
 function _123phpshop_order_update_product_quantity($order, $product, $quantity) {
 	global $db_conn;
 	global $db_database_localhost;
@@ -407,7 +407,6 @@ global $db_conn;
  */
 function get_shipping_fee($order = array()) {
 	
- 	
 	// 获取这个订单的所有商品的总重量和总数量
 	if ($order == array ()) {
 		$order = $_SESSION ['cart'];
@@ -418,7 +417,7 @@ function get_shipping_fee($order = array()) {
 	$shipping_fee = 0.00;
 	$shipping_fee_plan = 1;
 	
- 	$weight = _get_order_weight ( $order ['products'] );
+	$weight = _get_order_weight ( $order ['products'] );
 	$is_first_shipping_fee = true;
 	$quantity = _get_order_quantity ( $order ['products'] );
 	$shipping_methods = _get_shipping_methods ( $order );
@@ -479,8 +478,8 @@ function _get_order_weight($products = array()) {
 	
 	foreach ( $products as $product ) {
 		if ($product ['is_shipping_free'] == '0' || $product ['is_shipping_free'] == 0) { // 如果不是免运费的话
-			$product_id=isset($product ['product_id'])?$product ['product_id']:$product ['id'];
-			$product_obj = _get_product_by_id ($product_id );
+			$product_id = isset ( $product ['product_id'] ) ? $product ['product_id'] : $product ['id'];
+			$product_obj = _get_product_by_id ( $product_id );
 			if (false == $product_obj) {
 				throw new Exception ( "产品不存在或者已经删除" );
 			}
@@ -710,8 +709,7 @@ function phpshop123_update_order_fee($order) {
 	// 获取订单的商品
 	$products = _get_products_by_order_id ( $order ['id'] );
 	$product_fee = _123phpshop_get_product_fee ( $products ); // 获取所有的产品配用
-	
-	                                                                
+	                                                          
 	// 根据订单的商品获取促销信息
 	$promotion_fee_obj = _123phpshop_get_promotion_fee ( $product_fee, $order ); // 获取促销费用数据
 	
@@ -719,21 +717,18 @@ function phpshop123_update_order_fee($order) {
 	$promotion_presents = $promotion_fee_obj ['presents']; // 获取促销的赠品
 	$original_promotion_ids = explode ( ",", $order ['promotion_id'] );
 	
- 	// 如果有赠品的话，那么将赠品添加到订单中，这是个数据库操作
-	$order=_123phpshop_add_order_presents ( $order, $promotion_presents );
-	
-	
+	// 如果有赠品的话，那么将赠品添加到订单中，这是个数据库操作
+	$order = _123phpshop_add_order_presents ( $order, $promotion_presents );
 	
 	// 获取订单的运费信息
 	$shipping_fee_array = get_shipping_fee ( $order );
 	$shipping_fee = $shipping_fee_array ['shipping_fee']; // 获取运费费用
 	$shipping_fee_plan = $shipping_fee_array ['shipping_fee_plan']; // 获取快递公司
-	
+	                                                                
 	// 将之前的促销和本次可以享受的促销进行合并，并去除重复的元素
 	$promotion_id_array = array_merge ( $original_promotion_ids, $promotion_fee_obj ['promotion_ids'] );
 	$promotion_id_array = array_unique ( $promotion_id_array );
 	$promotion_id_array = array_filter ( $promotion_id_array );
-	
 	
 	// 检查促销计划里面是否已经存在，
 	$promotion_fee_promotion_ids = implode ( ",", $promotion_id_array ); //
@@ -743,10 +738,9 @@ function phpshop123_update_order_fee($order) {
 	
 	// 获取订单总额
 	$order_total = _123phpshop_get_order_total ( $product_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
-	
+	                                                                                            
 	// 更新订单的各项费用，这是个数据库操作
 	_do_update_order_fee ( $order ['id'], $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids ); // 更新db中的数据
-	                                                                                                                                                     
 }
 
 /**
@@ -796,19 +790,17 @@ function _123phpshop_add_order_presents($order, $promotion_presents) {
 	if (count ( $promotion_presents ) == 0) {
 		return $order;
 	}
-	 
 	
 	// 如果》0的话，那么循环这些赠品，
 	foreach ( $promotion_presents as $product_id ) {
-	
-		// 获取这个商品.然后添加到模型层里面
-		$product=_123phpshop_get_product_by_id($product_id);
-		$product['is_present']=1;
-		$product['product_price']=0.00;
-		$product['should_pay_price']=0.00;
-		$product['quantity']=1;
-		$order['products'][]=$product;
 		
+		// 获取这个商品.然后添加到模型层里面
+		$product = _123phpshop_get_product_by_id ( $product_id );
+		$product ['is_present'] = 1;
+		$product ['product_price'] = 0.00;
+		$product ['should_pay_price'] = 0.00;
+		$product ['quantity'] = 1;
+		$order ['products'] [] = $product;
 		
 		// 添加到数据库里面
 		global $db_conn;
