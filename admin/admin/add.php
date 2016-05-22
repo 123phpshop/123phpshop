@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -15,68 +15,71 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+?><?php
+
+require_once ('../../Connections/localhost.php');
+?>
 <?php
-$doc_url="admin.html#add";
-$support_email_question="添加管理员";
-log_admin("添加管理员");
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+$doc_url = "admin.html#add";
+$support_email_question = "添加管理员";
+log_admin ( "添加管理员" );
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
+	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
+	
+	switch ($theType) {
+		case "text" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "long" :
+		case "int" :
+			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
+			break;
+		case "double" :
+			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
+			break;
+		case "date" :
+			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+			break;
+		case "defined" :
+			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+			break;
+	}
+	return $theValue;
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+$editFormAction = $_SERVER ['PHP_SELF'];
+if (isset ( $_SERVER ['QUERY_STRING'] )) {
+	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO member (username, password, mobile, email, mobile_confirmed, role_id) VALUES (%s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['username'], "text"),
-                       GetSQLValueString($_POST['password'], "text"),
-                       GetSQLValueString($_POST['mobile'], "text"),
-                       GetSQLValueString($_POST['email'], "text"),
-                       GetSQLValueString($_POST['mobile_confirmed'], "text"),
-                       GetSQLValueString($_POST['role_id'], "int"));
-
-  mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
-  if(!$Result1){$logger->fatal("添加管理员数据库操作失败:".$insertSQL);}
-  $insertGoTo = "index.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
+if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
+	$insertSQL = sprintf ( "INSERT INTO member (username, password, mobile, email, mobile_confirmed, role_id) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['username'], "text" ), GetSQLValueString ( md5 ( $_POST ['password'] ), "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['email'], "text" ), GetSQLValueString ( $_POST ['mobile_confirmed'], "text" ), GetSQLValueString ( $_POST ['role_id'], "int" ) );
+	
+	mysql_select_db ( $database_localhost, $localhost );
+	$Result1 = mysql_query ( $insertSQL, $localhost );
+	if (! $Result1) {
+		$logger->fatal ( __FILE__." :添加管理员数据库操作失败:" . $insertSQL );
+		throw new Exception(COMMON_LANG_DB_ERROR);
+	}
+	$insertGoTo = "index.php";
+	if (isset ( $_SERVER ['QUERY_STRING'] )) {
+		$insertGoTo .= (strpos ( $insertGoTo, '?' )) ? "&" : "?";
+		$insertGoTo .= $_SERVER ['QUERY_STRING'];
+	}
+	header ( sprintf ( "Location: %s", $insertGoTo ) );
 }
 
-mysql_select_db($database_localhost, $localhost);
+mysql_select_db ( $database_localhost, $localhost );
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query($query_roles, $localhost) ;
-if(!$roles){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_roles = mysql_fetch_assoc($roles);
-$totalRows_roles = mysql_num_rows($roles);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+$roles = mysql_query ( $query_roles, $localhost );
+if (! $roles) {
+	$logger->fatal ( "数据库操作失败:" . $updateSQL );
+}
+$row_roles = mysql_fetch_assoc ( $roles );
+$totalRows_roles = mysql_num_rows ( $roles );
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -85,64 +88,82 @@ $totalRows_roles = mysql_num_rows($roles);
 </head>
 
 <body>
-<span class="phpshop123_title">添加管理员 </span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>
-  <a href="index.php"><input style="float:right;" type="submit" name="Submit2" value="管理员列表" />
-  </a>
+	<span class="phpshop123_title">添加管理员 </span>
+	<div id="doc_help"
+		style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
+		<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
+			href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+			style="color: #CCCCCC; margin-left: 3px;" target="_blank"
+			href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
+			href=mailto:service@123phpshop.com?subject=我在
+			<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+			style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
+	</div>
+	<a href="index.php"><input style="float: right;" type="submit"
+		name="Submit2" value="管理员列表" /> </a>
 
-<form method="post" name="form1" id="form1" action="<?php echo $editFormAction; ?>">
-  <table align="center" class="phpshop123_form_box">
-    <tr valign="baseline">
-      <td nowrap align="right">角色:</td>
-      <td><label>
-        <select name="role_id" id="role_id">
+	<form method="post" name="form1" id="form1"
+		action="<?php echo $editFormAction; ?>">
+		<table align="center" class="phpshop123_form_box">
+			<tr valign="baseline">
+				<td nowrap align="right">角色:</td>
+				<td><label> <select name="role_id" id="role_id">
           <?php
-do {  
-?>
+										do {
+											?>
           <option value="<?php echo $row_roles['id']?>"><?php echo $row_roles['name']?></option>
           <?php
-} while ($row_roles = mysql_fetch_assoc($roles));
-  $rows = mysql_num_rows($roles);
-  if($rows > 0) {
-      mysql_data_seek($roles, 0);
-	  $row_roles = mysql_fetch_assoc($roles);
-  }
-?>
+										} while ( $row_roles = mysql_fetch_assoc ( $roles ) );
+										$rows = mysql_num_rows ( $roles );
+										if ($rows > 0) {
+											mysql_data_seek ( $roles, 0 );
+											$row_roles = mysql_fetch_assoc ( $roles );
+										}
+										?>
         </select>
-      </label></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">账户:</td>
-      <td><input name="username" type="text" id="username" value="" size="32" maxlength="18"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">密码:</td>
-      <td><input name="password" type="password" id="password" value="" size="32" maxlength="16"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">确认:</td>
-      <td><input name="password2" type="password" id="password2" value="" size="32" maxlength="16" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">手机:</td>
-      <td><input name="mobile" type="text" id="mobile" value="" size="32" maxlength="11"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">邮件:</td>
-      <td><input name="email" type="text"  id="email" value="" size="32" maxlength="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="插入记录"></td>
-    </tr>
-  </table>
-  <input type="hidden" name="mobile_confirmed" value="1">
-  <input type="hidden" name="MM_insert" value="form1">
-</form>
-<p>&nbsp;</p>
-<script language="JavaScript" type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>	
-<script language="JavaScript" type="text/javascript" src="../../js/jquery.validate.min.js" charset="UTF-8"></script>
+				</label></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">账户:</td>
+				<td><input name="username" type="text" id="username" value=""
+					size="32" maxlength="18"></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">密码:</td>
+				<td><input name="password" type="password" id="password" value=""
+					size="32" maxlength="16"></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">确认:</td>
+				<td><input name="password2" type="password" id="password2" value=""
+					size="32" maxlength="16" /></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">手机:</td>
+				<td><input name="mobile" type="text" id="mobile" value="" size="32"
+					maxlength="11"></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">邮件:</td>
+				<td><input name="email" type="text" id="email" value="" size="32"
+					maxlength="32"></td>
+			</tr>
+			<tr valign="baseline">
+				<td nowrap align="right">&nbsp;</td>
+				<td><input type="submit" value="插入记录"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="mobile_confirmed" value="1"> <input
+			type="hidden" name="MM_insert" value="form1">
+	
+	</form>
+	<p>&nbsp;</p>
+	<script language="JavaScript" type="text/javascript"
+		src="../../js/jquery-1.7.2.min.js"></script>
+	<script language="JavaScript" type="text/javascript"
+		src="../../js/jquery.validate.min.js" charset="UTF-8"></script>
 
-<script>
+	<script>
 $().ready(function(){
 
 	$("#form1").validate({
@@ -214,5 +235,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($roles);
+mysql_free_result ( $roles );
 ?>
