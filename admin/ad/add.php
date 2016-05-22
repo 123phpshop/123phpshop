@@ -16,6 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
+
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 ?>
 <?php
@@ -52,24 +53,27 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	
-	// @todo 验证参数
-	log_admin ( "添加广告" );
-	
-	$insertSQL = sprintf ( "INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "text" ), GetSQLValueString ( $_POST ['end_date'], "text" ) );
-	
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
-	if (! $Result1) {
-		$error = "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！";
-		$logger->fatal ( "插入广告时数据库操作失败" .mysql_error(). $insertSQL );
-	} else {
+	try {
+		// @todo 验证参数
+		log_admin ( "添加广告" );
+		
+		$insertSQL = sprintf ( "INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "text" ), GetSQLValueString ( $_POST ['end_date'], "text" ) );
+		
+		mysql_select_db ( $database_localhost, $localhost );
+		$Result1 = mysql_query ( $insertSQL, $localhost );
+		if (! $Result1) {
+			$logger->fatal ( "插入广告时数据库操作失败" . mysql_error () . $insertSQL );
+			throw new Exception ( "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！" );
+		}
+		
 		$insertGoTo = "index.php";
 		if (isset ( $_SERVER ['QUERY_STRING'] )) {
 			$insertGoTo .= (strpos ( $insertGoTo, '?' )) ? "&" : "?";
 			$insertGoTo .= $_SERVER ['QUERY_STRING'];
 		}
 		header ( sprintf ( "Location: %s", $insertGoTo ) );
+	} catch ( Exception $ex ) {
+		$error = $ex->getMessage ();
 	}
 }
 ?>

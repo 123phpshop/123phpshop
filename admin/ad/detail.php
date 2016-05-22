@@ -53,77 +53,84 @@ $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
-
-if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	
-	// 我们这里需要对上传文件进行检查
-	include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
-	
-	$up = new fileupload ();
-	// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
-	$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/ad/" );
-	$up->set ( "maxsize", 2000000 );
-	$up->set ( "allowtype", array (
-			"gif",
-			"png",
-			"jpg",
-			"jpeg" 
-	) );
-	$up->set ( "israndname", true );
-	
-	// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
-	if ($up->upload ( "image_path" )) {
+try {
+	if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
+		
+		// 我们这里需要对上传文件进行检查
+		include ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/upload.php');
+		
+		$up = new fileupload ();
+		// 设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
+		$up->set ( "path", $_SERVER ['DOCUMENT_ROOT'] . "/uploads/ad/" );
+		$up->set ( "maxsize", 2000000 );
+		$up->set ( "allowtype", array (
+				"gif",
+				"png",
+				"jpg",
+				"jpeg" 
+		) );
+		$up->set ( "israndname", true );
+		
+		// 使用对象中的upload方法， 就可以上传文件， 方法需要传一个上传表单的名子 pic, 如果成功返回true, 失败返回false
+		if (! $up->upload ( "image_path" )) {
+			throw new Exception ( $up->getErrorMsg () );
+		}
 		$image_path = "/uploads/ad/" . $up->getFileName ();
 		$insertSQL = sprintf ( "INSERT INTO ad_images (ad_id, image_path, link_url) VALUES (%s, %s, %s)", GetSQLValueString ( $_POST ['ad_id'], "int" ), GetSQLValueString ( $image_path, "text" ), GetSQLValueString ( $_POST ['link_url'], "text" ) );
 		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		// 如果数据库操作出现错误，那么抛出
 		if (! $Result1) {
-			$logger->fatal ( "更新用户登记操作失败:" . $insertSQL );
+			$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysql_error () . $insertSQL );
+			throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 		}
-	} else {
-		// 获取上传失败以后的错误提示
-		$error = $up->getErrorMsg ();
 	}
+	
+	$colname_ad_images = "-1";
+	if (isset ( $_GET ['recordID'] )) {
+		$colname_ad_images = (get_magic_quotes_gpc ()) ? $_GET ['recordID'] : addslashes ( $_GET ['recordID'] );
+	}
+	mysql_select_db ( $database_localhost, $localhost );
+	$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
+	$ad_images = mysql_query ( $query_ad_images, $localhost );
+	if (! $Result1) {
+		$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysql_error () . $query_ad_images );
+		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
+	}
+	
+	$row_ad_images = mysql_fetch_assoc ( $ad_images );
+	$totalRows_ad_images = mysql_num_rows ( $ad_images );
+	
+	$maxRows_DetailRS1 = 50;
+	$pageNum_DetailRS1 = 0;
+	if (isset ( $_GET ['pageNum_DetailRS1'] )) {
+		$pageNum_DetailRS1 = $_GET ['pageNum_DetailRS1'];
+	}
+	$startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
+	
+	mysql_select_db ( $database_localhost, $localhost );
+	$recordID = $_GET ['recordID'];
+	$query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
+	$query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
+	$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
+	if (! $Result1) {
+		$logger->fatal ( __FILE__." 数据库操作失败:" . $updateSQL );
+		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
+	}
+	$row_DetailRS1 = mysql_fetch_assoc ( $DetailRS1 );
+	
+	if (isset ( $_GET ['totalRows_DetailRS1'] )) {
+		$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
+	} else {
+		$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
+		$totalRows_DetailRS1 = mysql_num_rows ( $all_DetailRS1 );
+	}
+	$totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
+} catch ( Exception $ex ) {
+	$error = $ex->getMessage ();
 }
-
-$colname_ad_images = "-1";
-if (isset ( $_GET ['recordID'] )) {
-	$colname_ad_images = (get_magic_quotes_gpc ()) ? $_GET ['recordID'] : addslashes ( $_GET ['recordID'] );
-}
-mysql_select_db ( $database_localhost, $localhost );
-$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
-$ad_images = mysql_query ( $query_ad_images, $localhost );
-if (! $Result1) {
-	$logger->fatal ( "数据库操作失败:" . $updateSQL );
-}
-$row_ad_images = mysql_fetch_assoc ( $ad_images );
-$totalRows_ad_images = mysql_num_rows ( $ad_images );
-
-$maxRows_DetailRS1 = 50;
-$pageNum_DetailRS1 = 0;
-if (isset ( $_GET ['pageNum_DetailRS1'] )) {
-	$pageNum_DetailRS1 = $_GET ['pageNum_DetailRS1'];
-}
-$startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
-
-mysql_select_db ( $database_localhost, $localhost );
-$recordID = $_GET ['recordID'];
-$query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
-$query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
-$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
-if (! $Result1) {
-	$logger->fatal ( "数据库操作失败:" . $updateSQL );
-}
-$row_DetailRS1 = mysql_fetch_assoc ( $DetailRS1 );
-
-if (isset ( $_GET ['totalRows_DetailRS1'] )) {
-	$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
-} else {
-	$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
-	$totalRows_DetailRS1 = mysql_num_rows ( $all_DetailRS1 );
-}
-$totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

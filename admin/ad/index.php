@@ -17,17 +17,15 @@
  */
 ?><?php
 
-
 require_once ('../../Connections/localhost.php');
 ?>
 <?php
 
+$error = "错误提示";
 $doc_url = "ad.html#list";
 $support_email_question = "查看广告列表";
 $currentPage = $_SERVER ["PHP_SELF"];
 log_admin ( "查看广告列表" );
-
-
 
 $maxRows_ads = 50;
 $pageNum_ads = 0;
@@ -42,6 +40,7 @@ $query_limit_ads = sprintf ( "%s LIMIT %d, %d", $query_ads, $startRow_ads, $maxR
 $ads = mysql_query ( $query_limit_ads, $localhost );
 if (! $ads) {
 	$logger->fatal ( "数据库操作失败:" . $query_limit_ads );
+	throw new Exception ( "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！" );
 }
 $row_ads = mysql_fetch_assoc ( $ads );
 
@@ -150,6 +149,14 @@ $queryString_ads = sprintf ( "&totalRows_ads=%d%s", $totalRows_ads, $queryString
 			</table>
   记录 <?php echo ($startRow_ads + 1) ?> 到 <?php echo min($startRow_ads + $maxRows_ads, $totalRows_ads) ?> (总共 <?php echo $totalRows_ads ?>）
   
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	</p>
    <?php } // Show if recordset not empty ?>
