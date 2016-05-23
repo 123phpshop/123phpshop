@@ -135,7 +135,7 @@ function echo_post($para) {
 	echo $_POST[$para];
 }
 
-function include_error(){
+function show_error(){
  include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); 
 }
 

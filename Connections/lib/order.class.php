@@ -17,57 +17,39 @@
  */
 ?><?php
 
-require_once 'order.interface.php';
-/**
- * 订单操作的抽象类
- *
- * @author thomas
- *        
- */
+interface IOrder {
+	
+	/**
+	 * 添加商品
+	 *
+	 * @param unknown $product
+	 *        	商品
+	 */
+	public function add_product($product);
+	/**
+	 * 删除商品
+	 *
+	 * @param unknown $product
+	 *        	商品
+	 */
+	public function remove_product($product);
+	
+	/**
+	 * 更新商品数量
+	 *
+	 * @param unknown $product
+	 *        	商品
+	 * @param unknown $quantity
+	 *        	数量
+	 */
+	public function update_product_quantity($product, $quantity);
+}
 abstract class Order implements IOrder {
 	protected $order;
 	public function __construct($order) {
 		$this->order = $order;
 	}
 	public function add_product($prodcut) {
-		global $glogger;
-		
-		// @toto 获取默认收货地址
-		
-		// @toto 如果用户已经登录的话，那么获取用户的默认收货地址
-		
-		// @toto 如果用户没有登录的话，那么获取系统的默认收货区域
-		
-		// @toto 检查商品是否可以配送到这个区域，如果不能配送到这个区域，那么返回false
-		
-		// 如果session中的产品的数量为0的话，那么直接将产品添加到购物车中的产品列表中即可
-		$_is_product_exits_in_cart = $this->_is_product_exits_in_cart ( $product );
-		
-		// $glogger->debug ( "添加商品到购物车：检查商品是否存在：" . $_is_product_exits_in_cart );
-		
-		// 如果购物车中没有该商品的话，那么直接进行添加
-		if (! $_is_product_exits_in_cart) {
-			// $glogger->debug ( "添加商品到购物车：购物车中没有此商品，直接添加商品。" );
-			
-			// 如果不为0 的话，那么需要检查购物车中是否有这个产品，如果有的话，那么更新这个产品的数量
-			$this->_do_add_product ( $product );
-		} else {
-			// 如果已经有了这个产品的话，那么需要增加这个商品的数量
-			// $glogger->debug ( "添加商品到购物车：购物车中有此商品，更新商品数量。" );
-			$this->_update_product_quantity ( $product );
-		}
-		
-		// 更新产品总价
-		$this->_update_products_total ();
-		
-		$this->_clear_promotion (); // 清除购物车中的所有促销信息
-		                            
-		// 更新订单总价
-		                            // $glogger->debug ( "添加商品到购物车：开始更新订单总价" );
-		                            // $this->_update_order_total ();
-		
-		$glogger->debug ( "添加商品到购物车：开始更新购物车中的促销信息" );
-		$this->_update_promotion_info (); // 更新购物车中的促销信息
 	}
 	public function update_product_quantity($prodcut, $quantity) {
 	}
@@ -141,6 +123,8 @@ abstract class Order implements IOrder {
 			// 将赠品添加到购物车中
 			$this->_123phpshop_add_order_presents ( $promotion_presents );
 			
+		
+ 			
 			// 获取运费信息
 			$shipping_fee_array = get_shipping_fee ( $this->order );
 			$shipping_fee = $shipping_fee_array ['shipping_fee'];
@@ -154,7 +138,7 @@ abstract class Order implements IOrder {
 	
 	/**
 	 * 获取促销的金额，计划和赠品
-	 *
+	 * 
 	 * @param unknown $products_fee        	
 	 * @param unknown $order        	
 	 * @return number[]|number[]|unknown

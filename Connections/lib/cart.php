@@ -161,7 +161,7 @@ abstract class Cart implements ICart {
 	/**
 	 * 将this-》cart中的数据保存进入session或是数据库
 	 */
-	private protected function _save_this_cart() {
+	private function _save_this_cart() {
 		
 		// 删除数据库里面该用户该订单的所有信息
 		$this->_clean_order_from_db ();

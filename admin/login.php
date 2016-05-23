@@ -18,9 +18,11 @@ ob_start ();
  */
 ?>
 <?php
+
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 ?>
 <?php
+
 $loginFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_GET ['accesscheck'] )) {
 	$_SESSION ['PrevUrl'] = $_GET ['accesscheck'];
@@ -47,7 +49,7 @@ if (isset ( $_POST ['username'] )) {
 	$MM_redirecttoReferrer = true;
 	
 	// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
-	if (strtolower($_POST ['captcha']) != $_SESSION ['captcha']) {
+	if (strtolower ( $_POST ['captcha'] ) != $_SESSION ['captcha']) {
 		header ( "Location: " . "login.php?error=验证码输入错误，请重新输入" );
 		return;
 	}
@@ -55,8 +57,11 @@ if (isset ( $_POST ['username'] )) {
 	mysql_select_db ( $database_localhost, $localhost );
 	$LoginRS__query = sprintf ( "SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc () ? $loginUsername : addslashes ( $loginUsername ), get_magic_quotes_gpc () ? $password : addslashes ( $password ) );
 	$LoginRS = mysql_query ( $LoginRS__query, $localhost );
-	if(!$LoginRS){$logger->fatal("数据库操作失败:".$LoginRS__query);}
-
+	if (! $LoginRS) {
+		$logger->fatal ( __FILE__ . "数据库操作失败:" . $LoginRS__query );
+		throw new Exception(COMMON_LANG_DB_ERROR);
+	}
+	
 	$loginFoundUser = mysql_num_rows ( $LoginRS );
 	if ($loginFoundUser) {
 		$loginStrGroup = "";
@@ -71,16 +76,20 @@ if (isset ( $_POST ['username'] )) {
 		
 		// 更新用户的登录时间和ip
 		$update_last_login_sql = "update member set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user_rs ['id'];
-		$query=mysql_query ( $update_last_login_sql, $localhost );
-		if(!$query){$logger->fatal("数据库操作失败:".$update_last_login_sql);}
-
+		$query = mysql_query ( $update_last_login_sql, $localhost );
+		if (! $query) {
+			$logger->fatal ( "数据库操作失败:" . $update_last_login_sql );
+		}
+		
 		$privileges_array = array ();
 		
 		// 获取这个用户的角色
 		mysql_select_db ( $database_localhost, $localhost );
 		$query_role = "SELECT * FROM `role` WHERE id = " . $user_rs ['role_id'];
 		$role = mysql_query ( $query_role, $localhost );
-		if(!$role){$logger->fatal("数据库操作失败:".$query_role);}
+		if (! $role) {
+			$logger->fatal ( "数据库操作失败:" . $query_role );
+		}
 		
 		$row_role = mysql_fetch_assoc ( $role );
 		$totalRows_role = mysql_num_rows ( $role );
@@ -93,8 +102,10 @@ if (isset ( $_POST ['username'] )) {
 		mysql_select_db ( $database_localhost, $localhost );
 		$query_privilege_files = "SELECT file_name FROM privilege WHERE id in (" . $privileges_id_array . ")";
 		$privilege_files = mysql_query ( $query_privilege_files, $localhost );
-		if(!$privilege_files){$logger->fatal("数据库操作失败:".$query_privilege_files);}
-
+		if (! $privilege_files) {
+			$logger->fatal ( "数据库操作失败:" . $query_privilege_files );
+		}
+		
 		$totalRows_privilege_files = mysql_num_rows ( $privilege_files );
 		if ($totalRows_privilege_files > 0) {
 			while ( $row_privilege_files = mysql_fetch_assoc ( $privilege_files ) ) {
@@ -187,8 +198,9 @@ table {
 						</tr>
 						<tr>
 							<td align="right" valign="bottom">&nbsp;</td>
-							<td height="76" align="right" valign="bottom">
-							<input style="margin: 15px; width: 70px; height: 35px; background-color: #1e91cf; border: #1978ab; color: #FFFFFF;" type="submit" name="Submit" value="登录" />&nbsp;</td>
+							<td height="76" align="right" valign="bottom"><input
+								style="margin: 15px; width: 70px; height: 35px; background-color: #1e91cf; border: #1978ab; color: #FFFFFF;"
+								type="submit" name="Submit" value="登录" />&nbsp;</td>
 						</tr>
 					</table>
 				</td>
