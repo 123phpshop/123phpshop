@@ -158,6 +158,8 @@ $queryString_ads = sprintf ( "&totalRows_ads=%d%s", $totalRows_ads, $queryString
 	
 	
 	
+	
+	
 	</p>
    <?php } // Show if recordset not empty ?>
 </body>

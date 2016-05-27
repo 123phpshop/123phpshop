@@ -5,7 +5,7 @@
  * @author thomas
  *
  */
-interface ICart {
+interface ICartManager {
 	
 	/**
 	 * 向购物车里面添加商品

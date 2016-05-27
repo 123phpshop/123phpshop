@@ -19,6 +19,7 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
 
+
 /**
  * 生成订单序列号
  *

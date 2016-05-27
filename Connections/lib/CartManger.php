@@ -18,7 +18,8 @@
 ?>
 <?php
 
-require_once 'icart.php';
+require_once 'ICartManager.php';
+require_once 'OrderManager.php';
 /**
  * 这个是购物车的抽象类，这个类的使用场景有：
  * 1.管理员后台添加订单
@@ -30,19 +31,19 @@ require_once 'icart.php';
  * @author thomas@123phpshop.com
  *        
  */
-abstract class Cart implements ICart {
+class CartManger implements ICart {
 	protected $user_id;
-	protected $token;
 	protected $conn;
 	protected $logger;
+	protected $user_type;
 	
 	/**
 	 * 构造函数
 	 */
-	public function __construct($user_id, $token = null) {
+	public function __construct($user_type, $user_id) {
 		global $glogger; //
-		$this->user_id = $user_id; // 操作用户的id
-		$this->token = $token; // 手机端用户需要提交的token
+		$this->user_type = $user_type; // 指定订单的类型，有的是注册用户，有的是没有注册的用户，有的是从微信来的用户
+		$this->user_id = $user_id; // 操作用户的id，如果是未注册用户的话那么这里应该是他的sessionid，如果是微信用户的话，那么这里是他的openid
 		$this->cart = array (); // 初始化购物车数组
 		$this->logger = $glogger; // 初始化日志
 		
@@ -60,7 +61,6 @@ abstract class Cart implements ICart {
 	 */
 	public function add_product($product) {
 		$this->_add_product_to_this_cart ( $product ); // 将当前的商品添加到this->cart
-		
 		$this->_save_this_cart (); // 保存this->cart
 	}
 	
@@ -169,9 +169,20 @@ abstract class Cart implements ICart {
 		// 将this->cart保存进入数据库里面
 		$this->_do_save_this_cart ();
 	}
-	abstract function _clean_order_from_db(); // 删除数据库里面该用户该订单的所有信息
+	
+	/**
+	 * 删除数据库里面该用户该订单的所有信息
+	 */
+	private function _clean_order_from_db() { //
+		$this->_clean_order_table ();
+		$this->_clean_order_item_table ();
+	}
 	abstract function _do_save_this_cart(); // 将this->cart保存进入数据库里面
-	private function _recalculate_promotion_and_fee() {
+	
+	/**
+	 * 重新计算模型层中的促销和费用信息
+	 */
+	final function _recalculate_promotion_and_fee() {
 		$this->_update_cart_products_total (); // 更新商品总价
 		$this->_update_cart_promotion (); // 更新购物车中的促销信息
 		$this->_update_cart_shipping_fee (); // 如果有赠品变动的话，那么需要更新运费
@@ -186,7 +197,7 @@ abstract class Cart implements ICart {
 	 * @param unknown $attr_value        	
 	 * @throws Exception
 	 */
-	private function _change_product_quantity_for_this_cart($product_id, $quantity, $attr_value) {
+	final function _change_product_quantity_for_this_cart($product_id, $quantity, $attr_value) {
 		$this->logger->debug ( __METHOD__ . ' 更新购物车模型中的某个商品的数量开始' );
 		
 		// 检查产品是否存在，如果不存在，那么告知重新刷新页面
@@ -201,17 +212,27 @@ abstract class Cart implements ICart {
 		
 		// 如果都ok的话，那么这个产品的数量+1，然后返回更新后的数据
 		if (! $this->_do_change_cart_quantity ( $product_id, $quantity, $attr_value )) {
-			$this->logger->fatal ( __METHOD__ . "修改购物车中商品的数量：_do_change_quantity操作失败" );
+			// $this->logger->fatal ( __METHOD__ . "修改购物车中商品的数量：_do_change_quantity操作失败" );
 			throw new Exception ( "系统错误，请稍后重试" );
 		}
 		
-		$this->_recalculate_promotion_and_fee();
+		$this->_recalculate_promotion_and_fee ();
 		
 		$this->logger->debug ( __METHOD__ . ' 更新购物车模型中的某个商品的数量结束' );
 	}
 	
+	/**
+	 * 加载购物车数据
+	 */
+	abstract function _load_cart_data();
 	
-	abstract protected function _load_cart_data(); // 加载订单数据
+	/**
+	 * 通过不同的字段来加载不购物车里面的数据
+	 *
+	 * @param unknown $fields_name        	
+	 */
+	protected function _load_cart_data_by_field($fields_name) {
+	}
 	
 	/**
 	 * 获取促销的促销金额，折扣赠品
@@ -219,7 +240,7 @@ abstract class Cart implements ICart {
 	 * @param unknown $promotion_plan        	
 	 * @param unknown $fee        	
 	 */
-	private function _get_promotion_fee_presents($promotion_plan, $fee) {
+	final function _get_promotion_fee_presents($promotion_plan, $fee) {
 		// 检查促销的类型
 		$result = array ();
 		$result ['fee'] = 0.00;
@@ -252,154 +273,8 @@ abstract class Cart implements ICart {
 	 * @return unknown[]
 	 */
 	private function _123phpshop_get_promotion_fee($product_fee, $order) {
-		// 初始化结果参数
-		$results = array ();
-		$results ['fee'] = 0.00;
-		$results ['presents'] = array ();
-		$results ['promotion_ids'] = array ();
-		
-		// 从数据库中获取所有当前可用的促销计划
-		global $db_conn;
-		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
-		$sql = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
-		$promotions = mysql_query ( $sql, $db_conn );
-		if (mysql_num_rows ( $promotions ) == 0) {
-			return $results;
-		}
-		
-		// 循环这些促销
-		while ( $promotion_plan = mysql_fetch_assoc ( $promotions ) ) {
-			// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
-			$promotion_ids_array = explode ( ",", $order ['promotion_id'] );
-			
-			// 检查用户已经享受了这个促销
-			$_promotion_in_order = in_array ( $promotion_plan ['id'], $promotion_ids_array );
-			$this->logger->debug ( "检查用户是否已经享受了这个促销：" );
-			
-			// 如果用户没有享受过这个促销，而且具有享受这个促销的条件，那么直接添加
-			if ($promotion_plan ['promotion_limit'] == "1") {
-				
-				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $product_fee );
-				
-				// 如果是全场的话，商品的总费用没有达到享受促销所需要的费用，但是订单有这个促销的话，那么将这个促销删除
-				if (( float ) $product_fee < ( float ) $promotion_plan ['amount_lower_limit']) {
-					if ($_promotion_in_order) {
-						$this->_unset_promotion ( $promotion_plan, $promotion_fee_presents );
-					}
-					continue;
-				}
-				
-				// 如果用户已经享受过这个促销的话
-				if ($_promotion_in_order) {
-					$this->logger->debug ( "用户是否已经享受了这个促销：跳过。。。" );
-					continue;
-				}
-				
-				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
-				// 如果这个促销是满增的话，那么将赠品添加到结果中
-				if (count ( $promotion_fee_presents ['presents'] ) > 0) {
-					$results ['presents'] = array_merge ( $promotion_fee_presents ['presents'], $results ['presents'] );
-				}
-				
-				$results ['promotion_ids'] [] = $promotion_plan ['id'];
-				continue;
-			}
-			
-			// 如果是分类的话
-			if ($promotion_plan ['promotion_limit'] == "2") {
-				
-				// 检查获取这张订单中所有参与分类的商品的总金额
-				$catalog_product_fee = $this->_123phpshop_get_catalog_product_fee ( $order, $promotion_plan );
-				
-				// 然后获取这个促销的金额和赠品
-				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $catalog_product_fee );
-				
-				// 如果指定分类的商品的总额《参与促销活动的最低的金额的话，那么说明用户无权享受这个促销，那么需要退出
-				if (( float ) $catalog_product_fee < ( float ) $promotion_plan ['amount_lower_limit']) {
-					if ($_promotion_in_order) { // 如果用户已经享受过这个促销的话，那么需要收回这个促销
-						$this->_unset_promotion ( $promotion_plan, $promotion_fee_presents );
-					}
-					// 进行下一个
-					continue;
-				}
-				
-				// 如果用户已经享受过这个促销的话，那么直接循环下一个
-				if ($_promotion_in_order) {
-					continue;
-				}
-				
-				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
-				// 如果这个促销是满增的话，那么将赠品添加到结果中
-				if (count ( $promotion_fee_presents ['presents'] ) > 0) {
-					$results ['presents'] = array_merge ( $promotion_fee_presents ['presents'], $results ['presents'] );
-				}
-				$results ['promotion_ids'] [] = $promotion_plan ['id'];
-				continue;
-			}
-			
-			// 如果是品牌的话
-			if ($promotion_plan ['promotion_limit'] == "3") {
-				
-				// 获取订单中
-				$brand_product_fee = $this->_123phpshop_get_brand_product_fee ( $order, $promotion_plan );
-				
-				// 然后获取这个促销的金额和赠品
-				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $brand_product_fee );
-				// 如果这个品牌的商品的总额《参与促销活动的最低的金额的话
-				if (( float ) $brand_product_fee < ( float ) $promotion_plan ['amount_lower_limit']) {
-					if ($_promotion_in_order) {
-						$this->_unset_promotion ( $promotion_plan, $promotion_fee_presents );
-					}
-					continue;
-				}
-				
-				// 如果用户已经享受过这个促销的话，那么直接循环下一个
-				if ($_promotion_in_order) {
-					continue;
-				}
-				
-				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
-				
-				// 如果这个促销是满增的话，那么将赠品添加到结果中
-				if (count ( $promotion_fee_presents ['presents'] ) > 0) {
-					$results ['presents'] = array_merge ( $promotion_fee_presents ['presents'], $results ['presents'] );
-				}
-				$results ['promotion_ids'] [] = $promotion_plan ['id'];
-				continue;
-			}
-			
-			// 如果是指定产品的话
-			if ($promotion_plan ['promotion_limit'] == "4") {
-				
-				$product_product_fee = $this->_123phpshop_get_product_product_fee ( $order, $promotion_plan );
-				
-				// 然后获取这个促销的金额和赠品
-				$promotion_fee_presents = $this->_get_promotion_fee_presents ( $promotion_plan, $product_product_fee );
-				// 如果指定商品的总额《参与促销活动的最低的金额的话
-				if (( float ) $product_product_fee < ( float ) $promotion_plan ['amount_lower_limit']) {
-					if ($_promotion_in_order) {
-						// 那么将这个促销从订单中删除
-						$this->_unset_promotion ( $promotion_plan, $promotion_fee_presents );
-					}
-					continue;
-				}
-				
-				// 如果用户已经享受过这个促销的话，那么直接循环下一个
-				if ($_promotion_in_order) {
-					continue;
-				}
-				
-				$results ['fee'] += ( float ) $promotion_fee_presents ['fee'];
-				// 如果这个促销是满增的话，那么将赠品添加到结果中
-				if (count ( $promotion_fee_presents ['presents'] ) > 0) {
-					$results ['presents'] = array_merge ( $promotion_fee_presents ['presents'], $results ['presents'] );
-				}
-				$results ['promotion_ids'] [] = $promotion_plan ['id'];
-				continue;
-			}
-		}
-		return $results;
+		$promotion_manager = new PromotionManager ();
+		return $promotion_manager->_get_promotion_fee ( $product_fee, $order );
 	}
 	
 	/**
@@ -409,27 +284,23 @@ abstract class Cart implements ICart {
 	 * @param unknown $promotion_fee_presents        	
 	 * @param array $order        	
 	 */
-	private function _unset_promotion($promotion, $promotion_fee_presents, $order = array()) {
+	private function _unset_promotion($promotion, $promotion_fee_presents) {
 		$this->logger->debug ( "删除促销开始" );
-		if ($order == array ()) {
-			$order = $this->cart;
-		}
-		
 		// 从订单中删除这个促销的id
-		$promotion_ids = $this->_123phpshop_remove_promotion_id_from_order ( $order, $promotion ['id'] );
-		$this->logger->debug ( "删除促销：当前订单的促销id：" . $promotion_ids );
+		$promotion_ids = $this->_123phpshop_remove_promotion_id_from_order ($promotion ['id'] );
+		// $this->logger->debug ( "删除促销：当前订单的促销id：" . $promotion_ids );
 		
 		// 重新更新订单的id
-		$this->_123phpshop_update_order_promotion_id ( $order, $promotion_ids );
+		$this->_123phpshop_update_order_promotion_id ( $promotion_ids );
 		
 		// 更新订单中的赠品或金额
 		switch ($promotion ['promotion_type']) {
 			case "1" : // 如果是满增的话
-				$presents_ids = $this->_remove_presents_id_from_order ( $order, $promotion_fee_presents ['presents'] );
+				$presents_ids = $this->_remove_presents_id_from_order ( $promotion_fee_presents ['presents'] );
 				break;
 			case "2" : // 如果是满减的话
 				$promotion_fee = floatval ( $order ['promotion_fee'] ) - floatval ( $promotion_fee_presents ['fee'] );
-				$this->_123phpshop_update_order_promotion_fee ( $promotion_fee, $order );
+				$this->_123phpshop_update_order_promotion_fee ( $promotion_fee );
 				break;
 		}
 		
@@ -442,10 +313,10 @@ abstract class Cart implements ICart {
 	 * @param unknown $order        	
 	 * @param unknown $promotion_id        	
 	 */
-	private function _123phpshop_remove_promotion_id_from_order($order, $promotion_id) {
+	private function _123phpshop_remove_promotion_id_from_order($promotion_id) {
 		$result = array ();
 		
-		foreach ( explode ( ",", $order ['promotion_id'] ) as $promotion_id_item ) {
+		foreach ( explode ( ",", $this->cart['promotion_id'] ) as $promotion_id_item ) {
 			if (( int ) $promotion_id_item != ( int ) $promotion_id) {
 				$result [] = $promotion_id_item;
 			}
@@ -464,7 +335,7 @@ abstract class Cart implements ICart {
 	 * @param unknown $order        	
 	 * @param unknown $promotion_ids        	
 	 */
-	private function _123phpshop_update_order_promotion_id($order, $promotion_ids) {
+	private function _123phpshop_update_order_promotion_id($promotion_ids) {
 		$this->cart ['promotion_id'] = $promotion_ids;
 	}
 	
@@ -474,8 +345,8 @@ abstract class Cart implements ICart {
 	 * @param unknown $presents_ids        	
 	 * @param array $order        	
 	 */
-	private function _remove_presents_id_from_order($presents_ids, $order = array()) {
 		$result = array ();
+	private function _remove_presents_id_from_order($presents_ids) {
 		foreach ( $this->cart ['products'] as $promotion_id_item ) {
 			if ($promotion_id_item ['is_present'] == "0" && 　 ( ( int ) $promotion_id_item != ( int ) $presents_ids )) {
 				$result [] = $promotion_id_item;
@@ -489,7 +360,7 @@ abstract class Cart implements ICart {
 	 * @param unknown $promotion_fee        	
 	 * @param array $order        	
 	 */
-	private function _123phpshop_update_order_promotion_fee($promotion_fee, $order = array()) {
+	private function _123phpshop_update_order_promotion_fee($promotion_fee) {
 		$this->cart ['promotion_fee'] = floatval ( $promotion_fee );
 	}
 	
@@ -498,20 +369,12 @@ abstract class Cart implements ICart {
 	 *
 	 * @param unknown $order        	
 	 */
-	private function _123phpshop_update_order_total($order) {
-		if ($order == array ()) {
+	final function _123phpshop_update_order_total($order) {
 			$shipping_fee = $this->cart ['shipping_fee'];
 			$products_fee = $this->cart ['products_fee'];
 			$promotion_fee = $this->cart ['promotion_fee'];
 			$order_total = floatval ( $products_fee ) + floatval ( $shipping_fee ) - floatval ( $promotion_fee );
 			$this->cart ['order_total'] = $order_total;
-			return;
-		}
-		$shipping_fee = $order ['shipping_fee'];
-		$products_fee = $order ['products_fee'];
-		$promotion_fee = $order ['promotion_fee'];
-		$order_total = floatval ( $products_fee ) + floatval ( $shipping_fee ) - floatval ( $promotion_fee );
-		return $order ['order_total'] = $order_total;
 	}
 	
 	/**
@@ -698,7 +561,7 @@ abstract class Cart implements ICart {
 	 *
 	 * @param unknown_type $product        	
 	 */
-	private function _is_product_exits_in_cart($product) {
+	final function _is_product_exits_in_cart($product) {
 		if (! isset ( $this->cart ['products'] ) || empty ( $this->cart ['products'] )) {
 			return false;
 		}
@@ -790,7 +653,7 @@ abstract class Cart implements ICart {
 	 * 将商品添加到购物车中
 	 * Enter description here .
 	 */
-	private function _do_add_cart_product($product) {
+	final function _do_add_cart_product($product) {
 		
 		// 这里需要根据product的id获取相应的产品的价格
 		$product_obj = $this->_get_product_from_db_by_id ( $product ['product_id'] );
@@ -832,7 +695,7 @@ abstract class Cart implements ICart {
 	 *
 	 * @param unknown_type $product        	
 	 */
-	protected function _update_cart_product_quantity($product) {
+	final function _update_cart_product_quantity($product) {
 		
 		// 检查session中是否有产品，如果没有的话，那么直接返回false
 		if (! isset ( $this->cart ['products'] ) || count ( $this->cart ['products'] ) == 0) {
@@ -859,30 +722,11 @@ abstract class Cart implements ICart {
 	}
 	
 	/**
-	 * 更新促销费用
-	 *
-	 * @param array $order        	
-	 */
-	protected function _update_fee_promotion($order = array()) {
-		
-		// 为了以后的扩展这里进行了初始化工作
-		if ($order == array ()) {
-			$order = $_SESSION;
-		}
-		
-		// 更新产品总价
-		$this->_update_products_total ( $order );
-		
-		// 更新促销信息
-		$this->_update_promotion ( $order );
-	}
-	
-	/**
 	 * 更新购物车中的商品总价
 	 *
 	 * @return number
 	 */
-	protected function _update_cart_promotion($order = array()) {
+	final function _update_cart_promotion($order = array()) {
 		
 		// 获取订单的费用
 		if ($order == array ()) {
@@ -906,16 +750,6 @@ abstract class Cart implements ICart {
 		
 		// 将赠品添加到购物车中
 		$this->_123phpshop_add_order_presents ( $promotion_presents );
-		
-		// 因为有赠品添加进入，所以这里需要更新运费
-		// $this->_update_shipping_fee ();
-		// $shipping_fee = $this->cart ['shipping_fee']; // 获取运费费用
-		
-		// 获取订单总费用
-		// $order_total = $this->_123phpshop_get_order_total ( $products_fee, $shipping_fee, $promotion_fee ); // 获取订单的总费用
-		
-		// 更新订单总额
-		// $this->_do_update_order_fee ( $shipping_fee, $products_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids ); // 更新db中的数据
 	}
 	
 	/**
@@ -941,7 +775,7 @@ abstract class Cart implements ICart {
 	 *
 	 * @param unknown_type $product_id        	
 	 */
-	private function _do_remove_from_cart($product_id, $attr_value) {
+	final function _do_remove_from_cart($product_id, $attr_value) {
 		// 循环购物车中的所有产品，然后检查他们的产品id，如果当前的产品id和我们所需要的产品id是一致的话删除。
 		for($i = 0; $i < count ( $this->cart ['products'] ); $i ++) {
 			if (( int ) $this->cart ['products'] [$i] ['product_id'] == ( int ) $product_id && $this->cart ['products'] [$i] ['attr_value'] == $attr_value) {
@@ -992,19 +826,21 @@ abstract class Cart implements ICart {
 		$this->cart ['products_total'] = $product_total;
 	}
 	
-	// 更新运费
-	private function _update_cart_shipping_fee() {
-		require_once ($_SERVER ['DOCUMENT_ROOT'] . "/Connections/lib/order.php");
-		$shipping_fee = get_shipping_fee ();
-		// $this->logger->debug ( "更新运费shipping_fee:" . $shipping_fee ['shipping_fee'] );
-		// $this->logger->debug ( "更新运费shipping_fee_plan:" . $shipping_fee ['shipping_fee_plan'] );
+	/**
+	 * 更新购物车中的运费信息
+	 */
+	final function _update_cart_shipping_fee() {
+		$orderManager = new OrderManager ();
+		$shipping_fee = $orderManager->get_shipping_fee ( $this->cart );
 		$this->cart ['shipping_fee'] = $shipping_fee ['shipping_fee'];
 		$this->cart ['shipping_method_id'] = $shipping_fee ['shipping_fee_plan'];
 		return true;
 	}
 	
-	// 更新订单总价
-	private function _update_cart_order_total() {
+	/**
+	 * 更新订单总价
+	 */
+	final function _update_cart_order_total() {
 		$this->cart ['order_total'] = floatval ( $this->cart ['shipping_fee'] ) + floatval ( $this->cart ['products_total'] ) - floatval ( $this->cart ['promotion_fee'] );
 		$this->logger->debug ( "更新订单总价:" . $this->cart ['order_total'] );
 		return $this->cart ['order_total'];
@@ -1013,7 +849,7 @@ abstract class Cart implements ICart {
 	/**
 	 * 清除购物车中的赠品
 	 */
-	protected function _123phpshop_clear_cart_presents() {
+	final function _123phpshop_clear_cart_presents() {
 		$result = array ();
 		// 如果购物车中没有商品的话，那么直接返回
 		if (count ( $this->cart ['products'] ) == 0) {
@@ -1043,7 +879,7 @@ abstract class Cart implements ICart {
 	 * @param unknown $order        	
 	 * @param unknown $promotion_presents        	
 	 */
-	protected function _123phpshop_add_order_presents($promotion_presents) {
+	final function _123phpshop_add_order_presents($promotion_presents) {
 		// 如果赠品的数量为0的话，那么直接退出
 		if (count ( $promotion_presents ) == 0) {
 			return;
@@ -1068,18 +904,8 @@ abstract class Cart implements ICart {
 	 * @param unknown $product_id        	
 	 */
 	protected function _get_product_image_by_id($product_id) {
-		$result = "";
-		global $db_conn;
-		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
-		$query_get_product_image = "SELECT * FROM product_images WHERE product_id = $product_id and is_delete=0 limit 1";
-		$get_product_image = mysql_query ( $query_get_product_image, $db_conn ) or die ( mysql_error () );
-		$row_get_product_image = mysql_fetch_assoc ( $get_product_image );
-		$totalRows_get_product_image = mysql_num_rows ( $get_product_image );
-		if ($totalRows_get_product_image > 0) {
-			return $row_get_product_image ['image_files'];
-		}
-		return $result;
+		$productManager = new ProductManager ();
+		return $productManager->_get_product_image_by_id ( $product_id );
 	}
 	
 	/**
@@ -1093,30 +919,11 @@ abstract class Cart implements ICart {
 	protected function _123phpshop_get_order_total($product_fee, $shipping_fee, $promotion_fee) {
 		return ( float ) $product_fee + ( float ) $shipping_fee - ( float ) $promotion_fee;
 	}
-	/**
-	 * 更新订单费用的SESSION字段
-	 *
-	 * @param unknown $product_fee        	
-	 * @param unknown $shipping_fee        	
-	 * @param unknown $promotion_fee        	
-	 * @param unknown $order_total        	
-	 * @param unknown $shipping_fee_plan        	
-	 * @param unknown $promotion_fee_promotion_ids
-	 *        	订单中包含的促销活动
-	 * @throws Exeption
-	 */
-	protected function _do_update_order_fee($shipping_fee, $product_fee, $promotion_fee, $order_total, $promotion_fee_promotion_ids) {
-		$this->cart ['cart'] ['order_total'] = $order_total; // 更新购物车中的订单总额
-		$this->cart ['cart'] ['products_total'] = $product_fee; // 更新购物车中的产品费用
-		$this->cart ['cart'] ['shipping_fee'] = $shipping_fee; // 更新购物车中的运费
-		$this->cart ['cart'] ['promotion_fee'] = $promotion_fee; // 更新购物车中的运费
-		$this->cart ['promotion_id'] = $promotion_fee_promotion_ids; // 更新购物车中的促销计划的ids
-	}
 	
 	/**
 	 * 初始化购物车
 	 */
-	protected function _init_cart() {
+	final function _init_cart() {
 		// $this->logger->debug ( "数据库购物车初始化" );
 		
 		// 检查session是否开启，如果没有开启的话，那么开启session；
@@ -1130,3 +937,5 @@ abstract class Cart implements ICart {
 		$this->cart ['order_total'] = 0.00; // 初始化购物车订单总额
 	}
 }
+
+

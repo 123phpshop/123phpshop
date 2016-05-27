@@ -22,7 +22,10 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
 ?>
 <?php
 
-$cart_obj = new Cart ();
+$_user_type_id=_get_user_type_id();
+$_user_id=_get_user_id();
+
+$cart_obj = new Cart ($_user_type_id,$_user_id);
 
 if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	$validation->set_rules ( 'quantity', '', 'required|is_natural_no_zero' );

@@ -18,12 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
 
-// 获取所有可用的促销
-mysql_select_db($database_localhost, $localhost);
-$query_promotions = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=".date('Ymd')." and end_date>=".date('Ymd') ;
-$promotions = mysql_query($query_promotions, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_promotions = mysql_fetch_assoc($promotions);
-$totalRows_promotions = mysql_num_rows($promotions);
+
 
 // 
 ?>

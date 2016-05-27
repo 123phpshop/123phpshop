@@ -39,6 +39,10 @@ define("ORDER_STATUS_PAID",100);
 define("ORDER_STATUS_DELIVERED",200);
 define("ORDER_STATUS_RECIEVED",300);
 
+define("ORDER_TYPE_REGISTERED",100);
+define("ORDER_TYPE_UNREGISTERED",100);
+define("ORDER_TYPE_WECHAT_USER",100);
+define("ORDER_TYPE_MOBILE_USER",100);
 $order_status[-300]='已退款';
 $order_status[-250]='申请退款';
 $order_status[-200]='已退货';
