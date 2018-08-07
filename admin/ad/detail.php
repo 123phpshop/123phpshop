@@ -18,8 +18,7 @@
 ?><?php
 
 require_once ('../../Connections/localhost.php');
-?>
-<?php
+ 
 
 $doc_url = "ad.html#list";
 $support_email_question = "查看广告详细";
@@ -95,7 +94,7 @@ try {
 	mysql_select_db ( $database_localhost, $localhost );
 	$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
 	$ad_images = mysql_query ( $query_ad_images, $localhost );
-	if (! $Result1) {
+	if (! $ad_images) {
 		$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysql_error () . $query_ad_images );
 		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 	}
@@ -115,7 +114,7 @@ try {
 	$query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
 	$query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
 	$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
-	if (! $Result1) {
+	if (! $DetailRS1) {
 		$logger->fatal ( __FILE__." 数据库操作失败:" . $updateSQL );
 		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 	}
