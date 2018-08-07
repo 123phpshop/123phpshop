@@ -1,4 +1,6 @@
  
+SET NAMES utf8;
+
 DROP TABLE IF EXISTS `ad`;
 
 CREATE TABLE `ad` (
@@ -692,3 +694,21 @@ CREATE TABLE `user_view_history` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1060 DEFAULT CHARSET=utf8 COMMENT='用户浏览记录';
+
+DROP TABLE IF EXISTS `session_handler_table`;
+
+CREATE TABLE `session_handler_table` (
+  `id` varchar(255) NOT NULL,
+  `data` mediumtext NOT NULL,
+  `timestamp` int(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='session存储表';
+
+DROP TABLE IF EXISTS `admin_op`;
+CREATE TABLE `admin_op` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message` varchar(200) NOT NULL COMMENT '消息',
+  `admin_id` varchar(50) NOT NULL COMMENT '管理员姓名',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1361 DEFAULT CHARSET=gbk COMMENT='管理员操作';
