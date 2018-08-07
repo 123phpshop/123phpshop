@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -11,37 +11,36 @@
  * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
  * 解释权！
  * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
+ *  作者:    123PHPSHOP团队
+ *  手机:    13391334121
+ *  邮箱:    service@123phpshop.com
  */
- ?><?php
-
+?><?php
 
 ?>
 <?php
 $install_url = '/install/';
-$home_url = '/index.php';
+$home_url = '/';
 
-//	检查当前是不属于安装区域
-if (!_is_install_area ()) {
- 
-  	//	检查是否已经安装，如果没有安装，那么跳转到安装区域
- 	 if(!isset($hostname_localhost) || trim($hostname_localhost)=="") {
-	 	header ( sprintf ( "Location: %s", $install_url ) );
-	 }
-}else{
-//	检查是否已经安装，如果没有安装，那么跳转到安装区域
- 	 if(isset($hostname_localhost) && trim($hostname_localhost)!="") {
-	 	header ( sprintf ( "Location: %s", $home_url ) );
-	 }
+//    检查当前是不属于安装区域
+if (!_is_install_area()) {
+    //    检查是否已经安装，如果没有安装，那么跳转到安装区域
+    if (!isset($hostname_localhost) || trim($hostname_localhost) == "") {
+        header(sprintf("Location: %s", $install_url));
+    }
+} else {
+//    检查是否已经安装，如果没有安装，那么跳转到安装区域
+    if (isset($hostname_localhost) && trim($hostname_localhost) != "") {
+        header(sprintf("Location: %s", $home_url));
+    }
 
 }
 
 /**
  * 检查当前页面是否属于管理员页面。
  */
-function _is_install_area() {
-	$curr_url = $_SERVER ['REQUEST_URI'];
-	return strpos ( $curr_url, '/install/' ) > - 1;
+function _is_install_area()
+{
+    $curr_url = $_SERVER['REQUEST_URI'];
+    return strpos($curr_url, '/install/') > -1;
 }
