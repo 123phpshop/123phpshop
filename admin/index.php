@@ -17,10 +17,7 @@
  */
  ?><?php require_once('../Connections/localhost.php'); 
  ?>
-<frameset rows="46,*" frameborder=no scrolling="no" >
-<frame src="_top.php" name="_top" scrolling="no"/>
-	<frameset cols="235,*" frameborder=no scrolling="auto">
-		<frame src="_left.php" name="_left" scrolling="auto"/>
-		<frame src="_main.php" name="main"/>
-	</frameset>
-</frameset><noframes></noframes>
+<frameset cols="235,*" frameborder=no scrolling="auto">
+	<frame src="_left.php" name="_left" scrolling="auto"/>
+	<frame src="_main.php" name="main"/>
+</frameset>
