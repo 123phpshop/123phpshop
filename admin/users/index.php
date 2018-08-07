@@ -11,102 +11,102 @@
  * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
  * 解释权！
  * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
+ *  作者:    123PHPSHOP团队
+ *  手机:    13391334121
+ *  邮箱:    service@123phpshop.com
  */
 ?><?php
 
-
-require_once ('../../Connections/localhost.php');
+require_once $_SERVER["DOCUMENT_ROOT"] . '/Connections/localhost.php';
 ?>
 <?php
 
 $doc_url = "user.html#list";
 $support_email_question = "查看用户列表";
-log_admin ( $support_email_question );
-$currentPage = $_SERVER ["PHP_SELF"];
+log_admin($support_email_question);
+$currentPage = $_SERVER["PHP_SELF"];
 
 // 处理批量操作
-if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "batch_op")) {
-	if (count ( $_POST ['user_id'] ) > 0 && $_POST ['op_id'] == "100") {
-		mysql_select_db ( $database_localhost, $localhost );
-		$sql = "update `user` set is_delete=1 where id in (" . implode ( ",", $_POST ['user_id'] ) . ")";
-		$Result1 = mysql_query ( $sql, $localhost );
-		if (! $Result1) {
-			$logger->fatal ( "数据库操作失败:" . $sql );
-		}
-	}
+if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+    if (count($_POST['user_id']) > 0 && $_POST['op_id'] == "100") {
+        mysql_select_db($database_localhost, $localhost);
+        $sql = "update `user` set is_delete=1 where id in (" . implode(",", $_POST['user_id']) . ")";
+        $Result1 = mysql_query($sql, $localhost);
+        if (!$Result1) {
+            $logger->fatal("数据库操作失败:" . $sql);
+        }
+    }
 }
 
 $maxRows_users = 50;
 $pageNum_users = 0;
-if (isset ( $_GET ['pageNum_users'] )) {
-	$pageNum_users = $_GET ['pageNum_users'];
+if (isset($_GET['pageNum_users'])) {
+    $pageNum_users = $_GET['pageNum_users'];
 }
 $startRow_users = $pageNum_users * $maxRows_users;
-$where = _get_user_where ( $_GET );
+$where = _get_user_where($_GET);
 
-mysql_select_db ( $database_localhost, $localhost );
+mysql_select_db($database_localhost, $localhost);
 $query_users = "SELECT * FROM `user` where is_delete=0 $where";
-$query_limit_users = sprintf ( "%s LIMIT %d, %d", $query_users, $startRow_users, $maxRows_users );
-$users = mysql_query ( $query_limit_users, $localhost );
-if (! $users) {
-	$logger->fatal ( "数据库操作失败:" . $query_limit_users );
+$query_limit_users = sprintf("%s LIMIT %d, %d", $query_users, $startRow_users, $maxRows_users);
+$users = mysql_query($query_limit_users, $localhost);
+if (!$users) {
+    $logger->fatal("数据库操作失败:" . $query_limit_users);
 }
-$row_users = mysql_fetch_assoc ( $users );
+$row_users = mysql_fetch_assoc($users);
 
-if (isset ( $_GET ['totalRows_users'] )) {
-	$totalRows_users = $_GET ['totalRows_users'];
+if (isset($_GET['totalRows_users'])) {
+    $totalRows_users = $_GET['totalRows_users'];
 } else {
-	$all_users = mysql_query ( $query_users );
-	$totalRows_users = mysql_num_rows ( $all_users );
+    $all_users = mysql_query($query_users);
+    $totalRows_users = mysql_num_rows($all_users);
 }
-$totalPages_users = ceil ( $totalRows_users / $maxRows_users ) - 1;
+$totalPages_users = ceil($totalRows_users / $maxRows_users) - 1;
 
 $queryString_users = "";
-if (! empty ( $_SERVER ['QUERY_STRING'] )) {
-	$params = explode ( "&", $_SERVER ['QUERY_STRING'] );
-	$newParams = array ();
-	foreach ( $params as $param ) {
-		if (stristr ( $param, "pageNum_users" ) == false && stristr ( $param, "totalRows_users" ) == false) {
-			array_push ( $newParams, $param );
-		}
-	}
-	if (count ( $newParams ) != 0) {
-		$queryString_users = "&" . htmlentities ( implode ( "&", $newParams ) );
-	}
+if (!empty($_SERVER['QUERY_STRING'])) {
+    $params = explode("&", $_SERVER['QUERY_STRING']);
+    $newParams = array();
+    foreach ($params as $param) {
+        if (stristr($param, "pageNum_users") == false && stristr($param, "totalRows_users") == false) {
+            array_push($newParams, $param);
+        }
+    }
+    if (count($newParams) != 0) {
+        $queryString_users = "&" . htmlentities(implode("&", $newParams));
+    }
 }
-$queryString_users = sprintf ( "&totalRows_users=%d%s", $totalRows_users, $queryString_users );
-function _get_user_where($get) {
-	$_should_and = 1;
-	$where_string = '';
-	
-	if (isset ( $get ['username'] ) && trim ( $get ['username'] ) != '') {
-		
-		$_should_and = 1;
-		$where_string .= " and username like '%" . $get ['username'] . "%'";
-	}
-	
-	if (isset ( $get ['mobile'] ) && trim ( $get ['mobile'] ) != '') {
-		
-		if ($_should_and == 1) {
-			$where_string .= " and ";
-		}
-		
-		$where_string .= " mobile like '%" . $get ['mobile'] . "%'";
-	}
-	
-	if (isset ( $get ['email'] ) && trim ( $get ['email'] ) != '') {
-		
-		if ($_should_and == 1) {
-			$where_string .= " and ";
-		}
-		
-		$where_string .= " email like '%" . $get ['email'] . "%'";
-	}
-	
-	return $where_string;
+$queryString_users = sprintf("&totalRows_users=%d%s", $totalRows_users, $queryString_users);
+function _get_user_where($get)
+{
+    $_should_and = 1;
+    $where_string = '';
+
+    if (isset($get['username']) && trim($get['username']) != '') {
+
+        $_should_and = 1;
+        $where_string .= " and username like '%" . $get['username'] . "%'";
+    }
+
+    if (isset($get['mobile']) && trim($get['mobile']) != '') {
+
+        if ($_should_and == 1) {
+            $where_string .= " and ";
+        }
+
+        $where_string .= " mobile like '%" . $get['mobile'] . "%'";
+    }
+
+    if (isset($get['email']) && trim($get['email']) != '') {
+
+        if ($_should_and == 1) {
+            $where_string .= " and ";
+        }
+
+        $where_string .= " email like '%" . $get['email'] . "%'";
+    }
+
+    return $where_string;
 }
 
 ?>
@@ -119,16 +119,17 @@ function _get_user_where($get) {
 </head>
 
 <body>
-<?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
+	<?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
+
   <span class="phpshop123_title">用户搜索</span>
 	<div id="doc_help"
 		style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
 		<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
-			href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+			href="<?php echo isset($doc_url) ? "http://www.123phpshop.com/doc/v1.5/" . $doc_url : "http://www.123phpshop.com/doc/"; ?>">[文档]</a><a
 			style="color: #CCCCCC; margin-left: 3px;" target="_blank"
 			href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
 			href=mailto:service@123phpshop.com?subject=我在
-			<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+			<?php echo $support_email_question; ?> 的时候遇到了问题，请支持
 			style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
 	</div>
 	<a href="add.php"><input style="float: right;" type="submit"
@@ -140,32 +141,36 @@ function _get_user_where($get) {
 			<tr>
 				<td>用户名</td>
 				<td><input name="username"
-					value="<?php echo isset($_GET['username'])?$_GET['username']:'';?>"
+					value="<?php echo isset($_GET['username']) ? $_GET['username'] : ''; ?>"
 					type="text" id="username" /></td>
 				<td>手机</td>
 				<td><input name="mobile" id="mobile" type="text"
-					value="<?php echo isset($_GET['mobile'])?$_GET['mobile']:'';?>" /></td>
+					value="<?php echo isset($_GET['mobile']) ? $_GET['mobile'] : ''; ?>" /></td>
 				<td>邮件</td>
 				<td><input name="email" type="text" id="email"
-					value="<?php echo isset($_GET['email'])?$_GET['email']:'';?>" /></td>
+					value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>" /></td>
 				<td><div align="right">
 						<input type="submit" name="Submit" value="搜素" />
 					</div></td>
 			</tr>
 		</table>
 	</form>
-	<form id="form1" name="form1" method="post" action="">
+	<?php }?>
 		<span class="phpshop123_title">用户列表</span>
 		<div id="doc_help"
 			style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
 			<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
-				href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+				href="<?php echo isset($doc_url) ? "http://www.123phpshop.com/doc/v1.5/" . $doc_url : "http://www.123phpshop.com/doc/"; ?>">[文档]</a><a
 				style="color: #CCCCCC; margin-left: 3px;" target="_blank"
 				href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
 				href=mailto:service@123phpshop.com?subject=我在
-				<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+				<?php echo $support_email_question; ?> 的时候遇到了问题，请支持
 				style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
 		</div>
+	<?php if ($totalRows_users > 0) { // Show if recordset not empty ?>
+
+	<form id="form1" name="form1" method="post" action="">
+
 		<table width="100%" border="1" align="center"
 			class="phpshop123_list_box">
 			<tr>
@@ -177,7 +182,7 @@ function _get_user_where($get) {
 				<th width="23%">手机</th>
 				<th width="18%">操作</th>
 			</tr>
-    <?php do { ?>
+    <?php do {?>
       <tr>
 				<td><label>
 						<div align="center">
@@ -195,7 +200,7 @@ function _get_user_where($get) {
 							href="update.php?id=<?php echo $row_users['id']; ?>">更新</a>
 					</div></td>
 			</tr>
-      <?php } while ($row_users = mysql_fetch_assoc($users)); ?>
+      <?php } while ($row_users = mysql_fetch_assoc($users));?>
   </table>
 		<br />
 		<table width="200" border="0" class="phpshop123_infobox">
@@ -215,30 +220,30 @@ function _get_user_where($get) {
 				<tr>
 					<td width="23%" align="center"><?php if ($pageNum_users > 0) { // Show if not first page ?>
             <a
-						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, 0, $queryString_users); ?>"
+						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, 0, $queryString_users);?>"
 						class="phpshop123_paging">第一页</a>
       <?php } // Show if not first page ?>      </td>
 					<td width="31%" align="center"><?php if ($pageNum_users > 0) { // Show if not first page ?>
             <a
-						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, max(0, $pageNum_users - 1), $queryString_users); ?>"
+						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, max(0, $pageNum_users - 1), $queryString_users);?>"
 						class="phpshop123_paging">前一页</a>
       <?php } // Show if not first page ?>      </td>
 					<td width="23%" align="center"><?php if ($pageNum_users < $totalPages_users) { // Show if not last page ?>
             <a
-						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, min($totalPages_users, $pageNum_users + 1), $queryString_users); ?>"
+						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, min($totalPages_users, $pageNum_users + 1), $queryString_users);?>"
 						class="phpshop123_paging">下一页</a>
       <?php } // Show if not last page ?>      </td>
 					<td width="23%" align="center"><?php if ($pageNum_users < $totalPages_users) { // Show if not last page ?>
             <a
-						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, $totalPages_users, $queryString_users); ?>"
+						href="<?php printf("%s?pageNum_users=%d%s", $currentPage, $totalPages_users, $queryString_users);?>"
 						class="phpshop123_paging">最后一页</a>
       <?php } // Show if not last page ?>      </td>
 				</tr>
 			</table> <br />
   记录 <?php echo ($startRow_users + 1) ?> 到 <?php echo min($startRow_users + $maxRows_users, $totalRows_users) ?> (总共 <?php echo $totalRows_users ?> )
-  
-    
-	
+
+
+
 	</form>
 
   <?php } // Show if recordset not empty ?>
@@ -258,7 +263,7 @@ function _get_user_where($get) {
 		}
 		$(".item_checkbox").removeAttr("checked");
    }
-   
+
 	</script>
 </body>
 </html>
