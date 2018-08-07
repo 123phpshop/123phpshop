@@ -11,71 +11,63 @@
  * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
  * 解释权！
  * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
+ *  作者:    123PHPSHOP团队
+ *  手机:    13391334121
+ *  邮箱:    service@123phpshop.com
  */
 ?><?php
-
-
-require_once ('../../Connections/localhost.php');
-?>
-<?php
-
+require_once '../../Connections/localhost.php';
 $doc_url = "ad.html#delete";
 $support_email_question = "删除广告";
 $could_delete = 1;
 $colname_news = "-1";
-log_admin ( "删除广告" );
-if (isset ( $_GET ['id'] )) {
-	$colname_news = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
+log_admin("删除广告");
+if (isset($_GET['id'])) {
+    $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db ( $database_localhost, $localhost );
-$query_news = sprintf ( "SELECT * FROM ad WHERE id = %s", $colname_news );
-$news = mysql_query ( $query_news, $localhost );
-if (! $news) {
-	$logger->fatal ( __FILE__.":数据库操作失败:" .mysql_error(). $query_news );
+mysql_select_db($database_localhost, $localhost);
+$query_news = sprintf("SELECT * FROM ad WHERE id = %s", $colname_news);
+$news = mysql_query($query_news, $localhost);
+if (!$news) {
+    $logger->fatal(__FILE__ . ":数据库操作失败:" . mysql_error() . $query_news);
 }
-$row_news = mysql_fetch_assoc ( $news );
-$totalRows_news = mysql_num_rows ( $news );
+$row_news = mysql_fetch_assoc($news);
+$totalRows_news = mysql_num_rows($news);
 
-if ($totalRows_news == 0) {
-	$could_delete = 0;
-}
+try {
+    if ($totalRows_news == 0) { // 如果id不存在
+        throw new Exception("广告不存在！");
+    }
 
-if ($could_delete == 1) {
-	
-	// 检查下面是否有图片，如果有图片的话，那么请先删除图片然后再试
-	$colname_ad_images = "-1";
-	if (isset ( $_GET ['id'] )) {
-		$colname_ad_images = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
-	}
-	
-	mysql_select_db ( $database_localhost, $localhost );
-	$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
-	$ad_images = mysql_query ( $query_ad_images, $localhost );
-	if (! $ad_images) {
-		$logger->fatal ( "更新用户登记操作失败:" . $query_ad_images );
-	}
-	$totalRows_ad_images = mysql_num_rows ( $ad_images );
-	
-	if ($totalRows_ad_images > 0) {
-		$could_delete = 0;
-	}
-}
+    // 检查下面是否有图片，如果有图片的话，那么请先删除图片然后再试
+    $colname_ad_images = "-1";
+    if (isset($_GET['id'])) {
+        $colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
+    }
 
-if ($could_delete == 1) {
-	$update_catalog = sprintf ( "delete from `ad` where id = %s", $colname_news );
-	$update_catalog_query = mysql_query ( $update_catalog, $localhost );
-	if (! $update_catalog_query) {
-		$logger->fatal ( "删除广告操作失败:" . $updateSQL );
-		$could_delete = 0;
-	} else {
-		$remove_succeed_url = "index.php";
-		header ( "Location: " . $remove_succeed_url );
-	}
-}
+    mysql_select_db($database_localhost, $localhost);
+    $query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
+    $ad_images = mysql_query($query_ad_images, $localhost);
+    if (!$ad_images) {
+        $logger->fatal("数据库操作失败:" . $query_ad_images);
+    }
+    $totalRows_ad_images = mysql_num_rows($ad_images);
 
+    if ($totalRows_ad_images > 0) {
+        throw new Exception("此广告下面有图片，请先删除图片再进行操作");
+    }
+
+    $update_catalog = sprintf("delete from `ad` where id = %s", $colname_news);
+    $update_catalog_query = mysql_query($update_catalog, $localhost);
+    if (!$update_catalog_query) {
+        $logger->fatal("删除广告操作失败:" . $updateSQL);
+        throw new Exception("删除广告操作失败");
+    }
+    $remove_succeed_url = "index.php";
+    header("Location: " . $remove_succeed_url);
+} catch (Exception $ex) {
+    $error = $ex->getMessage();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -90,22 +82,20 @@ if ($could_delete == 1) {
 		<div id="doc_help"
 			style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
 			<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
-				href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+				href="<?php echo isset($doc_url) ? "http://www.123phpshop.com/doc/v1.5/" . $doc_url : "http://www.123phpshop.com/doc/"; ?>">[文档]</a><a
 				style="color: #CCCCCC; margin-left: 3px;" target="_blank"
 				href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
 				href=mailto:service@123phpshop.com?subject=我在
-				<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+				<?php echo $support_email_question; ?> 的时候遇到了问题，请支持
 				style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
 		</div>
-  <?php if($could_delete==0){ ?>
+  <?php if (!empty($error)) {?>
   <p>由于以下原因，您不能删除这条广告，请及时修正，或是联系123phpshop.com的技术支持人员！</p>
-		<p>1. 广告不存在，请检查参数之后再试。</p>
-		<p>2. 系统错误，无法删除，请稍后再试。</p>
-		<p>3. 广告下面有图片，请删除图片之后再试。</p>
+		<p><?php echo $error ?></p> 
 		<p>
 			您也可以<a href="index.php">点击这里返回</a>。
 		</p>
-  <?php } ?>
+  <?php }?>
 </div>
 
 </body>
