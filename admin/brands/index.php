@@ -15,7 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); 
+ ?><?php require_once($_SERVER["DOCUMENT_ROOT"].'/Connections/localhost.php'); 
 $currentPage = $_SERVER["PHP_SELF"];
 
 $maxRows_brands = 20;
@@ -43,7 +43,7 @@ if (isset($_GET['totalRows_brands'])) {
   $all_brands = mysql_query($query_brands);
   $totalRows_brands = mysql_num_rows($all_brands);
   if($totalRows_brands==0){
-	  $insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/brands/add.php';
+	  $insertGoTo = '/admin/brands/add.php';
 	  header ( sprintf ( "Location: %s", $insertGoTo ) );return;
   }
 }
