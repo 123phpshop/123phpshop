@@ -1,6 +1,4 @@
-<?php require_once('../../Connections/localhost.php'); ?>
 <?php
-
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -18,99 +16,98 @@
  * 邮箱: service@123phpshop.com
  */
 ?><?php
+require_once '../../Connections/localhost.php';
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
+{
+    $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
+    switch ($theType) {
+        case "text":
+            $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+            break;
+        case "long":
+        case "int":
+            $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+            break;
+        case "double":
+            $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
+            break;
+        case "date":
+            $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+            break;
+        case "defined":
+            $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+            break;
+    }
+    return $theValue;
 }
 
 // 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
-mysql_select_db ( $database_localhost, $localhost );
+mysql_select_db($database_localhost, $localhost);
 $query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
-$catalogs = mysql_query ( $query_catalogs, $localhost ) or die ( mysql_error () );
-$row_catalogs = mysql_fetch_assoc ( $catalogs );
-$totalRows_catalogs = mysql_num_rows ( $catalogs );
+$catalogs = mysql_query($query_catalogs, $localhost) or die(mysql_error());
+$row_catalogs = mysql_fetch_assoc($catalogs);
+$totalRows_catalogs = mysql_num_rows($catalogs);
 if ($totalRows_catalogs == 0) {
-	$insertGoTo = $_SERVER ['DOCUMENT_ROOT'] . '/admin/catalog/index.php';
-	header ( sprintf ( "Location: %s", $insertGoTo ) );
-	return;
+    $insertGoTo = '/admin/catalog/index.php';
+    header(sprintf("Location: %s", $insertGoTo));
+    die();
 }
-
 $doc_url = "product.html#add";
 $support_email_question = "添加商品";
-log_admin ( $support_email_question );
+log_admin($support_email_question);
 
 // 获取所有的品牌
-mysql_select_db ( $database_localhost, $localhost );
+mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands where is_delete=0";
-$brands = mysql_query ( $query_brands, $localhost );
-if (! $brands) {
-	$logger->fatal ( "数据库操作失败:" . $query_brands );
+$brands = mysql_query($query_brands, $localhost);
+if (!$brands) {
+    $logger->fatal("数据库操作失败:" . $query_brands);
 }
-$row_brands = mysql_fetch_assoc ( $brands );
-$totalRows_brands = mysql_num_rows ( $brands );
+$row_brands = mysql_fetch_assoc($brands);
+$totalRows_brands = mysql_num_rows($brands);
 
 $is_vproduct_add_page = false;
-$editFormAction = $_SERVER ['PHP_SELF'];
-if (isset ( $_SERVER ['QUERY_STRING'] )) {
-	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+    $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-// 真理要正式开始插入数据库了
-if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	
-	require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/catalogs.php');
-	
-	if ($_POST ['is_on_sheft'] == '0') {
-		$insertSQL = sprintf ( "INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['product_type_id'], "int" ), GetSQLValueString ( $_POST ['is_promotion'], "int" ), GetSQLValueString ( $_POST ['promotion_price'], "double" ), GetSQLValueString ( $_POST ['promotion_start'], "date" ), GetSQLValueString ( $_POST ['promotion_end'], "date" ), GetSQLValueString ( $_POST ['is_shipping_free'], "int" ), GetSQLValueString ( $_POST ['meta_keywords'], "text" ), GetSQLValueString ( $_POST ['meta_desc'], "text" ), GetSQLValueString ( $_POST ['description'], "text" ), GetSQLValueString ( $_POST ['tags'], "text" ), GetSQLValueString ( $_POST ['unit'], "text" ), GetSQLValueString ( $_POST ['is_virtual'], "int" ), GetSQLValueString ( $_POST ['weight'], "double" ), GetSQLValueString ( "|" . get_catalog_path ( array (
-				$_POST ['catalog_id'] 
-		) ) . "|", "text" ), GetSQLValueString ( trim ( $_POST ['name'] ), "text" ), GetSQLValueString ( $_POST ['ad_text'], "text" ), GetSQLValueString ( $_POST ['catalog_id'], "int" ), GetSQLValueString ( $_POST ['price'], "double" ), GetSQLValueString ( $_POST ['market_price'], "double" ), GetSQLValueString ( $_POST ['is_on_sheft'], "int" ), GetSQLValueString ( $_POST ['is_hot'], "text" ), GetSQLValueString ( $_POST ['is_season'], "text" ), GetSQLValueString ( $_POST ['is_recommanded'], "text" ), GetSQLValueString ( $_POST ['store_num'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['brand_id'], "text" ) );
-	} else {
-		$insertSQL = sprintf ( "INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['product_type_id'], "int" ), GetSQLValueString ( $_POST ['is_promotion'], "int" ), GetSQLValueString ( $_POST ['promotion_price'], "double" ), GetSQLValueString ( $_POST ['promotion_start'], "date" ), GetSQLValueString ( $_POST ['promotion_end'], "date" ), GetSQLValueString ( $_POST ['is_shipping_free'], "int" ), GetSQLValueString ( $_POST ['meta_keywords'], "text" ), GetSQLValueString ( $_POST ['meta_desc'], "text" ), GetSQLValueString ( $_POST ['description'], "text" ), GetSQLValueString ( $_POST ['tags'], "text" ), GetSQLValueString ( $_POST ['unit'], "text" ), GetSQLValueString ( $_POST ['is_virtual'], "int" ), GetSQLValueString ( $_POST ['weight'], "double" ), GetSQLValueString ( date ( 'Y-m-d H:i:s' ), "date" ), GetSQLValueString ( "|" . get_catalog_path ( array (
-				$_POST ['catalog_id'] 
-		) ) . "|", "text" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['ad_text'], "text" ), GetSQLValueString ( $_POST ['catalog_id'], "int" ), GetSQLValueString ( $_POST ['price'], "double" ), GetSQLValueString ( $_POST ['market_price'], "double" ), GetSQLValueString ( $_POST ['is_on_sheft'], "int" ), GetSQLValueString ( $_POST ['is_hot'], "text" ), GetSQLValueString ( $_POST ['is_season'], "text" ), GetSQLValueString ( $_POST ['is_recommanded'], "text" ), GetSQLValueString ( $_POST ['store_num'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['brand_id'], "text" ) );
-	}
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
-	if (! $Result1) {
-		$logger->fatal ( "数据库操作失败:" . mysql_error().$insertSQL );
-	}
-	
-	// 如果数据库插入成功，那么跳转到这个页面
-	$insertGoTo = "update.php?id=" . mysql_insert_id ();
-	header ( sprintf ( "Location: %s", $insertGoTo ) );
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正式开始插入数据库
+
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/Connections/lib/catalogs.php';
+
+    if ($_POST['is_on_sheft'] == '0') {
+        $insertSQL = sprintf("INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", GetSQLValueString($_POST['product_type_id'], "int"), GetSQLValueString($_POST['is_promotion'], "int"), GetSQLValueString($_POST['promotion_price'], "double"), GetSQLValueString($_POST['promotion_start'], "date"), GetSQLValueString($_POST['promotion_end'], "date"), GetSQLValueString($_POST['is_shipping_free'], "int"), GetSQLValueString($_POST['meta_keywords'], "text"), GetSQLValueString($_POST['meta_desc'], "text"), GetSQLValueString($_POST['description'], "text"), GetSQLValueString($_POST['tags'], "text"), GetSQLValueString($_POST['unit'], "text"), GetSQLValueString($_POST['is_virtual'], "int"), GetSQLValueString($_POST['weight'], "double"), GetSQLValueString("|" . get_catalog_path(array(
+            $_POST['catalog_id'],
+        )) . "|", "text"), GetSQLValueString(trim($_POST['name']), "text"), GetSQLValueString($_POST['ad_text'], "text"), GetSQLValueString($_POST['catalog_id'], "int"), GetSQLValueString($_POST['price'], "double"), GetSQLValueString($_POST['market_price'], "double"), GetSQLValueString($_POST['is_on_sheft'], "int"), GetSQLValueString($_POST['is_hot'], "text"), GetSQLValueString($_POST['is_season'], "text"), GetSQLValueString($_POST['is_recommanded'], "text"), GetSQLValueString($_POST['store_num'], "int"), GetSQLValueString($_POST['intro'], "text"), GetSQLValueString($_POST['brand_id'], "text"));
+    } else {
+        $insertSQL = sprintf("INSERT INTO product (product_type_id,is_promotion,promotion_price,promotion_start,promotion_end,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,on_sheft_time,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", GetSQLValueString($_POST['product_type_id'], "int"), GetSQLValueString($_POST['is_promotion'], "int"), GetSQLValueString($_POST['promotion_price'], "double"), GetSQLValueString($_POST['promotion_start'], "date"), GetSQLValueString($_POST['promotion_end'], "date"), GetSQLValueString($_POST['is_shipping_free'], "int"), GetSQLValueString($_POST['meta_keywords'], "text"), GetSQLValueString($_POST['meta_desc'], "text"), GetSQLValueString($_POST['description'], "text"), GetSQLValueString($_POST['tags'], "text"), GetSQLValueString($_POST['unit'], "text"), GetSQLValueString($_POST['is_virtual'], "int"), GetSQLValueString($_POST['weight'], "double"), GetSQLValueString(date('Y-m-d H:i:s'), "date"), GetSQLValueString("|" . get_catalog_path(array(
+            $_POST['catalog_id'],
+        )) . "|", "text"), GetSQLValueString($_POST['name'], "text"), GetSQLValueString($_POST['ad_text'], "text"), GetSQLValueString($_POST['catalog_id'], "int"), GetSQLValueString($_POST['price'], "double"), GetSQLValueString($_POST['market_price'], "double"), GetSQLValueString($_POST['is_on_sheft'], "int"), GetSQLValueString($_POST['is_hot'], "text"), GetSQLValueString($_POST['is_season'], "text"), GetSQLValueString($_POST['is_recommanded'], "text"), GetSQLValueString($_POST['store_num'], "int"), GetSQLValueString($_POST['intro'], "text"), GetSQLValueString($_POST['brand_id'], "text"));
+    }
+    mysql_select_db($database_localhost, $localhost);
+    $Result1 = mysql_query($insertSQL, $localhost);
+    if (!$Result1) {
+        $logger->fatal("数据库操作失败:" . mysql_error() . $insertSQL);
+    }
+
+    // 如果数据库插入成功，那么跳转到这个页面
+    $insertGoTo = "update.php?id=" . mysql_insert_id();
+    header(sprintf("Location: %s", $insertGoTo));
 }
 ?>
 <?php
 
 // 获取商品类型信息
-mysql_select_db ( $database_localhost, $localhost );
+mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query ( $query_product_types, $localhost );
-if (! $product_types) {
-	$logger->fatal ( "数据库操作失败:" . $query_product_types );
+$product_types = mysql_query($query_product_types, $localhost);
+if (!$product_types) {
+    $logger->fatal("数据库操作失败:" . $query_product_types);
 }
-$row_product_types = mysql_fetch_assoc ( $product_types );
-$totalRows_product_types = mysql_num_rows ( $product_types );
+$row_product_types = mysql_fetch_assoc($product_types);
+$totalRows_product_types = mysql_num_rows($product_types);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -127,17 +124,17 @@ $totalRows_product_types = mysql_num_rows ( $product_types );
 	<div id="doc_help"
 		style="display: inline; height: 40px; line-height: 50px; color: #CCCCCC;">
 		<a style="color: #CCCCCC; margin-left: 3px;" target="_blank"
-			href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a
+			href="<?php echo isset($doc_url) ? "http://www.123phpshop.com/doc/v1.5/" . $doc_url : "http://www.123phpshop.com/doc/"; ?>">[文档]</a><a
 			style="color: #CCCCCC; margin-left: 3px;" target="_blank"
 			href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a
 			href=mailto:service@123phpshop.com?subject=我在
-			<?php echo $support_email_question;?> 的时候遇到了问题，请支持
+			<?php echo $support_email_question; ?> 的时候遇到了问题，请支持
 			style="color: #CCCCCC; margin-left: 3px;">[邮件支持]</a>
 	</div>
 	</div>
 	<a href="index.php"><input style="float: right;" type="submit"
 		name="Submit2" value="商品列表" /></a>
-<?php include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/_error.php"); ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . "/admin/widgets/_error.php";?>
 <form method="post" name="form1" id="form1"
 		action="<?php echo $editFormAction; ?>">
 		<div id="tabs"
@@ -167,23 +164,23 @@ $totalRows_product_types = mysql_num_rows ( $product_types );
 			<div id="tabs-1" aria-labelledby="ui-id-8"
 				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
 				role="tabpanel" aria-hidden="false"
-				style="background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_common.php'); ?></div>
+				style="background-color: #FFFFFF;"><?php include $_SERVER['DOCUMENT_ROOT'] . '/admin/widgets/product/_common.php';?></div>
 			<div id="tabs-2" aria-labelledby="ui-id-9"
 				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
 				role="tabpanel" aria-hidden="true"
-				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_intro.php'); ?></div>
+				style="display: none; background-color: #FFFFFF;"><?php include $_SERVER['DOCUMENT_ROOT'] . '/admin/widgets/product/_intro.php';?></div>
 			<div id="tabs-3" aria-labelledby="ui-id-10"
 				class="ui-tabs-panel ui-widget-content ui-corner-bottom"
 				role="tabpanel" aria-hidden="true"
-				style="display: none; background-color: #FFFFFF;"><?php include($_SERVER['DOCUMENT_ROOT'].'/admin/widgets/product/_other_info.php'); ?></div>
+				style="display: none; background-color: #FFFFFF;"><?php include $_SERVER['DOCUMENT_ROOT'] . '/admin/widgets/product/_other_info.php';?></div>
 		</div>
-<?php if(isset($_GET['catalog_id']) && trim($_GET['catalog_id'])!=""){ ?>
+<?php if (isset($_GET['catalog_id']) && trim($_GET['catalog_id']) != "") {?>
   <input type="hidden" name="catalog_id"
 			value="<?php echo $_GET['catalog_id']; ?>">
-  <?php } ?>
+  <?php }?>
   <input type="hidden" name="MM_insert" value="form1"> <input
 				type="submit" value="添加">
-	
+
 	</form>
 	<script type="text/javascript" charset="utf-8"
 		src="/js/ueditor/ueditor.config.js"></script>
@@ -199,7 +196,7 @@ $totalRows_product_types = mysql_num_rows ( $product_types );
 		src="/js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 	<script>
 $().ready(function(){
-	
+
 	$( "#tabs" ).tabs();		// 初始化tabs
 	$( "#promotion_start" ).datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
 	$( "#promotion_end" ).datepicker({ dateFormat: 'yy-mm-dd' }); // 初始化日历
@@ -218,29 +215,29 @@ $().ready(function(){
             },
             price: {
                 required: true,
-				number:true   
+				number:true
             } ,
             market_price: {
 				 required: true,
-				 number:true 					 
+				 number:true
             },
             store_num: {
-				 digits:true    				 
+				 digits:true
             },
 			unit:{
 			 required: true
 			},
             tags: {
-				 required: true   				 
+				 required: true
             }
         },
         messages: {
 			name: {
   				remote:"产品已存在"
-            } 
+            }
         }
     });
-	
+
 });
 
 //实例化编辑器
@@ -353,13 +350,13 @@ $().ready(function(){
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
     }
-	
-		 
+
+
 function show_market_price(){
 	var market_price_float=(parseFloat($("#price").val())*1.15).toFixed(2);
 	$("#market_price").val(market_price_float);
 }
-	 
+
 function activate_promotion_input(should_activate){
  		if(should_activate==1){
 			$("#promotion_price").attr("disabled",false);
@@ -370,18 +367,18 @@ function activate_promotion_input(should_activate){
 			$("#promotion_price").attr("disabled",true);
 			$("#promotion_start").attr("disabled",true);
 			$("#promotion_end").attr("disabled",true);
-		
+
 	}
-	
+
 function show_attr_tab(){
 	var url="";
 	$("#").load(url);
 
 }
-	
+
 </script>
 </body>
 </html>
 <?php
-mysql_free_result ( $catalogs );
+mysql_free_result($catalogs);
 ?>
