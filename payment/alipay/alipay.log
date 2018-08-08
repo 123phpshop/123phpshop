@@ -1,0 +1,1 @@
+2016-05-16 08:06:10 _input_charset=utf-8&body=订单及时到账支付&notify_url=http://123phpshop/payment/alipay/notify_url.php&out_trade_no=2016051608060783446350&payment_type=1&return_url=http://123phpshop/payment/alipay/return_url.php&service=create_direct_pay_by_user&show_url=http://123phpshop&subject=订单号：2016051608060783446350&total_fee=450.00
