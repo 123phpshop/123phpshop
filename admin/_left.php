@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 123PHPSHOP
  * ============================================================================
@@ -11,36 +11,59 @@
  * 于原公司所有。上海序程信息科技有限公司拥有对本声明和123PHPSHOP软件使用的最终
  * 解释权！
  * ============================================================================
- *  作者:	123PHPSHOP团队
- *  手机:	13391334121
- *  邮箱:	service@123phpshop.com
+ *  作者:    123PHPSHOP团队
+ *  手机:    13391334121
+ *  邮箱:    service@123phpshop.com
  */
- ?><?php require_once('../Connections/localhost.php'); ?>
-<?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
-<?php
-
+?><?php
+require_once $_SERVER["DOCUMENT_ROOT"] . '/Connections/localhost.php';
 $colname_role_menu = "-1";
 if (isset($_SESSION['role_id'])) {
-  $colname_role_menu = (get_magic_quotes_gpc()) ? $_SESSION['role_id'] : addslashes($_SESSION['role_id']);
+    $colname_role_menu = (get_magic_quotes_gpc()) ? $_SESSION['role_id'] : addslashes($_SESSION['role_id']);
 }
 mysql_select_db($database_localhost, $localhost);
 $query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $colname_role_menu);
-$role_menu = mysql_query($query_role_menu, $localhost) ;
-if(!$role_menu){$logger->fatal("数据库操作失败:".$query_role_menu);}
+$role_menu = mysql_query($query_role_menu, $localhost);
+if (!$role_menu) {$logger->fatal("数据库操作失败:" . $query_role_menu);}
 $row_role_menu = mysql_fetch_assoc($role_menu);
 $totalRows_role_menu = mysql_num_rows($role_menu);
 mysql_select_db($database_localhost, $localhost);
-if($row_role_menu['privileges']=="1"){
-	//  如果是全部权限的话权限的话，那么不进行过滤
-	$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 order by sort asc";
-}else{
-	// 如果是有限权限的话，那么进行过滤
-	$query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
+if ($row_role_menu['privileges'] == "1") {
+    //  如果是全部权限的话权限的话，那么不进行过滤
+    $query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 order by sort asc";
+} else {
+    // 如果是有限权限的话，那么进行过滤
+    $query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 and id in (" . $row_role_menu['privileges'] . ") order by sort asc";
 }
-$menu = mysql_query($query_menu, $localhost) ;
-if(!$menu){$logger->fatal("数据库操作失败:".$query_menu);}
+$menu = mysql_query($query_menu, $localhost);
+if (!$menu) {$logger->fatal("数据库操作失败:" . $query_menu);}
 $row_menu = mysql_fetch_assoc($menu);
 $totalRows_menu = mysql_num_rows($menu);
+
+// ** Logout the current user. **
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+
+    unset($_SESSION['admin_username']);
+    unset($_SESSION['admin_id']);
+    unset($_SESSION['role_id']);
+    unset($_SESSION['privileges']);
+    unset($_SESSION['PrevUrl']);
+    unset($_SESSION['admin_username']);
+    unset($_SESSION['admin_id']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "login.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -54,7 +77,6 @@ body{
 	margin:0px;
 	background-color:#373737;
 	font-size:12px;
-	 
 }
 
 a {
@@ -83,7 +105,7 @@ a[parent] .menu_item_row{
 
 .menu_item_active{
 	background-color:#999999 !important;
-	
+
 }
 .menu_item{
 	padding-left:10px;
@@ -102,37 +124,37 @@ a[parent] .menu_item_row{
 
 <body>
 <div id="menu_div" style="width:100%;">
-<div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?></div>
-  <?php do { ?>
-  <a href="<?php echo $row_menu['file_name']==''?'javascript://':$row_menu['file_name'];?>" target="main"  id="menu_item_<?php echo $row_menu['id'];?>">
+<div class="menu_title" style="text-align:center;padding-left:0px;line-height:66px;color:#FFFFFF;height:66px;">欢迎<?php echo $_SESSION['admin_username']; ?><a href="<?php echo $logoutAction ?>" target="_parent"> [退出]</a></div>
+  <?php do {?>
+  <a href="<?php echo $row_menu['file_name'] == '' ? 'javascript://' : $row_menu['file_name']; ?>" target="main"  id="menu_item_<?php echo $row_menu['id']; ?>">
   <div class="menu_item_row" style="border-top:1px solid #515151;">
-    <div class="menu_item"><?php echo $row_menu['name'];?></div>
+    <div class="menu_item"><?php echo $row_menu['name']; ?></div>
     <div class="right_indicator">></div>
   </div>
   </a>
-  <?php 
-  
-  // 这里需要检查是否拥有admin全部的权限，如果有的话，那么
-  	
-  	mysql_select_db($database_localhost, $localhost);
-	if($row_role_menu['privileges']=="1"){
-	//  如果是全部权限的话权限的话，那么不进行过滤
-	$query_sub_menu = "SELECT * FROM privilege WHERE pid = ".$row_menu['id']." and is_delete=0 and is_menu=1 order by sort asc";
-	}else{
-		$query_sub_menu = "SELECT * FROM privilege WHERE pid = ".$row_menu['id']." and is_delete=0 and is_menu=1 and id in (".$row_role_menu['privileges'].") order by sort asc";
-	}
-	
-	$sub_menu = mysql_query($query_sub_menu, $localhost) ;if(!$sub_menu){$logger->fatal("数据库操作失败:".$query_sub_menu);}
-	$row_sub_menu = mysql_fetch_assoc($sub_menu);
-	$totalRows_sub_menu = mysql_num_rows($sub_menu);
- 
-	if($totalRows_sub_menu >0){
- ?>
-<?php do { ?>
-	<a href="<?php echo $row_sub_menu['file_name'];?><?php echo $row_sub_menu['para'];?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id'];?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name'];?></div><div class="right_indicator" style="">></div></div></a>
-<?php } while ($row_sub_menu = mysql_fetch_assoc($sub_menu)); ?>
-<?php }  ?>
-<?php } while ($row_menu = mysql_fetch_assoc($menu)); ?>
+  <?php
+
+    // 这里需要检查是否拥有admin全部的权限，如果有的话，那么
+
+    mysql_select_db($database_localhost, $localhost);
+    if ($row_role_menu['privileges'] == "1") {
+        //  如果是全部权限的话权限的话，那么不进行过滤
+        $query_sub_menu = "SELECT * FROM privilege WHERE pid = " . $row_menu['id'] . " and is_delete=0 and is_menu=1 order by sort asc";
+    } else {
+        $query_sub_menu = "SELECT * FROM privilege WHERE pid = " . $row_menu['id'] . " and is_delete=0 and is_menu=1 and id in (" . $row_role_menu['privileges'] . ") order by sort asc";
+    }
+
+    $sub_menu = mysql_query($query_sub_menu, $localhost);if (!$sub_menu) {$logger->fatal("数据库操作失败:" . $query_sub_menu);}
+    $row_sub_menu = mysql_fetch_assoc($sub_menu);
+    $totalRows_sub_menu = mysql_num_rows($sub_menu);
+
+    if ($totalRows_sub_menu > 0) {
+        ?>
+<?php do {?>
+	<a href="<?php echo $row_sub_menu['file_name']; ?><?php echo $row_sub_menu['para']; ?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id']; ?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name']; ?></div><div class="right_indicator" style="">></div></div></a>
+<?php } while ($row_sub_menu = mysql_fetch_assoc($sub_menu));?>
+<?php }?>
+<?php } while ($row_menu = mysql_fetch_assoc($menu));?>
 
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">></div></div></a>
 <a href="http://www.123phpshop.com/services.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >服务</div><div class="right_indicator" style=""></div></div></a>
@@ -147,24 +169,24 @@ a[parent] .menu_item_row{
 $().ready(function(){
 	$("a[parent]").hide();
 	$("a[parent] .right_indicator").hide();
-	
+
 $("a").click(function(){
   	$("a[parent="+$(this).attr('id')+"]").each(function(){
-		
+
   		if($(this).css('display')=='none'){
  			$(this).css("display","inline");
  		}else{
 			$(this).css("display","none");
 		}
-		
+
 	});
 });
- 
+
 $(".menu_item_row").click(function(){
 	$(".menu_item_row[id!="+$(this).attr('id')+"]").removeClass("menu_item_active");
 	$(this).addClass("menu_item_active");
 });
- 
+
 });
 </script>
 </body>
