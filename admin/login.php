@@ -46,7 +46,7 @@ if (isset($_POST['username'])) {
 
     // 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
 	if (strtolower($_POST['captcha']) != $_SESSION['captcha']) {
-        header("Location: " . "login.php?error=验证码输入错误，请重新输入？capt=".$_SESSION['captcha']);
+        header("Location: " . "login.php?error=验证码输入错误，请重新输入);
         return;
     }
 
