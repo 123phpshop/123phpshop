@@ -26,7 +26,7 @@ if (isset($_GET['accesscheck'])) {
 
 if (isset($_POST['username'])) {
 
-    // 这里对字段进行验证
+    // 对字段进行验证
     $validation->set_rules('username', '用户名', 'required|min_length[2]|alpha_dash|max_length[18]');
     $validation->set_rules('password', '密码', 'required|alpha_dash|max_length[18]');
     $validation->set_rules('captcha', '验证码', 'required|exact_length[4]|alpha_numeric');
@@ -46,7 +46,7 @@ if (isset($_POST['username'])) {
 
     // 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
 	if (strtolower($_POST['captcha']) != $_SESSION['captcha']) {
-        header("Location: " . "login.php?error=验证码输入错误，请重新输入);
+        header("Location: " . "login.php?error=验证码输入错误，请重新输入");
         return;
     }
 
