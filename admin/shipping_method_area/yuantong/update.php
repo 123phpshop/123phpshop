@@ -44,7 +44,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path = 'yuantong'";
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
@@ -55,7 +55,7 @@ $colname_shipping_method_area = "-1";
 if (isset($_GET['id'])) {
   $colname_shipping_method_area = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method_area = sprintf("SELECT * FROM shipping_method_area WHERE id = %s", $colname_shipping_method_area);
 $shipping_method_area = mysqli_query($localhost,$query_shipping_method_area);
 if(!$shipping_method_area){$logger->fatal("数据库操作失败:".$query_shipping_method_area);}
@@ -78,7 +78,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['continue_kg_fee'], "double"),
                        GetSQLValueString($colname_shipping_method_area, "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   

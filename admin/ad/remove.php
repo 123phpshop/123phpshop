@@ -25,7 +25,7 @@ log_admin("删除广告");
 if (isset($_GET['id'])) {
     $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM ad WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if (!$news) {
@@ -46,7 +46,7 @@ try {
         $colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
     }
     // 选择数据库
-    mysql_select_db($database_localhost, $localhost);
+    
     $query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
     $ad_images = mysqli_query($localhost,$query_ad_images);
     if (!$ad_images) {

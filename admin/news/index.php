@@ -43,7 +43,7 @@ $where_string="where is_delete=0 ";
 	}
   	 
 	if($sql!=""){
-		mysql_select_db($database_localhost, $localhost);
+		
  		$query=mysqli_query($localhost,$sql);
 		if(!$query){$logger->fatal("数据库操作失败:".$sql);}
  	}			
@@ -60,7 +60,7 @@ if (isset($_GET['pageNum_catalog'])) {
 }
 $startRow_catalog = $pageNum_catalog * $maxRows_catalog;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = "SELECT * FROM news_catalog WHERE id = $colname_catalog";
 $query_limit_catalog = sprintf("%s LIMIT %d, %d", $query_catalog, $startRow_catalog, $maxRows_catalog);
 $catalog = mysqli_query($localhost,$query_limit_catalog);
@@ -105,7 +105,7 @@ if (isset($_GET['pageNum_news'])) {
 }
 $startRow_news = $pageNum_news * $maxRows_news;
   
-mysql_select_db($database_localhost, $localhost);	
+	
 $query_news = "SELECT * FROM news $where_string order by id desc";
  $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
 $news = mysqli_query($localhost,$query_limit_news);

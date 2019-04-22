@@ -32,7 +32,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   $insertSQL = sprintf("INSERT INTO news_catalog (name) VALUES (%s)",
                        GetSQLValueString($_POST['name'], "text"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 }
 
@@ -43,7 +43,7 @@ if (isset($_GET['pageNum_news_catalogs'])) {
 }
 $startRow_news_catalogs = $pageNum_news_catalogs * $maxRows_news_catalogs;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
 $query_limit_news_catalogs = sprintf("%s LIMIT %d, %d", $query_news_catalogs, $startRow_news_catalogs, $maxRows_news_catalogs);
 $news_catalogs = mysqli_query($localhost,$query_limit_news_catalogs);

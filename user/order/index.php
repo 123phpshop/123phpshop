@@ -29,7 +29,7 @@ $colname_orders = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_orders = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $where=_get_order_where($_GET);
 
 $query_orders = "SELECT * from orders $where order by id desc";
@@ -196,7 +196,7 @@ a{
         <td width="433" height="91">
 		<?php 
 		
- 		mysql_select_db($database_localhost, $localhost);
+ 		
 		$query_order_items = "SELECT * FROM order_item WHERE order_id =". $row_orders['id'];
 		$order_items = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_items);}
 		//$row_order_items = mysqli_fetch_assoc($order_items);
@@ -206,7 +206,7 @@ a{
 		if($totalRows_order_items>0){
 		
 			while($order_item_row=mysql_fetch_object($order_items)){
- 				mysql_select_db($database_localhost, $localhost);
+ 				
 				$query_order_images = "SELECT * FROM product_images WHERE  is_delete=0 and product_id = ".$order_item_row->product_id." limit 1";
 				$order_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_images);}
 				//	$row_order_images = mysqli_fetch_assoc($order_images);

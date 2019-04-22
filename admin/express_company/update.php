@@ -32,7 +32,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['website'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -48,7 +48,7 @@ $colname_express_company = "-1";
 if (isset($_GET['id'])) {
   $colname_express_company = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_express_company = sprintf("SELECT * FROM express_company WHERE id = %s", $colname_express_company);
 $express_company = mysqli_query($localhost,$query_express_company);
 if(!$express_company){$logger->fatal("数据库操作失败:".$query_express_company);}

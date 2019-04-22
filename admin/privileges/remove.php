@@ -24,7 +24,7 @@ $colname_getById = "-1";
 if (isset($_GET['id'])) {
   $colname_getById = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_getById = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getById);
 $getById = mysqli_query($localhost,$query_getById);
 if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
@@ -36,7 +36,7 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
   $deleteSQL = sprintf("update privilege  set is_delete=1 WHERE id=%s",
                        GetSQLValueString($_GET['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$deleteSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$deleteSQL);}
 

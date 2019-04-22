@@ -29,7 +29,7 @@ $currentPage = $_SERVER["PHP_SELF"];
 // 处理批量操作
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
     if (count($_POST['user_id']) > 0 && $_POST['op_id'] == "100") {
-        mysql_select_db($database_localhost, $localhost);
+        
         $sql = "update `user` set is_delete=1 where id in (" . implode(",", $_POST['user_id']) . ")";
         $Result1 = mysqli_query($localhost,$sql);
         if (!$Result1) {
@@ -46,7 +46,7 @@ if (isset($_GET['pageNum_users'])) {
 $startRow_users = $pageNum_users * $maxRows_users;
 $where = _get_user_where($_GET);
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_users = "SELECT * FROM `user` where is_delete=0 $where";
 $query_limit_users = sprintf("%s LIMIT %d, %d", $query_users, $startRow_users, $maxRows_users);
 $users = mysqli_query($localhost,$query_limit_users);

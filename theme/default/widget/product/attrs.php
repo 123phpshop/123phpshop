@@ -32,7 +32,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "update_product_attr")) 
    header(sprintf("Location: %s", $insertGoTo));
  }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_atts = sprintf("SELECT product_type_attr_val.*,product_type_attr.name  FROM product_type_attr_val inner join product_type_attr on product_type_attr.id=product_type_attr_val.product_type_attr_id  WHERE product_type_attr_val.product_id = %s and product_type_attr.is_delete=0", $colname_product);
 $product_atts = mysqli_query($localhost,$query_product_atts);
 	if(!$product_atts){$logger->fatal("数据库操作失败:".mysqli_error($localhost).$query_product_atts);}

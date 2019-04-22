@@ -27,7 +27,7 @@ $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_news);}
 $row_news = mysqli_fetch_assoc($news);

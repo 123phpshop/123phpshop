@@ -99,7 +99,7 @@ a{
       <td>
 	    <div align="center">
 	      <?php 
- 	mysql_select_db($database_localhost, $localhost);
+ 	
 	$query_second_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_top_catalogs['id'];
 	$second_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_second_level_cata);}
  	$totalRows_second_level_cata = mysql_num_rows($second_level_cata);
@@ -111,7 +111,7 @@ a{
 	          <td width="65" height="34"><div align="right" style="width:56px;"><a href="product_list.php?catalog_id=<?php echo $row_second_level_cata['id']; ?>" class="second_level_link"><?php echo $row_second_level_cata['name']; ?></a></div></td>
             <td height="34">
               <?php 
- 	  mysql_select_db($database_localhost, $localhost);
+ 	  
 	$query_third_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_second_level_cata['id'];
 	$third_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_third_level_cata);}
  	$totalRows_third_level_cata = mysql_num_rows($third_level_cata);

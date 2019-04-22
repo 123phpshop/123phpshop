@@ -17,7 +17,7 @@
  */
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_catlogs = "SELECT * FROM `catalog` WHERE pid = 0 and is_delete=0 ";
 $catlogs = mysqli_query($localhost,$query_catlogs);
 if(!$catlogs){$logger->fatal("数据库操作失败:".$query_catlogs);}
@@ -51,7 +51,7 @@ $totalRows_season = mysql_num_rows($season);
   <tr>
      <?php 
   		while ($row_season = mysqli_fetch_assoc($season)){
- 			mysql_select_db($database_localhost, $localhost);
+ 			
 			$query_get_images = "SELECT * FROM product_images WHERE is_delete=0  and  product_id =". $row_season['id'];
 			$get_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
 			$row_get_images = mysqli_fetch_assoc($get_images);

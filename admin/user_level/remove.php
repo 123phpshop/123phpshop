@@ -4,7 +4,7 @@ $colname_item = "-1";
 if (isset($_GET['id'])) {
   $colname_item = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_item = sprintf("SELECT * FROM user_levels WHERE id = %s", $colname_item);
 $item = mysqli_query($localhost,$query_item);
 if(!$item){$logger->fatal("数据库操作失败:".$query_item);}

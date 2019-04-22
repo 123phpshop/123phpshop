@@ -32,7 +32,7 @@ $colname_catalog = "-1";
 if (isset($_GET['catalog_id'])) {
   $colname_catalog = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}

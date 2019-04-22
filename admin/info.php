@@ -99,14 +99,14 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString(1, "int"));
  	 }
 	 
-	  mysql_select_db($database_localhost, $localhost);
+	  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
  	// 我们这里需要对上传文件进行检查
  }
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_info = "SELECT * FROM shop_info WHERE id = 1";
 $info = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_info);}
 $row_info = mysqli_fetch_assoc($info);

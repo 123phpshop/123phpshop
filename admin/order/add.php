@@ -32,7 +32,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	if (isset($_POST['user_id'])) {
 	  $colname_user = (get_magic_quotes_gpc()) ? $_POST['user_id'] : addslashes($_POST['user_id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
 	$user = mysqli_query($localhost,$query_user);
 	if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
@@ -59,7 +59,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 						   GetSQLValueString($_POST['please_delivery_at'], "int"),
 						   GetSQLValueString(100, "int"));
 	
-		mysql_select_db($database_localhost, $localhost);
+		
 		$Result1 = mysqli_query($localhost,$insertSQL);
 		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 		

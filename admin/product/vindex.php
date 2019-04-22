@@ -34,7 +34,7 @@ if (isset($_GET['catalog_id'])) {
   $where.=" and catalog_id = ".$colname_products;
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = "SELECT * FROM product WHERE is_delete=0 and is_virtual=1 $where order by id desc";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
 $products = mysqli_query($localhost,$query_limit_products);

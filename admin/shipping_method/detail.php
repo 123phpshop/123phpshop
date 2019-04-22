@@ -18,7 +18,7 @@
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $doc_url="shipping.html#detail";
 $support_email_question="查看送货方式详情";log_admin($support_email_question);
-mysql_select_db($database_localhost, $localhost);
+
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM shipping_method WHERE id = $recordID";
 $DetailRS1 = mysqli_query($localhost,$query_DetailRS1);

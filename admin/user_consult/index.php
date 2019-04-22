@@ -23,7 +23,7 @@ $support_email_question="查看用户咨询列表";log_admin($support_email_ques
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['consult_id'])>0 && $_POST['op_id']=="100"){	
-			mysql_select_db($database_localhost, $localhost);
+			
 			$sql="update `product_consult` set is_delete=1 where id in (".implode(",",$_POST['consult_id']).")";
 			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
@@ -41,7 +41,7 @@ if (isset($_GET['pageNum_consult'])) {
 
 $startRow_consult = $pageNum_consult * $maxRows_consult;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_consult = "SELECT product_consult.*,user.username as username, product.name as product_name FROM product_consult inner join user on user.id=product_consult.user_id inner join product on product.id=product_consult.product_id where product_consult.is_delete=0 and product_consult.to_question=0 $where_query_string ORDER BY id DESC";
 $query_limit_consult = sprintf("%s LIMIT %d, %d", $query_consult, $startRow_consult, $maxRows_consult);
 $consult = mysqli_query($localhost,$query_limit_consult);

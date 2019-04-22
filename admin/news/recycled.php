@@ -24,7 +24,7 @@ log_admin($support_email_question);
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['news_id'])>0 && $_POST['op_id']=="100"){	
-			mysql_select_db($database_localhost, $localhost);
+			
 			$sql="update `news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
 			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
@@ -40,7 +40,7 @@ if (isset($_GET['pageNum_news'])) {
 }
 $startRow_news = $pageNum_news * $maxRows_news;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = "SELECT * FROM news WHERE is_delete = 1";
 $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
 $news = mysqli_query($localhost,$query_limit_news);

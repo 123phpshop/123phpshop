@@ -28,7 +28,7 @@ if (isset($_GET['pageNum_brands'])) {
 }
 $startRow_brands = $pageNum_brands * $maxRows_brands;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_brands = "SELECT * FROM brands where is_delete=0 ORDER BY id DESC";
 $query_limit_brands = sprintf("%s LIMIT %d, %d", $query_brands, $startRow_brands, $maxRows_brands);
 $brands = mysqli_query($localhost,$query_limit_brands);

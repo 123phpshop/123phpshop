@@ -23,7 +23,7 @@ $colname_shipping_method = "-1";
 if (isset($_GET['shipping_method_id'])) {
   $colname_shipping_method = (get_magic_quotes_gpc()) ? $_GET['shipping_method_id'] : addslashes($_GET['shipping_method_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method = sprintf("SELECT id, shipping_method_id, area, shipping_by_quantity, name FROM shipping_method_area WHERE shipping_method_id = %s and is_delete=0", $colname_shipping_method);
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
@@ -34,7 +34,7 @@ $colname_shipping_method_folder = "-1";
 if (isset($_GET['shipping_method_id'])) {
   $colname_shipping_method_folder = (get_magic_quotes_gpc()) ? $_GET['shipping_method_id'] : addslashes($_GET['shipping_method_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method_folder = sprintf("SELECT * FROM shipping_method WHERE id = %s", $colname_shipping_method_folder);
 $shipping_method_folder = mysqli_query($localhost,$query_shipping_method_folder);
 if(!$shipping_method_folder){$logger->fatal("数据库操作失败:".$query_shipping_method_folder);}

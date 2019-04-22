@@ -25,7 +25,7 @@ $colname_product = "-1";
 if (isset($_GET['id'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT * FROM friend_links WHERE id = %s", $colname_product);
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

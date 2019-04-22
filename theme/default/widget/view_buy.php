@@ -17,7 +17,7 @@
  */
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_buy_view = "SELECT * FROM product WHERE is_on_sheft = 1 and is_delete=0 limit 6";
 $buy_view = mysqli_query($localhost,$query_buy_view);
 if(!$buy_view){$logger->fatal("数据库操作失败:".$query_buy_view);}
@@ -54,7 +54,7 @@ table{
      </tr>
   <?php do { ?>
  		<?php 
- 	   	mysql_select_db($database_localhost, $localhost);
+ 	   	
 		$query_get_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id =". $row_buy_view['id'];
 		$get_images = mysqli_query($localhost,$query_get_images);
 		if(!$get_images){$logger->fatal("数据库操作失败:".$query_get_images);}

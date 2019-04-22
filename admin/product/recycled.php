@@ -25,7 +25,7 @@ $support_email_question="浏览产品回收站";log_admin($support_email_questio
 
   // 调整参数
 	if(count($_POST['product_id'])>0 && $_POST['op_id']=="100"){	
-			mysql_select_db($database_localhost, $localhost);
+			
 			$sql="update `product` set is_delete=0 where id in (".implode(",",$_POST['product_id']).")";
 			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
@@ -41,7 +41,7 @@ if (isset($_GET['pageNum_products'])) {
 }
 $startRow_products = $pageNum_products * $maxRows_products;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = "SELECT * FROM product WHERE is_delete = 1";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
 $products = mysqli_query($localhost,$query_limit_products);

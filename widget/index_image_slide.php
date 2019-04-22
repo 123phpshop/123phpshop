@@ -24,7 +24,7 @@ if (isset($_GET['pageNum_ad_one'])) {
 }
 $startRow_ad_one = $pageNum_ad_one * $maxRows_ad_one;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_ad_one = "SELECT * FROM ad_images WHERE ad_id = 1";
 $query_limit_ad_one = sprintf("%s LIMIT %d, %d", $query_ad_one, $startRow_ad_one, $maxRows_ad_one);
 $ad_one = mysqli_query($localhost,$query_limit_ad_one);

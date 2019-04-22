@@ -31,7 +31,7 @@ $colname_brand = "-1";
 if (isset($_GET['brand_id'])) {
   $colname_brand = (get_magic_quotes_gpc()) ? $_GET['brand_id'] : addslashes($_GET['brand_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_brand = sprintf("SELECT * FROM brands WHERE id = %s and is_delete=0", $colname_brand);
 $brand = mysqli_query($localhost,$query_brand);
 if(!$brand){$logger->fatal("数据库操作失败:".$query_brand);}

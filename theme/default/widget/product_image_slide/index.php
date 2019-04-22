@@ -21,7 +21,7 @@ $colname_product_image = "-1";
 if (isset($_GET['id'])) {
   $colname_product_image = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $colname_product_image);
 $product_image = mysqli_query($localhost,$query_product_image);
 if(!$product_image){$logger->fatal("数据库操作失败:".$query_product_image);}
@@ -32,7 +32,7 @@ $colname_product_image_small = "-1";
 if (isset($_GET['id'])) {
   $colname_product_image_small = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_image_small = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_product_image_small);
 $product_image_small = mysqli_query($localhost,$query_product_image_small);
 if(!$product_image_small){$logger->fatal("数据库操作失败:".$query_product_image_small);}
@@ -43,7 +43,7 @@ $colname_big_images = "-1";
 if (isset($_GET['id'])) {
   $colname_big_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_big_images = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_big_images);
 $big_images = mysqli_query($localhost,$query_big_images);
 if(!$big_images){$logger->fatal("数据库操作失败:".$query_big_images);}

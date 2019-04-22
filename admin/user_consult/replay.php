@@ -55,7 +55,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['to_question'], "int"),
 					   GetSQLValueString($_SESSION['admin_id'], "int"));
 	
-	mysql_select_db($database_localhost, $localhost);
+	
 	$Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 
 	$update_sql=sprintf("update product_consult set is_replied=1 where id=%s",GetSQLValueString($_POST['to_question'], "int"));
@@ -70,7 +70,7 @@ $colname_consult = "-1";
 if (isset($_GET['id'])) {
   $colname_consult = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consult = sprintf("SELECT product_consult.* , product.name as product_name, product.id as product_id FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.id = %s", $colname_consult);
 $consult = mysqli_query($localhost,$query_consult);
 if(!$consult){$logger->fatal("数据库操作失败:".$query_consult);}
@@ -81,7 +81,7 @@ $colname_replies = "-1";
 if (isset($_GET['id'])) {
   $colname_replies = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_replies = sprintf("SELECT product_consult.*,member.username as username FROM product_consult inner join member on member.id= product_consult.user_id WHERE product_consult.to_question = %s", $colname_replies);
 $replies = mysqli_query($localhost,$query_replies);
 if(!$replies){$logger->fatal("数据库操作失败:".$query_replies);}

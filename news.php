@@ -32,7 +32,7 @@ $colname_news = "-1";
 if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM news WHERE is_delete=0 and id = %s", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
@@ -41,7 +41,7 @@ $totalRows_news = mysql_num_rows($news);
 
 if($totalRows_news >0){
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE is_delete=0 and id = %s ", $row_news['catalog_id']);
  $news_catalog = mysqli_query($localhost,$query_news_catalog);
  if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
@@ -50,7 +50,7 @@ $totalRows_news_catalog = mysql_num_rows($news_catalog);
 
  
  }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
 $news_catalogs = mysqli_query($localhost,$query_news_catalogs);
 if(!$news_catalogs){$logger->fatal("数据库操作失败:".$query_news_catalogs);}

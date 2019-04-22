@@ -17,7 +17,7 @@
  */
  ?><?php
 if(isset($row_promotion['present_products']) && $row_promotion['present_products']!=""){
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT id,name,price FROM product WHERE id in (".$row_promotion['present_products'].")";
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}

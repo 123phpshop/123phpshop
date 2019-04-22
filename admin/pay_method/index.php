@@ -19,7 +19,7 @@
 <?php
 $doc_url="payment.html#list";
 $support_email_question="查看支付方式列表";log_admin($support_email_question);
-mysql_select_db($database_localhost, $localhost);
+
 $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
 $pay_methods = mysqli_query($localhost,$query_pay_methods);
 if(!$pay_methods){$logger->fatal("数据库操作失败:".$query_pay_methods);}

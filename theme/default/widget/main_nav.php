@@ -17,7 +17,7 @@
  */
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_top_catas = "SELECT * FROM `catalog` WHERE pid = 0";
 $top_catas = mysqli_query($localhost,$query_top_catas);
 if(!$top_catas){$logger->fatal("数据库操作失败:".$query_top_catas);}

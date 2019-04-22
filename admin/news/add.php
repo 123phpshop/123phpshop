@@ -30,7 +30,7 @@ $colname_news_catalog = "-1";
 if (isset($_GET['catalog_id'])) {
   $colname_news_catalog = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalog = sprintf("SELECT * FROM `news_catalog` WHERE id = %s", $colname_news_catalog);
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
@@ -52,7 +52,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['is_published']==null?0:1, "int"),
 					   GetSQLValueString($publish_time, "text"));
 					   
-   mysql_select_db($database_localhost, $localhost);
+   
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 

@@ -21,7 +21,7 @@ $colname_news_cata = "-1";
 if (isset($_GET['catalog_id'])) {
   $colname_news_cata = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_cata = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and pid = %s", $colname_news_cata);
 $news_cata = mysqli_query($localhost,$query_news_cata);
 if(!$news_cata){$logger->fatal("数据库操作失败:".$query_news_cata);}

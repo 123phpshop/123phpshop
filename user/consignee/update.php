@@ -41,7 +41,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	  $colname_consignee = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
 	}
 	
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s", $colname_consignee,$_SESSION['user_id']);
 	$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
  	$totalRows_consignee = mysql_num_rows($consignee);
@@ -57,7 +57,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['zip'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
  
-	  mysql_select_db($database_localhost, $localhost);
+	  
 	  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
  	  $updateGoTo = "index.php";
 	  header(sprintf("Location: %s", $updateGoTo));
@@ -67,7 +67,7 @@ $colname_consignee = "-1";
 if (isset($_GET['id'])) {
   $colname_consignee = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s ", $colname_consignee,$_SESSION['user_id']);
 $consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);

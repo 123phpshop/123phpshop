@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT id,name,price FROM product WHERE id = %s", $product_id);
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

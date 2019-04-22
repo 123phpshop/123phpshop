@@ -27,7 +27,7 @@ if (isset($_GET['pageNum_promotions'])) {
 }
 $startRow_promotions = $pageNum_promotions * $maxRows_promotions;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_promotions = "SELECT * FROM promotion where is_delete=0 ORDER BY id DESC";
 $query_limit_promotions = sprintf("%s LIMIT %d, %d", $query_promotions, $startRow_promotions, $maxRows_promotions);
 $promotions = mysqli_query($localhost,$query_limit_promotions);

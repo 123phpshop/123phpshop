@@ -48,7 +48,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 							   GetSQLValueString($_POST['name'], "text"),
 							   GetSQLValueString($_POST['min_consumption_amount'], "double"));
 		
-		  mysql_select_db($database_localhost, $localhost);
+		  
 		  $Result1 = mysqli_query($localhost,$insertSQL);
 		  if(!$Result1){
 			$logger->fatal("添加用户登记操作失败:".$insertSQL);

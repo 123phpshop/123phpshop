@@ -38,7 +38,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString(date('Y-m-d H:i:s'), "date"),
                        GetSQLValueString($colname_order, "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
@@ -55,14 +55,14 @@ $Result1=mysqli_query($localhost,$order_log_sql);
 }
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_logistics = "SELECT * FROM express_company";
 $logistics = mysqli_query($localhost,$query_logistics);
 if(!$logistics){$logger->fatal("数据库操作失败:".$query_logistics);}

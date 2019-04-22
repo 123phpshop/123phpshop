@@ -30,7 +30,7 @@ if (isset($_GET['id'])) {
 }
 
 // 检查id是否存在，如果存在的话，那么抛错
-mysql_select_db($database_localhost, $localhost);
+
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysqli_query($localhost,$query_admin);
 if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}// 如果数据库操作失败

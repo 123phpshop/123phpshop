@@ -23,7 +23,7 @@ $colname_getByName = "-1";
 if (isset($_POST['name'])) {
   $colname_getByName = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s' and is_delete=0 ", $colname_getByName);
 $getByName = mysqli_query($localhost,$query_getByName);
 if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
@@ -67,7 +67,7 @@ if ($totalRows_getByName < 1 && (isset($_POST["MM_insert"])) && ($_POST["MM_inse
 						   GetSQLValueString($_POST['name'], "text"),
 						   GetSQLValueString($pid, "int"));
 	 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   $insertGoTo = "index.php";

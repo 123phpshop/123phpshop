@@ -32,7 +32,7 @@ $colname_order = "-1";
 if (isset($_GET['order_sn'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['order_sn'] : addslashes($_GET['order_sn']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0 ", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
@@ -50,7 +50,7 @@ if($row_order['order_status']!=0){
 	 header("Location: " . $url );
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_pay_method = "SELECT * FROM pay_method WHERE is_activated = 1";
 $pay_method = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_pay_method);}
 $row_pay_method = mysqli_fetch_assoc($pay_method);

@@ -28,7 +28,7 @@ if (isset($_POST['id'])) {
   $colname_id = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT * FROM product WHERE name = '%s' and id!='%s'", $colname_product, $colname_id);
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

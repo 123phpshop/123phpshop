@@ -23,7 +23,7 @@ function export_goods(){
 	$username_localhost = "root";
 	$password_localhost = "root";
 	$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysqli_error($localhost),E_USER_ERROR); 
-	mysql_select_db($database_localhost, $localhost);
+	
  	$result = mysql_query("select * from product;",$localhost);   
 		
 	//  获取所有字段的名称

@@ -51,7 +51,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
   
   
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   $updateGoTo = "index.php";
@@ -62,14 +62,14 @@ $colname_admin = "-1";
 if (isset($_GET['id'])) {
   $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_admin);}
 $row_admin = mysqli_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
 
 // 如果找不到这个id的话
-mysql_select_db($database_localhost, $localhost);
+
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
 $roles = mysqli_query($localhost,$query_roles);
 if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}

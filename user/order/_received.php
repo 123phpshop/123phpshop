@@ -32,7 +32,7 @@ $colname_order = "-1";
 if (isset($_GET['id'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s ", $colname_order, $_SESSION['user_id']);
 $order = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order);}
 $row_order = mysqli_fetch_assoc($order);

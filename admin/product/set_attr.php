@@ -60,7 +60,7 @@ if ((isset($_POST["MM_Update"])) && ($_POST["MM_Update"] == "form1")) {
 
 
 //	获取这个产品的类型id
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT id, name, product_type_id FROM product WHERE id = %s", $colname_product);
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
@@ -69,7 +69,7 @@ $totalRows_product = mysql_num_rows($product);
 // 如果不能找到相关的id的话
 
 // 如果可以找到的话，根据类型的id获取相关的属性
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_id = ".$row_product['product_type_id']." and is_delete=0 and input_method!=2";
 $product_type_attrs = mysqli_query($localhost,$query_product_type_attrs);
 if(!$product_type_attrs){$logger->fatal("数据库操作失败:".$query_product_type_attrs);}
@@ -84,7 +84,7 @@ if($totalRows_product_type_attrs>0){
 	if (isset($_GET['product_id'])) {
 	  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
 	$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);
 
@@ -123,7 +123,7 @@ if($totalRows_product_type_attrs>0){
 			if (isset($_GET['product_id'])) {
 			  $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] : addslashes($_GET['product_id']);
 			}
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
 			$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);
 			if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}

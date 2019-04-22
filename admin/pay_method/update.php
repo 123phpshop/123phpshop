@@ -34,7 +34,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['intro'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -50,7 +50,7 @@ $colname_pay_method = "-1";
 if (isset($_GET['id'])) {
   $colname_pay_method = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_pay_method = sprintf("SELECT * FROM pay_method WHERE id = %s", $colname_pay_method);
 $pay_method = mysqli_query($localhost,$query_pay_method);
 if(!$pay_method){$logger->fatal("数据库操作失败:".$query_pay_method);}

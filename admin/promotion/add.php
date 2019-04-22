@@ -68,7 +68,7 @@ try{
                        GetSQLValueString(implode(",",$_POST['present_products']), "text"),
 					   GetSQLValueString($_POST['promotion_type_val'], "int"));
 	 
-		mysql_select_db($database_localhost, $localhost);
+		
 		$Result1 = mysqli_query($localhost,$insertSQL);
 		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL.mysqli_error($localhost));}
 		$insertGoTo = "index.php";

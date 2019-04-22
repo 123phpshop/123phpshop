@@ -26,7 +26,7 @@ $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {
   $colname_catalog = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
 $catalog = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
@@ -42,7 +42,7 @@ if($could_delete==1){
 	if (isset($_GET['id'])) {
 	  $colname_catalog_children = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_catalog_children = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalog_children);
 	$catalog_children = mysqli_query($localhost,$query_catalog_children);
 	if(!$catalog_children){$logger->fatal("数据库操作失败:".$query_catalog_children);}
@@ -61,7 +61,7 @@ if($could_delete==1){
 	if (isset($_GET['id'])) {
 	  $colname_products = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_products = sprintf("SELECT * FROM product WHERE catalog_id = %s and is_delete=0", $colname_products);
 	$products = mysqli_query($localhost,$query_products);
 	if(!$products){$logger->fatal("数据库操作失败:".$query_products);}

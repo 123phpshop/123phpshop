@@ -26,7 +26,7 @@ $could_delete=1;
 if (isset($_GET['id'])) {
   $colname_user = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
 $user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}

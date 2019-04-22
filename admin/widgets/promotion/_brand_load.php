@@ -24,7 +24,7 @@ if (isset($_GET['pageNum_goods'])) {
 }
 $startRow_goods = $pageNum_goods * $maxRows_goods;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT id,name FROM brands WHERE id in (".$row_promotion['promotion_limit_value'].")";
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}

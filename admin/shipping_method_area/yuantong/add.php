@@ -44,7 +44,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path = 'yuantong'";
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
@@ -67,7 +67,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['first_kg_fee'], "double"),
                        GetSQLValueString($_POST['first_kg_fee'], "double"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 

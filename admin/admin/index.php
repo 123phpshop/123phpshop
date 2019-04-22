@@ -28,7 +28,7 @@ if (isset($_GET['pageNum_admins'])) {
 }
 $startRow_admins = $pageNum_admins * $maxRows_admins;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_admins = "SELECT member.*,role.name as role_name FROM member inner join role on role.id =member.role_id where member.is_delete=0";
 $query_limit_admins = sprintf("%s LIMIT %d, %d", $query_admins, $startRow_admins, $maxRows_admins);
 $admins = mysqli_query($localhost,$query_limit_admins);

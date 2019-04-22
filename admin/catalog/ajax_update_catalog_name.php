@@ -28,7 +28,7 @@ if (isset($_POST['id'])) {
   $colname_id = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE name = '%s' and id!='%s'", $colname_catalog, $colname_id);
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}

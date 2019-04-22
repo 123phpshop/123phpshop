@@ -21,7 +21,7 @@ $colname_order = "-1";
 if (isset($_GET['id'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
@@ -32,7 +32,7 @@ $colname_order_items = "-1";
 if (isset($_GET['id'])) {
   $colname_order_items = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order_items = sprintf("SELECT * FROM order_item WHERE order_id = '%s'", $colname_order_items);
 $order_items = mysqli_query($localhost,$query_order_items);
 if(!$order_items){$logger->fatal("数据库操作失败:".$query_order_items);}

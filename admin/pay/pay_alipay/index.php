@@ -26,7 +26,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_alipay_config = "SELECT * FROM pay_alipay limit 1";
 	$alipay_config = mysqli_query($localhost,$query_alipay_config);
 	if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}
@@ -40,7 +40,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['security_code'], "text"),
 						   GetSQLValueString($_POST['cooperate_user_info'], "text") 
 	);
-	  mysql_select_db($database_localhost, $localhost);
+	  
 	  $Result1 = mysqli_query($localhost,$updateSQL);
 	  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
  	}else{
@@ -51,14 +51,14 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['cooperate_user_info'], "text"),
 						   GetSQLValueString($row_alipay_config['id'], "int"));
 	
-	  mysql_select_db($database_localhost, $localhost);
+	  
 	  $Result1 = mysqli_query($localhost,$updateSQL);
 	  if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 	
 	}
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_alipay_config = "SELECT * FROM pay_alipay limit 1";
 $alipay_config = mysqli_query($localhost,$query_alipay_config);
 if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}

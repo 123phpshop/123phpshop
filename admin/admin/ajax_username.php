@@ -22,7 +22,7 @@ $colname_member = "-1";
 if (isset($_POST['username'])) {
   $colname_member = (get_magic_quotes_gpc()) ? $_POST['username'] : addslashes($_POST['username']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_member = sprintf("SELECT * FROM member WHERE username = '%s'", $colname_member);
 $member = mysqli_query($localhost,$query_member);
 if(!$member){$logger->fatal("数据库操作失败:".$query_member);}

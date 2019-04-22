@@ -31,7 +31,7 @@ $colname_attr = "-1";
 if (isset($_GET['product_type_id'])) {
   $colname_attr = (get_magic_quotes_gpc()) ? $_GET['product_type_id'] : addslashes($_GET['product_type_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_attr = sprintf("SELECT * FROM product_type_attr WHERE product_type_id = %s and is_delete=0", $colname_attr);
 $query_limit_attr = sprintf("%s LIMIT %d, %d", $query_attr, $startRow_attr, $maxRows_attr);
 $attr = mysqli_query($localhost,$query_limit_attr);

@@ -29,7 +29,7 @@ if (isset($_GET['pageNum_email_templates'])) {
 }
 $startRow_email_templates = $pageNum_email_templates * $maxRows_email_templates;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_email_templates = "SELECT * FROM email_templates WHERE is_delete = 0 ORDER BY id DESC";
 $query_limit_email_templates = sprintf("%s LIMIT %d, %d", $query_email_templates, $startRow_email_templates, $maxRows_email_templates);
 $email_templates = mysqli_query($localhost,$query_limit_email_templates);

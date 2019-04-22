@@ -38,7 +38,7 @@ if(isset($_POST['123phpshop_op']) &&  $_POST ['123phpshop_op']=='update_privileg
 	if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  }
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_role = sprintf("SELECT * FROM role WHERE id = %s", $colname_role);
 $role = mysqli_query($localhost,$query_role);
 if(!$role){$logger->fatal("数据库操作失败:".$query_role);}
@@ -52,7 +52,7 @@ if (isset($_GET['id'])) {
   $colname_role_privileges = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_privileges = "SELECT id, name, pid FROM `privilege` WHERE pid = 0 and is_delete=0";
 $privileges = mysqli_query($localhost,$query_privileges);
 if(!$privileges){$logger->fatal("数据库操作失败:".$query_privileges);}

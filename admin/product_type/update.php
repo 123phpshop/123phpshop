@@ -53,7 +53,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -69,7 +69,7 @@ $colname_product_type = "-1";
 if (isset($_GET['id'])) {
   $colname_product_type = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_product_type);
 $product_type = mysqli_query($localhost,$query_product_type);
 if(!$product_type){$logger->fatal("数据库操作失败:".$query_product_type);}

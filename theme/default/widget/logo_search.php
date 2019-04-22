@@ -18,7 +18,7 @@
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_shop_info = sprintf("SELECT * FROM shop_info WHERE id = 1");
 $shop_info = mysqli_query($localhost,$query_shop_info);
 if(!$shop_info){$logger->fatal("数据库操作失败:".$query_shop_info);}

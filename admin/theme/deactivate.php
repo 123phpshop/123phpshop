@@ -24,14 +24,14 @@ $colname_order = "-1";
 if (isset($_GET['id'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM theme WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_themes = sprintf("SELECT * FROM theme WHERE is_delete=0 and  id != %s", $colname_order);
 $themes = mysqli_query($localhost,$query_themes);
 if(!$themes){$logger->fatal("数据库操作失败:".$query_themes);}

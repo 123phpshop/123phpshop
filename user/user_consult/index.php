@@ -30,7 +30,7 @@ $colname_consult = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_consult = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consult = sprintf("SELECT product_consult.*,product.name  FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.user_id = %s and product_consult.is_delete=0 %s ORDER BY product_consult.id DESC", $colname_consult,$where_query_string);
 $query_limit_consult = sprintf("%s LIMIT %d, %d", $query_consult, $startRow_consult, $maxRows_consult);
 $consult = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_limit_consult);}

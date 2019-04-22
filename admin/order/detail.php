@@ -25,7 +25,7 @@ $support_email_question="查看订单详细";log_admin($support_email_question);
 if (isset($_GET['recordID'])) {
   $colname_products = (get_magic_quotes_gpc()) ? $_GET['recordID'] : addslashes($_GET['recordID']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = sprintf("SELECT order_item.*,product.is_shipping_free,product.is_promotion,product.promotion_price,product.promotion_start,product.promotion_end,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete = 0", $colname_products);
 $products = mysqli_query($localhost,$query_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
@@ -39,7 +39,7 @@ if (isset($_GET['pageNum_DetailRS1'])) {
 }
 $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 
-mysql_select_db($database_localhost, $localhost);
+
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT orders.*,shipping_method.name as shipping_method_name,user.username FROM `orders` inner join user on user.id=orders.user_id left join shipping_method on orders.shipping_method=shipping_method.id WHERE orders.id = $recordID ";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
@@ -56,7 +56,7 @@ if (isset($_GET['totalRows_DetailRS1'])) {
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_log_DetailRS1 = "SELECT * FROM `order_log`  WHERE order_id = $recordID";
 $log_DetailRS1 = mysqli_query($localhost,$query_log_DetailRS1);
 if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1);}
@@ -118,7 +118,7 @@ if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1
      <td><?php 
 	 
 	 if($row_DetailRS1['promotion_id']!=''){
-		mysql_select_db($database_localhost, $localhost);
+		
 		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
 		$promotion_names = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_promotion_names);}
  		$totalRows_promotion_names = mysql_num_rows($promotion_names);	?>	

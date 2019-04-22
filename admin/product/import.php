@@ -40,7 +40,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")
 						   GetSQLValueString($_SESSION['admin_id'], "int"),
 						   GetSQLValueString($image_path, "text"));
 	
-	  mysql_select_db($database_localhost, $localhost);
+	  
 	  $Result1 = mysqli_query($localhost,$insertSQL);
 	  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
  	  import_product($image_path);	  
@@ -68,7 +68,7 @@ $colname_import_logs = "-1";
 if (isset($_SESSION['admin_id'])) {
   $colname_import_logs = (get_magic_quotes_gpc()) ? $_SESSION['admin_id'] : addslashes($_SESSION['admin_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_import_logs = sprintf("SELECT * FROM product_import WHERE user_id = %s ORDER BY id DESC", $colname_import_logs);
 $query_limit_import_logs = sprintf("%s LIMIT %d, %d", $query_import_logs, $startRow_import_logs, $maxRows_import_logs);
 $import_logs = mysqli_query($localhost,$query_limit_import_logs);

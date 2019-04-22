@@ -7,7 +7,7 @@ try{
 	if (isset($_POST['magazine_id'])) {
 	  $colname_ed = (get_magic_quotes_gpc()) ? $_POST['magazine_id'] : addslashes($_POST['magazine_id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_ed = sprintf("SELECT * FROM edm_news WHERE id = %s and is_delete=0 ", $colname_ed);
 	$ed = mysqli_query($localhost)or die(mysqli_error($localhost),$query_ed);
 	$row_ed = mysqli_fetch_assoc($ed);
@@ -18,7 +18,7 @@ try{
 		throw new Exception("杂志不存在，或被删除");
 	}
 	
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_subscribe_emails = "insert into edm_list(email,magzine_id) SELECT email,".$colname_ed." FROM email_subscribe WHERE is_delete = 0"; 
 	$subscribe_emails = mysqli_query($localhost,$query_subscribe_emails);
 	if(!$subscribe_emails){

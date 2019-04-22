@@ -24,7 +24,7 @@ $colname_news = "-1";
 if (isset($_POST['title'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_POST['title'] : addslashes($_POST['title']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM news WHERE title = '%s'", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}

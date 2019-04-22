@@ -30,7 +30,7 @@ $colname_comments = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_comments = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $where_string=_get_comment_where_query_string();
 $query_comments = "SELECT product.name,user_view_history.*  FROM user_view_history inner join product on product.id=user_view_history.product_id WHERE user_view_history.user_id = $colname_comments ORDER BY user_view_history.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);

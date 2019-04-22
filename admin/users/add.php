@@ -61,7 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "add_user_form")) {
                        GetSQLValueString($_POST['city'], "text"),
                        GetSQLValueString($_POST['district'], "text"),
                        GetSQLValueString($_POST['address'], "text"));
-   mysql_select_db($database_localhost, $localhost);
+   
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 

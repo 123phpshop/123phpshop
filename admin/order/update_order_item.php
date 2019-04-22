@@ -23,7 +23,7 @@ if (isset($_GET['order_id'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['order_id'] : addslashes($_GET['order_id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
@@ -40,14 +40,14 @@ $colname_order_item = "-1";
 if (isset($_GET['id'])) {
   $colname_order_item = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order_item = sprintf("SELECT * FROM order_item WHERE is_delete=0 and  id = %s", $colname_order_item);
 $order_item = mysqli_query($localhost,$query_order_item);
 if(!$order_item){$logger->fatal("数据库操作失败:".$query_order_item);}
 $row_order_item = mysqli_fetch_assoc($order_item);
 $totalRows_order_item = mysql_num_rows($order_item);
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = "SELECT * FROM product WHERE is_delete=0 and  id = ".$row_order_item['product_id'];
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
@@ -65,7 +65,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	if (isset($_POST['product_id'])) {
 	  $colname_check_product = (get_magic_quotes_gpc()) ? $_POST['product_id'] : addslashes($_POST['product_id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_check_product = sprintf("SELECT * FROM order_item WHERE product_id = %s", $colname_check_product);
 	$check_product = mysqli_query($localhost,$query_check_product);
 	if(!$check_product){$logger->fatal("数据库操作失败:".$query_check_product);}
@@ -181,7 +181,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
                        GetSQLValueString($_POST['attr_value'], "text"),
                        GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
   
   	// 	更新订单的产品总价，运费总价和订单总额

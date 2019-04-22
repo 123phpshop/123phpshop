@@ -59,7 +59,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['address'], "text"),
                        GetSQLValueString($_SESSION['user_id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
 }
 
@@ -67,7 +67,7 @@ $colname_user = "-1";
 if (isset($_SESSION['user_id'])) {
   $colname_user = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
 $user = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_user);}
 $row_user = mysqli_fetch_assoc($user);

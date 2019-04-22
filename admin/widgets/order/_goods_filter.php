@@ -21,7 +21,7 @@ $colname_goods = "-1";
 if (isset($_GET['product_name'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $_GET['product_name'] : addslashes($_GET['product_name']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT id,name,price FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}

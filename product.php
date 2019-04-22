@@ -127,7 +127,7 @@ if (isset($_SESSION['user_id'])) {
   $colname_user_favorite = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_user_favorite = sprintf("SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=0", $colname_user_favorite,$colname_product);
 $user_favorite = mysqli_query($localhost,$query_user_favorite);
 if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}

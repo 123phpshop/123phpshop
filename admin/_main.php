@@ -20,14 +20,14 @@
 log_admin("查看控制面板");
 $doc_url="dash.html";
 $support_email_question="查看控制面板";
-mysql_select_db($database_localhost, $localhost);
+
 $query_orders = "SELECT count(*) as total_order FROM orders";
 $orders = mysqli_query($localhost,$query_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}
 $row_orders = mysqli_fetch_assoc($orders);
 $totalRows_orders = $row_orders['total_order'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_users = "SELECT * FROM `user`";
 $users = mysqli_query($localhost,$query_users);
 if(!$users){$logger->fatal("数据库操作失败:".$query_users);}
@@ -35,14 +35,14 @@ $row_users = mysqli_fetch_assoc($users);
 $totalRows_users = mysql_num_rows($users);
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_comment = "SELECT count(*)  as total FROM product_comment where is_delete=0";
 $comment = mysqli_query($localhost,$query_comment);
 if(!$comment){$logger->fatal("数据库操作失败:".$query_comment);}
 $row_comment = mysqli_fetch_assoc($comment);
 $totalRows_comment = $row_comment['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_consult = "SELECT count(*)  as total FROM product_consult where is_delete=0";
 $product_consult = mysqli_query($localhost,$query_product_consult);
 if(!$product_consult){$logger->fatal("数据库操作失败:".$query_product_consult);}
@@ -50,49 +50,49 @@ $row_product_consult = mysqli_fetch_assoc($product_consult);
 $totalRows_product_consult= $row_product_consult['total'];
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_unpaied = "SELECT count(*)  as total  FROM orders WHERE order_status = 0";
 $unpaied = mysqli_query($localhost,$query_unpaied);
 if(!$unpaied){$logger->fatal("数据库操作失败:".$query_unpaied);}
 $row_unpaied = mysqli_fetch_assoc($unpaied);
 $totalRows_unpaied = $row_unpaied['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_finished = "SELECT count(*)  as total  FROM orders   WHERE order_status = 300";
 $finished = mysqli_query($localhost,$query_finished);
 if(!$finished){$logger->fatal("数据库操作失败:".$query_finished);}
 $row_finished = mysqli_fetch_assoc($finished);
 $totalRows_finished = $row_finished['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_refunded = "SELECT count(*)  as total FROM orders  WHERE order_status = -300";
 $refunded = mysqli_query($localhost,$query_refunded);
 if(!$refunded){$logger->fatal("数据库操作失败:".$query_refunded);}
 $row_refunded = mysqli_fetch_assoc($refunded);
 $totalRows_refunded = $row_refunded['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_withdrawled = "SELECT count(*)  as total FROM orders  WHERE order_status = -100";
 $withdrawled = mysqli_query($localhost,$query_withdrawled);
 if(!$withdrawled){$logger->fatal("数据库操作失败:".$query_withdrawled);}
 $row_withdrawled = mysqli_fetch_assoc($withdrawled);
 $totalRows_withdrawled = $row_withdrawled['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_paid = "SELECT count(*)  as total FROM orders   WHERE order_status = 100";
 $paid = mysqli_query($localhost,$query_paid);
 if(!$paid){$logger->fatal("数据库操作失败:".$query_paid);}
 $row_paid = mysqli_fetch_assoc($paid);
 $totalRows_paid = $row_paid['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_returned = "SELECT count(*)  as total  FROM orders   WHERE order_status = -200";
 $returned = mysqli_query($localhost,$query_returned);
 if(!$returned){$logger->fatal("数据库操作失败:".$query_returned);}
 $row_returned = mysqli_fetch_assoc($returned);
 $totalRows_returned = $row_returned['total'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_recent_orders = "SELECT orders.*,user.username FROM orders inner join user on user.id=orders.user_id where orders.is_delete=0 ORDER BY orders.id DESC limit 5";
 $recent_orders = mysqli_query($localhost,$query_recent_orders);
 if(!$recent_orders){$logger->fatal("数据库操作失败:".$query_recent_orders);}

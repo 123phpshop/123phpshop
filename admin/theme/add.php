@@ -62,7 +62,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['contact'], "text"),
                        GetSQLValueString($_POST['intro'], "text"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){
 	  
@@ -77,7 +77,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 }
 
 // 获取模板的文件夹列表
-mysql_select_db($database_localhost, $localhost);
+
 $query_get_themes = "SELECT folder_name FROM theme";
 $get_themes = mysqli_query($localhost,$query_get_themes);
 if(!$get_themes){

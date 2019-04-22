@@ -24,7 +24,7 @@ $colname_areas = "0";
 if (isset($_GET['pid'])) {
   $colname_areas = (get_magic_quotes_gpc()) ? $_GET['pid'] : addslashes($_GET['pid']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_areas = sprintf("SELECT * FROM area WHERE pid = %s", $colname_areas);
 $areas = mysqli_query($localhost,$query_areas);
 if(!$areas){$logger->fatal("数据库操作失败:".$query_areas);}

@@ -22,7 +22,7 @@ $colname_member = "-1";
 if (isset($_POST['email'])) {
   $colname_member = (get_magic_quotes_gpc()) ? $_POST['email'] : addslashes($_POST['email']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_member = sprintf("SELECT * FROM member WHERE email = '%s'", $colname_member);
 $member = mysqli_query($localhost,$query_member);
 if(!$member){

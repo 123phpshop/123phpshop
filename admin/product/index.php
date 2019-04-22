@@ -67,7 +67,7 @@ $support_email_question="搜索商品"; log_admin($support_email_question);
  			}	
 			
 			if($sql!=""){
-				mysql_select_db($database_localhost, $localhost);
+				
 				$Result1=mysqli_query($localhost,$sql);
 				if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 			}
@@ -90,7 +90,7 @@ if (isset($_GET['catalog_id'])) {
 }
 
 // 选择所有未被删除的商品
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = "SELECT * FROM product WHERE is_delete=0 $where order by id desc";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
 $products = mysqli_query($localhost,$query_limit_products);

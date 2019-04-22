@@ -32,7 +32,7 @@ try{
 	// 参数检查
 
 	// 检查id是否存在，如果不存在，那么告知
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
 	$ad_images = mysqli_query($localhost,$query_ad_images);
 	if(!$ad_images){

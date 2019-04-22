@@ -56,7 +56,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                         GetSQLValueString($_POST['desc'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -73,7 +73,7 @@ $colname_shipping_method = "-1";
 if (isset($_GET['id'])) {
   $colname_shipping_method = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_method = sprintf("SELECT id, name, `desc`, config_file_path, is_activated, is_cod, is_free FROM shipping_method WHERE id = %s", $colname_shipping_method);
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}

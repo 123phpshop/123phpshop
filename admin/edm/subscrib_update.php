@@ -11,7 +11,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['email'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost)or die(mysqli_error($localhost),$updateSQL);
 
   $updateGoTo = "subscribe_list.php";
@@ -26,7 +26,7 @@ $colname_item = "-1";
 if (isset($_GET['id'])) {
   $colname_item = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_item = sprintf("SELECT * FROM email_subscribe WHERE id = %s", $colname_item);
 $item = mysqli_query($localhost)or die(mysqli_error($localhost),$query_item);
 $row_item = mysqli_fetch_assoc($item);

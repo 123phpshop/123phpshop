@@ -25,7 +25,7 @@ log_admin($support_email_question);
 // 处理批量操作
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
-			mysql_select_db($database_localhost, $localhost);
+			
 			$sql="update `orders` set is_delete=1 where id in (".implode(",",$_POST['order_id']).")";
 			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
@@ -41,7 +41,7 @@ if (isset($_GET['pageNum_orders'])) {
 }
 $startRow_orders = $pageNum_orders * $maxRows_orders;
 $where=_get_order_where($_GET);
-mysql_select_db($database_localhost, $localhost);
+
 $query_orders = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id where orders.is_delete=0 and merge_to=0  $where order by orders.id desc";
 $query_limit_orders = sprintf("%s LIMIT %d, %d", $query_orders, $startRow_orders, $maxRows_orders);
 $orders = mysqli_query($localhost,$query_limit_orders);

@@ -51,7 +51,7 @@ if (isset($_POST['username'])) {
         return;
     }
 
-    mysql_select_db($database_localhost, $localhost);
+    
     $LoginRS__query = sprintf("SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password));
     $LoginRS = mysqli_query($localhost,$LoginRS__query);
     if (!$LoginRS) {
@@ -83,7 +83,7 @@ if (isset($_POST['username'])) {
         $privileges_array = array();
 
         // 获取登录用户角色
-        mysql_select_db($database_localhost, $localhost);
+        
         $query_role = "SELECT * FROM `role` WHERE id = " . $user_rs['role_id'];
         $role = mysqli_query($localhost,$query_role);
         if (!$role) {
@@ -98,7 +98,7 @@ if (isset($_POST['username'])) {
 
         // 获取登录用户权限
         $privileges_array = array();
-        mysql_select_db($database_localhost, $localhost);
+        
         $query_privilege_files = "SELECT file_name FROM privilege WHERE id in (" . $privileges_id_array . ")";
         $privilege_files = mysqli_query($localhost,$query_privilege_files);
         if (!$privilege_files) {

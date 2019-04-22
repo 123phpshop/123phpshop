@@ -17,7 +17,7 @@
  */
  ?><?php require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_shopinfo = "SELECT logo_path FROM shop_info WHERE id = 1";
 $shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}

@@ -23,7 +23,7 @@ if (isset($_POST['name'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);
 }
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT * FROM role WHERE name = '%s' and is_delete=0", trim($colname_product));
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

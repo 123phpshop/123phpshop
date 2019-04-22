@@ -17,7 +17,7 @@
  */
  ?><?php include_once($_SERVER['DOCUMENT_ROOT'].'/Connections/localhost.php'); ?>
  <?php 
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = "SELECT * FROM news where is_delete=0 and catalog_id=1 ORDER BY id DESC limit 15";
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
@@ -25,7 +25,7 @@ $row_news = mysqli_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = "SELECT * FROM `news_catalog` WHERE is_delete=0 and id = 1";
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}

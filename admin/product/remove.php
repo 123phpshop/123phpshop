@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 }
 
 // 获取商品
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT * FROM product WHERE id = %s", $colname_product);
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

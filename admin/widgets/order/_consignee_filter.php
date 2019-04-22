@@ -26,7 +26,7 @@ if($colname_goods == "-1" || trim($colname_goods)==''){
 	return;
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT * FROM user_consignee WHERE is_delete=0 and  user_id = ".$colname_goods;
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}

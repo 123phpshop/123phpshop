@@ -16,7 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
  ?><?php require_once('Connections/localhost.php'); 
-mysql_select_db($database_localhost, $localhost);
+
 $query_brands = "SELECT * FROM brands WHERE is_delete = 0";
 $brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}

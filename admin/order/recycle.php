@@ -24,7 +24,7 @@ log_admin($support_email_question);
 if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 
  	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
-			mysql_select_db($database_localhost, $localhost);
+			
 			$sql="update `orders` set is_delete=0 where id in (".implode(",",$_POST['order_id']).")";
 			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
@@ -33,7 +33,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 }
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
 $orders = mysqli_query($localhost,$query_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}

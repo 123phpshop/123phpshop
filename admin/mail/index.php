@@ -36,12 +36,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 				GetSQLValueString($_POST['smtp_password'], "text"),
 				GetSQLValueString($_POST['id'], "int"));
  
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_smtp_info = "SELECT * FROM shop_info WHERE id = 1";
 $smtp_info = mysqli_query($localhost,$query_smtp_info);
 if(!$smtp_info){$logger->fatal("数据库操作失败:".$query_smtp_info);}

@@ -32,7 +32,7 @@ $colname_consignee = "-1";
 if (isset($_GET['id'])) {
   $colname_consignee = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s", $colname_consignee);
 $consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);

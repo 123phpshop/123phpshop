@@ -25,7 +25,7 @@ if (isset($_POST['name'])) {
 
 // 这里需要对post过来的参数进行验证
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE name = '%s' and is_delete=0", $colname_catalog);
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}

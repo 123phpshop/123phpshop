@@ -23,7 +23,7 @@ $colname_product = "-1";
 if (isset($_POST['code'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_POST['code'] : addslashes($_POST['code']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0", trim($colname_product));
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}

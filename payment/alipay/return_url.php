@@ -71,7 +71,7 @@ if($verify_result){
 
 
 //				记录进入订单处理日志
-			mysql_select_db($database_localhost, $localhost);
+			
 			$new_order_log_sql="insert into pay_log(result,order_sn)values('".serialize($_GET)."','".$colname_order."')";
 			if(!mysqli_query($localhost,$new_order_log_sql)){
 				throw new Exception("系统错误，请稍后重试！".mysqli_error($localhost));
@@ -85,7 +85,7 @@ if($verify_result){
 			if (isset($_GET['out_trade_no'])) {
 			  $colname_order = (get_magic_quotes_gpc()) ? $_GET['out_trade_no'] : addslashes($_GET['out_trade_no']);
 			}
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
 			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
@@ -116,7 +116,7 @@ if($verify_result){
 			} 
 			
 			//		循环所有的产品，将他们的数量-1
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost,$query_products);
 			

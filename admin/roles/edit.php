@@ -54,7 +54,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 				   GetSQLValueString($_POST['name'], "text"),
  				   GetSQLValueString($_POST['id'], "int"));
 	 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -66,7 +66,7 @@ $colname_getById = "-1";
 if (isset($_GET['id'])) {
   $colname_getById = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_getById = sprintf("SELECT * FROM `role` WHERE id = %s", $colname_getById);
 $getById = mysqli_query($localhost,$query_getById);
 if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
@@ -77,7 +77,7 @@ $colname_getByName = "-1";
 if (isset($_POST['name'])) {
   $colname_getByName = (get_magic_quotes_gpc()) ? $_POST['name'] : addslashes($_POST['name']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s'", $colname_getByName);
 $getByName = mysqli_query($localhost,$query_getByName);
 if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}

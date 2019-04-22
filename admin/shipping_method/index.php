@@ -19,7 +19,7 @@
 <?php
 $doc_url="shipping.html#list";
 $support_email_question="查看送货方式列表";log_admin($support_email_question);
-mysql_select_db($database_localhost, $localhost);
+
 $query_shipping_methods = "SELECT * FROM shipping_method where is_delete=0";
 $shipping_methods = mysqli_query($localhost,$query_shipping_methods);
 if(!$shipping_methods){$logger->fatal("数据库操作失败:".$query_shipping_methods);}

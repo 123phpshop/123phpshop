@@ -54,7 +54,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['pid'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
@@ -77,7 +77,7 @@ $colname_product_type = "0";
 if (isset($_GET['pid'])) {
   $colname_product_type = (get_magic_quotes_gpc()) ? $_GET['pid'] : addslashes($_GET['pid']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_type = sprintf("SELECT * FROM product_type WHERE pid = %s and is_delete=0", $colname_product_type);
 $query_limit_product_type = sprintf("%s LIMIT %d, %d", $query_product_type, $startRow_product_type, $maxRows_product_type);
 $product_type = mysqli_query($localhost,$query_limit_product_type);

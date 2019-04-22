@@ -28,7 +28,7 @@ $colname_goods = "-1";
 if (isset($_GET['name'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $_GET['name'] : addslashes($_GET['name']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT id,name FROM brands WHERE name like '%".$colname_goods."%' and is_delete=0";
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
 $goods = mysqli_query($localhost,$query_limit_goods);

@@ -26,7 +26,7 @@ if(!isset($_SESSION['admin_id'])){
 	if (isset($_POST['password'])) {
 	  $colname_check_pass = (get_magic_quotes_gpc()) ?$_POST['password'] : addslashes($_POST['password']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_check_pass = sprintf("SELECT * FROM `member` WHERE password = '%s' and id= '%s'", md5($colname_check_pass),$_SESSION['admin_id']);
 	$check_pass = mysqli_query($localhost,$query_check_pass);
 	if(!$check_pass){$logger->fatal("数据库操作失败:".$query_check_pass);}

@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-	 mysql_select_db($database_localhost, $localhost);
+	 
 	$query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0 and id!='%s'", trim($_POST['code']),$colname_email_template);
 	$product = mysqli_query($localhost,$query_product);
 	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
@@ -47,7 +47,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['content'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}else{
   $updateGoTo = "index.php";
@@ -59,7 +59,7 @@ $colname_email_template = "-1";
 if (isset($_GET['id'])) {
   $colname_email_template = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_email_template = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_email_template);
 $email_template = mysqli_query($localhost,$query_email_template);
 if(!$email_template){$logger->fatal("数据库操作失败:".$query_email_template);}

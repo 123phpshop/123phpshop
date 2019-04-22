@@ -1,6 +1,6 @@
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_leveles = "SELECT * FROM user_levels ORDER BY id ASC";
 $leveles = mysqli_query($localhost,$query_leveles);
 if(!$leveles){$logger->fatal("数据库操作失败:".$query_leveles);}

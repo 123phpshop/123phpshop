@@ -9,7 +9,7 @@ if (isset($_GET['pageNum_edm_list'])) {
 }
 $startRow_edm_list = $pageNum_edm_list * $maxRows_edm_list;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_edm_list = "SELECT edm_list.*,edm_news.title as magzine_title FROM edm_list inner join edm_news on edm_news.id=edm_list.magzine_id ORDER BY edm_list.id DESC";
 $query_limit_edm_list = sprintf("%s LIMIT %d, %d", $query_edm_list, $startRow_edm_list, $maxRows_edm_list);
 $edm_list = mysqli_query($localhost)or die(mysqli_error($localhost),$query_limit_edm_list);

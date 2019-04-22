@@ -31,7 +31,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_catalog_form"))
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['pid'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失1败:".$insertSQL);}
 }
@@ -47,7 +47,7 @@ $colname_catalogs = "0";
 if (isset($_GET['pid'])) {
   $colname_catalogs = (get_magic_quotes_gpc()) ? $_GET['pid'] : addslashes($_GET['pid']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalogs = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and  pid = %s", $colname_catalogs);
 $query_limit_catalogs = sprintf("%s LIMIT %d, %d", $query_catalogs, $startRow_catalogs, $maxRows_catalogs);
 $logger->debug($query_limit_catalogs);

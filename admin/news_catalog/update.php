@@ -31,7 +31,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -47,7 +47,7 @@ $colname_news_catalog = "-1";
 if (isset($_GET['id'])) {
   $colname_news_catalog = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE id = %s", $colname_news_catalog);
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}

@@ -22,7 +22,7 @@ $colname_member = "-1";
 if (isset($_POST['mobile'])) {
   $colname_member = (get_magic_quotes_gpc()) ? $_POST['mobile'] : addslashes($_POST['mobile']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_member = sprintf("SELECT * FROM member WHERE mobile = '%s'", $colname_member);
 $member = mysqli_query($localhost,$query_member);
 if(!$member){

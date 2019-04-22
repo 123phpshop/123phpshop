@@ -35,7 +35,7 @@ $colname_catalogs = "-1";
 if (isset($_GET['catalog_id'])) {
   $colname_catalogs = (get_magic_quotes_gpc()) ? $_GET['catalog_id'] : addslashes($_GET['catalog_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalogs = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalogs);
 $catalogs = mysqli_query($localhost,$query_catalogs);
 if(!$catalogs){$logger->fatal("数据库操作失败:".$query_catalogs);}
@@ -43,7 +43,7 @@ $row_catalogs = mysqli_fetch_assoc($catalogs);
 $totalRows_catalogs = mysql_num_rows($catalogs);
 
 // 如果没有子分类的话，那么。。。
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = "SELECT * FROM product WHERE catalog_id = $colname_products and is_delete=0 and is_on_sheft=1 $order_by";
 
 //	如果有子分类的话

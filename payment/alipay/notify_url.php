@@ -77,7 +77,7 @@ if($verify_result) {//验证成功
 			  $colname_order = (get_magic_quotes_gpc()) ? $_POST['out_trade_no'] : addslashes($_POST['out_trade_no']);
 			}
 			
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
 			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
@@ -111,7 +111,7 @@ if($verify_result) {//验证成功
 			} 
 			
 			//		循环所有的产品，将他们的数量-1
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
@@ -157,7 +157,7 @@ if($verify_result) {//验证成功
 			  $colname_order = (get_magic_quotes_gpc()) ? $_POST['out_trade_no'] : addslashes($_POST['out_trade_no']);
 			}
 			
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
 			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
@@ -191,7 +191,7 @@ if($verify_result) {//验证成功
 			} 
 			
 			//		循环所有的产品，将他们的数量-1
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			

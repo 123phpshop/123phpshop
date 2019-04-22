@@ -30,7 +30,7 @@ $colname_DetailRS1 = "-1";
 if (isset($_GET['product_type_id'])) {
   $colname_DetailRS1 = (get_magic_quotes_gpc()) ? $_GET['product_type_id'] : addslashes($_GET['product_type_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT * FROM product_type_attr  WHERE id = $recordID");
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);

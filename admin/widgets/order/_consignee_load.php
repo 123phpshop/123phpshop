@@ -21,7 +21,7 @@ $colname_goods = "-1";
 if (isset($row_order['user_id'])) {
   $colname_goods = (get_magic_quotes_gpc()) ? $row_order['user_id'] : addslashes($row_order['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_goods = "SELECT * FROM user_consignee WHERE is_delete=0 and  user_id = ".$colname_goods;
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}

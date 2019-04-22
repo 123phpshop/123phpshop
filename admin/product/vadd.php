@@ -21,7 +21,7 @@ $doc_url="product.html#vadd";
 $support_email_question="添加虚拟商品";log_admin($support_email_question);
 $editFormAction = $_SERVER['PHP_SELF'];
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_brands = "SELECT id, name FROM brands";
 $brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
@@ -95,14 +95,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_POST['brand_id'], "text"));
 
 }
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
    $insertGoTo = "detail.php?recordID=".mysql_insert_id();
    header(sprintf("Location: %s", $insertGoTo));
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
 $product_types = mysqli_query($localhost,$query_product_types);
 if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}

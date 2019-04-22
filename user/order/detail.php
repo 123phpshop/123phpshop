@@ -31,7 +31,7 @@ $colname_order = "-1";
 if (isset($_GET['sn'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_GET['sn'] : addslashes($_GET['sn']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT orders.*,express_company.name as express_company_name  FROM orders left join express_company on orders.express_company_id=express_company.id WHERE orders.sn = '%s' and orders.is_delete=0 and orders.user_id='".$_SESSION['user_id']."'", $colname_order);
 $order = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order);}
 $row_order = mysqli_fetch_assoc($order);
@@ -43,14 +43,14 @@ if($totalRows_order==0){
 }
   
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_order_items = "SELECT * FROM order_item WHERE order_id = ".$row_order['id'];
 $order_items = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_items);}
 $row_order_items = mysqli_fetch_assoc($order_items);
 $totalRows_order_items = mysql_num_rows($order_items);
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_log_DetailRS1 = "SELECT * FROM `order_log`  WHERE order_id = ".$row_order['id'];
 $log_DetailRS1 = mysqli_query($localhost,$query_log_DetailRS1);
 
@@ -109,7 +109,7 @@ div{
       <?php do { ?>
 	  
 	  <?php 
- 	  	mysql_select_db($database_localhost, $localhost);
+ 	  	
 		$query_order_product = "SELECT * FROM product WHERE id =".$row_order_items['product_id'];
 		$order_product = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
 		$row_order_product = mysqli_fetch_assoc($order_product);
@@ -125,7 +125,7 @@ div{
              <div align="center">
 			<input name="product_name" type="hidden"  value="<?php echo $row_order_product['name']; ?>">
 			<?php 
-				mysql_select_db($database_localhost, $localhost);
+				
 				$query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $row_order_product['id']);
 				$product_image = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_image);}
 				$row_product_image = mysqli_fetch_assoc($product_image);

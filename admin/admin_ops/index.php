@@ -12,7 +12,7 @@ if (isset($_GET['pageNum_admin_logs'])) {
 $startRow_admin_logs = $pageNum_admin_logs * $maxRows_admin_logs;
 $where=_get_where($_GET);
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_admin_logs = "SELECT * FROM admin_op $where ORDER BY id DESC";
 $query_limit_admin_logs = sprintf("%s LIMIT %d, %d", $query_admin_logs, $startRow_admin_logs, $maxRows_admin_logs);
 $admin_logs = mysqli_query($localhost,$query_limit_admin_logs);

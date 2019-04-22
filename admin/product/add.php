@@ -18,7 +18,7 @@
 ?><?php
 require_once '../../Connections/localhost.php';
 // 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
-mysql_select_db($database_localhost, $localhost);
+
 $query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
 $catalogs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_catalogs);
 $row_catalogs = mysqli_fetch_assoc($catalogs);
@@ -33,7 +33,7 @@ $support_email_question = "添加商品";
 log_admin($support_email_question);
 
 // 获取所有的品牌
-mysql_select_db($database_localhost, $localhost);
+
 $query_brands = "SELECT id, name FROM brands where is_delete=0";
 $brands = mysqli_query($localhost,$query_brands);
 if (!$brands) {
@@ -61,7 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正�
             $_POST['catalog_id'],
         )) . "|", "text"), GetSQLValueString($_POST['name'], "text"), GetSQLValueString($_POST['ad_text'], "text"), GetSQLValueString($_POST['catalog_id'], "int"), GetSQLValueString($_POST['price'], "double"), GetSQLValueString($_POST['market_price'], "double"), GetSQLValueString($_POST['is_on_sheft'], "int"), GetSQLValueString($_POST['is_hot'], "text"), GetSQLValueString($_POST['is_season'], "text"), GetSQLValueString($_POST['is_recommanded'], "text"), GetSQLValueString($_POST['store_num'], "int"), GetSQLValueString($_POST['intro'], "text"), GetSQLValueString($_POST['brand_id'], "text"));
     }
-    mysql_select_db($database_localhost, $localhost);
+    
     $Result1 = mysqli_query($localhost,$insertSQL);
     if (!$Result1) {
         $logger->fatal("数据库操作失败:" . mysqli_error($localhost) . $insertSQL);
@@ -75,7 +75,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正�
 <?php
 
 // 获取商品类型信息
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
 $product_types = mysqli_query($localhost,$query_product_types);
 if (!$product_types) {

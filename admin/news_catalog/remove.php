@@ -26,7 +26,7 @@ log_admin($support_email_question);
 if (isset($_GET['id'])) {
   $colname_news_catalog = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE id = %s", $colname_news_catalog);
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
@@ -44,7 +44,7 @@ if($could_delete==1){
 	  $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 	}
 
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_news = sprintf("SELECT * FROM news WHERE catalog_id = %s", $colname_news);
 	$news = mysqli_query($localhost,$query_news);
 	if(!$news){$logger->fatal("数据库操作失败:".$query_news);}

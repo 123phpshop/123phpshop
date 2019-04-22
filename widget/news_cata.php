@@ -17,7 +17,7 @@
  */
  ?><?php require_once('/Connections/localhost.php'); ?>
 <?php
-mysql_select_db($database_localhost, $localhost);
+
 $query_news_cata = "SELECT * FROM `catalog` WHERE pid = 0";
 $news_cata = mysqli_query($localhost,$query_news_cata);
 if(!$news_cata){$logger->fatal("数据库操作失败:".$query_news_cata);}

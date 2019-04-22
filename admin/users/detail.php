@@ -25,7 +25,7 @@ if (isset($_GET['pageNum_DetailRS1'])) {
 }
 $startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 
-mysql_select_db($database_localhost, $localhost);
+
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT * FROM `user` WHERE id = $recordID";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);

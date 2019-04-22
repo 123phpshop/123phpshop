@@ -20,7 +20,7 @@
 $doc_url="logistics.html#list";
 $support_email_question="查看快递公司列表";
 log_admin($support_email_question);
-mysql_select_db($database_localhost, $localhost);
+
 $query_expresses = "SELECT * FROM express_company";
 $expresses = mysqli_query($localhost,$query_expresses);
 if(!$expresses){$logger->fatal("数据库操作失败:".$query_expresses);}

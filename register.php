@@ -25,7 +25,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
 $shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){
@@ -54,7 +54,7 @@ try{
 	if (isset($_POST['username'])) {
 	  $colname_get_user_by_username = (get_magic_quotes_gpc()) ? $_POST['username'] : addslashes($_POST['username']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_get_user_by_username = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_get_user_by_username);
 	$get_user_by_username = mysqli_query($localhost,$query_get_user_by_username);
 	if(!$get_user_by_username){$logger->fatal("数据库操作失败:".$query_get_user_by_username);}
@@ -74,7 +74,7 @@ try{
 			GetSQLValueString(date('Y-m-d H:i:s'), "text"),
 			GetSQLValueString($_SERVER['REMOTE_ADDR'], "text"));
 	
-	  mysql_select_db($database_localhost, $localhost);
+	  
 	  $Result1 = mysqli_query($localhost,$insertSQL);
  
 		if(! $Result1>0){

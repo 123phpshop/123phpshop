@@ -39,7 +39,7 @@ if (isset($_GET['pageNum_products'])) {
 }
 $startRow_products = $pageNum_products * $maxRows_products;
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_products = "SELECT * FROM product WHERE name like '%".$colname_products."%' and is_delete=0 $order_by";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
 $products = mysqli_query($localhost,$query_limit_products);

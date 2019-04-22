@@ -30,7 +30,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		if (isset($_POST['from_order_sn'])) {
 		  $colname_from_order = (get_magic_quotes_gpc()) ? $_POST['from_order_sn'] : addslashes($_POST['from_order_sn']);
 		}
-		mysql_select_db($database_localhost, $localhost);
+		
 		$query_from_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0", trim($colname_from_order));
 		$from_order = mysqli_query($localhost,$query_from_order);
 		if(!$from_order){$logger->fatal("数据库操作失败:".$query_from_order);}
@@ -45,7 +45,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		if (isset($_POST['to_order_sn'])) {
 		  $colname_to_order = (get_magic_quotes_gpc()) ? $_POST['to_order_sn'] : addslashes($_POST['to_order_sn']);
 		}
-		mysql_select_db($database_localhost, $localhost);
+		
 		$query_to_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0", trim($colname_to_order));
 		$to_order = mysqli_query($localhost,$query_to_order);
 		if(!$to_order){$logger->fatal("数据库操作失败:".$query_to_order);}

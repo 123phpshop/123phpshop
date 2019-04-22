@@ -65,7 +65,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 					   GetSQLValueString($_POST['promotion_type_val'], "int"),
                        GetSQLValueString(implode(",",$_POST['present_products']), "text"),
                        GetSQLValueString($_POST['id'], "int"));
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   $updateGoTo = "index.php";
@@ -76,7 +76,7 @@ $colname_promotion = "-1";
 if (isset($_GET['id'])) {
   $colname_promotion = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_promotion = sprintf("SELECT * FROM promotion WHERE id = %s and is_delete=0", $colname_promotion);
 $promotion = mysqli_query($localhost,$query_promotion);
 if(!$promotion){$logger->fatal("数据库操作失败:".$query_promotion);}

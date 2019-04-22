@@ -34,7 +34,7 @@ if(!isset($_SESSION['user_id'])){
 	if (isset($_POST['password'])) {
 	  $colname_check_pass = (get_magic_quotes_gpc()) ?$_POST['password'] : addslashes($_POST['password']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_check_pass = sprintf("SELECT * FROM `user` WHERE password = '%s' and id= '%s'", md5($colname_check_pass),$_SESSION['user_id']);
 	$check_pass = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_check_pass);}
 	$row_check_pass = mysqli_fetch_assoc($check_pass);

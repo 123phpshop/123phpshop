@@ -31,7 +31,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	if (isset($_GET['user_id'])) {
 	  $colname_consignees = (get_magic_quotes_gpc()) ? $_GET['user_id'] : addslashes($_GET['user_id']);
 	}
-	mysql_select_db($database_localhost, $localhost);
+	
 	$query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
 	$consignees = mysqli_query($localhost,$query_consignees);
 	if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}
@@ -54,7 +54,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['zip'], "text"),
                        GetSQLValueString($_GET['user_id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   
@@ -67,7 +67,7 @@ $colname_consignees = "-1";
 if (isset($_GET['user_id'])) {
   $colname_consignees = (get_magic_quotes_gpc()) ? $_GET['user_id'] : addslashes($_GET['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
 $consignees = mysqli_query($localhost,$query_consignees);
 if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}

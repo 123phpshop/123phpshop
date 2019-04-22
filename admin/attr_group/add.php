@@ -33,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['selectable_value'], "text"),
                        GetSQLValueString($_POST['product_type_id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
   
     $insertGoTo = "index.php?product_type_id=".$_POST['product_type_id'];
@@ -50,7 +50,7 @@ $colname_product_type = "-1";
 if (isset($_GET['product_type_id'])) {
   $colname_product_type = (get_magic_quotes_gpc()) ? $_GET['product_type_id'] : addslashes($_GET['product_type_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_product_type);
 $product_type = mysqli_query($localhost);if(!$product_type){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_type);}
 $row_product_type = mysqli_fetch_assoc($product_type);

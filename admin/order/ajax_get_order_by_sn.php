@@ -22,7 +22,7 @@ $colname_order = "-1";
 if (isset($_POST['sn'])) {
   $colname_order = (get_magic_quotes_gpc()) ? $_POST['sn'] : addslashes($_POST['sn']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}

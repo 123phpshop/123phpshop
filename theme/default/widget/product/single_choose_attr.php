@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
   $colname_product_atts = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_product_atts = sprintf("SELECT * FROM product_type_attr where is_delete=0 and input_method=2 and product_type_id=".$row_product['product_type_id']);
 $product_atts = mysqli_query($localhost,$query_product_atts);
 if(!$product_atts){$logger->fatal("数据库操作失败:".$query_product_atts);}

@@ -36,7 +36,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                         GetSQLValueString($_POST['is_published']==null?0:1, "int"),
 					   GetSQLValueString($publish_time, "text"));
 					   
-   mysql_select_db($database_localhost, $localhost);
+   
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("添加杂志的时候数据库操作失败:".$insertSQL);}
 

@@ -22,7 +22,7 @@ $colname_consignee = "-1";
 if (isset($_GET['id'])) {
   $colname_consignee = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s", $colname_consignee);
 $consignee = mysqli_query($localhost,$query_consignee);
 if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}

@@ -22,7 +22,7 @@ $colname_DetailRS1 = "-1";
 if (isset($_GET['shipping_method_id'])) {
   $colname_DetailRS1 = (get_magic_quotes_gpc()) ? $_GET['shipping_method_id'] : addslashes($_GET['shipping_method_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT * FROM shipping_method_area  WHERE id = $recordID", $colname_shipping_method);
 $DetailRS1 = mysqli_query($localhost,$query_DetailRS1);

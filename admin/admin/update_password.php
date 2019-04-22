@@ -33,7 +33,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString(md5($_POST['password2']), "text"),
                        GetSQLValueString($_SESSION['admin_id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
  	
 }
@@ -42,7 +42,7 @@ $colname_user = "-1";
 if (isset($_POST['user_id'])) {
   $colname_user = (get_magic_quotes_gpc()) ? $_POST['user_id'] : addslashes($_POST['user_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_user = sprintf("SELECT id, password FROM `member` WHERE id = %s", $colname_user);
 $user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
@@ -53,7 +53,7 @@ $colname_password = "-1";
 if (isset($_POST['password'])) {
   $colname_password = (get_magic_quotes_gpc()) ? $_POST['password'] : addslashes($_POST['password']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_password = sprintf("SELECT * FROM `member` WHERE password = '%s'", $colname_password);
 $password = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_password);}
 $row_password = mysqli_fetch_assoc($password);

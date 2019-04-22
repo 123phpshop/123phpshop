@@ -23,7 +23,7 @@
 	$area=explode(";",$row_shipping_method_area['area']);
  }
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_areas = "SELECT id, name FROM area WHERE pid = 0";
 $areas = mysqli_query($localhost,$query_areas);
 if(!$areas){$logger->fatal("数据库操作失败:".$query_areas);}
@@ -31,13 +31,13 @@ $row_areas = mysqli_fetch_assoc($areas);
 $totalRows_areas = mysql_num_rows($areas);
 
 
-mysql_select_db($database_localhost, $localhost);
+
 $query_areas_for_city = "SELECT id, name FROM area WHERE pid = 0";
 $areas_for_city = mysqli_query($localhost,$query_areas_for_city);
 if(!$areas_for_city){$logger->fatal("数据库操作失败:".$query_areas_for_city);}
   
  
-mysql_select_db($database_localhost, $localhost);
+
 $query_areas_for_district = "SELECT id, name FROM area WHERE pid = 0";
 $areas_for_district = mysqli_query($localhost,$query_areas_for_district);
 if(!$areas_for_district){$logger->fatal("数据库操作失败:".$query_areas_for_district);}
@@ -108,7 +108,7 @@ function show_disticts(city_name){
 	<?php while($row_areas_for_city = mysqli_fetch_assoc($areas_for_city)){ ?>
 	<div class="city_list_item" province_name="<?php echo $row_areas_for_city['name']; ?>" id="city_<?php echo $row_areas_for_city['id'];?>" style="display:none;cursor:pointer;">
  		<?php 
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_cities = "SELECT * FROM area WHERE pid = ".$row_areas_for_city['id'];
 			$cities = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_cities);}
 			$totalRows_cities = mysql_num_rows($cities);
@@ -122,14 +122,14 @@ function show_disticts(city_name){
 		// 获取各个省份的信息
 		while($row_areas_for_district = mysqli_fetch_assoc($areas_for_district)){
 //			获取这个省份下面的城市的信息
-			mysql_select_db($database_localhost, $localhost);
+			
 			$query_cities = "SELECT * FROM area WHERE pid = ".$row_areas_for_district['id'];
 			$cities = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_cities);}
 			$totalRows_cities = mysql_num_rows($cities);
 			if($totalRows_cities>0){
 			while($row_cities = mysqli_fetch_assoc($cities)){
 				//	 获取这个城市下面的区县的信息
-				mysql_select_db($database_localhost, $localhost);
+				
 				$query_distict = "SELECT * FROM area WHERE pid = ".$row_cities['id'];
 				$disticties = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_distict);}
 				$totalRows_distict = mysql_num_rows($disticties);?>

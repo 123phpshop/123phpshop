@@ -26,7 +26,7 @@ $colname_news = "-1";
 if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM edm_news WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost);if(!$news){$logger->fatal("数据库操作失败:".$updateSQL,$query_news);}
 $row_news = mysqli_fetch_assoc($news);
@@ -50,7 +50,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 					   GetSQLValueString($publish_time, "date"),
                        GetSQLValueString($_POST['id'], "int"));
 
-  mysql_select_db($database_localhost, $localhost);
+  
   $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
@@ -66,7 +66,7 @@ $colname_news = "-1";
 if (isset($_GET['id'])) {
   $colname_news = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_news = sprintf("SELECT * FROM edm_news WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}

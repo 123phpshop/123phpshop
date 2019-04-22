@@ -32,7 +32,7 @@ $colname_getById = "0";
 if (isset($_GET['parent_id'])) {
   $colname_getById = (get_magic_quotes_gpc()) ? $_GET['parent_id'] : addslashes($_GET['parent_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_getPrivileges = "SELECT * FROM privilege where is_delete=0 and pid=".$colname_getById." ORDER BY sort ASC";
 $query_limit_getPrivileges = sprintf("%s LIMIT %d, %d", $query_getPrivileges, $startRow_getPrivileges, $maxRows_getPrivileges);
 $getPrivileges = mysqli_query($localhost,$query_limit_getPrivileges);

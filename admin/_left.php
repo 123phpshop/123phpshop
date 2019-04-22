@@ -21,13 +21,13 @@ $colname_role_menu = "-1";
 if (isset($_SESSION['role_id'])) {
     $colname_role_menu = (get_magic_quotes_gpc()) ? $_SESSION['role_id'] : addslashes($_SESSION['role_id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $colname_role_menu);
 $role_menu = mysqli_query($localhost,$query_role_menu, $localhost);
 if (!$role_menu) {$logger->fatal("数据库操作失败:" . $query_role_menu);}
 $row_role_menu = mysqli_fetch_assoc($role_menu);
 $totalRows_role_menu = mysql_num_rows($role_menu);
-mysql_select_db($database_localhost, $localhost);
+
 if ($row_role_menu['privileges'] == "1") {
     //  如果是全部权限的话权限的话，那么不进行过滤
     $query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 order by sort asc";
@@ -136,7 +136,7 @@ a[parent] .menu_item_row{
 
     // 这里需要检查是否拥有admin全部的权限，如果有的话，那么
 
-    mysql_select_db($database_localhost, $localhost);
+    
     if ($row_role_menu['privileges'] == "1") {
         //  如果是全部权限的话权限的话，那么不进行过滤
         $query_sub_menu = "SELECT * FROM privilege WHERE pid = " . $row_menu['id'] . " and is_delete=0 and is_menu=1 order by sort asc";

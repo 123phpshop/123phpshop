@@ -28,7 +28,7 @@ $colname_id = "-1";
 if (isset($_POST['id'])) {
   $colname_id = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
 }
-mysql_select_db($database_localhost, $localhost);
+
 $query_member = sprintf("SELECT * FROM user WHERE email = '%s' and id!='%s'", $colname_member, $colname_id);
 $member = mysqli_query($localhost,$query_member);
 if(!$member){$logger->fatal("数据库操作失败:".$query_member);}
