@@ -44,7 +44,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_consult") 
 			$logger->fatal ( "添加商品咨询时数据库操作失败:" . mysqli_error ($localhost) . $insertSQL );
 		}
 		$update_sql = sprintf ( "update product set consulted_num=consulted_num+1 where id=%s", GetSQLValueString ( $colname_product, "int" ) );
-		$Result2 = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$update_sql);
+		$Result2 = mysqli_query($localhost,$update_sql ) or die ( mysqli_error ($localhost).$update_sql);
 		if (! $Result1) {
 			// 记录进入日志
 			$logger->fatal ( "更新商品咨询次数时数据库操作失败:" . mysqli_error ($localhost) . $update_sql );
@@ -119,7 +119,7 @@ $totalRows_consult = mysqli_num_rows ( $consult );
  				<?php
 														
 														$query_replay = "SELECT * FROM product_consult WHERE to_question = " . $row_consult ['id'] . " and is_delete=0 order by id desc limit 1";
-														$replay = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_replay);
+														$replay = mysqli_query($localhost ,$query_replay) or die ( mysqli_error ($localhost).$query_replay);
 														$row_replay = mysqli_fetch_assoc ( $replay );
 														$totalRows_replay = mysqli_num_rows ( $replay );
 														

@@ -129,7 +129,7 @@ function could_devliver($areas) {
 		return false;
 	}
 	$query_area = "SELECT * from shipping_method_area where is_delete=0";
-	$area = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_area);
+	$area = mysqli_query($db_conn,$query_area ) or die ( mysqli_error ($localhost).$query_area);
 	while ( $order_area = mysqli_fetch_assoc ( $area ) ) {
 		// 如果是全国范围的话，
 		if (trim ( $order_area ['area'] ) == "*_*_*;") {

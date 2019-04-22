@@ -345,7 +345,6 @@ class CartManger implements ICart {
 	 * @param unknown $presents_ids        	
 	 * @param array $order        	
 	 */
-		$result = array ();
 	private function _remove_presents_id_from_order($presents_ids) {
 		foreach ( $this->cart ['products'] as $promotion_id_item ) {
 			if ($promotion_id_item ['is_present'] == "0" && 　 ( ( int ) $promotion_id_item != ( int ) $presents_ids )) {
@@ -684,7 +683,7 @@ class CartManger implements ICart {
 		global $db_database_localhost;
 		
 		$query_product = "SELECT id,name,price,brand_id,cata_path,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = " . $product_id;
-		$product = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_product);
+		$product = mysqli_query($db_conn,$query_product ) or die ( mysqli_error ($localhost).$query_product);
 		$row_product = mysqli_fetch_assoc ( $product );
 		// $totalRows_product = mysqli_num_rows($product);
 		return $row_product;

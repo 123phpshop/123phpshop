@@ -39,7 +39,7 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 		}
 		
 		$query_user = sprintf ( "SELECT id, password FROM `user` WHERE id = %s and is_delete=0  and password= '%s'", $colname_user,md5($_POST['password']) );
-		$user = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_user);
+		$user = mysqli_query($localhost ,$query_user) or die ( mysqli_error ($localhost).$query_user);
 		$row_user = mysqli_fetch_assoc ( $user );
 		$totalRows_user = mysqli_num_rows ( $user );
 		if ($totalRows_user == 0) {

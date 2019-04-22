@@ -149,7 +149,7 @@ function log_admin($message){
 	// 检查是否允许代表这个code的邮件模板可以发送
 	
  	$query_email_template = "insert into admin_op(message,admin_id)values('".$message."','".$_SESSION['admin_username']."') ";
-	$email_template = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_email_template);
+	$email_template = mysqli_query($db_conn,$query_email_template ) or die ( mysqli_error ($localhost).$query_email_template);
  	if (!$email_template) {
 		return false;
 	}

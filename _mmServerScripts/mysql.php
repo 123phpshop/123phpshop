@@ -136,7 +136,7 @@ class MySqlConnection
 					$table_name = @$_POST['Database'];
 			}
 			$sql = ' SHOW TABLES FROM ' . $table_name;
-			$results = mysqli_query($this->connectionId)or $this->HandleException(,$sql);
+			$results = mysqli_query($this->connectionId,$sql) or $this->HandleException(mysqli_error($this->connectonId),$sql);
 
 			$xmlOutput = "<RESULTSET><FIELDS>";
 

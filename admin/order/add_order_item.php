@@ -51,7 +51,7 @@ if (isset ( $_GET ['order_id'] )) {
  
 
 $query_order = sprintf ( "SELECT * FROM orders WHERE id = %s", $colname_order );
-$order = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_order);
+$order = mysqli_query($localhost,$query_order  ) or die ( mysqli_error ($localhost).$query_order);
 $row_order = mysqli_fetch_assoc ( $order );
 $totalRows_order = mysqli_num_rows ( $order );
 

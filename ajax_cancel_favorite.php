@@ -44,7 +44,7 @@ try {
 	}
 	
 	$query_product = sprintf ( "SELECT * FROM product WHERE is_delete=0 and id = %s", $colname_product );
-	$product = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_product);
+	$product = mysqli_query($localhost,$query_product) or die ( mysqli_error ($localhost).$query_product);
 	$row_product = mysqli_fetch_assoc ( $product );
 	$totalRows_product = mysqli_num_rows ( $product );
 	if ($totalRows_product == 0) {

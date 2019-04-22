@@ -46,7 +46,7 @@ if($could_delete==1){
 	$update_catalog = sprintf("update `email_templates` set is_delete=1 where id = %s", $colname_news);
 	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
-		query_email_templates
+		 
 		$could_delete=0;
 	}else{
 		header("Location: " . $remove_succeed_url );

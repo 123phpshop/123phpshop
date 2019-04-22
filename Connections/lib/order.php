@@ -123,7 +123,7 @@ function _123phpshop_get_order_by_id($id) {
 	global $db_database_localhost;
 	
 	$query_order = sprintf ( "SELECT * FROM orders WHERE id = %s and is_delete=0 ", $id );
-	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
+	$order = mysqli_query($db_conn,$query_order ) or die ( mysqli_error ($localhost).$query_order);
 	$totalRows_order = mysqli_num_rows ( $order );
 	if ($totalRows_order == 0) {
 		return false;
@@ -142,7 +142,7 @@ function _123phpshop_get_order_items_by_id($id) {
 	global $db_database_localhost;
 	
 	$query_order = sprintf ( "SELECT order_item.*,product.brand_id,product.is_shipping_free,product.cata_path FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete=0 ", $id );
-	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
+	$order = mysqli_query($db_conn ,$query_order) or die ( mysqli_error ($localhost).$query_order);
 	$totalRows_order = mysqli_num_rows ( $order );
 	while ( $row_order = mysqli_fetch_assoc ( $order ) ) {
 		$result [] = $row_order;
@@ -276,7 +276,7 @@ function _123phpshop_get_product_by_id($id) {
 	global $db_database_localhost;
 	
 	$query_sql = sprintf ( "SELECT * FROM product WHERE id = %s", $id );
-	$query = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_sql);
+	$query = mysqli_query($db_conn,$query_sql ) or die ( mysqli_error ($localhost).$query_sql);
 	$result = mysqli_fetch_assoc ( $query );
 	$totalRows_order = mysqli_num_rows ( $query );
 	if ($totalRows_order == 0) {
@@ -583,7 +583,7 @@ function _get_product_by_id($product_id) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	$express_company = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_express_company);
+	$express_company = mysqli_query($db_conn,$query_express_company ) or die ( mysqli_error ($localhost).$query_express_company);
 	$row_express_company = mysqli_fetch_assoc ( $express_company );
 	$totalRows_express_company = mysqli_num_rows ( $express_company );
 	if ($totalRows_express_company == 0) {
@@ -606,7 +606,7 @@ function _could_devliver_shipping_methods($areas) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	$area = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_area);
+	$area = mysqli_query($db_conn ,$query_area) or die ( mysqli_error ($localhost).$query_area);
 	
 	while ( $order_area = mysqli_fetch_assoc ( $area ) ) {
 		foreach ( $areas as $area_item ) {
@@ -755,7 +755,7 @@ function _get_products_by_order_id($order_id) {
 	global $db_database_localhost;
 	
 	$query_order_items = "SELECT * FROM order_item WHERE is_delete=0 and order_id = '" . $order_id . "'";
-	$order_items = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order_items);
+	$order_items = mysqli_query($db_conn,$query_order_items ) or die ( mysqli_error ($localhost).$query_order_items);
 	$totalRows_order_items = mysqli_num_rows ( $order_items );
 	if ($totalRows_order_items == 0) {
 		return $result;
@@ -862,7 +862,7 @@ function _get_order_by_sn($from_order_sn) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	$form_order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	$form_order = mysqli_query($db_conn,$query_form_order ) or die ( mysqli_error ($localhost).$query_form_order);
 	$row_form_order = mysqli_fetch_assoc ( $form_order );
 	$totalRows_form_order = mysqli_num_rows ( $form_order );
 	if ($totalRows_form_order > 0) {
@@ -889,7 +889,7 @@ function _update_to_order_price_para($from_order_obj, $to_order_obj) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	return mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	return mysqli_query($db_conn,$query_form_order ) or die ( mysqli_error ($localhost).$query_form_order);
 }
 
 // 更新从订单产品的订单id
@@ -907,7 +907,7 @@ function _update_merge_to($from_order_id, $to_order_id) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	return mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	return mysqli_query($db_conn,$query_form_order ) or die ( mysqli_error ($localhost).$query_form_order);
 }
 
 // 通过id获取订单记录
@@ -916,7 +916,7 @@ function _get_order_by_id($order_id) {
 	global $db_conn;
 	global $db_database_localhost;
 	
-	$form_order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	$form_order = mysqli_query($db_conn,$query_form_order ) or die ( mysqli_error ($localhost).$query_form_order);
 	$row_form_order = mysqli_fetch_assoc ( $form_order );
 	$totalRows_form_order = mysqli_num_rows ( $form_order );
 	if ($totalRows_form_order > 0) {
