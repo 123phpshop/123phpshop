@@ -48,7 +48,7 @@ class DBCart extends Cart {
 	 */
 	private function _load_cart_order() {
 		$sql = "select * from " . $this->cart_table_name . " where token='" . $this->token . "'";
-		$query = mysql_query ( $sql );
+		$query = mysqli_query ($localhost,$sql );
 		if (! $query) {
 			throw new Exception ( "系统错误，请稍后重试！" );
 		}
@@ -82,7 +82,7 @@ class DBCart extends Cart {
 		
 		// 如果可以找到本表信息，那么继续寻找这个购物车订单中的商品信息
 		$sql = "select * from " . $this->cart_items_table_name . " where order_id='" . $this->token . "'";
-		$query = mysql_query ( $sql );
+		$query = mysqli_query ($localhost,$sql );
 		if (! $query) {
 			throw new Exception ( "系统错误，请稍后重试！" );
 		}

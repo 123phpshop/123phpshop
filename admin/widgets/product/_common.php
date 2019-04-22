@@ -99,7 +99,7 @@
 								} while ( $row_brands = mysqli_fetch_assoc ( $brands ) );
 								$rows = mysqli_num_rows ( $brands );
 								if ($rows > 0) {
-									mysql_data_seek ( $brands, 0 );
+									mysqli_data_seek ( $brands, 0 );
 									$row_brands = mysqli_fetch_assoc ( $brands );
 								}
 								?>
@@ -120,7 +120,7 @@
 								} while ( $row_product_types = mysqli_fetch_assoc ( $product_types ) );
 								$rows = mysqli_num_rows ( $product_types );
 								if ($rows > 0) {
-									mysql_data_seek ( $product_types, 0 );
+									mysqli_data_seek ( $product_types, 0 );
 									$row_product_types = mysqli_fetch_assoc ( $product_types );
 								}
 								?>

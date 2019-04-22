@@ -16,7 +16,7 @@ foreach($php_files as $php_file){
     // 检查是否有mysql_connect函数存在，如果存在的话，那么替换为pdo
     $contents=replace_mysql_connect($contents);
 
-    // 检查是否有mysql_query函数存在，如果存在话，那么需要获取整个函数的字符串，删除里面的
+    // 检查是否有mysqli_query函数存在，如果存在话，那么需要获取整个函数的字符串，删除里面的
     $contents=replace_mysqli_query($localhost,$contents);
 
     // 更新mysql_select_db函数

@@ -121,7 +121,7 @@ a{
 		
 		if($totalRows_order_items>0){
 		
-			while($order_item_row=mysql_fetch_object($order_items)){
+			while($order_item_row=mysqli_fetch_object($order_items)){
  				
 				$query_order_images = "SELECT * FROM product_images WHERE  is_delete=0 and product_id = ".$order_item_row->product_id." limit 1";
 				$order_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_images);}
@@ -129,7 +129,7 @@ a{
 				$totalRows_order_images = mysqli_num_rows($order_images);
 				
 				if($totalRows_order_images>0){ 
-					while($row_order_images_row=mysql_fetch_object($order_images)){?>
+					while($row_order_images_row=mysqli_fetch_object($order_images)){?>
 						<a href="/product.php?id=<?php echo $order_item_row->product_id;?>" target="_parent"><img src="<?php echo $row_order_images_row->image_files==null?"/uploads/default_product.png":$row_order_images_row->image_files;?>" width="50" height="50" border="1" style="border:1px solid #f5f5f5;margin-left:14px;"/>	</a>
 					<?php 
 					}

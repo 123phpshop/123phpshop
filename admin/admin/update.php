@@ -105,7 +105,7 @@ do {
 } while ($row_roles = mysqli_fetch_assoc($roles));
   $rows = mysqli_num_rows($roles);
   if($rows > 0) {
-      mysql_data_seek($roles, 0);
+      mysqli_data_seek($roles, 0);
 	  $row_roles = mysqli_fetch_assoc($roles);
   }
 ?>

@@ -43,7 +43,7 @@ $row_ads = mysqli_fetch_assoc ( $ads );
 if (isset ( $_GET ['totalRows_ads'] )) {
 	$totalRows_ads = $_GET ['totalRows_ads'];
 } else {
-	$all_ads = mysql_query ( $query_ads );
+	$all_ads = mysqli_query ($localhost,$query_ads );
 	$totalRows_ads = mysqli_num_rows ( $all_ads );
 }
 $totalPages_ads = ceil ( $totalRows_ads / $maxRows_ads ) - 1;

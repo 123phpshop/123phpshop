@@ -202,7 +202,7 @@ function _123phpshop_order_update_product_quantity($order, $product, $quantity) 
 	global $db_database_localhost;
 	
 	$sql = "update order_item set quantity=quantity+" . $quantity . " where order_id=" . $order ['id'] . " and product_id=" . $product ['product_id'];
-	return mysql_query ( $sql );
+	return mysqli_query ($localhost,$sql );
 }
 
 /**

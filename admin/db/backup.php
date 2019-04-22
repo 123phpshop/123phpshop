@@ -34,21 +34,20 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 
 	//链接数据库
 	$backup_info.=date("Y-m-d H:i:s").": 连接数据库</br>";
-	$link = mysql_connect($cfg_dbhost,$cfg_dbuser,$cfg_dbpwd);
+	$link = mysqli_connect($cfg_dbhost,$cfg_dbuser,$cfg_dbpwd,$cfg_dbname);
 	if($link){
 		$backup_info.=date("Y-m-d H:i:s").": 数据库连接成功</br>";
 	}else{
  		$backup_info.=date("Y-m-d H:i:s").": 数据库连接失败</br>";
 		return;
 	}
-	mysql_select_db($cfg_dbname);
 	//选择编码
-	mysql_query("set names ".$cfg_db_language);
+	mysqli_query($localhost,"set names ".$cfg_db_language);
 	//数据库中有哪些表
- 	$tables = mysql_list_tables($cfg_dbname);
+ 	$tables = mysqli_list_tables($cfg_dbname);
 	//将这些表记录到一个数组
 	$tabList = array();
-	while($row = mysql_fetch_row($tables)){
+	while($row = mysqli_fetch_row($tables)){
 		$tabList[] = $row[0];
 	}
 	
@@ -62,7 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 		$backup_info.=date("Y-m-d H:i:s").": 获取表".$val."的结构</br>";
 		$sql = "show create table ".$val;
 		$res = mysqli_query($localhost,$sql,$link);
-		$row = mysql_fetch_array($res);
+		$row = mysqli_fetch_array($res);
 		$info = "-- ----------------------------\r\n";
 		$info .= "-- 表结构: `".$val."`\r\n";
 		$info .= "-- ----------------------------\r\n";

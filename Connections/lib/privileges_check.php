@@ -60,7 +60,7 @@ if (! isset ( $_SESSION ['privileges'] )) {
 			if (! $Result1) {
 				$logger->fatal ( "数据库操作失败:" . $updateSQL );
 			}
-			$row_get_privilege = mysql_fetch_object ( $get_privilege );
+			$row_get_privilege = mysqli_fetch_object ( $get_privilege );
 			$totalRows_get_privilege = mysqli_num_rows ( $get_privilege );
 			if ($totalRows_get_privilege > 0) {
 				while ( $privilege_item = $row_get_privilege ) {

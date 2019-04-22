@@ -62,7 +62,7 @@ try {
 	}
 	
 	$order_log_sql = "insert into order_log(order_id,message)values('" . $colname_order . "','" . 申请退货 . "')";
-	if (! mysql_query ( $order_log_sql, $localhost )) {
+	if (! mysqli_query ( $order_log_sql, $localhost )) {
 		$logger->fatal ( "用户在退货时添加订单处理记录失败:" . $update_catalog );
 		throw new Exception ( "用户在退货时添加订单处理记录失败！" );
 	}

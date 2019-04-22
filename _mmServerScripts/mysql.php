@@ -150,7 +150,7 @@ class MySqlConnection
 			$xmlOutput .= "</FIELDS><ROWS>";
 
 			if (is_resource($results) && mysqli_num_rows($results) > 0){
-					while ($row = mysql_fetch_array($results)){
+					while ($row = mysqli_fetch_array($results)){
 							$xmlOutput .= '<ROW><VALUE/><VALUE/><VALUE>' . $row[0]. '</VALUE></ROW>';	
 					}
 			}
@@ -195,7 +195,7 @@ class MySqlConnection
 			$xmlOutput .= "</FIELDS><ROWS>";
 
 			// The fields returned from DESCRIBE are: Field, Type, Null, Key, Default, Extra
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
 			{
 				$xmlOutput .= "<ROW><VALUE/><VALUE/><VALUE/>";
 
@@ -336,7 +336,7 @@ class MySqlConnection
 		if (isset($this->connectionId) && is_resource($this->connectionId)){
 				$dbList = mysql_list_dbs($this->connectionId);
 				
-				while ($row = mysql_fetch_object($dbList))
+				while ($row = mysqli_fetch_object($dbList))
 				{
 					$xmlOutput .= '<ROW><VALUE>' . $row->Database . '</VALUE></ROW>';
 				}
@@ -373,7 +373,7 @@ class MySqlConnection
 			$xmlOutput .= '</FIELDS><ROWS>';
 
 			// The fields returned from DESCRIBE are: Field, Type, Null, Key, Default, Extra
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
 			{
 			  if (strtoupper($row['Key']) == 'PRI'){
   				$xmlOutput .= '<ROW><VALUE/><VALUE/><VALUE/>';

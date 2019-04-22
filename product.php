@@ -59,7 +59,7 @@ if (isset ( $_GET ['id'] )) {
 }
 
 $query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s  and is_delete=0", $colname_product_images );
-$product_images = mysql_query ( $query_product_images, $localhost ) ;
+$product_images = mysqli_query ($localhost,$query_product_images ) ;
 if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 
 $row_product_images = mysqli_fetch_assoc ( $product_images );

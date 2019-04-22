@@ -71,7 +71,7 @@ if ($totalRows_DetailRS1 == 0) {
 if (isset ( $_GET ['totalRows_DetailRS1'] )) {
 	$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
 } else {
-	$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
+	$all_DetailRS1 = mysqli_query ($localhost,$query_DetailRS1 );
 	$totalRows_DetailRS1 = mysqli_num_rows ( $all_DetailRS1 );
 }
 $totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;

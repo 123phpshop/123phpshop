@@ -108,7 +108,7 @@ do {
 } while ($row_logistics = mysqli_fetch_assoc($logistics));
   $rows = mysqli_num_rows($logistics);
   if($rows > 0) {
-      mysql_data_seek($logistics, 0);
+      mysqli_data_seek($logistics, 0);
 	  $row_logistics = mysqli_fetch_assoc($logistics);
   }
 ?>

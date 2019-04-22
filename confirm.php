@@ -91,7 +91,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	$actual_paid = "0.00";
 	$insertSQL = sprintf ( "INSERT INTO orders (products_total,shipping_fee,sn, user_id, should_paid, actual_paid, shipping_method, payment_method, invoice_is_needed, invoice_title, invoice_message,please_delivery_at,consignee_id,consignee_name,consignee_province,consignee_city,consignee_district,consignee_address,consignee_zip,consignee_mobile,promotion_id,promotion_fee) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s,%s, %s, %s)", GetSQLValueString ( $_SESSION ['cart'] ['products_total'], "double" ), GetSQLValueString ( $_SESSION ['cart'] ['shipping_fee'], "double" ), GetSQLValueString ( $sn, "text" ), GetSQLValueString ( $_SESSION ['user_id'], "text" ), GetSQLValueString ( $should_paid, "text" ), GetSQLValueString ( $actual_paid, "text" ), GetSQLValueString ( $_SESSION ['cart'] ['shipping_method_id'], "int" ), GetSQLValueString ( $_POST ['payment_method'], "int" ), GetSQLValueString ( isset ( $_POST ['invoice_is_needed'] ) ? 1 : 0, "int" ), GetSQLValueString ( $_POST ['invoice_title'], "text" ), GetSQLValueString ( $_POST ['invoice_message'], "text" ), GetSQLValueString ( $_POST ['please_delivery_at'], "int" ), GetSQLValueString ( $_POST ['consignee_id'], "int" ), GetSQLValueString ( $_SESSION ['consignee'] ['name'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['province'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['city'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['district'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['address'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['zip'], "text" ), GetSQLValueString ( $_SESSION ['consignee'] ['mobile'], "text" ), GetSQLValueString ( $_SESSION ['cart'] ['promotion_id'], "text" ), GetSQLValueString ( $_SESSION ['cart'] ['promotion_fee'], "double" ) );
 	
-	$Result1 = mysql_query ( $insertSQL );
+	$Result1 = mysqli_query ($localhost,$insertSQL );
 	if (! $Result1) {
 		$logger->fatal ( "数据库操作失败:" . $insertSQL );
 	}
@@ -104,7 +104,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	// 插入订单商品表
 	foreach ( $cart_products as $product ) {
 		$sql = "insert into order_item(attr_value,product_id,quantity,should_pay_price,actual_pay_price,order_id)values('" . $product ['attr_value'] . "','" . $product ['product_id'] . "','" . $product ['quantity'] . "','" . $product ['product_price'] . "','" . $product ['product_price'] . "','" . $order_id . "')";
-		$query = mysql_query ( $sql );
+		$query = mysqli_query ($localhost,$sql );
 		if (! $query) {
 			$logger->fatal ( "数据库操作失败:" . $sql );
 		}
