@@ -30,9 +30,9 @@ if (isset($_POST['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM product WHERE name = '%s' and id!='%s'", $colname_product, $colname_id);
-$product = mysql_query($query_product, $localhost) ;
+$product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-$row_product = mysql_fetch_assoc($product);
+$row_product = mysqli_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 if($totalRows_product>0){
 	$result="false";

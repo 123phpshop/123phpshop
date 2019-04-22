@@ -59,7 +59,7 @@ table{
 	   <?php do { ?>
       <tr>
            <td height="41" class="news_catalog_item" bgcolor="#eaeaea" style=""><a href="news_list.php?id=<?php echo $row_news_catalogs['id']; ?>"><?php echo $row_news_catalogs['name']; ?></a></td>
-         </tr> <?php } while ($row_news_catalogs = mysql_fetch_assoc($news_catalogs)); ?>
+         </tr> <?php } while ($row_news_catalogs = mysqli_fetch_assoc($news_catalogs)); ?>
     </table>
 	
 	</td>
@@ -84,7 +84,7 @@ table{
 		   <ul>
             <?php do { ?>
                       <li><a href="news.php?id=<?php echo $row_news['id']; ?>"><?php echo $row_news['title']; ?></a></li>
-               <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
+               <?php } while ($row_news = mysqli_fetch_assoc($news)); ?>
 			  </ul>
 			<?php  } ?>
 			  </td>

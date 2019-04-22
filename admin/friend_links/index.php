@@ -22,9 +22,9 @@ $support_email_question="查看友情链接列表";
 log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_links = "SELECT * FROM friend_links WHERE is_delete = 0 ORDER BY sort DESC";
-$links = mysql_query($query_links, $localhost) ;
+$links = mysqli_query($localhost,$query_links);
 if(!$links){$logger->fatal("数据库操作失败:".$query_links);}
-$row_links = mysql_fetch_assoc($links);
+$row_links = mysqli_fetch_assoc($links);
 $totalRows_links = mysql_num_rows($links);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -63,7 +63,7 @@ $totalRows_links = mysql_num_rows($links);
         <td><?php echo $row_links['sort']; ?></td>
         <td><a onclick="return confirm('请确定要删除这个友情链接吗？');" href="remove.php?id=<?php echo $row_links['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_links['id']; ?>">更新</a> </td>
       </tr>
-      <?php } while ($row_links = mysql_fetch_assoc($links)); ?>
+      <?php } while ($row_links = mysqli_fetch_assoc($links)); ?>
   </table>
     <br />
      记录总数:<?php echo $totalRows_links ?>

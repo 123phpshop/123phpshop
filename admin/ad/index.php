@@ -116,7 +116,7 @@ $queryString_ads = sprintf ( "&totalRows_ads=%d%s", $totalRows_ads, $queryString
 							href="add_images.php?id=<?php echo $row_ads['id']; ?>"></a>
 					</div></td>
 			</tr>
-      <?php } while ($row_ads = mysql_fetch_assoc($ads)); ?>
+      <?php } while ($row_ads = mysqli_fetch_assoc($ads)); ?>
   </table>
 		<br>
 			<table border="0" width="50%" align="right">
@@ -144,18 +144,6 @@ $queryString_ads = sprintf ( "&totalRows_ads=%d%s", $totalRows_ads, $queryString
 				</tr>
 			</table>
   记录 <?php echo ($startRow_ads + 1) ?> 到 <?php echo min($startRow_ads + $maxRows_ads, $totalRows_ads) ?> (总共 <?php echo $totalRows_ads ?>）
-  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	</p>
    <?php } // Show if recordset not empty ?>
 </body>

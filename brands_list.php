@@ -18,11 +18,11 @@
  ?><?php require_once('Connections/localhost.php'); 
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT * FROM brands WHERE is_delete = 0";
-$brands = mysql_query($query_brands, $localhost) ;
+$brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
 $totalRows_brands = mysql_num_rows($brands);
 $brands_array=array();
-while($row_brands = mysql_fetch_assoc($brands)){
+while($row_brands = mysqli_fetch_assoc($brands)){
 	$brands_array[]=$row_brands;
 }
 include($template_path."brands_list.php");

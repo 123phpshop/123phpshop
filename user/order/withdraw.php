@@ -37,39 +37,32 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s ", $colname_order, $_SESSION['user_id']);
-$order = mysql_query($query_order, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_order = mysql_fetch_assoc($order);
+$order = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order);}
+$row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 if($totalRows_order==0){
 	$could_withdraw=0;
 } 
 
-
- 
-
-
 if((int)$row_order['order_status'] >=200 || (int)$row_order['order_status'] <=-100){
  	$could_withdraw=0;
 } 
 
-
 if($row_order['is_delete']=='1'){
-	 
 	$could_withdraw=0;
 } 
-
 
 if($could_withdraw==1){
 
 	$update_catalog = sprintf("update `orders` set order_status='-100' where id = %s", $colname_order);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$could_withdraw=0;
 	}else{
 		
 		$order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','用户撤销订单')";
-		mysql_query($order_log_sql, $localhost);
+		mysqli_query($localhost,$order_log_sql);
 		
 		// 发送邮件通知
 		try{

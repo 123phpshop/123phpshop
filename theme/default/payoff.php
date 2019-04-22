@@ -76,7 +76,7 @@ margin:0px 3px;
       <input name="WIDout_trade_no" type="hidden" value="<?php echo $row_order['sn']; ?>" size="30" />
       <input name="WIDsubject"  type="hidden" value="订单号：<?php echo $row_order['sn']; ?>" size="30" />
       <input name="WIDtotal_fee"  type="hidden" value="<?php echo $row_order['should_paid']; ?>" size="30" />
-    <?php $checked=false;} while ($row_pay_method = mysql_fetch_assoc($pay_method)); ?>
+    <?php $checked=false;} while ($row_pay_method = mysqli_fetch_assoc($pay_method)); ?>
 	        </form>
 
 	</div>

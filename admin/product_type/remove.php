@@ -27,9 +27,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) ;
+$admin = mysqli_query($localhost,$query_admin);
 if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}
-$row_admin = mysql_fetch_assoc($admin);
+$row_admin = mysqli_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
  if($totalRows_admin==0){
 	$could_delete=0;
@@ -41,7 +41,7 @@ if($could_delete==1){
 	}
 	
  	$update_catalog = sprintf("update `product_type` set is_delete=1 where id = %s", $colname_admin);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;

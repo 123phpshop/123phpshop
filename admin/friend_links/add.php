@@ -15,9 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php 
-
-?>
+ ?>
 <?php require_once('../../Connections/localhost.php'); ?>
 <?php
 $doc_url="links.html#add";
@@ -29,13 +27,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+
+  // 验证参数
+
   $insertSQL = sprintf("INSERT INTO friend_links (link_text, link_url, sort) VALUES (%s, %s, %s)",
                        GetSQLValueString($_POST['link_text'], "text"),
                        GetSQLValueString($_POST['link_url'], "text"),
                        GetSQLValueString($_POST['sort'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
   $insertGoTo = "index.php";

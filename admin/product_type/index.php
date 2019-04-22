@@ -55,7 +55,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['pid'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
   $insertGoTo = "index.php?pid=" . isset($_GET['pid'])?$_GET['pid']:"0";
@@ -80,14 +80,14 @@ if (isset($_GET['pid'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_product_type = sprintf("SELECT * FROM product_type WHERE pid = %s and is_delete=0", $colname_product_type);
 $query_limit_product_type = sprintf("%s LIMIT %d, %d", $query_product_type, $startRow_product_type, $maxRows_product_type);
-$product_type = mysql_query($query_limit_product_type, $localhost) ;
+$product_type = mysqli_query($localhost,$query_limit_product_type);
 if(!$product_type){$logger->fatal("数据库操作失败:".$query_limit_product_type);}
-$row_product_type = mysql_fetch_assoc($product_type);
+$row_product_type = mysqli_fetch_assoc($product_type);
 
 if (isset($_GET['totalRows_product_type'])) {
   $totalRows_product_type = $_GET['totalRows_product_type'];
 } else {
-  $all_product_type = mysql_query($query_product_type);
+  $all_product_type = mysqli_query($localhost,$query_product_type);
   $totalRows_product_type = mysql_num_rows($all_product_type);
 }
 $totalPages_product_type = ceil($totalRows_product_type/$maxRows_product_type)-1;
@@ -169,7 +169,7 @@ $queryString_product_type = sprintf("&totalRows_product_type=%d%s", $totalRows_p
         <td><a href="detail.php?recordID=<?php echo $row_product_type['id']; ?>"> <?php echo $row_product_type['name']; ?>&nbsp; </a> </td>
         <td><div align="right"><a href="remove.php?id=<?php echo $row_product_type['id']; ?>" onclick="return confirm('您确定要删除这条记录吗？')">删除</a> <a href="update.php?id=<?php echo $row_product_type['id']; ?>">编辑</a> <a href="../attr_group/add.php?product_type_id=<?php echo $row_product_type['id']; ?>">添加属性组</a> <a href="../attr_group/index.php?product_type_id=<?php echo $row_product_type['id']; ?>">属性列表</a></div></td>
       </tr>
-      <?php } while ($row_product_type = mysql_fetch_assoc($product_type)); ?>
+      <?php } while ($row_product_type = mysqli_fetch_assoc($product_type)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">

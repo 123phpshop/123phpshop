@@ -31,16 +31,16 @@ $startRow_brands = $pageNum_brands * $maxRows_brands;
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT * FROM brands where is_delete=0 ORDER BY id DESC";
 $query_limit_brands = sprintf("%s LIMIT %d, %d", $query_brands, $startRow_brands, $maxRows_brands);
-$brands = mysql_query($query_limit_brands, $localhost) ;
+$brands = mysqli_query($localhost,$query_limit_brands);
 
 
 if(!$brands){$logger->fatal("数据库操作失败:".$query_limit_brands);}
-$row_brands = mysql_fetch_assoc($brands);
+$row_brands = mysqli_fetch_assoc($brands);
 
 if (isset($_GET['totalRows_brands'])) {
   $totalRows_brands = $_GET['totalRows_brands'];
 } else {
-  $all_brands = mysql_query($query_brands);
+  $all_brands = mysqli_query($localhost,$query_brands);
   $totalRows_brands = mysql_num_rows($all_brands);
   if($totalRows_brands==0){
 	  $insertGoTo = '/admin/brands/add.php';
@@ -112,7 +112,7 @@ $queryString_brands = sprintf("&totalRows_brands=%d%s", $totalRows_brands, $quer
         <td><?php echo $row_brands['url']; ?></td>
         <td><a href="remove.php?id=<?php echo $row_brands['id']; ?>" onclick="return confirm('您确认要删除这个品牌吗？');">删除</a> <a href="update.php?id=<?php echo $row_brands['id']; ?>">更新</a></td>
       </tr>
-      <?php } while ($row_brands = mysql_fetch_assoc($brands)); ?>
+      <?php } while ($row_brands = mysqli_fetch_assoc($brands)); ?>
   </table>
   <br>
   <table border="0" width="40%" align="right">

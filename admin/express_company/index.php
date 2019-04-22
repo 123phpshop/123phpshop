@@ -22,9 +22,9 @@ $support_email_question="查看快递公司列表";
 log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_expresses = "SELECT * FROM express_company";
-$expresses = mysql_query($query_expresses, $localhost) ;
+$expresses = mysqli_query($localhost,$query_expresses);
 if(!$expresses){$logger->fatal("数据库操作失败:".$query_expresses);}
-$row_expresses = mysql_fetch_assoc($expresses);
+$row_expresses = mysqli_fetch_assoc($expresses);
 $totalRows_expresses = mysql_num_rows($expresses);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,7 +57,7 @@ $totalRows_expresses = mysql_num_rows($expresses);
       <td><?php echo $row_expresses['website']; ?>&nbsp; </td>
       <td><?php if($row_expresses['disabled']=="false"){?><a href="deactivate.php?id=<?php echo $row_expresses['id']; ?>">停用</a><?php  } ?> <?php if($row_expresses['disabled']=="true"){?><a href="activate.php?id=<?php echo $row_expresses['id']; ?>">激活</a><?php  } ?> <a href="update.php?id=<?php echo $row_expresses['id']; ?>"> 更新</a></td>
     </tr>
-    <?php } while ($row_expresses = mysql_fetch_assoc($expresses)); ?>
+    <?php } while ($row_expresses = mysqli_fetch_assoc($expresses)); ?>
 </table>
 <br>
 记录总数 ：<?php echo $totalRows_expresses ?>

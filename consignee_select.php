@@ -25,9 +25,9 @@ if (isset($_POST['consignee_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s", $colname_consignee,$_SESSION['user_id']);
-$consignee = mysql_query($query_consignee, $localhost) ;
+$consignee = mysqli_query($localhost,$query_consignee);
 if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}
-$row_consignee = mysql_fetch_assoc($consignee);
+$row_consignee = mysqli_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
 if($totalRows_consignee==0){
 		$result=array('code'=>'1','message'=>'id错误，请刷新页面重试！');
@@ -47,8 +47,5 @@ if($totalRows_consignee==0){
 	$areas[]=trim($_POST['consignee_province'])."_".trim($_POST['consignee_city'])."_".trim($_POST['consignee_district']);
 	$result['could_deliver']=could_devliver($areas)?"1":"0";
 }
-
-?>
-<?php
 die(json_encode($result));
 ?>

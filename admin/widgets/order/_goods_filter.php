@@ -23,10 +23,10 @@ if (isset($_GET['product_name'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name,price FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
-$goods = mysql_query($query_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
 $goods_num = mysql_num_rows($goods);
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 ?>
 <?php if($goods_num>0){ ?>
 <link href="/css/common_admin.css" rel="stylesheet" type="text/css">
@@ -38,7 +38,7 @@ $row_goods = mysql_fetch_assoc($goods);
        <td><?php echo $row_goods['name']; ?></td>
       <td style="color:#FF0000;font-weight:bold;"><?php echo $row_goods['price']; ?></td>
     </tr>
-	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+	  <?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table>
 <?php
 }

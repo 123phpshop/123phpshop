@@ -9,8 +9,8 @@ try{
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_ed = sprintf("SELECT * FROM edm_news WHERE id = %s and is_delete=0 ", $colname_ed);
-	$ed = mysql_query($query_ed, $localhost) or die(mysql_error());
-	$row_ed = mysql_fetch_assoc($ed);
+	$ed = mysqli_query($localhost)or die(mysqli_error($localhost),$query_ed);
+	$row_ed = mysqli_fetch_assoc($ed);
 	$totalRows_ed = mysql_num_rows($ed);
 	
 	if($totalRows_ed==0){
@@ -20,9 +20,9 @@ try{
 	
 	mysql_select_db($database_localhost, $localhost);
 	$query_subscribe_emails = "insert into edm_list(email,magzine_id) SELECT email,".$colname_ed." FROM email_subscribe WHERE is_delete = 0"; 
-	$subscribe_emails = mysql_query($query_subscribe_emails, $localhost);
+	$subscribe_emails = mysqli_query($localhost,$query_subscribe_emails);
 	if(!$subscribe_emails){
-		$logger->fatal("添加邮件营销列队的时候发生错误,杂志的id是：".$colname_ed." 错误：".mysql_error() );
+		$logger->fatal("添加邮件营销列队的时候发生错误,杂志的id是：".$colname_ed." 错误：".mysqli_error($localhost) );
 		throw new Exception("系统错误，请联系管理员或是123phpshop进行咨询");
 	}
  }catch(Exception $ex){

@@ -66,7 +66,7 @@ a{
         <td><a href="/product.php?id=<?php echo $row_consult['product_id']; ?>#consult" target="_blank"><?php echo $row_consult['content']; ?></a></td>
         <td><?php echo $row_consult['create_time']; ?> </td>
       </tr>
-      <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>
+      <?php } while ($row_consult = mysqli_fetch_assoc($consult)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">
@@ -109,6 +109,3 @@ a{
 	</script>
 </body>
 </html>
-<?php
-mysql_free_result($consult);
-?>

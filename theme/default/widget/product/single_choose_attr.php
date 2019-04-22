@@ -49,9 +49,9 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_atts = sprintf("SELECT * FROM product_type_attr where is_delete=0 and input_method=2 and product_type_id=".$row_product['product_type_id']);
-$product_atts = mysql_query($query_product_atts, $localhost) ;
+$product_atts = mysqli_query($localhost,$query_product_atts);
 if(!$product_atts){$logger->fatal("数据库操作失败:".$query_product_atts);}
-$row_product_atts = mysql_fetch_assoc($product_atts);
+$row_product_atts = mysqli_fetch_assoc($product_atts);
 $totalRows_product_atts = mysql_num_rows($product_atts);
 
 ?>
@@ -65,7 +65,7 @@ foreach($attr_value_array as $attr_value_item){ if(trim($attr_value_item)!=''){?
 <span <?php if($is_first_attr==true){ ?> class="attr_value_item_active"<?php ;$attr_value.=$row_product_atts['name'].":".trim($attr_value_item).";";$is_first_attr=false; }else{ ?> class="attr_value_item"<?php  }?> onclick="select_attr(<?php echo $row_product_atts['id']; ?>,'<?php echo trim($attr_value_item);?>')" attr_value=<?php echo trim($attr_value_item);?>  attr_name=<?php echo $row_product_atts['name']; ?> attr_value_id="<?php echo $row_product_atts['id']; ?>"><?php echo trim($attr_value_item);?></span><?php } } ?>
   		</td>
       </tr>
-      <?php } while ($row_product_atts = mysql_fetch_assoc($product_atts)); ?>
+      <?php } while ($row_product_atts = mysqli_fetch_assoc($product_atts)); ?>
 <?php } // Show if recordset not empty ?>
 
 <script>

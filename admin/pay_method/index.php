@@ -21,9 +21,9 @@ $doc_url="payment.html#list";
 $support_email_question="查看支付方式列表";log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
-$pay_methods = mysql_query($query_pay_methods, $localhost) ;
+$pay_methods = mysqli_query($localhost,$query_pay_methods);
 if(!$pay_methods){$logger->fatal("数据库操作失败:".$query_pay_methods);}
-$row_pay_methods = mysql_fetch_assoc($pay_methods);
+$row_pay_methods = mysqli_fetch_assoc($pay_methods);
 $totalRows_pay_methods = mysql_num_rows($pay_methods);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -63,7 +63,7 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 		      <a href="deactivate.php?id=<?php echo $row_pay_methods['id']; ?>">停用</a>
 	        <?php }?> <a href="update.php?id=<?php echo $row_pay_methods['id']; ?>">编辑</a></div></td>
       </tr>
-      <?php } while ($row_pay_methods = mysql_fetch_assoc($pay_methods)); ?>
+      <?php } while ($row_pay_methods = mysqli_fetch_assoc($pay_methods)); ?>
 	 
 	  
 	  <tr>

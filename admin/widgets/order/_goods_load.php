@@ -18,9 +18,9 @@
  ?><?php
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT id,name,price FROM product WHERE id = %s", $product_id);
-$product = mysql_query($query_product, $localhost) ;
+$product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-$row_product = mysql_fetch_assoc($product);
+$row_product = mysqli_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 ?>
 <table width="100%" border="1" class="phpshop123_list_box">

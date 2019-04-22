@@ -52,7 +52,7 @@
         <td><a href="/product.php?id=<?php echo $row_comments['product_id']; ?>#comment" target="_blank"><?php echo $row_comments['message']; ?></a></td>
         <td><?php echo $row_comments['create_time']; ?>&nbsp; </td>
       </tr>
-      <?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+      <?php } while ($row_comments = mysqli_fetch_assoc($comments)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">
@@ -77,6 +77,3 @@
     <p class="phpshop123_user_title">暂无评论！</p>
     <?php } // Show if recordset empty ?></body>
 </html>
-<?php
-mysql_free_result($comments);
-?>

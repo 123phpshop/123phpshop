@@ -25,9 +25,9 @@ if (isset($_GET['shipping_method_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_method = sprintf("SELECT id, shipping_method_id, area, shipping_by_quantity, name FROM shipping_method_area WHERE shipping_method_id = %s and is_delete=0", $colname_shipping_method);
-$shipping_method = mysql_query($query_shipping_method, $localhost) ;
+$shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
-$row_shipping_method = mysql_fetch_assoc($shipping_method);
+$row_shipping_method = mysqli_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
 
 $colname_shipping_method_folder = "-1";
@@ -36,9 +36,9 @@ if (isset($_GET['shipping_method_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_method_folder = sprintf("SELECT * FROM shipping_method WHERE id = %s", $colname_shipping_method_folder);
-$shipping_method_folder = mysql_query($query_shipping_method_folder, $localhost) ;
+$shipping_method_folder = mysqli_query($localhost,$query_shipping_method_folder);
 if(!$shipping_method_folder){$logger->fatal("数据库操作失败:".$query_shipping_method_folder);}
-$row_shipping_method_folder = mysql_fetch_assoc($shipping_method_folder);
+$row_shipping_method_folder = mysqli_fetch_assoc($shipping_method_folder);
 $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -67,7 +67,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
         <td><?php echo $row_shipping_method['area']; ?></td>
         <td><a href="remove.php?id=<?php echo $row_shipping_method['id']; ?>">删除</a> <a href="/admin/shipping_method_area/<?php echo $row_shipping_method_folder['config_file_path'];?>/update.php?id=<?php echo $row_shipping_method['id']; ?>">更新</a> &nbsp; </td>
       </tr>
-      <?php } while ($row_shipping_method = mysql_fetch_assoc($shipping_method)); ?>
+      <?php } while ($row_shipping_method = mysqli_fetch_assoc($shipping_method)); ?>
   </table>
   <br>
   记录总数:<?php echo $totalRows_shipping_method ?></p>

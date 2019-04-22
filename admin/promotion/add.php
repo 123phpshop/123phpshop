@@ -69,8 +69,8 @@ try{
 					   GetSQLValueString($_POST['promotion_type_val'], "int"));
 	 
 		mysql_select_db($database_localhost, $localhost);
-		$Result1 = mysql_query($insertSQL, $localhost) ;
-		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL.mysql_error());}
+		$Result1 = mysqli_query($localhost,$insertSQL);
+		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL.mysqli_error($localhost));}
 		$insertGoTo = "index.php";
 		header(sprintf("Location: %s", $insertGoTo));
 	}catch(Exception $ex){

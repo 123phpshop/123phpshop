@@ -51,6 +51,4 @@
 </table>
 
 </body>
-</html><?php
-mysql_free_result($DetailRS1);
-?>
+</html>

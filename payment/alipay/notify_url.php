@@ -65,7 +65,7 @@ if($verify_result) {//验证成功
   	
 //				记录进入订单处理日志
 	$new_order_log_sql="insert into pay_log(result,order_sn)values('".serialize($_POST)."','".$colname_order."')";
-	if(!mysql_query($new_order_log_sql)){
+	if(!mysqli_query($localhost,$new_order_log_sql)){
  		phpshop_log("错误：订单log错误".$query_order);
 		echo "fail";return;
 	}
@@ -79,13 +79,13 @@ if($verify_result) {//验证成功
 			
 			mysql_select_db($database_localhost, $localhost);
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
-			$order = mysql_query($query_order, $localhost);
+			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
 				phpshop_log("订单查询错误".$query_order);
 				echo "fail";return;
 			} 
   			
-			$row_order = mysql_fetch_assoc($order);
+			$row_order = mysqli_fetch_assoc($order);
 			$totalRows_order = mysql_num_rows($order);
  			
 			//如果不能找到的话，说明订单不存在，或是参数错误	，这个时候需要给出提示信息
@@ -104,7 +104,7 @@ if($verify_result) {//验证成功
 			
 			//		将这个订单的状态设置为已经支付状态
 			$update_order_status_sql="update orders set order_status=".ORDER_STATUS_PAID." , pay_at='".date('Y-m-d H:i:s')."' WHERE sn='".$colname_order."'";			
-			$update_order_status_query=mysql_query($update_order_status_sql);
+			$update_order_status_query=mysqli_query($localhost,$update_order_status_sql);
 			if(!$update_order_status_query){
 				phpshop_log("错误：更新订单状态查询失败".$query_order);
 				echo "fail";return;
@@ -113,12 +113,12 @@ if($verify_result) {//验证成功
 			//		循环所有的产品，将他们的数量-1
 			mysql_select_db($database_localhost, $localhost);
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
-			$products = mysql_query($query_products, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
 			$totalRows_products = mysql_num_rows($products);
-			while($row_products = mysql_fetch_assoc($products)){
+			while($row_products = mysqli_fetch_assoc($products)){
   				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
-				if(!mysql_query($update_product_store_num_sql)){
+				if(!mysqli_query($localhost,$update_product_store_num_sql)){
 					phpshop_log("错误：更新订单产品库存和销售量查询失败".$query_order);
 					echo "fail";return;
 				}	
@@ -126,7 +126,7 @@ if($verify_result) {//验证成功
 			
 			  
 		$order_log_sql="insert into order_log(order_id,message)values('".$row_order ['id']."','订单支付确认')";
-		mysql_query($order_log_sql, $localhost);
+		mysqli_query($localhost,$order_log_sql);
 		
 		// 发送邮件通知
 		try{
@@ -159,13 +159,13 @@ if($verify_result) {//验证成功
 			
 			mysql_select_db($database_localhost, $localhost);
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
-			$order = mysql_query($query_order, $localhost);
+			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
 				phpshop_log("订单查询错误".$query_order);
 				echo "fail";return;
 			} 
   			
-			$row_order = mysql_fetch_assoc($order);
+			$row_order = mysqli_fetch_assoc($order);
 			$totalRows_order = mysql_num_rows($order);
  			
 			//如果不能找到的话，说明订单不存在，或是参数错误	，这个时候需要给出提示信息
@@ -184,7 +184,7 @@ if($verify_result) {//验证成功
 			
 			//		将这个订单的状态设置为已经支付状态
 			$update_order_status_sql="update orders set order_status=".ORDER_STATUS_PAID." , pay_at='".date('Y-m-d H:i:s')."' WHERE sn='".$colname_order."'";			
-			$update_order_status_query=mysql_query($update_order_status_sql);
+			$update_order_status_query=mysqli_query($localhost,$update_order_status_sql);
 			if(!$update_order_status_query){
 				phpshop_log("错误：更新订单状态查询失败".$query_order);
 				echo "fail";return;
@@ -193,12 +193,12 @@ if($verify_result) {//验证成功
 			//		循环所有的产品，将他们的数量-1
 			mysql_select_db($database_localhost, $localhost);
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
-			$products = mysql_query($query_products, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
 			$totalRows_products = mysql_num_rows($products);
-			while($row_products = mysql_fetch_assoc($products)){
+			while($row_products = mysqli_fetch_assoc($products)){
   				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
-				if(!mysql_query($update_product_store_num_sql)){
+				if(!mysqli_query($localhost,$update_product_store_num_sql)){
 					phpshop_log("错误：更新订单产品库存和销售量查询失败".$query_order);
 					echo "fail";return;
 				}	
@@ -206,7 +206,7 @@ if($verify_result) {//验证成功
 			
 				  
 	$order_log_sql="insert into order_log(order_id,message)values('".$row_order ['id']."','".订单支付成功."')";
-	mysql_query($order_log_sql, $localhost);
+	mysqli_query($localhost,$order_log_sql);
 
 			phpshop_log("信息：订单更新成功！".$query_order);
 // 发送邮件通知

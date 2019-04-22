@@ -32,9 +32,9 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_attr = sprintf("SELECT * FROM product_type_attr WHERE id = %s", $colname_attr);
-	$attr = mysql_query($query_attr, $localhost) ;
+	$attr = mysqli_query($localhost,$query_attr);
 	if(!$attr){$logger->fatal("数据库操作失败:".$query_attr);}
-	$row_attr = mysql_fetch_assoc($attr);
+	$row_attr = mysqli_fetch_assoc($attr);
  
    $updateSQL = sprintf("UPDATE product_type_attr SET name=%s, is_selectable=%s, input_method=%s, selectable_value=%s, product_type_id=%s WHERE id=%s",
                        GetSQLValueString($_POST['name'], "text"),
@@ -45,7 +45,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 
   $updateGoTo = "index.php?product_type_id=".$row_attr['product_type_id'];
@@ -58,8 +58,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_attr = sprintf("SELECT * FROM product_type_attr WHERE id = %s", $colname_attr);
-$attr = mysql_query($query_attr, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_attr = mysql_fetch_assoc($attr);
+$attr = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_attr);}
+$row_attr = mysqli_fetch_assoc($attr);
 $totalRows_attr = mysql_num_rows($attr);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

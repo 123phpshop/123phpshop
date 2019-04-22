@@ -23,9 +23,9 @@ $editFormAction = $_SERVER['PHP_SELF'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands";
-$brands = mysql_query($query_brands, $localhost) ;
+$brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
-$row_brands = mysql_fetch_assoc($brands);
+$row_brands = mysqli_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -96,7 +96,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 }
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
    $insertGoTo = "detail.php?recordID=".mysql_insert_id();
    header(sprintf("Location: %s", $insertGoTo));
@@ -104,9 +104,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query($query_product_types, $localhost) ;
+$product_types = mysqli_query($localhost,$query_product_types);
 if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}
-$row_product_types = mysql_fetch_assoc($product_types);
+$row_product_types = mysqli_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
 $is_vproduct_add_page=true;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

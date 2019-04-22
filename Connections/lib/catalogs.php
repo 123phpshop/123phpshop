@@ -22,22 +22,22 @@ function get_catalog_by_id($id){
 	global $glogger;
 	//mysql_select_db($database_localhost);
 	$query_get_catalog_by_id = "SELECT * FROM `catalog` WHERE id = $id";
-	$get_catalog_by_id = mysql_query($query_get_catalog_by_id) ;if(!$Result1){$glogger->fatal("数据库操作失败:".$query_get_catalog_by_id);}
+	$get_catalog_by_id = mysqli_query($localhost,$query_get_catalog_by_id) ;if(!$Result1){$glogger->fatal("数据库操作失败:".$query_get_catalog_by_id);}
  	$totalRows_get_catalog_by_id = mysql_num_rows($get_catalog_by_id);
  	if($totalRows_get_catalog_by_id==0){
 		return false;
 	}
 	
-	return mysql_fetch_assoc($get_catalog_by_id);
+	return mysqli_fetch_assoc($get_catalog_by_id);
 }
 
 function get_catalog_by_pid($pid){
 	global $db_conn;
 	global $glogger;
  	$query_get_catalog_by_id = "SELECT * FROM `catalog` WHERE pid = $pid";
-	$get_catalog_by_id = mysql_query($query_get_catalog_by_id);
+	$get_catalog_by_id = mysqli_query($localhost,$query_get_catalog_by_id);
 	if(!$get_catalog_by_id){$glogger->fatal("数据库操作失败:".$query_get_catalog_by_id);}
- 	$row_get_catalog_by_id = mysql_fetch_assoc($get_catalog_by_id);
+ 	$row_get_catalog_by_id = mysqli_fetch_assoc($get_catalog_by_id);
 	$totalRows_get_catalog_by_id = mysql_num_rows($get_catalog_by_id);
 	if($totalRows_get_catalog_by_id==0){
 		return false;

@@ -44,7 +44,7 @@ $where_string="where is_delete=0 ";
   	 
 	if($sql!=""){
 		mysql_select_db($database_localhost, $localhost);
- 		$query=mysql_query($sql, $localhost) ;
+ 		$query=mysqli_query($localhost,$sql);
 		if(!$query){$logger->fatal("数据库操作失败:".$sql);}
  	}			
 }
@@ -60,14 +60,14 @@ $startRow_news = $pageNum_news * $maxRows_news;
 mysql_select_db($database_localhost, $localhost);	
 $query_news = "SELECT * FROM edm_news $where_string order by id desc";
  $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
-$news = mysql_query($query_limit_news, $localhost) ;
+$news = mysqli_query($localhost,$query_limit_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_limit_news);}
-$row_news = mysql_fetch_assoc($news);
+$row_news = mysqli_fetch_assoc($news);
 
 if (isset($_GET['totalRows_news'])) {
   $totalRows_news = $_GET['totalRows_news'];
 } else {
-  $all_news = mysql_query($query_news);
+  $all_news = mysqli_query($localhost,$query_news);
   $totalRows_news = mysql_num_rows($all_news);
 }
 $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
@@ -132,7 +132,7 @@ $queryString_news = sprintf("&totalRows_news=%d%s", $totalRows_news, $queryStrin
         <td><div align="center"><?php echo $row_news['is_published']==1?"√":""; ?></div></td>
         <td><div align="center"><a onClick="return confirm('您确定要删除这条记录吗？')" href="../拷贝于 news/remove.php?id=<?php echo $row_news['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_news['id']; ?>">更新</a> <a href="javascript://" onclick="send_to_edm_list(<?php echo $row_news['id']; ?>)">群发</a></div></td>
       </tr>
-      <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
+      <?php } while ($row_news = mysqli_fetch_assoc($news)); ?>
   </table>
   <p>&nbsp;</p>
      <table width="200" border="0" class="phpshop123_infobox">

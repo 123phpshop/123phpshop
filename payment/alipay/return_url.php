@@ -73,8 +73,8 @@ if($verify_result){
 //				记录进入订单处理日志
 			mysql_select_db($database_localhost, $localhost);
 			$new_order_log_sql="insert into pay_log(result,order_sn)values('".serialize($_GET)."','".$colname_order."')";
-			if(!mysql_query($new_order_log_sql)){
-				throw new Exception("系统错误，请稍后重试！".mysql_error());
+			if(!mysqli_query($localhost,$new_order_log_sql)){
+				throw new Exception("系统错误，请稍后重试！".mysqli_error($localhost));
 			}
 			
 
@@ -87,12 +87,12 @@ if($verify_result){
 			}
 			mysql_select_db($database_localhost, $localhost);
 			$query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
-			$order = mysql_query($query_order, $localhost);
+			$order = mysqli_query($localhost,$query_order);
 			if(!$order){
 				throw new Exception("订单序列号错误，请稍后重试！");
 			} 
   			
-			$row_order = mysql_fetch_assoc($order);
+			$row_order = mysqli_fetch_assoc($order);
 			$totalRows_order = mysql_num_rows($order);
 
 
@@ -110,7 +110,7 @@ if($verify_result){
 			
 			//		将这个订单的状态设置为已经支付状态
 			$update_order_status_sql="update orders set order_status=".ORDER_STATUS_PAID." , pay_at='".date('Y-m-d H:i:s')."' WHERE sn='".$colname_order."'";
-			$update_order_status_query=mysql_query($update_order_status_sql);
+			$update_order_status_query=mysqli_query($localhost,$update_order_status_sql);
 			if(!$update_order_status_query){
 				throw new Exception("更新订单状态错误，请稍后重试！".$update_order_status_sql);
 			} 
@@ -118,19 +118,19 @@ if($verify_result){
 			//		循环所有的产品，将他们的数量-1
 			mysql_select_db($database_localhost, $localhost);
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
-			$products = mysql_query($query_products, $localhost);
+			$products = mysqli_query($localhost,$query_products);
 			
 			$totalRows_products = mysql_num_rows($products);
-			while($row_products = mysql_fetch_assoc($products)){
+			while($row_products = mysqli_fetch_assoc($products)){
  				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
-				if(!mysql_query($update_product_store_num_sql)){
+				if(!mysqli_query($localhost,$update_product_store_num_sql)){
 					throw new Exception("更新库存错误，请稍后重试！");
 				}	
 			}
 			
 			  
 $order_log_sql="insert into order_log(order_id,message)values('".$row_order ['id']."','订单支付成功')";
-mysql_query($order_log_sql, $localhost);
+mysqli_query($localhost,$order_log_sql);
 // 发送邮件通知
 		try{
 			// 发送邮件通知

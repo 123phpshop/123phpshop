@@ -32,9 +32,9 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news_catalog = sprintf("SELECT * FROM `news_catalog` WHERE id = %s", $colname_news_catalog);
-$news_catalog = mysql_query($query_news_catalog, $localhost) ;
+$news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
-$row_news_catalog = mysql_fetch_assoc($news_catalog);
+$row_news_catalog = mysqli_fetch_assoc($news_catalog);
 $totalRows_news_catalog = mysql_num_rows($news_catalog);
 
 
@@ -53,7 +53,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($publish_time, "text"));
 					   
    mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
   $insertGoTo = "index.php?catalog_id=" . $row_news_catalog['id'] . "";

@@ -15,10 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
-
-require_once ('Connections/localhost.php');
-?>
+?><?php require_once ('Connections/localhost.php');?>
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/product.php");?>
 <?php require_once($_SERVER['DOCUMENT_ROOT']."/Connections/lib/order.php");?>
 
@@ -27,34 +24,14 @@ if (! isset ( $_SESSION ['user_id'] )) {
 	$url = "/login.php";
 	header ( "Location: " . $url );
 }
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
 
+// 初始化购物车
 $cart_obj = new Cart ();
 
-$cart = $cart_obj->get ();
+// 获取购物车的内容
+$cart = $cart_obj->get (); 
 
+// 更新费用信息
 $cart_obj->update_fee (); // 这里可以防止用户在购物车和订单确认之间进行跳转的时候管理员更新了货物的价格所可能造成的价格错误
 $cart_products = $cart ['products'];
 
@@ -69,20 +46,19 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
-if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	// @todo 这里需要对post过来的参数进行验证
-	
-	try{
+if (isset ( $_POST ["MM_insert"] )&& $_POST ["MM_insert"] == "form1") {
+		// @todo 这里需要对post过来的参数进行验证
+
+		// 检查用户id是否存在，如果不存在，那么告知
+
+		// 如果存在，那么
 		$insertSQL = sprintf ( "INSERT INTO user_consignee (user_id,name, mobile, province, city, district, address, zip) VALUES (%s,%s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "text" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['province'], "text" ), GetSQLValueString ( $_POST ['city'], "text" ), GetSQLValueString ( $_POST ['district'], "text" ), GetSQLValueString ( $_POST ['address'], "text" ), GetSQLValueString ( $_POST ['zip'], "text" ) );
-		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
 		if (! $Result1) {
 			throw new Exception();
 			$logger->fatal ( "数据库操作失败:" . $insertSQL );
 		}
-		
-	}
 }
 
 // 获取这个用户的所有的收货人信息
@@ -96,6 +72,7 @@ $consignee_obj = mysql_query ( $query_consignee, $localhost );
 if (! $consignee_obj) {
 	$logger->fatal ( "数据库操作失败:" . $query_consignee );
 }
+
 $row_consignee = mysql_fetch_assoc ( $consignee_obj );
 $totalRows_consignee = mysql_num_rows ( $consignee_obj );
 

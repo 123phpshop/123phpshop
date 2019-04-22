@@ -39,12 +39,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($colname_order, "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
   
 $order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','".商家已发货."')";
-$Result1=mysql_query($order_log_sql, $localhost);
+$Result1=mysqli_query($localhost,$order_log_sql);
 		if(!$Result1){
 				$logger->fatal("数据库操作失败:".$order_log_sql);
 		}else{
@@ -57,16 +57,16 @@ $Result1=mysql_query($order_log_sql, $localhost);
 
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
-$order = mysql_query($query_order, $localhost);
+$order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
-$row_order = mysql_fetch_assoc($order);
+$row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 mysql_select_db($database_localhost, $localhost);
 $query_logistics = "SELECT * FROM express_company";
-$logistics = mysql_query($query_logistics, $localhost) ;
+$logistics = mysqli_query($localhost,$query_logistics);
 if(!$logistics){$logger->fatal("数据库操作失败:".$query_logistics);}
-$row_logistics = mysql_fetch_assoc($logistics);
+$row_logistics = mysqli_fetch_assoc($logistics);
 $totalRows_logistics = mysql_num_rows($logistics);
 
  
@@ -105,11 +105,11 @@ do {
 ?>
             <option value="<?php echo $row_logistics['id']?>"<?php if (!(strcmp($row_logistics['id'], $row_order['express_company_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_logistics['name']?></option>
             <?php
-} while ($row_logistics = mysql_fetch_assoc($logistics));
+} while ($row_logistics = mysqli_fetch_assoc($logistics));
   $rows = mysql_num_rows($logistics);
   if($rows > 0) {
       mysql_data_seek($logistics, 0);
-	  $row_logistics = mysql_fetch_assoc($logistics);
+	  $row_logistics = mysqli_fetch_assoc($logistics);
   }
 ?>
           </select>

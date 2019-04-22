@@ -12,7 +12,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) or die(mysql_error());
+  $Result1 = mysqli_query($localhost)or die(mysqli_error($localhost),$updateSQL);
 
   $updateGoTo = "subscribe_list.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -28,8 +28,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_item = sprintf("SELECT * FROM email_subscribe WHERE id = %s", $colname_item);
-$item = mysql_query($query_item, $localhost) or die(mysql_error());
-$row_item = mysql_fetch_assoc($item);
+$item = mysqli_query($localhost)or die(mysqli_error($localhost),$query_item);
+$row_item = mysqli_fetch_assoc($item);
 $totalRows_item = mysql_num_rows($item);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

@@ -25,7 +25,7 @@ log_admin($support_email_question);
 	if(count($_POST['news_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `edm_news` set is_delete=0 where id in (".implode(",",$_POST['news_id']).")";
-			$Result1=mysql_query($sql, $localhost) ;
+			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
 
@@ -40,14 +40,14 @@ $startRow_news = $pageNum_news * $maxRows_news;
 mysql_select_db($database_localhost, $localhost);
 $query_news = "SELECT * FROM edm_news WHERE is_delete = 1";
 $query_limit_news = sprintf("%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news);
-$news = mysql_query($query_limit_news, $localhost) ;
+$news = mysqli_query($localhost,$query_limit_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_limit_news);}
-$row_news = mysql_fetch_assoc($news);
+$row_news = mysqli_fetch_assoc($news);
 
 if (isset($_GET['totalRows_news'])) {
   $totalRows_news = $_GET['totalRows_news'];
 } else {
-  $all_news = mysql_query($query_news);
+  $all_news = mysqli_query($localhost,$query_news);
   $totalRows_news = mysql_num_rows($all_news);
 }
 $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
@@ -92,7 +92,7 @@ $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
         <td scope="col"><?php echo $row_news['create_time']; ?></td>
         <td scope="col"><div align="right"><a onclick="return confirm('您确实要恢复这条记录吗？')" href="../拷贝于 news/unrecycle.php?id=<?php echo $row_news['id']; ?>">恢复</a></div></td>
       </tr>
-      <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
+      <?php } while ($row_news = mysqli_fetch_assoc($news)); ?>
   </table>
   <br />
   <table width="200" border="0" class="phpshop123_infobox">

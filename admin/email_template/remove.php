@@ -29,8 +29,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_news = mysql_fetch_assoc($news);
+$news = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_news);}
+$row_news = mysqli_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
   
 if($totalRows_news==0){
@@ -44,7 +44,7 @@ if($could_delete==1){
 	}
 	
 	$update_catalog = sprintf("update `email_templates` set is_delete=1 where id = %s", $colname_news);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		query_email_templates
 		$could_delete=0;

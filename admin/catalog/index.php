@@ -32,7 +32,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "new_catalog_form"))
                        GetSQLValueString($_POST['pid'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失1败:".$insertSQL);}
 }
 
@@ -51,14 +51,14 @@ mysql_select_db($database_localhost, $localhost);
 $query_catalogs = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and  pid = %s", $colname_catalogs);
 $query_limit_catalogs = sprintf("%s LIMIT %d, %d", $query_catalogs, $startRow_catalogs, $maxRows_catalogs);
 $logger->debug($query_limit_catalogs);
-$catalogs = mysql_query($query_limit_catalogs, $localhost) ;
+$catalogs = mysqli_query($localhost,$query_limit_catalogs);
 if(!$catalogs){$logger->fatal("数据库操d作失败:".$query_limit_catalogs);}
-$row_catalogs = mysql_fetch_assoc($catalogs);
+$row_catalogs = mysqli_fetch_assoc($catalogs);
 
 if (isset($_GET['totalRows_catalogs'])) {
   $totalRows_catalogs = $_GET['totalRows_catalogs'];
 } else {
-  $all_catalogs = mysql_query($query_catalogs);
+  $all_catalogs = mysqli_query($localhost,$query_catalogs);
   if(!$all_catalogs){
 	$logger->fatal($totalRows_catalogs);
   }
@@ -128,7 +128,7 @@ $queryString_catalogs = sprintf("&totalRows_catalogs=%d%s", $totalRows_catalogs,
         <td><?php echo $row_catalogs['name']; ?></td>
         <td><div align="right"><a onClick="return confirm('您确认要删除这个分类吗？')" href="remove.php?id=<?php echo $row_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_catalogs['id']; ?>">编辑</a> <a href="index.php?pid=<?php echo $row_catalogs['id']; ?>">子分类列表</a> <a href="../product/index.php?catalog_id=<?php echo $row_catalogs['id']; ?>">商品列表</a> <a href="../product/add.php?catalog_id=<?php echo $row_catalogs['id']; ?>"></a></div></td>
       </tr>
-        <?php } while ($row_catalogs = mysql_fetch_assoc($catalogs)); ?>
+        <?php } while ($row_catalogs = mysqli_fetch_assoc($catalogs)); ?>
   </table>
   <br />
   <?php if ($pageNum_catalogs > 0) { // Show if not first page ?>

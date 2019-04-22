@@ -21,9 +21,9 @@ $doc_url="role.html#list";
 $support_email_question="查看角色列表";log_admin($support_email_question);
 mysql_select_db($database_localhost, $localhost);
 $query_getRoles = "SELECT * FROM `role` where is_delete=0 ORDER BY id DESC";
-$getRoles = mysql_query($query_getRoles, $localhost) ;
+$getRoles = mysqli_query($localhost,$query_getRoles);
 if(!$getRoles){$logger->fatal("数据库操作失败:".$query_getRoles);}
-$row_getRoles = mysql_fetch_assoc($getRoles);
+$row_getRoles = mysqli_fetch_assoc($getRoles);
 $totalRows_getRoles = mysql_num_rows($getRoles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -51,7 +51,7 @@ $totalRows_getRoles = mysql_num_rows($getRoles);
         <td><?php echo $row_getRoles['name']; ?></td>
         <td><a href="remove.php?id=<?php echo $row_getRoles['id']; ?>" onclick="return confirm('您确认要删除这个角色吗？');">删除</a> <a href="edit.php?id=<?php echo $row_getRoles['id']; ?>">更新</a> <a href="assign.php?id=<?php echo $row_getRoles['id']; ?>">权限</a></td>
       </tr>
-      <?php } while ($row_getRoles = mysql_fetch_assoc($getRoles)); ?>
+      <?php } while ($row_getRoles = mysqli_fetch_assoc($getRoles)); ?>
   </table>
   <?php } // Show if recordset not empty ?>
 <?php if ($totalRows_getRoles == 0) { // Show if recordset empty ?>

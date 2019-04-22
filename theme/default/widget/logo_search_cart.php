@@ -19,9 +19,9 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query($query_shopinfo, $localhost) ;
+$shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
-$row_shopinfo = mysql_fetch_assoc($shopinfo);
+$row_shopinfo = mysqli_fetch_assoc($shopinfo);
 $totalRows_shopinfo = mysql_num_rows($shopinfo);
 ?>
 <table width="1210" border="0" align="center" style="margin:0px auto;">

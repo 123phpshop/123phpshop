@@ -19,9 +19,9 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_themes = "SELECT * FROM theme";
-$themes = mysql_query($query_themes, $localhost) ;
+$themes = mysqli_query($localhost,$query_themes);
 if(!$themes){$logger->fatal("数据库操作失败:".$query_themes);}
-$row_themes = mysql_fetch_assoc($themes);
+$row_themes = mysqli_fetch_assoc($themes);
 $totalRows_themes = mysql_num_rows($themes);
 
 $doc_url="template.html#list";
@@ -66,7 +66,7 @@ $support_email_question="模板列表";log_admin($support_email_question);
         <td><div align="center"><?php echo $row_themes['is_delete']==0?"√":""; ?></div></td>
         <td><?php if($row_themes['is_delete']==1){ ?><a href="activate.php?id=<?php echo $row_themes['id']; ?>">激活</a><?php } ?> <?php if($row_themes['is_delete']==0){ ?><a href="deactivate.php?id=<?php echo $row_themes['id']; ?>">停用</a> <?php } ?><a href="update.php?id=<?php echo $row_themes['id']; ?>">更新</a> </td>
       </tr>
-      <?php } while ($row_themes = mysql_fetch_assoc($themes)); ?>
+      <?php } while ($row_themes = mysqli_fetch_assoc($themes)); ?>
   </table>
   <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_themes == 0) { // Show if recordset empty ?>

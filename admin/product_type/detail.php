@@ -33,14 +33,14 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT * FROM product_type  WHERE id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+$DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
+$row_DetailRS1 = mysqli_fetch_assoc($DetailRS1);
 
 if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
+  $all_DetailRS1 = mysqli_query($localhost,$query_DetailRS1);
   if(!$all_DetailRS1){$logger->fatal("数据库操作失败:".$query_DetailRS1);}
 
   $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);

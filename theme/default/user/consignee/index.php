@@ -130,7 +130,7 @@ a{
                   </tr>
                 </table></td>
               </tr>
-            </table> <br><?php } while ($row_consignees = mysql_fetch_assoc($consignees)); ?></td>
+            </table> <br><?php } while ($row_consignees = mysqli_fetch_assoc($consignees)); ?></td>
           </tr>
           <tr>
             <td>&nbsp;</td>

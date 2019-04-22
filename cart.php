@@ -19,12 +19,11 @@
 
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/lib/email.php');
-?>
-<?php
 
 $_user_type_id=_get_user_type_id();
 $_user_id=_get_user_id();
 
+// 初始话新的购物车
 $cart_obj = new Cart ($_user_type_id,$_user_id);
 
 if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
@@ -39,12 +38,9 @@ if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 		header ( "Location: " . $MM_redirectLoginFailed );
 		return;
 	}
-	
-	// $logger->debug("购物车添加商品");
 	$cart_obj->add ( $_POST );
 }
 $cart = $cart_obj->get ();
 $cart_products = $cart ['products'];
 include ($template_path . "cart.php");
-
 ?>

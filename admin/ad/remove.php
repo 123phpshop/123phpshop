@@ -27,11 +27,11 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news = sprintf("SELECT * FROM ad WHERE id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost);
+$news = mysqli_query($localhost,$query_news);
 if (!$news) {
-    $logger->fatal(__FILE__ . ":数据库操作失败:" . mysql_error() . $query_news);
+    $logger->fatal(__FILE__ . ":数据库操作失败:" . mysqli_error($localhost) . $query_news);
 }
-$row_news = mysql_fetch_assoc($news);
+$row_news = mysqli_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
 try {
@@ -48,7 +48,7 @@ try {
     // 选择数据库
     mysql_select_db($database_localhost, $localhost);
     $query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
-    $ad_images = mysql_query($query_ad_images, $localhost);
+    $ad_images = mysqli_query($localhost,$query_ad_images);
     if (!$ad_images) {
         $logger->fatal("数据库操作失败:" . $query_ad_images);
         throw new Exception("数据库操作失败:" . $query_ad_images);
@@ -62,7 +62,7 @@ try {
 
     // 正式删除
     $update_catalog = sprintf("delete from `ad` where id = %s", $colname_news);
-    $update_catalog_query = mysql_query($update_catalog, $localhost);
+    $update_catalog_query = mysqli_query($localhost,$update_catalog);
     if (!$update_catalog_query) {
         $logger->fatal("删除广告操作失败:" . $updateSQL);
         throw new Exception(COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER);

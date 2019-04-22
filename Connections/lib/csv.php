@@ -22,7 +22,7 @@ function export_goods(){
 	$database_localhost = "123phpshopv14";
 	$username_localhost = "root";
 	$password_localhost = "root";
-	$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR); 
+	$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysqli_error($localhost),E_USER_ERROR); 
 	mysql_select_db($database_localhost, $localhost);
  	$result = mysql_query("select * from product;",$localhost);   
 		
@@ -155,15 +155,15 @@ function import_product($file_path){
 			global $db_conn;
  			//mysql_select_db($database_localhost, $db_conn);
 			 $query_get_product_by_id = "SELECT id, name FROM product WHERE name = '".trim($product_name)."'";
- 			$get_product_by_id = mysql_query($query_get_product_by_id, $db_conn) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-			$row_get_product_by_id = mysql_fetch_assoc($get_product_by_id);
+ 			$get_product_by_id = mysqli_query($db_conn);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_product_by_id);}
+			$row_get_product_by_id = mysqli_fetch_assoc($get_product_by_id);
 			$totalRows_get_product_by_id = mysql_num_rows($get_product_by_id);
 			if($totalRows_get_product_by_id >0){
 					throw new Exception("商品名称重复:".$product_name);
  			}
 			
 			$new_product_sql="insert into product(name,ad_text,catalog_id,product_type_id,cata_path,brand_id,weight,unit,is_shipping_free,meta_keywords,meta_desc,is_virtual,intro,price,is_promotion,promotion_price,promotion_start,promotion_end,market_price,pointers,is_on_sheft,is_hot,is_season,is_recommanded,description,tags,store_num,is_delete)values('".$fields_array[0]."','".$fields_array[1]."','".$fields_array[2]."','".$fields_array[3]."','".$fields_array[4]."','".$fields_array[5]."','".$fields_array[6]."','".$fields_array[7]."','".$fields_array[8]."','".$fields_array[9]."','".$fields_array[10]."','".$fields_array[11]."','".$fields_array[12]."','".$fields_array[13]."','".$fields_array[14]."','".$fields_array[15]."','".$fields_array[16]."','".$fields_array[17]."','".$fields_array[18]."','".$fields_array[19]."','".$fields_array[20]."','".$fields_array[21]."','".$fields_array[22]."','".$fields_array[23]."','".$fields_array[24]."','".$fields_array[25]."','".$fields_array[26]."','".$fields_array[27]."')";
-			mysql_query($new_product_sql);
+			mysqli_query($localhost,$new_product_sql);
   		}
  		$_is_first_row=false;
  	}

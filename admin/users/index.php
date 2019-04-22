@@ -31,7 +31,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
     if (count($_POST['user_id']) > 0 && $_POST['op_id'] == "100") {
         mysql_select_db($database_localhost, $localhost);
         $sql = "update `user` set is_delete=1 where id in (" . implode(",", $_POST['user_id']) . ")";
-        $Result1 = mysql_query($sql, $localhost);
+        $Result1 = mysqli_query($localhost,$sql);
         if (!$Result1) {
             $logger->fatal("数据库操作失败:" . $sql);
         }
@@ -49,16 +49,16 @@ $where = _get_user_where($_GET);
 mysql_select_db($database_localhost, $localhost);
 $query_users = "SELECT * FROM `user` where is_delete=0 $where";
 $query_limit_users = sprintf("%s LIMIT %d, %d", $query_users, $startRow_users, $maxRows_users);
-$users = mysql_query($query_limit_users, $localhost);
+$users = mysqli_query($localhost,$query_limit_users);
 if (!$users) {
     $logger->fatal("数据库操作失败:" . $query_limit_users);
 }
-$row_users = mysql_fetch_assoc($users);
+$row_users = mysqli_fetch_assoc($users);
 
 if (isset($_GET['totalRows_users'])) {
     $totalRows_users = $_GET['totalRows_users'];
 } else {
-    $all_users = mysql_query($query_users);
+    $all_users = mysqli_query($localhost,$query_users);
     $totalRows_users = mysql_num_rows($all_users);
 }
 $totalPages_users = ceil($totalRows_users / $maxRows_users) - 1;
@@ -200,7 +200,7 @@ function _get_user_where($get)
 							href="update.php?id=<?php echo $row_users['id']; ?>">更新</a>
 					</div></td>
 			</tr>
-      <?php } while ($row_users = mysql_fetch_assoc($users));?>
+      <?php } while ($row_users = mysqli_fetch_assoc($users));?>
   </table>
 		<br />
 		<table width="200" border="0" class="phpshop123_infobox">

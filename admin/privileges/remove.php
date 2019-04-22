@@ -26,9 +26,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_getById = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getById);
-$getById = mysql_query($query_getById, $localhost) ;
+$getById = mysqli_query($localhost,$query_getById);
 if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
-$row_getById = mysql_fetch_assoc($getById);
+$row_getById = mysqli_fetch_assoc($getById);
 $totalRows_getById = mysql_num_rows($getById);
 
 //  如果id存在，那么进行删除
@@ -37,7 +37,7 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
                        GetSQLValueString($_GET['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($deleteSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$deleteSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$deleteSQL);}
 
   //	如果删除成功，那么进行跳转

@@ -18,9 +18,6 @@
 ?><?php
 
 require_once ('Connections/localhost.php');
-?>
-<?php
-
 try {
 	
 	// 这里对字段进行验证

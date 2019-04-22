@@ -101,10 +101,10 @@ a{
 	      <?php 
  	mysql_select_db($database_localhost, $localhost);
 	$query_second_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_top_catalogs['id'];
-	$second_level_cata = mysql_query($query_second_level_cata, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+	$second_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_second_level_cata);}
  	$totalRows_second_level_cata = mysql_num_rows($second_level_cata);
 	if($totalRows_second_level_cata>0){
-	while($row_second_level_cata = mysql_fetch_assoc($second_level_cata)){
+	while($row_second_level_cata = mysqli_fetch_assoc($second_level_cata)){
 ?>
 	      <table width="99%" border="0" cellpadding="0" cellspacing="0" class="second_level">
 	        <tr>
@@ -113,10 +113,10 @@ a{
               <?php 
  	  mysql_select_db($database_localhost, $localhost);
 	$query_third_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_second_level_cata['id'];
-	$third_level_cata = mysql_query($query_third_level_cata, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+	$third_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_third_level_cata);}
  	$totalRows_third_level_cata = mysql_num_rows($third_level_cata);
 	if($totalRows_third_level_cata>0){
-	while($row_third_level_cata = mysql_fetch_assoc($third_level_cata)){
+	while($row_third_level_cata = mysqli_fetch_assoc($third_level_cata)){
 ?>
               <a href="product_list.php?catalog_id=<?php echo $row_second_level_cata['id']; ?>" class="third_level_link"><?php echo $row_second_level_cata['name']; ?></a>
               <?php }?>
@@ -128,7 +128,7 @@ a{
         </div></td>
     </tr>
       </table>
-  <?php } while ($row_top_catalogs = mysql_fetch_assoc($top_catalogs)); ?>
+  <?php } while ($row_top_catalogs = mysqli_fetch_assoc($top_catalogs)); ?>
   
   <?php } ?>
   <p>&nbsp;</p>

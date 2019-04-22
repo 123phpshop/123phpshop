@@ -33,14 +33,14 @@ $startRow_products = $pageNum_products * $maxRows_products;
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE brand_id = $colname_products and is_delete=0 $order_by";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
-$products = mysql_query($query_limit_products, $localhost) ;
+$products = mysqli_query($localhost,$query_limit_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_limit_products);}
-//$row_products = mysql_fetch_assoc($products);
+//$row_products = mysqli_fetch_assoc($products);
 
 if (isset($_GET['totalRows_products'])) {
   $totalRows_products = $_GET['totalRows_products'];
 } else {
-  $all_products = mysql_query($query_products);
+  $all_products = mysqli_query($localhost,$query_products);
   if(!$all_products){$logger->fatal("数据库操作失败:".$query_products);}
 
   $totalRows_products = mysql_num_rows($all_products);

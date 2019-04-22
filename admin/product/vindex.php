@@ -37,14 +37,14 @@ if (isset($_GET['catalog_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE is_delete=0 and is_virtual=1 $where order by id desc";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
-$products = mysql_query($query_limit_products, $localhost) ;
+$products = mysqli_query($localhost,$query_limit_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_limit_products);}
-$row_products = mysql_fetch_assoc($products);
+$row_products = mysqli_fetch_assoc($products);
 
 if (isset($_GET['totalRows_products'])) {
   $totalRows_products = $_GET['totalRows_products'];
 } else {
-  $all_products = mysql_query($query_products);
+  $all_products = mysqli_query($localhost,$query_products);
   $totalRows_products = mysql_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
@@ -212,7 +212,7 @@ function _get_product_where($get){
         <td><?php echo $row_products['store_num']; ?></td>
         <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_products['id']; ?>">删除 </a><a href="update.php?id=<?php echo $row_products['id']; ?>">更新  </a> <?php if($row_products['product_type_id']>0){ ?><a href="set_attr.php?product_id=<?php echo $row_products['id']; ?>">设置属性</a><?php } ?></div></td>
       </tr>
-      <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
+      <?php } while ($row_products = mysqli_fetch_assoc($products)); ?>
   </table>
       <p>&nbsp;</p>
       <table width="200" border="0" class="phpshop123_infobox">

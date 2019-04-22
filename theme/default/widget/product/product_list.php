@@ -37,9 +37,9 @@ if (isset($_GET['catalog_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_catalogs = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalogs);
-$catalogs = mysql_query($query_catalogs, $localhost) ;
+$catalogs = mysqli_query($localhost,$query_catalogs);
 if(!$catalogs){$logger->fatal("数据库操作失败:".$query_catalogs);}
-$row_catalogs = mysql_fetch_assoc($catalogs);
+$row_catalogs = mysqli_fetch_assoc($catalogs);
 $totalRows_catalogs = mysql_num_rows($catalogs);
 
 // 如果没有子分类的话，那么。。。
@@ -53,14 +53,14 @@ if($totalRows_catalogs>0){
 
 //$query_products = "SELECT * FROM product WHERE catalog_id = $colname_products and is_delete=0 $order_by";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
-$products = mysql_query($query_limit_products, $localhost) ;
+$products = mysqli_query($localhost,$query_limit_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_limit_products);}
-//$row_products = mysql_fetch_assoc($products);
+//$row_products = mysqli_fetch_assoc($products);
 
 if (isset($_GET['totalRows_products'])) {
   $totalRows_products = $_GET['totalRows_products'];
 } else {
-  $all_products = mysql_query($query_products);
+  $all_products = mysqli_query($localhost,$query_products);
   $totalRows_products = mysql_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;

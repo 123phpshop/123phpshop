@@ -25,9 +25,9 @@ if (isset($_POST['sn'])) {
  
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM order WHERE sn = '%s' and is_delete=0", trim($colname_product));
-$product = mysql_query($query_product, $localhost) ;
+$product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-$row_product = mysql_fetch_assoc($product);
+$row_product = mysqli_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 if($totalRows_product>0){
 	$result="false";

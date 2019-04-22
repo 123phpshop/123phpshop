@@ -30,32 +30,6 @@ if (!$validation->run())
 	$MM_redirectLoginFailed = "/index.php";
 	header("Location: ". $MM_redirectLoginFailed );return;
 }
-
-
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $user_favorited=false;
 $is_in_promotion = false;
 $colname_product = "-1";
@@ -155,9 +129,9 @@ if (isset($_SESSION['user_id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_user_favorite = sprintf("SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=0", $colname_user_favorite,$colname_product);
-$user_favorite = mysql_query($query_user_favorite, $localhost) ;
+$user_favorite = mysqli_query($localhost,$query_user_favorite);
 if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}
-$row_user_favorite = mysql_fetch_assoc($user_favorite);
+$row_user_favorite = mysqli_fetch_assoc($user_favorite);
 $totalRows_user_favorite = mysql_num_rows($user_favorite);
 if($totalRows_user_favorite>0){
 	$user_favorited=true;	

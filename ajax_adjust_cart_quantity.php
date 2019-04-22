@@ -19,9 +19,6 @@
 
 header ( 'Content-type: application/json' );
 require_once ('Connections/localhost.php');
-?>
-<?php
-
 $result = array (
 		'code' => '0',
 		'message' => 'SUCCEED',

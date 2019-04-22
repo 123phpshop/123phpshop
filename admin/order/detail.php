@@ -27,9 +27,9 @@ if (isset($_GET['recordID'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_products = sprintf("SELECT order_item.*,product.is_shipping_free,product.is_promotion,product.promotion_price,product.promotion_start,product.promotion_end,product.name as product_name FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete = 0", $colname_products);
-$products = mysql_query($query_products, $localhost) ;
+$products = mysqli_query($localhost,$query_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
-$row_products = mysql_fetch_assoc($products);
+$row_products = mysqli_fetch_assoc($products);
 $totalRows_products = mysql_num_rows($products);
   
 $maxRows_DetailRS1 = 50;
@@ -43,14 +43,14 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = "SELECT orders.*,shipping_method.name as shipping_method_name,user.username FROM `orders` inner join user on user.id=orders.user_id left join shipping_method on orders.shipping_method=shipping_method.id WHERE orders.id = $recordID ";
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+$DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
+$row_DetailRS1 = mysqli_fetch_assoc($DetailRS1);
 
 if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
+  $all_DetailRS1 = mysqli_query($localhost,$query_DetailRS1);
   $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
@@ -58,7 +58,7 @@ $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 
 mysql_select_db($database_localhost, $localhost);
 $query_log_DetailRS1 = "SELECT * FROM `order_log`  WHERE order_id = $recordID";
-$log_DetailRS1 = mysql_query($query_log_DetailRS1, $localhost);
+$log_DetailRS1 = mysqli_query($localhost,$query_log_DetailRS1);
 if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1);}
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -120,9 +120,9 @@ if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1
 	 if($row_DetailRS1['promotion_id']!=''){
 		mysql_select_db($database_localhost, $localhost);
 		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
-		$promotion_names = mysql_query($query_promotion_names, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+		$promotion_names = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_promotion_names);}
  		$totalRows_promotion_names = mysql_num_rows($promotion_names);	?>	
-	 <?php while ($row_promotion_names = mysql_fetch_assoc($promotion_names)) { ?>
+	 <?php while ($row_promotion_names = mysqli_fetch_assoc($promotion_names)) { ?>
          <a href="../promotion/update.php?id=<?php echo $row_promotion_names['id']; ?>"><?php echo $row_promotion_names['name']; ?></a>
        <?php } ?>
 	  <?php }else{	 	echo "未设置";	 } 	 ?>
@@ -197,11 +197,11 @@ include($_SERVER['DOCUMENT_ROOT']."/admin/widgets/dh.php");
         <td scope="col" style="color:#FF0000;font-weight:bold;text-align:center;">￥<?php echo (float)$row_products['should_pay_price']*$row_products['quantity']; ?></td>
         <td scope="col"><?php if($row_products['is_present']==0){ ?><a onclick="return confirm('您确实要删除这个商品吗？')" href="remove_order_item.php?id=<?php echo $row_products['id']; ?>">删除</a><?php } ?></td>
       </tr>
-      <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
+      <?php } while ($row_products = mysqli_fetch_assoc($products)); ?>
   </table>
   <?php } // Show if recordset not empty ?><p class="phpshop123_title">订单处理过程</p>
 <table width="100%" border="1"  class="phpshop123_list_box">
- <?php while ($row_log_DetailRS1 = mysql_fetch_assoc($log_DetailRS1)){ ?>
+ <?php while ($row_log_DetailRS1 = mysqli_fetch_assoc($log_DetailRS1)){ ?>
   <tr>
     <td width="10%"><?php echo $row_log_DetailRS1['create_time'];?></td>
     <td width="90%"><?php echo $row_log_DetailRS1['message'];?></td>

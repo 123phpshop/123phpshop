@@ -52,7 +52,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
   
   
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   $updateGoTo = "index.php";
   header(sprintf("Location: %s", $updateGoTo));
@@ -64,16 +64,16 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_admin = mysql_fetch_assoc($admin);
+$admin = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_admin);}
+$row_admin = mysqli_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
 
 // 如果找不到这个id的话
 mysql_select_db($database_localhost, $localhost);
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query($query_roles, $localhost) ;
+$roles = mysqli_query($localhost,$query_roles);
 if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_roles = mysql_fetch_assoc($roles);
+$row_roles = mysqli_fetch_assoc($roles);
 $totalRows_roles = mysql_num_rows($roles);
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -102,11 +102,11 @@ do {
 ?>
           <option value="<?php echo $row_roles['id']?>"<?php if ($row_roles['id']==$row_admin['role_id']) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
           <?php
-} while ($row_roles = mysql_fetch_assoc($roles));
+} while ($row_roles = mysqli_fetch_assoc($roles));
   $rows = mysql_num_rows($roles);
   if($rows > 0) {
       mysql_data_seek($roles, 0);
-	  $row_roles = mysql_fetch_assoc($roles);
+	  $row_roles = mysqli_fetch_assoc($roles);
   }
 ?>
         </select>

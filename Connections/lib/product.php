@@ -97,13 +97,13 @@ function _add_db_view_history($product_id) {
 		}
 		mysql_select_db($db_database_localhost, $db_conn);
 		$query_get_last_view_product = sprintf("SELECT * FROM user_view_history WHERE user_id = %s and product_id= %s ORDER BY id DESC limit 1", $colname_get_last_view_product,$product_id);
-		$get_last_view_product = mysql_query($query_get_last_view_product, $db_conn);
+		$get_last_view_product = mysqli_query($db_conn,$query_get_last_view_product);
 		if(!$get_last_view_product){
 				$glogger->fatal("获取用户最后一条查看历史数据库操作失败:".$query_get_last_view_product);
 				return;
 		}
 		
-		$row_get_last_view_product = mysql_fetch_assoc($get_last_view_product);
+		$row_get_last_view_product = mysqli_fetch_assoc($get_last_view_product);
 		$totalRows_get_last_view_product = mysql_num_rows($get_last_view_product);
 		if($totalRows_get_last_view_product==0){
 			// 如果最后一条不是这个用户的数据的话,那么直接插入

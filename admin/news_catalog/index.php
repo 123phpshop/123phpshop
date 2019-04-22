@@ -33,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 }
 
 $maxRows_news_catalogs = 50;
@@ -46,14 +46,14 @@ $startRow_news_catalogs = $pageNum_news_catalogs * $maxRows_news_catalogs;
 mysql_select_db($database_localhost, $localhost);
 $query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
 $query_limit_news_catalogs = sprintf("%s LIMIT %d, %d", $query_news_catalogs, $startRow_news_catalogs, $maxRows_news_catalogs);
-$news_catalogs = mysql_query($query_limit_news_catalogs, $localhost) ;
+$news_catalogs = mysqli_query($localhost,$query_limit_news_catalogs);
 if(!$news_catalogs){$logger->fatal("数据库操作失败:".$query_limit_news_catalogs);}
-$row_news_catalogs = mysql_fetch_assoc($news_catalogs);
+$row_news_catalogs = mysqli_fetch_assoc($news_catalogs);
 
 if (isset($_GET['totalRows_news_catalogs'])) {
   $totalRows_news_catalogs = $_GET['totalRows_news_catalogs'];
 } else {
-  $all_news_catalogs = mysql_query($query_news_catalogs);
+  $all_news_catalogs = mysqli_query($localhost,$query_news_catalogs);
   $totalRows_news_catalogs = mysql_num_rows($all_news_catalogs);
 }
 $totalPages_news_catalogs = ceil($totalRows_news_catalogs/$maxRows_news_catalogs)-1;
@@ -106,7 +106,7 @@ $queryString_news_catalogs = sprintf("&totalRows_news_catalogs=%d%s", $totalRows
     <td><?php echo $row_news_catalogs['name']; ?></td>
     <td><div align="right"><a onclick="return confirm('您确认要删除这条记录吗？')" href="remove.php?id=<?php echo $row_news_catalogs['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_news_catalogs['id']; ?>">更新</a> <a href="../news/index.php?catalog_id=<?php echo $row_news_catalogs['id']; ?>">文章列表</a> <a href="../news/add.php?catalog_id=<?php echo $row_news_catalogs['id']; ?>">添加文章</a></div></td>
   </tr>
-  <?php } while ($row_news_catalogs = mysql_fetch_assoc($news_catalogs)); ?>
+  <?php } while ($row_news_catalogs = mysqli_fetch_assoc($news_catalogs)); ?>
 </table>
 <a href="<?php printf("%s?pageNum_news_catalogs=%d%s", $currentPage, 0, $queryString_news_catalogs); ?>"></a>
 <?php } // Show if recordset not empty ?>

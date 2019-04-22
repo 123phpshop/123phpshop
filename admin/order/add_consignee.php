@@ -33,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
-	$consignees = mysql_query($query_consignees, $localhost) ;
+	$consignees = mysqli_query($localhost,$query_consignees);
 	if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}
  	$totalRows_consignees = mysql_num_rows($consignees);
 	if($totalRows_consignees==0){
@@ -41,7 +41,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	}
 	
 	$update_catalog = sprintf("update `user_consignee` set is_default=0 where user_id=%s and id != %s",$_GET['user_id'], $colname_consignees);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 		
    $insertSQL = sprintf("INSERT INTO user_consignee (is_default,name, mobile, province, city, district, address, zip, user_id) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s)",
   					   GetSQLValueString($is_default, "int"),
@@ -55,7 +55,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_GET['user_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   
    $insertGoTo = "update_order_user.php?id=".$_GET['order_id'];
@@ -69,9 +69,9 @@ if (isset($_GET['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
-$consignees = mysql_query($query_consignees, $localhost) ;
+$consignees = mysqli_query($localhost,$query_consignees);
 if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}
-$row_consignees = mysql_fetch_assoc($consignees);
+$row_consignees = mysqli_fetch_assoc($consignees);
 $totalRows_consignees = mysql_num_rows($consignees);
 
 $doc_url="order.html#add_consignee";

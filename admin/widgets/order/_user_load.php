@@ -23,9 +23,9 @@ if (isset($row_order['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,username FROM user WHERE id= ".$colname_goods." and is_delete=0";
-$goods = mysql_query($query_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 $row_goods_num=mysql_num_rows($goods);
 if($row_goods_num==1){
 ?>
@@ -37,6 +37,6 @@ if($row_goods_num==1){
       </td>
       <td width="886"><?php echo $row_goods['username']; ?></td>
     </tr>
-	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+	  <?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table> 
 <?php } ?>

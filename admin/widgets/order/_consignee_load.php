@@ -23,9 +23,9 @@ if (isset($row_order['user_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT * FROM user_consignee WHERE is_delete=0 and  user_id = ".$colname_goods;
-$goods = mysql_query($query_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 $row_goods_hidden=$row_goods;
 $row_goods_num=mysql_num_rows($goods);
 ?>
@@ -44,7 +44,7 @@ $row_goods_num=mysql_num_rows($goods);
 	   <td><?php echo $row_goods['address']; ?></td>
 	   <td><?php echo $row_goods['zip']; ?></td>
     </tr>
-	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+	  <?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table>
 <?php
 }

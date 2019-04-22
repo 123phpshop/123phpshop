@@ -97,8 +97,3 @@ $().ready(function(){
 });</script>
 </body>
 </html>
-<?php
-mysql_free_result($user);
-
-mysql_free_result($password);
-?>

@@ -25,21 +25,21 @@
  
 mysql_select_db($database_localhost, $localhost);
 $query_areas = "SELECT id, name FROM area WHERE pid = 0";
-$areas = mysql_query($query_areas, $localhost) ;
+$areas = mysqli_query($localhost,$query_areas);
 if(!$areas){$logger->fatal("数据库操作失败:".$query_areas);}
-$row_areas = mysql_fetch_assoc($areas);
+$row_areas = mysqli_fetch_assoc($areas);
 $totalRows_areas = mysql_num_rows($areas);
 
 
 mysql_select_db($database_localhost, $localhost);
 $query_areas_for_city = "SELECT id, name FROM area WHERE pid = 0";
-$areas_for_city = mysql_query($query_areas_for_city, $localhost) ;
+$areas_for_city = mysqli_query($localhost,$query_areas_for_city);
 if(!$areas_for_city){$logger->fatal("数据库操作失败:".$query_areas_for_city);}
   
  
 mysql_select_db($database_localhost, $localhost);
 $query_areas_for_district = "SELECT id, name FROM area WHERE pid = 0";
-$areas_for_district = mysql_query($query_areas_for_district, $localhost) ;
+$areas_for_district = mysqli_query($localhost,$query_areas_for_district);
 if(!$areas_for_district){$logger->fatal("数据库操作失败:".$query_areas_for_district);}
 
 
@@ -99,20 +99,20 @@ function show_disticts(city_name){
 <input type="checkbox"  class="province" province_name="<?php echo $row_areas['name']; ?>" id="province_<?php echo $row_areas['id']; ?>" value="<?php echo $row_areas['id']; ?>" onclick="select_province('<?php echo $row_areas['name']; ?>')" <?php if(isset($area) && (in_array($row_areas['name']."_*_*",$area) || should_check($row_areas['name']."_",$area))){ ?> checked <?php } ?>>
 <span area_pos="<?php if(isset($area)){echo should_check($row_areas['name']."_",$area);};?>"><?php echo $row_areas['name']; ?></span></br>
 </div>
-		 <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
+		 <?php } while ($row_areas = mysqli_fetch_assoc($areas)); ?>
 		</td>
     </tr>
    
 </table></td>
     <td width="161" valign="top" id="city_box">
-	<?php while($row_areas_for_city = mysql_fetch_assoc($areas_for_city)){ ?>
+	<?php while($row_areas_for_city = mysqli_fetch_assoc($areas_for_city)){ ?>
 	<div class="city_list_item" province_name="<?php echo $row_areas_for_city['name']; ?>" id="city_<?php echo $row_areas_for_city['id'];?>" style="display:none;cursor:pointer;">
  		<?php 
 			mysql_select_db($database_localhost, $localhost);
 			$query_cities = "SELECT * FROM area WHERE pid = ".$row_areas_for_city['id'];
-			$cities = mysql_query($query_cities, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+			$cities = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_cities);}
 			$totalRows_cities = mysql_num_rows($cities);
-			while($row_cities = mysql_fetch_assoc($cities)){
+			while($row_cities = mysqli_fetch_assoc($cities)){
 		?>
        	<input type="checkbox" class="city"  province_name="<?php echo $row_areas_for_city['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" value="<?php echo $row_cities['id'];?>" onclick="select_city('<?php echo $row_cities['name']; ?>')"  <?php if(isset($area) && (in_array($row_areas_for_city['name']."_".$row_cities['name']."_*",$area) || in_array($row_areas_for_city['name']."_*_*",$area) || should_check($row_areas['name']."_".$row_cities['name']."_",$area))){ ?> checked <?php } ?>><span  onMouseOver="show_disticts('<?php echo $row_cities['name']; ?>')"><?php echo $row_cities['name']; ?></span></br>
  	 	<?php } ?>
@@ -120,21 +120,21 @@ function show_disticts(city_name){
 	<?php } ?>	</td><td width="255" valign="top">
 		<?php 
 		// 获取各个省份的信息
-		while($row_areas_for_district = mysql_fetch_assoc($areas_for_district)){
+		while($row_areas_for_district = mysqli_fetch_assoc($areas_for_district)){
 //			获取这个省份下面的城市的信息
 			mysql_select_db($database_localhost, $localhost);
 			$query_cities = "SELECT * FROM area WHERE pid = ".$row_areas_for_district['id'];
-			$cities = mysql_query($query_cities, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+			$cities = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_cities);}
 			$totalRows_cities = mysql_num_rows($cities);
 			if($totalRows_cities>0){
-			while($row_cities = mysql_fetch_assoc($cities)){
+			while($row_cities = mysqli_fetch_assoc($cities)){
 				//	 获取这个城市下面的区县的信息
 				mysql_select_db($database_localhost, $localhost);
 				$query_distict = "SELECT * FROM area WHERE pid = ".$row_cities['id'];
-				$disticties = mysql_query($query_distict, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+				$disticties = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_distict);}
 				$totalRows_distict = mysql_num_rows($disticties);?>
 				<div class="district_list_item" city_name="<?php echo $row_cities['name'];?>" style="display:none;" >
- 				<?php 	while($row_distict = mysql_fetch_assoc($disticties)){?>
+ 				<?php 	while($row_distict = mysqli_fetch_assoc($disticties)){?>
 						<input class="district" type="checkbox" province_name="<?php echo $row_areas_for_district['name']; ?>" city_name="<?php echo $row_cities['name']; ?>" district_name="<?php echo $row_distict['name']; ?>" value="<?php echo $row_distict['id'];?>" onclick="select_district('<?php echo $row_distict['name']; ?>')"  <?php if(isset($area) && (in_array($row_areas_for_district['name']."_".$row_cities['name']."_".$row_distict['name'],$area) || in_array($row_areas_for_district['name']."_*_*",$area) || in_array($row_areas_for_district['name']."_".$row_cities['name']."_*",$area)) ){ ?> checked <?php } ?>><?php echo $row_distict['name'];?></br>
  				<?php 	} ?>
  				</div>

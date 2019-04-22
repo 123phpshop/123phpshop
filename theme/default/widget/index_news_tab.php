@@ -19,17 +19,17 @@
  <?php 
 mysql_select_db($database_localhost, $localhost);
 $query_news = "SELECT * FROM news where is_delete=0 and catalog_id=1 ORDER BY id DESC limit 15";
-$news = mysql_query($query_news, $localhost) ;
+$news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
-$row_news = mysql_fetch_assoc($news);
+$row_news = mysqli_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
  
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = "SELECT * FROM `news_catalog` WHERE is_delete=0 and id = 1";
-$catalog = mysql_query($query_catalog, $localhost) ;
+$catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
-$row_catalog = mysql_fetch_assoc($catalog);
+$row_catalog = mysqli_fetch_assoc($catalog);
 $totalRows_catalog = mysql_num_rows($catalog);
 
 ?>
@@ -41,7 +41,7 @@ $totalRows_catalog = mysql_num_rows($catalog);
  	 <div id="index_news_content" style="width:100%;padding-left:15px;padding-top:8px;">
 		 <?php do { ?>
 		 <div style="width:100%;float:left;height:27px;line-height:27px;" align="left"><a style="text-decoration:none;color:#000000;" href="/news.php?id=<?php echo $row_news['id']; ?>"><?php echo $row_news['title']; ?></a></div>
-		 <?php } while ($row_news = mysql_fetch_assoc($news)); ?>
+		 <?php } while ($row_news = mysqli_fetch_assoc($news)); ?>
     </div>
  </div>
   <?php

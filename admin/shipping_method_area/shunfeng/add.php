@@ -46,9 +46,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path = 'shunfeng'";
-$shipping_method = mysql_query($query_shipping_method, $localhost) ;
+$shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
-$row_shipping_method = mysql_fetch_assoc($shipping_method);
+$row_shipping_method = mysqli_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
 
 
@@ -68,7 +68,7 @@ $insertSQL = sprintf("INSERT INTO shipping_method_area (shipping_method_id, area
                         GetSQLValueString($_POST['single_product_fee'], "double"));
 
 mysql_select_db($database_localhost, $localhost);
-$Result1 = mysql_query($insertSQL, $localhost) ;
+$Result1 = mysqli_query($localhost,$insertSQL);
 if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 
 $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];

@@ -28,8 +28,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
-$catalog = mysql_query($query_catalog, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_catalog = mysql_fetch_assoc($catalog);
+$catalog = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_catalog);}
+$row_catalog = mysqli_fetch_assoc($catalog);
 $totalRows_catalog = mysql_num_rows($catalog);
 if($totalRows_catalog==0){
 	$could_delete=0;
@@ -44,9 +44,9 @@ if($could_delete==1){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_catalog_children = sprintf("SELECT * FROM `catalog` WHERE pid = %s and is_delete=0", $colname_catalog_children);
-	$catalog_children = mysql_query($query_catalog_children, $localhost) ;
+	$catalog_children = mysqli_query($localhost,$query_catalog_children);
 	if(!$catalog_children){$logger->fatal("数据库操作失败:".$query_catalog_children);}
-	$row_catalog_children = mysql_fetch_assoc($catalog_children);
+	$row_catalog_children = mysqli_fetch_assoc($catalog_children);
 	$totalRows_catalog_children = mysql_num_rows($catalog_children);
 	
 	if($totalRows_catalog_children>0){
@@ -63,9 +63,9 @@ if($could_delete==1){
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_products = sprintf("SELECT * FROM product WHERE catalog_id = %s and is_delete=0", $colname_products);
-	$products = mysql_query($query_products, $localhost) ;
+	$products = mysqli_query($localhost,$query_products);
 	if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
-	$row_products = mysql_fetch_assoc($products);
+	$row_products = mysqli_fetch_assoc($products);
 	$totalRows_products = mysql_num_rows($products);
 	
 	if($totalRows_products>0){
@@ -78,7 +78,7 @@ if($could_delete==1){
 if($could_delete==1){
  	
 	$update_catalog = sprintf("update `catalog` set is_delete=1 where id = %s", $colname_catalog);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;

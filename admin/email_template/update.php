@@ -33,9 +33,9 @@ if (isset($_GET['id'])) {
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	 mysql_select_db($database_localhost, $localhost);
 	$query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0 and id!='%s'", trim($_POST['code']),$colname_email_template);
-	$product = mysql_query($query_product, $localhost) ;
+	$product = mysqli_query($localhost,$query_product);
 	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-	$row_product = mysql_fetch_assoc($product);
+	$row_product = mysqli_fetch_assoc($product);
 	$totalRows_product = mysql_num_rows($product);
 	if($totalRows_product>0){
 		$error="一个【发送时间】只能有添加一个模板哦";
@@ -48,7 +48,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}else{
   $updateGoTo = "index.php";
   header(sprintf("Location: %s", $updateGoTo));
@@ -61,9 +61,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_email_template = sprintf("SELECT * FROM email_templates WHERE id = %s", $colname_email_template);
-$email_template = mysql_query($query_email_template, $localhost) ;
+$email_template = mysqli_query($localhost,$query_email_template);
 if(!$email_template){$logger->fatal("数据库操作失败:".$query_email_template);}
-$row_email_template = mysql_fetch_assoc($email_template);
+$row_email_template = mysqli_fetch_assoc($email_template);
 $totalRows_email_template = mysql_num_rows($email_template);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

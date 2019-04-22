@@ -28,9 +28,9 @@ if (isset($_POST['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_member = sprintf("SELECT * FROM user WHERE mobile = '%s' and id!='%s'", $colname_member, $colname_id);
-$member = mysql_query($query_member, $localhost) ;
+$member = mysqli_query($localhost,$query_member);
 if(!$member){$logger->fatal("数据库操作失败:".$query_member);}
-$row_member = mysql_fetch_assoc($member);
+$row_member = mysqli_fetch_assoc($member);
 $totalRows_member = mysql_num_rows($member);
 if($totalRows_member>0){
 	$result="false";

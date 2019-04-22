@@ -129,7 +129,7 @@ $totalRows_comments = mysql_num_rows ( $comments );
 		</tr>
 	</table>
 </div>
-<?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+<?php } while ($row_comments = mysqli_fetch_assoc($comments)); ?>
   
 <?php } ?>
            <?php if($colname_product!='-1' && isset($_SESSION['user_id']) && user_could_comment($_SESSION['user_id'],$colname_product)){?>

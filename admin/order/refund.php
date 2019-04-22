@@ -27,9 +27,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s AND order_status=".ORDER_STATUS_RETURNED_APPLIED." OR order_status=".ORDER_STATUS_RETURNED, $colname_order);
-$order = mysql_query($query_order, $localhost) ;
+$order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
-$row_order = mysql_fetch_assoc($order);
+$row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 
 if($totalRows_order==0){
@@ -39,7 +39,7 @@ if($totalRows_order==0){
 if($could_delete==1){
 
 	$update_catalog = sprintf("update `orders` set order_status=".ORDER_STATUS_REFUND." where id = %s", $colname_order);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	$logger->fatal("数据库操作失败:".$update_catalog);
 
 	if(!$update_catalog_query){
@@ -48,7 +48,7 @@ if($could_delete==1){
 	}else{
 	
 		$order_log_sql="insert into order_log(order_id,message)values('".$colname_order."','".商家已经退款."')";
-		$order=mysql_query($order_log_sql, $localhost);
+		$order=mysqli_query($localhost,$order_log_sql);
 		if(!$order){$logger->fatal("数据库操作失败:".$order_log_sql);}
 		$remove_succeed_url="index.php";
 		header("Location: " . $remove_succeed_url );

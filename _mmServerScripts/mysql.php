@@ -136,7 +136,7 @@ class MySqlConnection
 					$table_name = @$_POST['Database'];
 			}
 			$sql = ' SHOW TABLES FROM ' . $table_name;
-			$results = mysql_query($sql, $this->connectionId) or $this->HandleException();
+			$results = mysqli_query($this->connectionId)or $this->HandleException(,$sql);
 
 			$xmlOutput = "<RESULTSET><FIELDS>";
 
@@ -176,7 +176,7 @@ class MySqlConnection
 	{
 		$xmlOutput = "";
 		$query  = "DESCRIBE $TableName";
-		$result = mysql_query($query) or $this->HandleException();
+		$result = mysqli_query($localhost,$query) or $this->HandleException();
 
 		if ($result)
 		{
@@ -244,7 +244,7 @@ class MySqlConnection
 				
 		$xmlOutput = "";
 
-		$result = mysql_query($aStatement) or $this->HandleException();
+		$result = mysqli_query($localhost,$aStatement) or $this->HandleException();
 		
 		if (isset($result) && is_resource($result))
 		{
@@ -273,7 +273,7 @@ class MySqlConnection
 			}
 
 			$xmlOutput .= "</FIELDS><ROWS>";
-			$row = mysql_fetch_assoc($result);
+			$row = mysqli_fetch_assoc($result);
 
 			for ($i=0; $row && ($i < $MaxRows); $i++)
 			{
@@ -287,7 +287,7 @@ class MySqlConnection
 				}
 
  				$xmlOutput .= "</ROW>";
-				$row = mysql_fetch_assoc($result);
+				$row = mysqli_fetch_assoc($result);
 			}
 
 			mysql_free_result($result);
@@ -324,7 +324,7 @@ class MySqlConnection
 	function HandleException()
 	{
 		global $debug_to_file, $f;
-		$this->error = create_error(' MySQL Error#: '. ((int)mysql_errno()) . "\n\n".mysql_error());
+		$this->error = create_error(' MySQL Error#: '. ((int)mysql_errno()) . "\n\n".mysqli_error($localhost));
 		log_messages($this->error);
 		die($this->error.'</HTML>');
 	}
@@ -353,7 +353,7 @@ class MySqlConnection
 	{
 		$xmlOutput = '';
 		$query  = "DESCRIBE $TableName";
-		$result = mysql_query($query) or $this->HandleException();
+		$result = mysqli_query($localhost,$query) or $this->HandleException();
 		
 		
 		if ($result)

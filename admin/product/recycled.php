@@ -27,7 +27,7 @@ $support_email_question="浏览产品回收站";log_admin($support_email_questio
 	if(count($_POST['product_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `product` set is_delete=0 where id in (".implode(",",$_POST['product_id']).")";
-			$Result1=mysql_query($sql, $localhost) ;
+			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  	}
 
@@ -44,14 +44,14 @@ $startRow_products = $pageNum_products * $maxRows_products;
 mysql_select_db($database_localhost, $localhost);
 $query_products = "SELECT * FROM product WHERE is_delete = 1";
 $query_limit_products = sprintf("%s LIMIT %d, %d", $query_products, $startRow_products, $maxRows_products);
-$products = mysql_query($query_limit_products, $localhost) ;
+$products = mysqli_query($localhost,$query_limit_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_limit_products);}
-$row_products = mysql_fetch_assoc($products);
+$row_products = mysqli_fetch_assoc($products);
 
 if (isset($_GET['totalRows_products'])) {
   $totalRows_products = $_GET['totalRows_products'];
 } else {
-  $all_products = mysql_query($query_products);
+  $all_products = mysqli_query($localhost,$query_products);
   $totalRows_products = mysql_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
@@ -99,7 +99,7 @@ $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
         <td><?php echo $row_products['create_time']; ?></td>
         <td><div align="right"><a onClick="return confirm('您确定要恢复这个产品吗？')" href="unrecycled.php?id=<?php echo $row_products['id']; ?>">恢复</a></div></td>
       </tr>
-      <?php } while ($row_products = mysql_fetch_assoc($products)); ?>
+      <?php } while ($row_products = mysqli_fetch_assoc($products)); ?>
   </table>
   
   

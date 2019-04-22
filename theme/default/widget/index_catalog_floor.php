@@ -20,7 +20,7 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_catlogs = "SELECT * FROM `catalog` WHERE pid = 0 and is_delete=0 ";
-$catlogs = mysql_query($query_catlogs, $localhost) ;
+$catlogs = mysqli_query($localhost,$query_catlogs);
 if(!$catlogs){$logger->fatal("数据库操作失败:".$query_catlogs);}
 $totalRows_catlogs = mysql_num_rows($catlogs);
 ?>
@@ -35,10 +35,10 @@ $totalRows_catlogs = mysql_num_rows($catlogs);
 }
 -->
 </style>
-<?php while($row_catlogs = mysql_fetch_assoc($catlogs)){
+<?php while($row_catlogs = mysqli_fetch_assoc($catlogs)){
 
 $query_season = "SELECT * FROM product WHERE is_delete=0 and is_on_sheft=1 and cata_path like '%|".$row_catlogs['id']."|%' limit 6";
-$season = mysql_query($query_season, $localhost) ;
+$season = mysqli_query($localhost,$query_season);
 if(!$season){$logger->fatal("数据库操作失败:".$query_season);}
 $totalRows_season = mysql_num_rows($season);
  if($totalRows_season>0){
@@ -51,12 +51,12 @@ $totalRows_season = mysql_num_rows($season);
 <table style="border-right:1px solid #EDEDED;border-top:1px solid #c81623;"  width="1210" align="center" cellspacing="0">
   <tr>
      <?php 
-  		while ($row_season = mysql_fetch_assoc($season)){
+  		while ($row_season = mysqli_fetch_assoc($season)){
  			mysql_select_db($database_localhost, $localhost);
 			$query_get_images = "SELECT * FROM product_images WHERE is_delete=0  and  product_id =". $row_season['id'];
-			$get_images = mysql_query($query_get_images, $localhost) ;
+			$get_images = mysqli_query($localhost,$query_get_images);
 			if(!$get_images){$logger->fatal("数据库操作失败:".$query_get_images);}
-			$row_get_images = mysql_fetch_assoc($get_images);
+			$row_get_images = mysqli_fetch_assoc($get_images);
 			$totalRows_get_images = mysql_num_rows($get_images);
  	   ?>
     <td height="237" width="200">

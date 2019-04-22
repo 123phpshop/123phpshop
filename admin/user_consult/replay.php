@@ -56,10 +56,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_SESSION['admin_id'], "int"));
 	
 	mysql_select_db($database_localhost, $localhost);
-	$Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+	$Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 
 	$update_sql=sprintf("update product_consult set is_replied=1 where id=%s",GetSQLValueString($_POST['to_question'], "int"));
-	$Result1 = mysql_query($update_sql, $localhost) ;
+	$Result1 = mysqli_query($localhost,$update_sql);
 	if(!$Result1){$logger->fatal("数据库操作失败:".$update_sql);}
 	
 	  $insertGoTo = "index.php";
@@ -72,9 +72,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consult = sprintf("SELECT product_consult.* , product.name as product_name, product.id as product_id FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.id = %s", $colname_consult);
-$consult = mysql_query($query_consult, $localhost) ;
+$consult = mysqli_query($localhost,$query_consult);
 if(!$consult){$logger->fatal("数据库操作失败:".$query_consult);}
-$row_consult = mysql_fetch_assoc($consult);
+$row_consult = mysqli_fetch_assoc($consult);
 $totalRows_consult = mysql_num_rows($consult);
 
 $colname_replies = "-1";
@@ -83,9 +83,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_replies = sprintf("SELECT product_consult.*,member.username as username FROM product_consult inner join member on member.id= product_consult.user_id WHERE product_consult.to_question = %s", $colname_replies);
-$replies = mysql_query($query_replies, $localhost) ;
+$replies = mysqli_query($localhost,$query_replies);
 if(!$replies){$logger->fatal("数据库操作失败:".$query_replies);}
-$row_replies = mysql_fetch_assoc($replies);
+$row_replies = mysqli_fetch_assoc($replies);
 $totalRows_replies = mysql_num_rows($replies);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -113,7 +113,7 @@ $totalRows_replies = mysql_num_rows($replies);
         <td><?php echo $row_replies['create_time']; ?></td>
         <td><?php echo $row_replies['username']; ?></td>
       </tr>
-      <?php } while ($row_replies = mysql_fetch_assoc($replies)); ?>
+      <?php } while ($row_replies = mysqli_fetch_assoc($replies)); ?>
       </table>
   <?php } // Show if recordset not empty ?>
   <span class="phpshop123_title">咨询回答</span><div id="doc_help" style="display:inline;height:40px;line-height:50px;color:#CCCCCC;"><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="<?php echo isset($doc_url)?"http://www.123phpshop.com/doc/v1.5/".$doc_url:"http://www.123phpshop.com/doc/";?>">[文档]</a><a style="color:#CCCCCC;margin-left:3px;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1718101117&site=qq&menu=yes">[人工支持]</a><a href=mailto:service@123phpshop.com?subject=我在<?php echo $support_email_question;?>的时候遇到了问题，请支持 style="color:#CCCCCC;margin-left:3px;">[邮件支持]</a></div>

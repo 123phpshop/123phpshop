@@ -61,7 +61,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
  	foreach($tabList as $val){
 		$backup_info.=date("Y-m-d H:i:s").": 获取表".$val."的结构</br>";
 		$sql = "show create table ".$val;
-		$res = mysql_query($sql,$link);
+		$res = mysqli_query($localhost,$sql,$link);
 		$row = mysql_fetch_array($res);
 		$info = "-- ----------------------------\r\n";
 		$info .= "-- 表结构: `".$val."`\r\n";
@@ -76,7 +76,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 		
 		$backup_info.=date("Y-m-d H:i:s").": 导出表".$val."的数据</br>";
 		$sql = "select * from ".$val;
-		$res = mysql_query($sql,$link);
+		$res = mysqli_query($localhost,$sql,$link);
  		if(mysql_num_rows($res)<1) continue;
 		//
 		$info = "-- ----------------------------\r\n";

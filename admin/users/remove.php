@@ -28,9 +28,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
-$user = mysql_query($query_user, $localhost) ;
+$user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
-$row_user = mysql_fetch_assoc($user);
+$row_user = mysqli_fetch_assoc($user);
 $totalRows_user = mysql_num_rows($user);
 if($totalRows_user==0){
 	$could_delete=0;
@@ -43,7 +43,7 @@ if($could_delete==1){
 	}
 	
 	$update_catalog = sprintf("update `user` set is_delete=1 where id = %s", $colname_user);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;

@@ -23,9 +23,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $colname_product_image);
-$product_image = mysql_query($query_product_image, $localhost) ;
+$product_image = mysqli_query($localhost,$query_product_image);
 if(!$product_image){$logger->fatal("数据库操作失败:".$query_product_image);}
-$row_product_image = mysql_fetch_assoc($product_image);
+$row_product_image = mysqli_fetch_assoc($product_image);
 $totalRows_product_image = mysql_num_rows($product_image);
 
 $colname_product_image_small = "-1";
@@ -34,9 +34,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_image_small = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_product_image_small);
-$product_image_small = mysql_query($query_product_image_small, $localhost) ;
+$product_image_small = mysqli_query($localhost,$query_product_image_small);
 if(!$product_image_small){$logger->fatal("数据库操作失败:".$query_product_image_small);}
-$row_product_image_small = mysql_fetch_assoc($product_image_small);
+$row_product_image_small = mysqli_fetch_assoc($product_image_small);
 $totalRows_product_image_small = mysql_num_rows($product_image_small);
 
 $colname_big_images = "-1";
@@ -45,9 +45,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_big_images = sprintf("SELECT * FROM product_images WHERE is_delete=0 and product_id = %s", $colname_big_images);
-$big_images = mysql_query($query_big_images, $localhost) ;
+$big_images = mysqli_query($localhost,$query_big_images);
 if(!$big_images){$logger->fatal("数据库操作失败:".$query_big_images);}
-$row_big_images = mysql_fetch_assoc($big_images);
+$row_big_images = mysqli_fetch_assoc($big_images);
 $totalRows_big_images = mysql_num_rows($big_images);
 ?><script src="/js/jquery-1.7.2.min.js" ></script>
 <!--[if IE 6]> 
@@ -88,7 +88,7 @@ img{ border:0;}
 		<?php if($totalRows_product_image>0){ ?>
 	      <?php do { ?>
 	        <li><a href="javascript:;"><img width="350" height="350"  src="<?php echo $row_product_image['image_files']; ?>" alt="" onclick="return false;"/></a></li>
-	        <?php } while ($row_product_image = mysql_fetch_assoc($product_image)); ?>
+	        <?php } while ($row_product_image = mysqli_fetch_assoc($product_image)); ?>
 			
 			<?php }else{ ?>
 			
@@ -103,7 +103,7 @@ img{ border:0;}
 			<?php if($totalRows_product_image_small>0){ ?>
 			 <?php do { ?>
 				<li><a href="javascript:;"><img src="<?php echo $row_product_image_small['image_files']; ?>" width="54" height="54" alt=""/></a></li>
- 				<?php } while ($row_product_image_small = mysql_fetch_assoc($product_image_small)); ?>
+ 				<?php } while ($row_product_image_small = mysqli_fetch_assoc($product_image_small)); ?>
  				<?php  }else{ ?>
  								<li><a href="javascript:;"><img src="/uploads/default_product.png" width="54" height="54" alt=""/></a></li>
  				<?php } ?>
@@ -125,7 +125,7 @@ img{ border:0;}
 		<ul>
           <?php do { ?>
             <li><a href="javascript:;"><img src="<?php echo $row_big_images['image_files']; ?>" width="350" height="350" alt=""/></a></li>
-            <?php } while ($row_big_images = mysql_fetch_assoc($big_images)); ?></ul>
+            <?php } while ($row_big_images = mysqli_fetch_assoc($big_images)); ?></ul>
 	</div>
 </div-->
 <script src="/widget/product_image_slide/js/pic_tab.js"></script>

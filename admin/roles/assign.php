@@ -34,15 +34,15 @@ if(isset($_POST['123phpshop_op']) &&  $_POST ['123phpshop_op']=='update_privileg
 		$privileges=implode(",",$_POST['privileges']);
 	}
  	$sql="update role set privileges='".$privileges."' where id=".$colname_role;
-	$Result1=mysql_query($sql) ;
+	$Result1=mysqli_query($localhost,$sql) ;
 	if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
  }
  
 mysql_select_db($database_localhost, $localhost);
 $query_role = sprintf("SELECT * FROM role WHERE id = %s", $colname_role);
-$role = mysql_query($query_role, $localhost) ;
+$role = mysqli_query($localhost,$query_role);
 if(!$role){$logger->fatal("数据库操作失败:".$query_role);}
-$row_role = mysql_fetch_assoc($role);
+$row_role = mysqli_fetch_assoc($role);
 $totalRows_role = mysql_num_rows($role);
 if($totalRows_role>0){
 	$privileges_id_array=explode(",",$row_role['privileges']);
@@ -54,19 +54,19 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_privileges = "SELECT id, name, pid FROM `privilege` WHERE pid = 0 and is_delete=0";
-$privileges = mysql_query($query_privileges, $localhost) ;
+$privileges = mysqli_query($localhost,$query_privileges);
 if(!$privileges){$logger->fatal("数据库操作失败:".$query_privileges);}
 $privileges_array=array();
-while ($row_privileges = mysql_fetch_assoc($privileges)){
+while ($row_privileges = mysqli_fetch_assoc($privileges)){
 	$privileges_array[]=$row_privileges;
 }
 $final_privileges_array=array();
 foreach($privileges_array as $row_privileges){
 	    $query_privileges_sql = "SELECT id, name, pid FROM `privilege` WHERE pid = ".$row_privileges['id'];
-		$privileges_query = mysql_query($query_privileges_sql, $localhost) ;
+		$privileges_query = mysqli_query($localhost,$query_privileges_sql);
 		if(!$privileges_query){$logger->fatal("数据库操作失败:".$query_privileges_sql);}
 		$children_array=array();
-		while($row_privileges_children = mysql_fetch_assoc($privileges_query)){
+		while($row_privileges_children = mysqli_fetch_assoc($privileges_query)){
 			 $row_privileges['children'][]=$row_privileges_children;
 		}
 		$final_privileges_array[]=$row_privileges;

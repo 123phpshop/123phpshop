@@ -34,13 +34,13 @@ mysql_select_db($database_localhost, $localhost);
 $where_string=_get_comment_where_query_string();
 $query_comments = "SELECT user_favorite.*, product.name  FROM user_favorite inner join product on product.id=user_favorite.product_id WHERE user_favorite.user_id = $colname_comments  and  user_favorite.is_delete=0 ORDER BY user_favorite.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
-$comments = mysql_query($query_limit_comments, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_comments = mysql_fetch_assoc($comments);
+$comments = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_limit_comments);}
+$row_comments = mysqli_fetch_assoc($comments);
 
 if (isset($_GET['totalRows_comments'])) {
   $totalRows_comments = $_GET['totalRows_comments'];
 } else {
-  $all_comments = mysql_query($query_comments);
+  $all_comments = mysqli_query($localhost,$query_comments);
   $totalRows_comments = mysql_num_rows($all_comments);
 }
 $totalPages_comments = ceil($totalRows_comments/$maxRows_comments)-1;
@@ -94,7 +94,7 @@ function _get_comment_where_query_string(){
         <td><a href="/product.php?id=<?php echo $row_comments['product_id']; ?>#comment" target="_blank"><?php echo $row_comments['name']; ?></a></td>
         <td><div align="right"><?php echo $row_comments['create_time']; ?>&nbsp; </div></td>
       </tr>
-      <?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+      <?php } while ($row_comments = mysqli_fetch_assoc($comments)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">

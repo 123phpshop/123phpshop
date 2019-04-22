@@ -16,12 +16,7 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
-
-
 require_once ('Connections/localhost.php');
-?>
-<?php
-
 $could_delete = 1;
 $colname_consignee = "-1";
 if (isset ( $_GET ['id'] )) {
@@ -67,5 +62,4 @@ if ($could_delete == 1) {
 	}
 }
 include ($template_path . "consignee_default.php");
-
 ?>

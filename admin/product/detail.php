@@ -45,7 +45,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "product_image_form"
 					   GetSQLValueString($image_files, "text"));
 		
 		  mysql_select_db($database_localhost, $localhost);
-		  $Result1 = mysql_query($insertSQL, $localhost) ;
+		  $Result1 = mysqli_query($localhost,$insertSQL);
 		  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
   
  	}else {
@@ -61,9 +61,9 @@ if (isset($_GET['recordID'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_images = sprintf("SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images);
-$product_images = mysql_query($query_product_images, $localhost) ;
+$product_images = mysqli_query($localhost,$query_product_images);
 if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
-$row_product_images = mysql_fetch_assoc($product_images);
+$row_product_images = mysqli_fetch_assoc($product_images);
 $totalRows_product_images = mysql_num_rows($product_images);
 
 $maxRows_DetailRS1 = 50;
@@ -81,9 +81,9 @@ mysql_select_db($database_localhost, $localhost);
 $recordID = $_GET['recordID'];
 $query_DetailRS1 = sprintf("SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  left join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID);
 $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1);
-$DetailRS1 = mysql_query($query_limit_DetailRS1, $localhost) ;
+$DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
-$row_DetailRS1 = mysql_fetch_assoc($DetailRS1);
+$row_DetailRS1 = mysqli_fetch_assoc($DetailRS1);
 $totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
 //	如果找不到这个产品的话，那么直接跳转到index。php
 if($totalRows_DetailRS1==0){
@@ -94,7 +94,7 @@ if($totalRows_DetailRS1==0){
 if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
-  $all_DetailRS1 = mysql_query($query_DetailRS1);
+  $all_DetailRS1 = mysqli_query($localhost,$query_DetailRS1);
   $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
@@ -259,7 +259,7 @@ form{
         <td><img src="<?php echo $row_product_images['image_files']; ?>" width="65" height="65" /></td>
         <td> <a href="../product_images/remove.php?id=<?php echo $row_product_images['id']; ?>">删除</a> </td>
       </tr>
-      <?php } while ($row_product_images = mysql_fetch_assoc($product_images)); ?>
+      <?php } while ($row_product_images = mysqli_fetch_assoc($product_images)); ?>
   </table>
   <?php } // Show if recordset not empty ?> 
 </body>

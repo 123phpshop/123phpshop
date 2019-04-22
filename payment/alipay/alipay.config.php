@@ -19,8 +19,8 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_pay_config = "SELECT * FROM pay_alipay WHERE id = 1";
-$pay_config = mysql_query($query_pay_config, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_pay_config = mysql_fetch_assoc($pay_config);
+$pay_config = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_pay_config);}
+$row_pay_config = mysqli_fetch_assoc($pay_config);
 $totalRows_pay_config = mysql_num_rows($pay_config);
 
 /* *

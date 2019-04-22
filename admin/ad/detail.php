@@ -205,7 +205,7 @@ try {
 				<a
 				href="../add_images/update.php?id=<?php echo $row_ad_images['id']; ?>"></a></td>
 		</tr>
-      <?php } while ($row_ad_images = mysql_fetch_assoc($ad_images)); ?>
+      <?php } while ($row_ad_images = mysqli_fetch_assoc($ad_images)); ?>
   </table>
   <?php } // Show if recordset not empty ?>
   

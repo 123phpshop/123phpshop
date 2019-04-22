@@ -31,14 +31,14 @@ $startRow_admins = $pageNum_admins * $maxRows_admins;
 mysql_select_db($database_localhost, $localhost);
 $query_admins = "SELECT member.*,role.name as role_name FROM member inner join role on role.id =member.role_id where member.is_delete=0";
 $query_limit_admins = sprintf("%s LIMIT %d, %d", $query_admins, $startRow_admins, $maxRows_admins);
-$admins = mysql_query($query_limit_admins, $localhost) ;
+$admins = mysqli_query($localhost,$query_limit_admins);
 if(!$admins){$logger->fatal("数据库操作失败:".$query_limit_admins);}
-$row_admins = mysql_fetch_assoc($admins);
+$row_admins = mysqli_fetch_assoc($admins);
 
 if (isset($_GET['totalRows_admins'])) {
   $totalRows_admins = $_GET['totalRows_admins'];
 } else {
-  $all_admins = mysql_query($query_admins);
+  $all_admins = mysqli_query($localhost,$query_admins);
   $totalRows_admins = mysql_num_rows($all_admins);
 }
 $totalPages_admins = ceil($totalRows_admins/$maxRows_admins)-1;
@@ -92,7 +92,7 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
           <td><?php echo $row_admins['register_at']; ?>&nbsp; </td>
           <td><div align="right"><a onclick="return confirm('您确实要删除这条记录吗？')" href="remove.php?id=<?php echo $row_admins['id']; ?>">删除</a> <a href="update.php?id=<?php echo $row_admins['id']; ?>">更新</a></div></td>
         </tr>
-        <?php } while ($row_admins = mysql_fetch_assoc($admins)); ?>
+        <?php } while ($row_admins = mysqli_fetch_assoc($admins)); ?>
     </table>
     <div align="right"> 
 		<p>

@@ -35,14 +35,14 @@ if (isset($_GET['parent_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_getPrivileges = "SELECT * FROM privilege where is_delete=0 and pid=".$colname_getById." ORDER BY sort ASC";
 $query_limit_getPrivileges = sprintf("%s LIMIT %d, %d", $query_getPrivileges, $startRow_getPrivileges, $maxRows_getPrivileges);
-$getPrivileges = mysql_query($query_limit_getPrivileges, $localhost) ;
+$getPrivileges = mysqli_query($localhost,$query_limit_getPrivileges);
 if(!$getPrivileges){$logger->fatal("数据库操作失败:".$query_limit_getPrivileges);}
-$row_getPrivileges = mysql_fetch_assoc($getPrivileges);
+$row_getPrivileges = mysqli_fetch_assoc($getPrivileges);
 
 if (isset($_GET['totalRows_getPrivileges'])) {
   $totalRows_getPrivileges = $_GET['totalRows_getPrivileges'];
 } else {
-  $all_getPrivileges = mysql_query($query_getPrivileges);
+  $all_getPrivileges = mysqli_query($localhost,$query_getPrivileges);
   $totalRows_getPrivileges = mysql_num_rows($all_getPrivileges);
 }
 $totalPages_getPrivileges = ceil($totalRows_getPrivileges/$maxRows_getPrivileges)-1;
@@ -99,7 +99,7 @@ $queryString_getPrivileges = sprintf("&totalRows_getPrivileges=%d%s", $totalRows
         <td><?php echo $row_getPrivileges['name']; ?></td>
         <td><?php echo $row_getPrivileges['sort']; ?></td>
         <td><a href="edit.php?id=<?php echo $row_getPrivileges['id']; ?>">更新</a> <a href="remove.php?id=<?php echo $row_getPrivileges['id']; ?>" onclick="return confirm('您确实要删除这项权限么?')">删除</a> <a href="index.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">子权限列表</a> <a href="add.php?parent_id=<?php echo $row_getPrivileges['id']; ?>">添加子权限</a></td>
-        <?php } while ($row_getPrivileges = mysql_fetch_assoc($getPrivileges)); ?></tr>
+        <?php } while ($row_getPrivileges = mysqli_fetch_assoc($getPrivileges)); ?></tr>
   </table>
   
   <div align="right"><br />

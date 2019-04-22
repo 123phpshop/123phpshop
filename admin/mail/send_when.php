@@ -31,16 +31,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString(1,"int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 }
 
 $send_when_array=array();
 mysql_select_db($database_localhost, $localhost);
 $query_send_when = "SELECT id, send_when FROM shop_info WHERE id = 1 and send_when is not null";
-$send_when = mysql_query($query_send_when, $localhost) ;
+$send_when = mysqli_query($localhost,$query_send_when);
 if(!$send_when){$logger->fatal("数据库操作失败:".$query_send_when);}
-$row_send_when = mysql_fetch_assoc($send_when);
+$row_send_when = mysqli_fetch_assoc($send_when);
 $totalRows_send_when = mysql_num_rows($send_when);
 if($totalRows_send_when>0){
  	$send_when_array=explode(",",$row_send_when["send_when"]);

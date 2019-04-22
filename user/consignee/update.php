@@ -28,31 +28,6 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
 	}
 }
 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -68,7 +43,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	
 	mysql_select_db($database_localhost, $localhost);
 	$query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s", $colname_consignee,$_SESSION['user_id']);
-	$consignee = mysql_query($query_consignee, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+	$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
  	$totalRows_consignee = mysql_num_rows($consignee);
 	if($totalRows_consignee==1){
   	
@@ -83,7 +58,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
  
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($updateSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+	  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
  	  $updateGoTo = "index.php";
 	  header(sprintf("Location: %s", $updateGoTo));
 	}
@@ -94,8 +69,8 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s ", $colname_consignee,$_SESSION['user_id']);
-$consignee = mysql_query($query_consignee, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_consignee = mysql_fetch_assoc($consignee);
+$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
+$row_consignee = mysqli_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
 if($totalRows_consignee==0){
 		$remove_succeed_url="index.php";

@@ -265,7 +265,7 @@ $totalRows_privileges = mysql_num_rows ( $privileges );
 				onclick="return confirm('您确实要删除这个权限吗?');">删除</a> <a
 				href="edit.php?id=<?php echo $row_privileges['id']; ?>">编辑</a></td>
 		</tr>
-      <?php } while ($row_privileges = mysql_fetch_assoc($privileges)); ?>
+      <?php } while ($row_privileges = mysqli_fetch_assoc($privileges)); ?>
   </table>
     <?php } // Show if recordset not empty ?>
 <script language="JavaScript" type="text/javascript"

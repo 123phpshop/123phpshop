@@ -38,6 +38,3 @@
 </div> <?php } ?>
 </body>
 </html>
-<?php
-mysql_free_result($order);
-?>

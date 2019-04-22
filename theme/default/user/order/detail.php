@@ -71,8 +71,8 @@ div{
 	  <?php 
  	  	mysql_select_db($database_localhost, $localhost);
 		$query_order_product = "SELECT * FROM product WHERE id =".$row_order_items['product_id'];
-		$order_product = mysql_query($query_order_product, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-		$row_order_product = mysql_fetch_assoc($order_product);
+		$order_product = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
+		$row_order_product = mysqli_fetch_assoc($order_product);
 		$totalRows_order_product = mysql_num_rows($order_product);
   	  ?>
         <tr>
@@ -87,8 +87,8 @@ div{
 			<?php 
 				mysql_select_db($database_localhost, $localhost);
 				$query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $row_order_product['id']);
-				$product_image = mysql_query($query_product_image, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-				$row_product_image = mysql_fetch_assoc($product_image);
+				$product_image = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_image);}
+				$row_product_image = mysqli_fetch_assoc($product_image);
    			?>
    
 			<input name="product_image" type="hidden"  value="<?php echo $row_product_image['image_files'];?>">
@@ -102,7 +102,7 @@ div{
             </label>
                     </form>          </td>
         </tr>
-        <?php } while ($row_order_items = mysql_fetch_assoc($order_items)); ?>
+        <?php } while ($row_order_items = mysqli_fetch_assoc($order_items)); ?>
     </table></td>
   </tr>
 </table>
@@ -196,7 +196,7 @@ div{
    <tr>
      <td scope="row">
 	 <table width="97%"  border="0" align="left" cellpadding="0" cellspacing="0" style="margin-left:20px;border:1px solid #f2f2f2;border-collapse:collapse;margin-bottom:20px;">
-        <?php while ($row_log_DetailRS1 = mysql_fetch_assoc($log_DetailRS1)){ ?>
+        <?php while ($row_log_DetailRS1 = mysqli_fetch_assoc($log_DetailRS1)){ ?>
 			<tr>
 			 <td width="10%" scope="row"><div align="left" style="padding-left:20px;"><?php echo $row_log_DetailRS1['create_time'];?></div></td>
 			 <td width="90%"><div align="left" style="padding-left:20px;"><?php echo $row_log_DetailRS1['message'];?></div></td>

@@ -15,14 +15,14 @@ $where=_get_where($_GET);
 mysql_select_db($database_localhost, $localhost);
 $query_admin_logs = "SELECT * FROM admin_op $where ORDER BY id DESC";
 $query_limit_admin_logs = sprintf("%s LIMIT %d, %d", $query_admin_logs, $startRow_admin_logs, $maxRows_admin_logs);
-$admin_logs = mysql_query($query_limit_admin_logs, $localhost);
+$admin_logs = mysqli_query($localhost,$query_limit_admin_logs);
 if(!$admin_logs){$logger->fatal($query_admin_logs);}
-$row_admin_logs = mysql_fetch_assoc($admin_logs);
+$row_admin_logs = mysqli_fetch_assoc($admin_logs);
 
 if (isset($_GET['totalRows_admin_logs'])) {
   $totalRows_admin_logs = $_GET['totalRows_admin_logs'];
 } else {
-  $all_admin_logs = mysql_query($query_admin_logs);
+  $all_admin_logs = mysqli_query($localhost,$query_admin_logs);
   $totalRows_admin_logs = mysql_num_rows($all_admin_logs);
 }
 $totalPages_admin_logs = ceil($totalRows_admin_logs/$maxRows_admin_logs)-1;
@@ -116,7 +116,7 @@ function _get_where($get){
       <td><?php echo $row_admin_logs['admin_id']; ?>&nbsp; </td>
       <td><?php echo $row_admin_logs['create_time']; ?>&nbsp; </td>
     </tr>
-    <?php } while ($row_admin_logs = mysql_fetch_assoc($admin_logs)); ?>
+    <?php } while ($row_admin_logs = mysqli_fetch_assoc($admin_logs)); ?>
 </table>
 
 <br>

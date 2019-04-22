@@ -20,8 +20,8 @@ require_once '../../Connections/localhost.php';
 // 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
 mysql_select_db($database_localhost, $localhost);
 $query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
-$catalogs = mysql_query($query_catalogs, $localhost) or die(mysql_error());
-$row_catalogs = mysql_fetch_assoc($catalogs);
+$catalogs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_catalogs);
+$row_catalogs = mysqli_fetch_assoc($catalogs);
 $totalRows_catalogs = mysql_num_rows($catalogs);
 if ($totalRows_catalogs == 0) {
     $insertGoTo = '/admin/catalog/index.php';
@@ -35,11 +35,11 @@ log_admin($support_email_question);
 // 获取所有的品牌
 mysql_select_db($database_localhost, $localhost);
 $query_brands = "SELECT id, name FROM brands where is_delete=0";
-$brands = mysql_query($query_brands, $localhost);
+$brands = mysqli_query($localhost,$query_brands);
 if (!$brands) {
     $logger->fatal("数据库操作失败:" . $query_brands);
 }
-$row_brands = mysql_fetch_assoc($brands);
+$row_brands = mysqli_fetch_assoc($brands);
 $totalRows_brands = mysql_num_rows($brands);
 
 $is_vproduct_add_page = false;
@@ -62,9 +62,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正�
         )) . "|", "text"), GetSQLValueString($_POST['name'], "text"), GetSQLValueString($_POST['ad_text'], "text"), GetSQLValueString($_POST['catalog_id'], "int"), GetSQLValueString($_POST['price'], "double"), GetSQLValueString($_POST['market_price'], "double"), GetSQLValueString($_POST['is_on_sheft'], "int"), GetSQLValueString($_POST['is_hot'], "text"), GetSQLValueString($_POST['is_season'], "text"), GetSQLValueString($_POST['is_recommanded'], "text"), GetSQLValueString($_POST['store_num'], "int"), GetSQLValueString($_POST['intro'], "text"), GetSQLValueString($_POST['brand_id'], "text"));
     }
     mysql_select_db($database_localhost, $localhost);
-    $Result1 = mysql_query($insertSQL, $localhost);
+    $Result1 = mysqli_query($localhost,$insertSQL);
     if (!$Result1) {
-        $logger->fatal("数据库操作失败:" . mysql_error() . $insertSQL);
+        $logger->fatal("数据库操作失败:" . mysqli_error($localhost) . $insertSQL);
     }
 
     // 如果数据库插入成功，那么跳转到这个页面
@@ -77,11 +77,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正�
 // 获取商品类型信息
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query($query_product_types, $localhost);
+$product_types = mysqli_query($localhost,$query_product_types);
 if (!$product_types) {
     $logger->fatal("数据库操作失败:" . $query_product_types);
 }
-$row_product_types = mysql_fetch_assoc($product_types);
+$row_product_types = mysqli_fetch_assoc($product_types);
 $totalRows_product_types = mysql_num_rows($product_types);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

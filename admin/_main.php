@@ -22,87 +22,87 @@ $doc_url="dash.html";
 $support_email_question="查看控制面板";
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT count(*) as total_order FROM orders";
-$orders = mysql_query($query_orders, $localhost) ;
+$orders = mysqli_query($localhost,$query_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}
-$row_orders = mysql_fetch_assoc($orders);
+$row_orders = mysqli_fetch_assoc($orders);
 $totalRows_orders = $row_orders['total_order'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_users = "SELECT * FROM `user`";
-$users = mysql_query($query_users, $localhost) ;
+$users = mysqli_query($localhost,$query_users);
 if(!$users){$logger->fatal("数据库操作失败:".$query_users);}
-$row_users = mysql_fetch_assoc($users);
+$row_users = mysqli_fetch_assoc($users);
 $totalRows_users = mysql_num_rows($users);
 
 
 mysql_select_db($database_localhost, $localhost);
 $query_comment = "SELECT count(*)  as total FROM product_comment where is_delete=0";
-$comment = mysql_query($query_comment, $localhost) ;
+$comment = mysqli_query($localhost,$query_comment);
 if(!$comment){$logger->fatal("数据库操作失败:".$query_comment);}
-$row_comment = mysql_fetch_assoc($comment);
+$row_comment = mysqli_fetch_assoc($comment);
 $totalRows_comment = $row_comment['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_product_consult = "SELECT count(*)  as total FROM product_consult where is_delete=0";
-$product_consult = mysql_query($query_product_consult, $localhost) ;
+$product_consult = mysqli_query($localhost,$query_product_consult);
 if(!$product_consult){$logger->fatal("数据库操作失败:".$query_product_consult);}
-$row_product_consult = mysql_fetch_assoc($product_consult);
+$row_product_consult = mysqli_fetch_assoc($product_consult);
 $totalRows_product_consult= $row_product_consult['total'];
 
 
 mysql_select_db($database_localhost, $localhost);
 $query_unpaied = "SELECT count(*)  as total  FROM orders WHERE order_status = 0";
-$unpaied = mysql_query($query_unpaied, $localhost) ;
+$unpaied = mysqli_query($localhost,$query_unpaied);
 if(!$unpaied){$logger->fatal("数据库操作失败:".$query_unpaied);}
-$row_unpaied = mysql_fetch_assoc($unpaied);
+$row_unpaied = mysqli_fetch_assoc($unpaied);
 $totalRows_unpaied = $row_unpaied['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_finished = "SELECT count(*)  as total  FROM orders   WHERE order_status = 300";
-$finished = mysql_query($query_finished, $localhost) ;
+$finished = mysqli_query($localhost,$query_finished);
 if(!$finished){$logger->fatal("数据库操作失败:".$query_finished);}
-$row_finished = mysql_fetch_assoc($finished);
+$row_finished = mysqli_fetch_assoc($finished);
 $totalRows_finished = $row_finished['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_refunded = "SELECT count(*)  as total FROM orders  WHERE order_status = -300";
-$refunded = mysql_query($query_refunded, $localhost) ;
+$refunded = mysqli_query($localhost,$query_refunded);
 if(!$refunded){$logger->fatal("数据库操作失败:".$query_refunded);}
-$row_refunded = mysql_fetch_assoc($refunded);
+$row_refunded = mysqli_fetch_assoc($refunded);
 $totalRows_refunded = $row_refunded['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_withdrawled = "SELECT count(*)  as total FROM orders  WHERE order_status = -100";
-$withdrawled = mysql_query($query_withdrawled, $localhost) ;
+$withdrawled = mysqli_query($localhost,$query_withdrawled);
 if(!$withdrawled){$logger->fatal("数据库操作失败:".$query_withdrawled);}
-$row_withdrawled = mysql_fetch_assoc($withdrawled);
+$row_withdrawled = mysqli_fetch_assoc($withdrawled);
 $totalRows_withdrawled = $row_withdrawled['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_paid = "SELECT count(*)  as total FROM orders   WHERE order_status = 100";
-$paid = mysql_query($query_paid, $localhost) ;
+$paid = mysqli_query($localhost,$query_paid);
 if(!$paid){$logger->fatal("数据库操作失败:".$query_paid);}
-$row_paid = mysql_fetch_assoc($paid);
+$row_paid = mysqli_fetch_assoc($paid);
 $totalRows_paid = $row_paid['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_returned = "SELECT count(*)  as total  FROM orders   WHERE order_status = -200";
-$returned = mysql_query($query_returned, $localhost) ;
+$returned = mysqli_query($localhost,$query_returned);
 if(!$returned){$logger->fatal("数据库操作失败:".$query_returned);}
-$row_returned = mysql_fetch_assoc($returned);
+$row_returned = mysqli_fetch_assoc($returned);
 $totalRows_returned = $row_returned['total'];
 
 mysql_select_db($database_localhost, $localhost);
 $query_recent_orders = "SELECT orders.*,user.username FROM orders inner join user on user.id=orders.user_id where orders.is_delete=0 ORDER BY orders.id DESC limit 5";
-$recent_orders = mysql_query($query_recent_orders, $localhost) ;
+$recent_orders = mysqli_query($localhost,$query_recent_orders);
 if(!$recent_orders){$logger->fatal("数据库操作失败:".$query_recent_orders);}
-$row_recent_orders = mysql_fetch_assoc($recent_orders);
+$row_recent_orders = mysqli_fetch_assoc($recent_orders);
 $totalRows_recent_orders = mysql_num_rows($recent_orders);
 
 $query_total_sales = "SELECT sum('actual_pay') as total FROM orders";
-$total_sales = mysql_query($query_total_sales, $localhost) ;
+$total_sales = mysqli_query($localhost,$query_total_sales);
 if(!$total_sales){$logger->fatal("数据库操作失败:".$query_total_sales);}
-$row_total_sales = mysql_fetch_assoc($total_sales);
+$row_total_sales = mysqli_fetch_assoc($total_sales);
 $totalRows_total_sales = $row_total_sales['total'];
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -230,7 +230,7 @@ a{
             </tr>
         </table></td>
       </tr>
-      <?php } while ($row_recent_orders = mysql_fetch_assoc($recent_orders)); ?>
+      <?php } while ($row_recent_orders = mysqli_fetch_assoc($recent_orders)); ?>
       </table>
   <?php } // Show if recordset not empty ?><br />
 <table  width="100%" border="1" style="border-collapse:collapse;border-top:2px solid #bfbfbf;" cellpadding="0" cellspacing="0" bordercolor="#e8e8e8">

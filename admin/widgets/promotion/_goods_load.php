@@ -19,9 +19,9 @@
 
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name FROM product WHERE id in (".$row_promotion['promotion_limit_value'].")";
-$goods = mysql_query($query_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 ?>
 <?php if($row_goods_num>0){ ?>
@@ -33,7 +33,7 @@ $row_goods_num = mysql_num_rows($goods);
           </label></td>
       <td><?php echo $row_goods['name']; ?></td>
     </tr>
-	  <?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+	  <?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table>
 <?php
 }

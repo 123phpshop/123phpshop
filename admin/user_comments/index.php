@@ -25,7 +25,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['comments_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `product_comment` set is_delete=1 where id in (".implode(",",$_POST['comments_id']).")";
-			$Result1=mysql_query($sql, $localhost) ;
+			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
@@ -43,14 +43,14 @@ $startRow_comments = $pageNum_comments * $maxRows_comments;
 mysql_select_db($database_localhost, $localhost);
 $query_comments = "SELECT product_comment.*,user.username FROM product_comment inner join user on user.id=product_comment.user_id where product_comment.is_delete=0 $where_query_string ORDER BY product_comment.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
-$comments = mysql_query($query_limit_comments, $localhost) ;
+$comments = mysqli_query($localhost,$query_limit_comments);
 if(!$comments){$logger->fatal("数据库操作失败:".$query_limit_comments);}
-$row_comments = mysql_fetch_assoc($comments);
+$row_comments = mysqli_fetch_assoc($comments);
 
 if (isset($_GET['totalRows_comments'])) {
   $totalRows_comments = $_GET['totalRows_comments'];
 } else {
-  $all_comments = mysql_query($query_comments);
+  $all_comments = mysqli_query($localhost,$query_comments);
   $totalRows_comments = mysql_num_rows($all_comments);
 }
 $totalPages_comments = ceil($totalRows_comments/$maxRows_comments)-1;
@@ -134,7 +134,7 @@ function _get_comment_where_query_string($get){
         <td><?php echo $row_comments['create_time']; ?>&nbsp; </td>
         <td><div align="right"><a onClick="return confirm('你确认要删除这条记录吗？');" href="remove.php?id=<?php echo $row_comments['id']; ?>">删除</a> </div></td>
       </tr>
-      <?php } while ($row_comments = mysql_fetch_assoc($comments)); ?>
+      <?php } while ($row_comments = mysqli_fetch_assoc($comments)); ?>
   </table>
   <br />
   <table width="200" border="0" class="phpshop123_infobox">

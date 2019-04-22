@@ -12,13 +12,13 @@ $startRow_edm_list = $pageNum_edm_list * $maxRows_edm_list;
 mysql_select_db($database_localhost, $localhost);
 $query_edm_list = "SELECT edm_list.*,edm_news.title as magzine_title FROM edm_list inner join edm_news on edm_news.id=edm_list.magzine_id ORDER BY edm_list.id DESC";
 $query_limit_edm_list = sprintf("%s LIMIT %d, %d", $query_edm_list, $startRow_edm_list, $maxRows_edm_list);
-$edm_list = mysql_query($query_limit_edm_list, $localhost) or die(mysql_error());
-$row_edm_list = mysql_fetch_assoc($edm_list);
+$edm_list = mysqli_query($localhost)or die(mysqli_error($localhost),$query_limit_edm_list);
+$row_edm_list = mysqli_fetch_assoc($edm_list);
 
 if (isset($_GET['totalRows_edm_list'])) {
   $totalRows_edm_list = $_GET['totalRows_edm_list'];
 } else {
-  $all_edm_list = mysql_query($query_edm_list);
+  $all_edm_list = mysqli_query($localhost,$query_edm_list);
   $totalRows_edm_list = mysql_num_rows($all_edm_list);
 }
 $totalPages_edm_list = ceil($totalRows_edm_list/$maxRows_edm_list)-1;
@@ -87,7 +87,7 @@ $queryString_edm_list = sprintf("&totalRows_edm_list=%d%s", $totalRows_edm_list,
       <td><?php echo $row_edm_list['magzine_title']; ?>&nbsp; </td>
       <td><?php echo $global_edm_status[$row_edm_list['status']]; ?>&nbsp; </td>
     </tr>
-    <?php } while ($row_edm_list = mysql_fetch_assoc($edm_list)); ?>
+    <?php } while ($row_edm_list = mysqli_fetch_assoc($edm_list)); ?>
 </table>
 <br>
 <table border="0" width="50%" align="right">

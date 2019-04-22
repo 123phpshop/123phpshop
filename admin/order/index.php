@@ -27,7 +27,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `orders` set is_delete=1 where id in (".implode(",",$_POST['order_id']).")";
-			$Result1=mysql_query($sql, $localhost) ;
+			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
@@ -44,14 +44,14 @@ $where=_get_order_where($_GET);
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT orders.*,user.username FROM `orders` inner join user on user.id=orders.user_id where orders.is_delete=0 and merge_to=0  $where order by orders.id desc";
 $query_limit_orders = sprintf("%s LIMIT %d, %d", $query_orders, $startRow_orders, $maxRows_orders);
-$orders = mysql_query($query_limit_orders, $localhost) ;
+$orders = mysqli_query($localhost,$query_limit_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_limit_orders);}
-$row_orders = mysql_fetch_assoc($orders);
+$row_orders = mysqli_fetch_assoc($orders);
 
 if (isset($_GET['totalRows_orders'])) {
   $totalRows_orders = $_GET['totalRows_orders'];
 } else {
-  $all_orders = mysql_query($query_orders);
+  $all_orders = mysqli_query($localhost,$query_orders);
   if(!$all_orders){$logger->fatal("数据库操作失败:".$query_orders);}
 
   $totalRows_orders = mysql_num_rows($all_orders);
@@ -208,7 +208,7 @@ function _get_order_where($get){
 			    <a href="return.php?id=<?php echo $row_orders['id']; ?>" onClick="return confirm('您确认要对这个订单进行退货标记吗？')">退货</a><?php  } ?>
 		          <a onClick="return confirm('您是否确实要删除这条记录？')" href="remove.php?id=<?php echo $row_orders['id']; ?>">删除</a> <a href="detail.php?recordID=<?php echo $row_orders['id']; ?>">更新</a></div></td>
           </tr>
-          <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
+          <?php } while ($row_orders = mysqli_fetch_assoc($orders)); ?>
   </table>
     <table width="200" border="0" class="phpshop123_infobox">
       <tr>

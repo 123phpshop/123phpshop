@@ -19,9 +19,9 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_news_cata = "SELECT * FROM `catalog` WHERE pid = 0";
-$news_cata = mysql_query($query_news_cata, $localhost) ;
+$news_cata = mysqli_query($localhost,$query_news_cata);
 if(!$news_cata){$logger->fatal("数据库操作失败:".$query_news_cata);}
-$row_news_cata = mysql_fetch_assoc($news_cata);
+$row_news_cata = mysqli_fetch_assoc($news_cata);
 $totalRows_news_cata = mysql_num_rows($news_cata);
 ?>
 <style>
@@ -48,5 +48,5 @@ $totalRows_news_cata = mysql_num_rows($news_cata);
 	<a href="/product_list.php?catalog_id=<?php echo $row_news_cata['id']; ?>">
 		<div class="news_cata"><?php echo $row_news_cata['name']; ?></div>
 	</a> 
-<?php } while ($row_news_cata = mysql_fetch_assoc($news_cata)); ?> 
+<?php } while ($row_news_cata = mysqli_fetch_assoc($news_cata)); ?> 
 </div>

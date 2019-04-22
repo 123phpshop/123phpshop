@@ -15,10 +15,7 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php 
-
- 
-?>
+ ?>
 <?php
 $maxRows_friend_links = 10;
 $pageNum_friend_links = 0;
@@ -30,14 +27,14 @@ $startRow_friend_links = $pageNum_friend_links * $maxRows_friend_links;
 mysql_select_db($database_localhost, $localhost);
 $query_friend_links = "SELECT * FROM friend_links WHERE is_delete = 0 order by sort desc";
 $query_limit_friend_links = sprintf("%s LIMIT %d, %d", $query_friend_links, $startRow_friend_links, $maxRows_friend_links);
-$friend_links = mysql_query($query_limit_friend_links, $localhost) ;
+$friend_links = mysqli_query($localhost,$query_limit_friend_links);
 if(!$friend_links){$logger->fatal("数据库操作失败:".$query_limit_friend_links);}
-$row_friend_links = mysql_fetch_assoc($friend_links);
+$row_friend_links = mysqli_fetch_assoc($friend_links);
 
 if (isset($_GET['totalRows_friend_links'])) {
   $totalRows_friend_links = $_GET['totalRows_friend_links'];
 } else {
-  $all_friend_links = mysql_query($query_friend_links);
+  $all_friend_links = mysqli_query($localhost,$query_friend_links);
   if(!$all_friend_links){$logger->fatal("数据库操作失败:".$query_friend_links);}
 
   $totalRows_friend_links = mysql_num_rows($all_friend_links);
@@ -212,7 +209,7 @@ $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1
    <tr>
     <?php do { ?>
       <td height="25"><a style="text-decoration:none;color:#000000;" href="<?php echo $row_friend_links['link_url']; ?>" target="_blank"><?php echo $row_friend_links['link_text']; ?></a></td>
-      <?php } while ($row_friend_links = mysql_fetch_assoc($friend_links)); ?></tr>
+      <?php } while ($row_friend_links = mysqli_fetch_assoc($friend_links)); ?></tr>
 </table>
 
 <table width="1210" height="72" border="0" align="center" style="margin:0 auto;font-family:SimSun;font-size:12px;">

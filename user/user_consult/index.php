@@ -33,13 +33,13 @@ if (isset($_SESSION['user_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_consult = sprintf("SELECT product_consult.*,product.name  FROM product_consult inner join product on product.id=product_consult.product_id WHERE product_consult.user_id = %s and product_consult.is_delete=0 %s ORDER BY product_consult.id DESC", $colname_consult,$where_query_string);
 $query_limit_consult = sprintf("%s LIMIT %d, %d", $query_consult, $startRow_consult, $maxRows_consult);
-$consult = mysql_query($query_limit_consult, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_consult = mysql_fetch_assoc($consult);
+$consult = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_limit_consult);}
+$row_consult = mysqli_fetch_assoc($consult);
 
 if (isset($_GET['totalRows_consult'])) {
   $totalRows_consult = $_GET['totalRows_consult'];
 } else {
-  $all_consult = mysql_query($query_consult);
+  $all_consult = mysqli_query($localhost,$query_consult);
   $totalRows_consult = mysql_num_rows($all_consult);
 }
 $totalPages_consult = ceil($totalRows_consult/$maxRows_consult)-1;
@@ -132,7 +132,7 @@ a{
         <td><a href="/product.php?id=<?php echo $row_consult['product_id']; ?>#consult" target="_blank"><?php echo $row_consult['name']; ?></a></td>
         <td><?php echo $row_consult['create_time']; ?> </td>
       </tr>
-      <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>
+      <?php } while ($row_consult = mysqli_fetch_assoc($consult)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">

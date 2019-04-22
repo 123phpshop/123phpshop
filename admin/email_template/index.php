@@ -32,14 +32,14 @@ $startRow_email_templates = $pageNum_email_templates * $maxRows_email_templates;
 mysql_select_db($database_localhost, $localhost);
 $query_email_templates = "SELECT * FROM email_templates WHERE is_delete = 0 ORDER BY id DESC";
 $query_limit_email_templates = sprintf("%s LIMIT %d, %d", $query_email_templates, $startRow_email_templates, $maxRows_email_templates);
-$email_templates = mysql_query($query_limit_email_templates, $localhost) ;
+$email_templates = mysqli_query($localhost,$query_limit_email_templates);
 if(!$email_templates){$logger->fatal("数据库操作失败:".$query_limit_email_templates);}
-$row_email_templates = mysql_fetch_assoc($email_templates);
+$row_email_templates = mysqli_fetch_assoc($email_templates);
 
 if (isset($_GET['totalRows_email_templates'])) {
   $totalRows_email_templates = $_GET['totalRows_email_templates'];
 } else {
-  $all_email_templates = mysql_query($query_email_templates);
+  $all_email_templates = mysqli_query($localhost,$query_email_templates);
   if(!$all_email_templates){$logger->fatal("数据库操作失败:".$query_email_templates);}
   $totalRows_email_templates = mysql_num_rows($all_email_templates);
 }
@@ -93,7 +93,7 @@ $queryString_email_templates = sprintf("&totalRows_email_templates=%d%s", $total
             <td><?php echo $row_email_templates['create_time']; ?>&nbsp; </td>
             <td><a href="remove.php?id=<?php echo $row_email_templates['id']; ?>" onclick="return confirm('您确实要删除这条记录吗？');">删除</a> <a href="update.php?id=<?php echo $row_email_templates['id']; ?>">更新</a></td>
           </tr>
-          <?php } while ($row_email_templates = mysql_fetch_assoc($email_templates)); ?>
+          <?php } while ($row_email_templates = mysqli_fetch_assoc($email_templates)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">

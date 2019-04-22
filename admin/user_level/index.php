@@ -2,9 +2,9 @@
 <?php
 mysql_select_db($database_localhost, $localhost);
 $query_leveles = "SELECT * FROM user_levels ORDER BY id ASC";
-$leveles = mysql_query($query_leveles, $localhost) ;
+$leveles = mysqli_query($localhost,$query_leveles);
 if(!$leveles){$logger->fatal("数据库操作失败:".$query_leveles);}
-$row_leveles = mysql_fetch_assoc($leveles);
+$row_leveles = mysqli_fetch_assoc($leveles);
 $totalRows_leveles = mysql_num_rows($leveles);
 
 $doc_url="user_level.html#index";
@@ -38,7 +38,7 @@ $support_email_question="查看用户等级列表";log_admin($support_email_ques
         <td scope="col"><?php echo $row_leveles['min_consumption_amount']; ?></td>
         <td scope="col"><a href="remove.php?id=<?php echo $row_leveles['id']; ?>" onclick="return confirm('您确认要删除这条记录吗？')">删除</a> <a href="edit.php?id=<?php echo $row_leveles['id']; ?>">更新</a></td>
       </tr>
-      <?php } while ($row_leveles = mysql_fetch_assoc($leveles)); ?>
+      <?php } while ($row_leveles = mysqli_fetch_assoc($leveles)); ?>
   </table>
   <?php } // Show if recordset not empty ?>
 <?php if ($totalRows_leveles == 0) { // Show if recordset empty ?>

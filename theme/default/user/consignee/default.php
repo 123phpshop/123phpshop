@@ -33,6 +33,3 @@
 </p>
 </body>
 </html>
-<?php
-mysql_free_result($consignee);
-?>

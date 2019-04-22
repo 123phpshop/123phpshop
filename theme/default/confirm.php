@@ -214,7 +214,7 @@ hr {
 													href="/user/index.php?path=consignee/update.php?id=<?php echo $row_consignee['id']; ?>">更新</a>
 											</div></td>
 									</tr>
-			   <?php } while ($row_consignee = mysql_fetch_assoc($consignee_obj)); ?>
+			   <?php } while ($row_consignee = mysqli_fetch_assoc($consignee_obj)); ?>
 			  <?php } ?>
              </table></td>
 						</tr>

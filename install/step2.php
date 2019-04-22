@@ -23,6 +23,7 @@ $uploads_folder = $_SERVER['DOCUMENT_ROOT'] . "/uploads";
 $config_folder = $_SERVER['DOCUMENT_ROOT'] . "/Connections";
 $config_file = $_SERVER['DOCUMENT_ROOT'] . "/Connections/localhost.php";
 $index_path = $_SERVER['DOCUMENT_ROOT'] . "/index.php";
+
 // 这里需要检查log4php的配置文件是否可写
 if (!_check_dir_writable($uploads_folder)) {
     // 检查上传文件夹是否可写，如果不可写，那么告知
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['db_host']) && isset($_
         $error[] = "错误:数据库不存在或无法连接，请检查输入的参数,或是呼叫13391334121联系我们的支持人员";
     } elseif (!_import_sql($_POST['admin_username'], $_POST['admin_password'])) {
         // 如果可以链接，那么进行数据的导入，如果导入失败，那么告知
-        $error[] = "错误:数据库导入错误：" . mysql_error() . ",请联系您的数据库管理员，或是呼叫13391334121联系我们的支持人员";
+        $error[] = "错误:数据库导入错误：" . mysqli_error($localhost) . ",请联系您的数据库管理员，或是呼叫13391334121联系我们的支持人员";
     } elseif (!_check_dir_writable($uploads_folder)) {
         // 检查上传文件夹是否可写，如果不可写，那么告知
         $error[] = "错误:" . $uploads_folder . "文件夹不可写，无法完成安装，请联系系统管理员修改这个文件夹的读写属性,或是呼叫13391334121联系我们的支持人员";
@@ -91,7 +92,7 @@ function _import_sql($admin_username, $admin_password)
         // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
-            mysql_query($templine);
+            mysqli_query($localhost,$templine);
             // Reset temp variable to empty
             $templine = '';
         }
@@ -150,11 +151,24 @@ $database_localhost = "' . trim($_POST['db_name']) . '";
 $username_localhost = "' . trim($_POST['db_username']) . '";
 $password_localhost = "' . trim($_POST['db_password']) . '";
 if($hostname_localhost==""){
-	require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
-	return;
+	$install_url = "/install/";
+	$home_url = "/";
+
+	//    检查当前是不属于安装区域
+	if (!_is_install_area()) {
+		//    检查是否已经安装，如果没有安装，那么跳转到安装区域
+		if (!isset($hostname_localhost) || trim($hostname_localhost) == "") {
+			header(sprintf("Location: %s", $install_url));exit();
+		}
+	} else {
+		//    检查是否已经安装，如果没有安装，那么跳转到安装区域
+		if (isset($hostname_localhost) && trim($hostname_localhost) != "") {
+			header(sprintf("Location: %s", $home_url));exit();
+		}
+	}
 }
 $localhost = mysqli_pconnect($hostname_localhost, $username_localhost, $password_localhost,$database_localhost) or trigger_error(mysqli_error(),E_USER_ERROR);
-mysqli_query("set names utf8");
+mysqli_query($localhost,"set names utf8");
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";?>';
     try {
         $f = fopen($config_file, "w");
@@ -176,7 +190,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";?>';
  */
 function _db_could_connect($db_host, $db_username, $db_password, $db_name)
 {
-    if (!mysqli_connect($db_host, $db_username, $db_password)) {
+    if (!mysqli_connect($db_host, $db_username, $db_password, $db_name)) {
         return false;
     }
     return mysqli_select_db($db_name);

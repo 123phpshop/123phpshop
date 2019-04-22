@@ -26,9 +26,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM product WHERE id = %s", $colname_product);
-$product = mysql_query($query_product, $localhost) ;
+$product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-$row_product = mysql_fetch_assoc($product);
+$row_product = mysqli_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
 if($row_product==0){
@@ -38,7 +38,7 @@ if($row_product==0){
 if($could_delete==1){
 
 	$update_catalog = sprintf("update `product` set is_delete=0 where id = %s", $colname_product);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;

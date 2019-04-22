@@ -109,6 +109,6 @@ $totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
 			href="../product_images/remove.php?id=<?php echo $row_product_images['id']; ?>">删除</a>
 		</td>
 	</tr>
-      <?php } while ($row_product_images = mysql_fetch_assoc($product_images)); ?>
+      <?php } while ($row_product_images = mysqli_fetch_assoc($product_images)); ?>
   </table>
 <?php } // Show if recordset not empty ?>

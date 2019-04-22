@@ -141,6 +141,3 @@
 	</script>
 </body>
 </html>
-<?php
-mysql_free_result($user);
-?>

@@ -41,7 +41,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "import_goods_form")
 						   GetSQLValueString($image_path, "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost) ;
+	  $Result1 = mysqli_query($localhost,$insertSQL);
 	  if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
  	  import_product($image_path);	  
      } else {
@@ -71,14 +71,14 @@ if (isset($_SESSION['admin_id'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_import_logs = sprintf("SELECT * FROM product_import WHERE user_id = %s ORDER BY id DESC", $colname_import_logs);
 $query_limit_import_logs = sprintf("%s LIMIT %d, %d", $query_import_logs, $startRow_import_logs, $maxRows_import_logs);
-$import_logs = mysql_query($query_limit_import_logs, $localhost) ;
+$import_logs = mysqli_query($localhost,$query_limit_import_logs);
 if(!$import_logs){$logger->fatal("数据库操作失败:".$query_limit_import_logs);}
-$row_import_logs = mysql_fetch_assoc($import_logs);
+$row_import_logs = mysqli_fetch_assoc($import_logs);
 
 if (isset($_GET['totalRows_import_logs'])) {
   $totalRows_import_logs = $_GET['totalRows_import_logs'];
 } else {
-  $all_import_logs = mysql_query($query_import_logs);
+  $all_import_logs = mysqli_query($localhost,$query_import_logs);
   $totalRows_import_logs = mysql_num_rows($all_import_logs);
 }
 $totalPages_import_logs = ceil($totalRows_import_logs/$maxRows_import_logs)-1;
@@ -167,7 +167,7 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
         <td><a href="<?php echo $row_import_logs['file_path']; ?>"> <?php echo str_replace("/uploads/import/","",$row_import_logs['file_path']); ?>&nbsp; </a> </td>
         <td><?php echo $row_import_logs['create_time']; ?>&nbsp; </td>
       </tr>
-      <?php } while ($row_import_logs = mysql_fetch_assoc($import_logs)); ?>
+      <?php } while ($row_import_logs = mysqli_fetch_assoc($import_logs)); ?>
   </table>
   <br>
   <table border="0" width="50%" align="right">

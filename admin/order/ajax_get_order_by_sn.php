@@ -24,9 +24,9 @@ if (isset($_POST['sn'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
-$order = mysql_query($query_order, $localhost) ;
+$order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
-$row_order = mysql_fetch_assoc($order);
+$row_order = mysqli_fetch_assoc($order);
 $totalRows_order = mysql_num_rows($order);
 if($totalRows_order==0){
 	$result="false";

@@ -97,6 +97,3 @@ addressInit('province', 'city', 'district', '<?php echo $row_consignee['province
 });</script>
 </body>
 </html>
-<?php
-mysql_free_result($consignee);
-?>

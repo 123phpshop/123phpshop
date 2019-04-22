@@ -28,9 +28,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_news = sprintf("SELECT * FROM product_consult WHERE id = %s", $colname_news);
-$news = mysql_query($query_news, $localhost) ;
+$news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
-$row_news = mysql_fetch_assoc($news);
+$row_news = mysqli_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
 if($totalRows_news==0){
@@ -40,13 +40,13 @@ if($totalRows_news==0){
 if($could_delete==1){
 
 	$update_catalog = sprintf("update `product_consult` set is_delete=1 where id = %s", $colname_news);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;
 	}else{
 		 $update_sql=sprintf("update product set consulted_num=consulted_num-1 where id=%s and consulted_num>0",$row_news['product_id']);
-	  	$Result2 = mysql_query($update_sql, $localhost) ;
+	  	$Result2 = mysqli_query($localhost,$update_sql);
 		if(!$Result2){$logger->fatal("数据库操作失败:".$update_sql);}
 		
 		if(!$Result2){

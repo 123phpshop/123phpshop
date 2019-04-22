@@ -34,7 +34,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['product_type_id'], "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($insertSQL, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
   
     $insertGoTo = "index.php?product_type_id=".$_POST['product_type_id'];
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -52,8 +52,8 @@ if (isset($_GET['product_type_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colname_product_type);
-$product_type = mysql_query($query_product_type, $localhost) ;if(!$product_type){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_product_type = mysql_fetch_assoc($product_type);
+$product_type = mysqli_query($localhost);if(!$product_type){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_type);}
+$row_product_type = mysqli_fetch_assoc($product_type);
 $totalRows_product_type = mysql_num_rows($product_type);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

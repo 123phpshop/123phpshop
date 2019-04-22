@@ -19,31 +19,6 @@ ob_start();
  ?><?php require_once('Connections/localhost.php'); ?>
 <?php
 $error=array();
-
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
 $error="";
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -52,12 +27,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query($query_shopinfo, $localhost);
+$shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){
 	$logger->warn("获取店铺信息数据库操作失败");
 }
 
-$row_shopinfo = mysql_fetch_assoc($shopinfo);
+$row_shopinfo = mysqli_fetch_assoc($shopinfo);
 $totalRows_shopinfo = mysql_num_rows($shopinfo);
 if($totalRows_shopinfo==0){
 	$logger->warn("获取店铺信息失败，没有找到店铺id为1的记录。");
@@ -81,9 +56,9 @@ try{
 	}
 	mysql_select_db($database_localhost, $localhost);
 	$query_get_user_by_username = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_get_user_by_username);
-	$get_user_by_username = mysql_query($query_get_user_by_username, $localhost) ;
+	$get_user_by_username = mysqli_query($localhost,$query_get_user_by_username);
 	if(!$get_user_by_username){$logger->fatal("数据库操作失败:".$query_get_user_by_username);}
-	$row_get_user_by_username = mysql_fetch_assoc($get_user_by_username);
+	$row_get_user_by_username = mysqli_fetch_assoc($get_user_by_username);
 	$totalRows_get_user_by_username = mysql_num_rows($get_user_by_username);
  	if($totalRows_get_user_by_username>0){
  		 throw new Exception("用户名已经被占用，请修改后重试！");
@@ -100,10 +75,10 @@ try{
 			GetSQLValueString($_SERVER['REMOTE_ADDR'], "text"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($insertSQL, $localhost);
+	  $Result1 = mysqli_query($localhost,$insertSQL);
  
 		if(! $Result1>0){
-			 $logger->fatal("用户注册错误：".mysql_error().$insertSQL);
+			 $logger->fatal("用户注册错误：".mysqli_error($localhost).$insertSQL);
 			 throw new Exception("系统错误，请稍后重试");
 		}
 	

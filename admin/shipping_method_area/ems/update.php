@@ -50,17 +50,17 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_method_area = sprintf("SELECT * FROM shipping_method_area WHERE id = %s", $colname_shipping_method_area);
-$shipping_method_area = mysql_query($query_shipping_method_area, $localhost) ;
+$shipping_method_area = mysqli_query($localhost,$query_shipping_method_area);
 if(!$shipping_method_area){$logger->fatal("数据库操作失败:".$query_shipping_method_area);}
-$row_shipping_method_area = mysql_fetch_assoc($shipping_method_area);
+$row_shipping_method_area = mysqli_fetch_assoc($shipping_method_area);
 $totalRows_shipping_method_area = mysql_num_rows($shipping_method_area);
 
 
 mysql_select_db($database_localhost, $localhost);
 $query_shipping_method = sprintf("SELECT * FROM shipping_method WHERE config_file_path = 'ems'");
-$shipping_method = mysql_query($query_shipping_method, $localhost) ;
+$shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
-$row_shipping_method = mysql_fetch_assoc($shipping_method);
+$row_shipping_method = mysqli_fetch_assoc($shipping_method);
 $totalRows_shipping_method = mysql_num_rows($shipping_method);
 
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -81,7 +81,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($colname_shipping_method_area, "int"));
 
   mysql_select_db($database_localhost, $localhost);
-  $Result1 = mysql_query($updateSQL, $localhost) ;
+  $Result1 = mysqli_query($localhost,$updateSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
   
    $insertGoTo = "/admin/shipping_method_area/index.php?shipping_method_id=".$row_shipping_method['id'];

@@ -38,8 +38,8 @@ if (isset($_GET['id'])) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s", $colname_consignee);
-$consignee = mysql_query($query_consignee, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-$row_consignee = mysql_fetch_assoc($consignee);
+$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
+$row_consignee = mysqli_fetch_assoc($consignee);
 $totalRows_consignee = mysql_num_rows($consignee);
 
 if($totalRows_consignee==0){
@@ -57,12 +57,12 @@ if($row_consignee['is_delete']=='1'){
 if($could_delete==1){
 	
 	$update_catalog = sprintf("update `user_consignee` set is_default=1 where id = %s", $colname_consignee);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$could_delete=0;
 	}else{
  		$update_catalog = sprintf("update `user_consignee` set is_default=0 where user_id=%s and id != %s",$_SESSION['user_id'], $colname_consignee);
-		$update_catalog_query = mysql_query($update_catalog, $localhost);
+		$update_catalog_query = mysqli_query($localhost,$update_catalog);
 		if(!$update_catalog_query){
 			$could_delete=0;
 		}else{

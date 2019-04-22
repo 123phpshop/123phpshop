@@ -26,7 +26,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
  	if(count($_POST['order_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `orders` set is_delete=0 where id in (".implode(",",$_POST['order_id']).")";
-			$Result1=mysql_query($sql, $localhost) ;
+			$Result1=mysqli_query($localhost,$sql);
 			if(!$Result1){$logger->fatal("数据库操作失败:".$sql);}
 	}
 
@@ -35,9 +35,9 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
 
 mysql_select_db($database_localhost, $localhost);
 $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
-$orders = mysql_query($query_orders, $localhost) ;
+$orders = mysqli_query($localhost,$query_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}
-$row_orders = mysql_fetch_assoc($orders);
+$row_orders = mysqli_fetch_assoc($orders);
 $totalRows_orders = mysql_num_rows($orders);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -76,7 +76,7 @@ $totalRows_orders = mysql_num_rows($orders);
           <th scope="col"><?php echo $row_orders['create_time']; ?></th>
           <th scope="col"><div align="right"><a onClick="return confirm('您确认要恢复这个订单么？')"href="unrecycle.php?id=<?php echo $row_orders['id']; ?>">恢复</a></div></th>
         </tr>
-        <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
+        <?php } while ($row_orders = mysqli_fetch_assoc($orders)); ?>
   </table>
     <br />
     <table width="200" border="0" class="phpshop123_infobox">

@@ -17,7 +17,7 @@
  */
  ?><?php
 $products_array=array();
-while ($row_products_new = mysql_fetch_assoc($products)){  
+while ($row_products_new = mysqli_fetch_assoc($products)){  
 	$products_array[]=$row_products_new;
 }
 ?>
@@ -58,9 +58,9 @@ $row=ceil($totalRows_products/$cols);
 	<?php $curr=$row_i*$cols_i+$cols_i;if(isset($products_array[$curr])){ ?>
 	 <?php 
    		$query_product_images = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = ".$products_array[$curr]['id'];
-		$product_images = mysql_query($query_product_images, $localhost) ;
+		$product_images = mysqli_query($localhost,$query_product_images);
 		if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
-		$row_product_images = mysql_fetch_assoc($product_images);
+		$row_product_images = mysqli_fetch_assoc($product_images);
 		$totalRows_product_images = mysql_num_rows($product_images);
  	 ?>
 	 <div class="product_box" align="center">

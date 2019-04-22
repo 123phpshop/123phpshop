@@ -32,9 +32,9 @@ if (isset($_GET['id'])) {
 // 检查id是否存在，如果存在的话，那么抛错
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
-$admin = mysql_query($query_admin, $localhost) ;
+$admin = mysqli_query($localhost,$query_admin);
 if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}// 如果数据库操作失败
-$row_admin = mysql_fetch_assoc($admin);
+$row_admin = mysqli_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
  if($totalRows_admin==0){
 	$could_delete=0;
@@ -48,7 +48,7 @@ if($could_delete==1){
 	
 	// 如果么有的话，那么这里需要删除即可
 	$update_catalog = sprintf("update `member` set is_delete=1 where id = %s", $colname_admin);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$could_delete=0;
 	}else{

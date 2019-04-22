@@ -140,7 +140,7 @@ $totalRows_consult = mysql_num_rows ( $consult );
 			</div></td>
 	</tr>
 				 <?php } ?>
-            <?php } while ($row_consult = mysql_fetch_assoc($consult)); ?>
+            <?php } while ($row_consult = mysqli_fetch_assoc($consult)); ?>
           </table>
 
 <?php } // Show if recordset not empty ?>

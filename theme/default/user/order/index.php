@@ -114,8 +114,8 @@ a{
 		
  		mysql_select_db($database_localhost, $localhost);
 		$query_order_items = "SELECT * FROM order_item WHERE order_id =". $row_orders['id'];
-		$order_items = mysql_query($query_order_items, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-		//$row_order_items = mysql_fetch_assoc($order_items);
+		$order_items = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_items);}
+		//$row_order_items = mysqli_fetch_assoc($order_items);
 		//var_dump($row_order_items);
 		$totalRows_order_items = mysql_num_rows($order_items);
 		
@@ -124,8 +124,8 @@ a{
 			while($order_item_row=mysql_fetch_object($order_items)){
  				mysql_select_db($database_localhost, $localhost);
 				$query_order_images = "SELECT * FROM product_images WHERE  is_delete=0 and product_id = ".$order_item_row->product_id." limit 1";
-				$order_images = mysql_query($query_order_images, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-				//	$row_order_images = mysql_fetch_assoc($order_images);
+				$order_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_images);}
+				//	$row_order_images = mysqli_fetch_assoc($order_images);
 				$totalRows_order_images = mysql_num_rows($order_images);
 				
 				if($totalRows_order_images>0){ 
@@ -165,7 +165,7 @@ a{
         </div></td>
       </tr>
   </table>
-   <?php } while ($row_orders = mysql_fetch_assoc($orders)); ?>
+   <?php } while ($row_orders = mysqli_fetch_assoc($orders)); ?>
   <br />
 </div>
   <br />
@@ -213,11 +213,3 @@ a{
 </script>
 </body>
 </html>
-<?php
-
-isset($order_items)?mysql_free_result($order_items):'';
-
-isset($order_images)?mysql_free_result($order_images):'';
-
-isset($orders)?mysql_free_result($orders):'';
-?>

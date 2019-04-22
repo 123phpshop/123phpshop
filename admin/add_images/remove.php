@@ -34,13 +34,13 @@ try{
 	// 检查id是否存在，如果不存在，那么告知
 	mysql_select_db($database_localhost, $localhost);
 	$query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
-	$ad_images = mysql_query($query_ad_images, $localhost) ;
+	$ad_images = mysqli_query($localhost,$query_ad_images);
 	if(!$ad_images){
 		$logger->fatal("删除广告操作失败:".$query_ad_images);
 		throw new Exception();
 	}
 
-	$row_ad_images=mysql_fetch_assoc($ad_images);
+	$row_ad_images=mysqli_fetch_assoc($ad_images);
 	$totalRows_ad_images = mysql_num_rows($ad_images);
 	if($totalRows_ad_images==0){
 		throw new Exception();// 这需要报错
@@ -48,7 +48,7 @@ try{
 
 	@unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
 	$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		throw new Exception();

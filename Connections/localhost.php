@@ -20,12 +20,12 @@ if($hostname_localhost==""){
 	} else {
 		//    检查是否已经安装，如果没有安装，那么跳转到安装区域
 		if (isset($hostname_localhost) && trim($hostname_localhost) != "") {
-			header(sprintf("Location: %s", $home_url));
+			header(sprintf("Location: %s", $home_url));exit();
 		}
 	}
 }
-$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR);
-mysql_query("set names utf8");
+$localhost = mysqli_connect($hostname_localhost, $username_localhost, $password_localhost,$database_localhost) or trigger_error(mysqli_error($localhost),E_USER_ERROR);
+mysqli_query($localhost,"set names utf8");
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";
 /**
  * 检查当前页面是否属于管理员页面。

@@ -23,9 +23,9 @@ if (isset($_SESSION['role_id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $colname_role_menu);
-$role_menu = mysql_query($query_role_menu, $localhost);
+$role_menu = mysqli_query($localhost,$query_role_menu, $localhost);
 if (!$role_menu) {$logger->fatal("数据库操作失败:" . $query_role_menu);}
-$row_role_menu = mysql_fetch_assoc($role_menu);
+$row_role_menu = mysqli_fetch_assoc($role_menu);
 $totalRows_role_menu = mysql_num_rows($role_menu);
 mysql_select_db($database_localhost, $localhost);
 if ($row_role_menu['privileges'] == "1") {
@@ -35,9 +35,9 @@ if ($row_role_menu['privileges'] == "1") {
     // 如果是有限权限的话，那么进行过滤
     $query_menu = "SELECT id,name,file_name FROM privilege WHERE pid=0 and is_delete=0 and is_menu=1 and id in (" . $row_role_menu['privileges'] . ") order by sort asc";
 }
-$menu = mysql_query($query_menu, $localhost);
+$menu = mysqli_query($localhost,$query_menu);
 if (!$menu) {$logger->fatal("数据库操作失败:" . $query_menu);}
-$row_menu = mysql_fetch_assoc($menu);
+$row_menu = mysqli_fetch_assoc($menu);
 $totalRows_menu = mysql_num_rows($menu);
 
 // ** Logout the current user. **
@@ -144,17 +144,17 @@ a[parent] .menu_item_row{
         $query_sub_menu = "SELECT * FROM privilege WHERE pid = " . $row_menu['id'] . " and is_delete=0 and is_menu=1 and id in (" . $row_role_menu['privileges'] . ") order by sort asc";
     }
 
-    $sub_menu = mysql_query($query_sub_menu, $localhost);if (!$sub_menu) {$logger->fatal("数据库操作失败:" . $query_sub_menu);}
-    $row_sub_menu = mysql_fetch_assoc($sub_menu);
+    $sub_menu = mysqli_query($localhost);if (!$sub_menu){$logger->fatal("数据库操作失败:" . $query_sub_menu,$query_sub_menu);}
+    $row_sub_menu = mysqli_fetch_assoc($sub_menu);
     $totalRows_sub_menu = mysql_num_rows($sub_menu);
 
     if ($totalRows_sub_menu > 0) {
         ?>
 <?php do {?>
 	<a href="<?php echo $row_sub_menu['file_name']; ?><?php echo $row_sub_menu['para']; ?>" target="main"  id="goods_index" parent="menu_item_<?php echo $row_menu['id']; ?>"><div class="menu_item_row"><div class="menu_item" >》 <?php echo $row_sub_menu['name']; ?></div><div class="right_indicator" style="">&#8250;</div></div></a>
-<?php } while ($row_sub_menu = mysql_fetch_assoc($sub_menu));?>
+<?php } while ($row_sub_menu = mysqli_fetch_assoc($sub_menu));?>
 <?php }?>
-<?php } while ($row_menu = mysql_fetch_assoc($menu));?>
+<?php } while ($row_menu = mysqli_fetch_assoc($menu));?>
 
 <a href="http://www.123phpshop.com/client_portal/" target="main"  id="family"><div class="menu_item_row"><div class="menu_item" >123PHPSHOP家族软件</div><div class="right_indicator" style="">&#8250;</div></div></a>
 <a href="http://www.123phpshop.com/services.php" target="main"  id="family_app" parent="family"><div class="menu_item_row"><div class="menu_item" >服务</div><div class="right_indicator" style=""></div></div></a>

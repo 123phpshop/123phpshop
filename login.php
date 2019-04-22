@@ -19,9 +19,6 @@ ob_start ();
 ?><?php
 
 require_once ('Connections/localhost.php');
-?>
-<?php
-
 // 获取信息
 mysql_select_db ( $database_localhost, $localhost );
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
@@ -32,8 +29,6 @@ if (! $shopinfo) {
 
 $row_shopinfo = mysql_fetch_assoc ( $shopinfo );
 $totalRows_shopinfo = mysql_num_rows ( $shopinfo );
-?>
-<?php
 
 $loginFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_GET ['accesscheck'] )) {

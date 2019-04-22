@@ -19,9 +19,9 @@
 if(isset($row_promotion['present_products']) && $row_promotion['present_products']!=""){
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name,price FROM product WHERE id in (".$row_promotion['present_products'].")";
-$goods = mysql_query($query_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 ?>
 <?php if($row_goods_num>0){ ?>
@@ -33,7 +33,7 @@ $row_goods_num = mysql_num_rows($goods);
            </td>
       <td><?php echo $row_goods['name']; ?></td>
 	  <td>￥<?php echo $row_goods['price']; ?></td>
-      </tr><?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+      </tr><?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table>
 <?php
 }

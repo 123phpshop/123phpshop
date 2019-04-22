@@ -31,9 +31,9 @@ if (isset($_GET['id'])) {
 // 获取商品
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM product WHERE id = %s", $colname_product);
-$product = mysql_query($query_product, $localhost) ;
+$product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-$row_product = mysql_fetch_assoc($product);
+$row_product = mysqli_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
 if($row_product==0){ //如果没有找到商品的话，那么这里跑错
@@ -44,7 +44,7 @@ if($could_delete==1){
 
 	// 如果可以找到商品的话，那么这里正是开始更新
 	$update_catalog = sprintf("update `product` set is_delete=1 where id = %s", $colname_product);
-	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if(!$update_catalog_query){
 		$logger->fatal("数据库操作失败:".$update_catalog);
 		$could_delete=0;

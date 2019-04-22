@@ -31,14 +31,14 @@ if (isset($_GET['name'])) {
 mysql_select_db($database_localhost, $localhost);
 $query_goods = "SELECT id,name FROM brands WHERE name like '%".$colname_goods."%' and is_delete=0";
 $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $maxRows_goods);
-$goods = mysql_query($query_limit_goods, $localhost) ;
+$goods = mysqli_query($localhost,$query_limit_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_limit_goods);}
-$row_goods = mysql_fetch_assoc($goods);
+$row_goods = mysqli_fetch_assoc($goods);
 $row_goods_num = mysql_num_rows($goods);
 if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = $_GET['totalRows_goods'];
 } else {
-  $all_goods = mysql_query($query_goods);
+  $all_goods = mysqli_query($localhost,$query_goods);
   $totalRows_goods = mysql_num_rows($all_goods);
 }
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
@@ -52,7 +52,7 @@ $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
         <input name="promotion_limit_value[]" type="checkbox" id="promotion_limit_value" value="<?php echo $row_goods['id']; ?>">
           </label></td>
       <td><?php echo $row_goods['name']; ?></td>
-      </tr><?php } while ($row_goods = mysql_fetch_assoc($goods)); ?>
+      </tr><?php } while ($row_goods = mysqli_fetch_assoc($goods)); ?>
 </table>
 <?php
 }

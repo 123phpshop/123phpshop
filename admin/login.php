@@ -53,7 +53,7 @@ if (isset($_POST['username'])) {
 
     mysql_select_db($database_localhost, $localhost);
     $LoginRS__query = sprintf("SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password));
-    $LoginRS = mysql_query($LoginRS__query, $localhost);
+    $LoginRS = mysqli_query($localhost,$LoginRS__query);
     if (!$LoginRS) {
         // 如果query错误那么告知
         $logger->fatal(__FILE__ . "数据库操作失败:" . $LoginRS__query);
@@ -66,7 +66,7 @@ if (isset($_POST['username'])) {
         $loginStrGroup = "";
 
         // 获取这个纪录
-        $user_rs = mysql_fetch_assoc($LoginRS);
+        $user_rs = mysqli_fetch_assoc($LoginRS);
         $_SESSION['admin_username'] = $loginUsername;
         $_SESSION['admin_id'] = $user_rs['id'];
         $_SESSION['role_id'] = $user_rs['role_id'];
@@ -75,7 +75,7 @@ if (isset($_POST['username'])) {
 
         // 更新用户的最后一次的登录时间和ip
         $update_last_login_sql = "update member set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user_rs['id'];
-        $query = mysql_query($update_last_login_sql, $localhost);
+        $query = mysqli_query($localhost,$update_last_login_sql);
         if (!$query) {
             $logger->fatal("数据库操作失败:" . $update_last_login_sql);
         }
@@ -85,12 +85,12 @@ if (isset($_POST['username'])) {
         // 获取登录用户角色
         mysql_select_db($database_localhost, $localhost);
         $query_role = "SELECT * FROM `role` WHERE id = " . $user_rs['role_id'];
-        $role = mysql_query($query_role, $localhost);
+        $role = mysqli_query($localhost,$query_role);
         if (!$role) {
             $logger->fatal("数据库操作失败:" . $query_role);
         }
 
-        $row_role = mysql_fetch_assoc($role);
+        $row_role = mysqli_fetch_assoc($role);
         $totalRows_role = mysql_num_rows($role);
         if ($totalRows_role > 0) {
             $privileges_id_array = $row_role['privileges'];
@@ -100,14 +100,14 @@ if (isset($_POST['username'])) {
         $privileges_array = array();
         mysql_select_db($database_localhost, $localhost);
         $query_privilege_files = "SELECT file_name FROM privilege WHERE id in (" . $privileges_id_array . ")";
-        $privilege_files = mysql_query($query_privilege_files, $localhost);
+        $privilege_files = mysqli_query($localhost,$query_privilege_files);
         if (!$privilege_files) {
             $logger->fatal("数据库操作失败:" . $query_privilege_files);
         }
 
         $totalRows_privilege_files = mysql_num_rows($privilege_files);
         if ($totalRows_privilege_files > 0) {
-            while ($row_privilege_files = mysql_fetch_assoc($privilege_files)) {
+            while ($row_privilege_files = mysqli_fetch_assoc($privilege_files)) {
                 $privileges_array[] = $row_privilege_files['file_name'];
             }
         }

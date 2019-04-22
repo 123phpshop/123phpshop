@@ -19,8 +19,6 @@
 <?php 
 require_once('Connections/localhost.php');
 $logger->debug("index connection loadded");
-?>
-<?php 
  
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
@@ -47,14 +45,11 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
     exit;
   }
 }
-?>
-<?php
-// 获取
 mysql_select_db($database_localhost, $localhost);
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query($query_shopinfo, $localhost) ;
+$shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
-$row_shopinfo = mysql_fetch_assoc($shopinfo);
+$row_shopinfo = mysqli_fetch_assoc($shopinfo);
 $totalRows_shopinfo = mysql_num_rows($shopinfo);
 include($template_path."index.php");
 ?>

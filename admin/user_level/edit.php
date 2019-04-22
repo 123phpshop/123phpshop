@@ -48,7 +48,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 						   GetSQLValueString($_POST['id'], "int"));
 	
 	  mysql_select_db($database_localhost, $localhost);
-	  $Result1 = mysql_query($updateSQL, $localhost);
+	  $Result1 = mysqli_query($localhost,$updateSQL);
 	  if(!$Result1){
 		$logger->fatal("更新用户登记操作失败:".$updateSQL);
 	  }
@@ -63,9 +63,9 @@ if (isset($_GET['id'])) {
 }
 mysql_select_db($database_localhost, $localhost);
 $query_item = sprintf("SELECT * FROM user_levels WHERE id = %s", $colname_item);
-$item = mysql_query($query_item, $localhost) ;
+$item = mysqli_query($localhost,$query_item);
 if(!$item){$logger->fatal("数据库操作失败:".$query_item);}
-$row_item = mysql_fetch_assoc($item);
+$row_item = mysqli_fetch_assoc($item);
 $totalRows_item = mysql_num_rows($item);
 if($totalRows_item==0){
 		 $remove_succeed_url="index.php";

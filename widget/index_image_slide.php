@@ -27,14 +27,14 @@ $startRow_ad_one = $pageNum_ad_one * $maxRows_ad_one;
 mysql_select_db($database_localhost, $localhost);
 $query_ad_one = "SELECT * FROM ad_images WHERE ad_id = 1";
 $query_limit_ad_one = sprintf("%s LIMIT %d, %d", $query_ad_one, $startRow_ad_one, $maxRows_ad_one);
-$ad_one = mysql_query($query_limit_ad_one, $localhost) ;
+$ad_one = mysqli_query($localhost,$query_limit_ad_one);
 if(!$ad_one){$logger->fatal("数据库操作失败:".$query_limit_ad_one);}
-$row_ad_one = mysql_fetch_assoc($ad_one);
+$row_ad_one = mysqli_fetch_assoc($ad_one);
 
 if (isset($_GET['totalRows_ad_one'])) {
   $totalRows_ad_one = $_GET['totalRows_ad_one'];
 } else {
-  $all_ad_one = mysql_query($query_ad_one);
+  $all_ad_one = mysqli_query($localhost,$query_ad_one);
   $totalRows_ad_one = mysql_num_rows($all_ad_one);
 }
 $totalPages_ad_one = ceil($totalRows_ad_one/$maxRows_ad_one)-1;
@@ -47,7 +47,7 @@ $totalPages_ad_one = ceil($totalRows_ad_one/$maxRows_ad_one)-1;
 		<ul class="rslides" id="slider4">
 			<?php do { ?>
               <li> <a href="<?php echo $row_ad_one['link_url'];?>" target="_blank"><img src="<?php echo $row_ad_one['image_path'];?>" style="height:465px !important"  alt=""></a></li>
-			  <?php } while ($row_ad_one = mysql_fetch_assoc($ad_one)); ?></ul>
+			  <?php } while ($row_ad_one = mysqli_fetch_assoc($ad_one)); ?></ul>
 	</div>
 </div>
 

@@ -17,13 +17,13 @@ $startRow_subs = $pageNum_subs * $maxRows_subs;
 mysql_select_db($database_localhost, $localhost);
 $query_subs = "SELECT * FROM email_subscribe where is_delete=0 ORDER BY id DESC";
 $query_limit_subs = sprintf("%s LIMIT %d, %d", $query_subs, $startRow_subs, $maxRows_subs);
-$subs = mysql_query($query_limit_subs, $localhost) or die(mysql_error());
-$row_subs = mysql_fetch_assoc($subs);
+$subs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_limit_subs);
+$row_subs = mysqli_fetch_assoc($subs);
 
 if (isset($_GET['totalRows_subs'])) {
   $totalRows_subs = $_GET['totalRows_subs'];
 } else {
-  $all_subs = mysql_query($query_subs);
+  $all_subs = mysqli_query($localhost,$query_subs);
   $totalRows_subs = mysql_num_rows($all_subs);
 }
 $totalPages_subs = ceil($totalRows_subs/$maxRows_subs)-1;
@@ -67,7 +67,7 @@ $queryString_subs = sprintf("&totalRows_subs=%d%s", $totalRows_subs, $queryStrin
       <td><?php echo $row_subs['create_time']; ?></td>
       <td><a href="subscrib_remove.php?id=<?php echo $row_subs['id']; ?>">删除</a> <a href="subscrib_update.php?id=<?php echo $row_subs['id']; ?>">更新</a> </td>
     </tr>
-    <?php } while ($row_subs = mysql_fetch_assoc($subs)); ?>
+    <?php } while ($row_subs = mysqli_fetch_assoc($subs)); ?>
 </table>
 <br>
 <table border="0" width="50%" align="right">
