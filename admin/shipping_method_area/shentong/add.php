@@ -49,7 +49,7 @@ $query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path =
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
 $row_shipping_method = mysqli_fetch_assoc($shipping_method);
-$totalRows_shipping_method = mysql_num_rows($shipping_method);
+$totalRows_shipping_method = mysqli_num_rows($shipping_method);
 
 
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -184,5 +184,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($shipping_method);
+mysqli_free_result($shipping_method);
 ?>

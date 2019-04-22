@@ -39,19 +39,19 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_comment") 
 	                                                                                     // 如果可以通过参数验证的话，那么进行下面的操作
 	if ($validation->run ()) {
 		$insertSQL = sprintf ( "INSERT INTO product_comment (message, product_id, user_id) VALUES (%s, %s, %s)", GetSQLValueString ( strip_tags ( $_POST ['message'] ), "text" ), GetSQLValueString ( $colname_product, "text" ), GetSQLValueString ( $_SESSION ['user_id'], "int" ) );
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {
 			// 记录进入日志
-			$logger->fatal ( "添加商品评论时失败:" . mysql_error () . $insertSQL );
+			$logger->fatal ( "添加商品评论时失败:" . mysqli_error ($localhost) . $insertSQL );
 			
 		} else {
 			// 这里还需要将评论+1
 			$update_product_sql = "update product set commented_num=commented_num+1 where id=$colname_product";
-			mysql_select_db ( $database_localhost, $localhost );
-			$result2 = mysql_query ( $update_product_sql, $localhost );
+			
+			$result2 = mysqli_query($localhost,$update_product_sql);
 			if (! $result2) {
-				$logger->fatal ( "更新商品评论次数时失败:" . mysql_error () . $update_product_sql );
+				$logger->fatal ( "更新商品评论次数时失败:" . mysqli_error ($localhost) . $update_product_sql );
 			}
 		}
 	}
@@ -61,14 +61,14 @@ $colname_comments = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_comments = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_comments = sprintf ( "SELECT product_comment.*,user.username FROM product_comment inner join user on user.id=product_comment.user_id WHERE product_comment.product_id = %s and product_comment.is_delete=0 ORDER BY product_comment.id DESC", $colname_comments );
-$comments = mysql_query ( $query_comments, $localhost );
+$comments = mysqli_query($localhost,$query_comments);
 if (! $comments) {
-				$logger->fatal ( "更新商品评论次数时失败:" . mysql_error () . $query_comments );
+				$logger->fatal ( "更新商品评论次数时失败:" . mysqli_error ($localhost) . $query_comments );
 			}
-$row_comments = mysql_fetch_assoc ( $comments );
-$totalRows_comments = mysql_num_rows ( $comments );
+$row_comments = mysqli_fetch_assoc ( $comments );
+$totalRows_comments = mysqli_num_rows ( $comments );
 ?>
 
 
@@ -162,7 +162,7 @@ $totalRows_comments = mysql_num_rows ( $comments );
 
 <?php
 											}
-											mysql_free_result ( $comments );
+											mysqli_free_result ( $comments );
 											?>
 
 <script language="JavaScript" type="text/javascript"

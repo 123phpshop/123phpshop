@@ -32,14 +32,14 @@ if (isset ( $_GET ['id'] )) {
 }
 
 $logger->debug ( '获取商品的图片列表' );
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_product_images = sprintf ( "SELECT * FROM product_images WHERE product_id = %s and is_delete=0 ", $colname_product_images );
-$product_images = mysql_query ( $query_product_images, $localhost );
+$product_images = mysqli_query($localhost,$query_product_images);
 if (! $product_images) {
 	$logger->fatal ( "数据库操作失败:" . $query_product_images );
 }
-$row_product_images = mysql_fetch_assoc ( $product_images );
-$totalRows_product_images = mysql_num_rows ( $product_images );
+$row_product_images = mysqli_fetch_assoc ( $product_images );
+$totalRows_product_images = mysqli_num_rows ( $product_images );
 
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
@@ -52,16 +52,16 @@ $colname_DetailRS1 = "-1";
 if (isset ( $_GET ['catalog_id'] )) {
 	$colname_DetailRS1 = (get_magic_quotes_gpc ()) ? $_GET ['catalog_id'] : addslashes ( $_GET ['catalog_id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $recordID = $_GET ['id'];
 $query_DetailRS1 = sprintf ( "SELECT product.*,product_type.name as product_type_name, brands.name as brand_name FROM product left join brands on product.brand_id=brands.id  left join product_type on product.product_type_id=product_type.id WHERE product.id = $recordID", $recordID );
 $query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
-$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
+$DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 if (! $DetailRS1) {
 	$logger->fatal ( "数据库操作失败:" . $query_limit_DetailRS1 );
 }
-$row_DetailRS1 = mysql_fetch_assoc ( $DetailRS1 );
-$totalRows_DetailRS1 = mysql_num_rows ( $DetailRS1 );
+$row_DetailRS1 = mysqli_fetch_assoc ( $DetailRS1 );
+$totalRows_DetailRS1 = mysqli_num_rows ( $DetailRS1 );
 // 如果找不到这个产品的话，那么直接跳转到index。php
 if ($totalRows_DetailRS1 == 0) {
 	$updateGoTo = "index.php";
@@ -72,7 +72,7 @@ if (isset ( $_GET ['totalRows_DetailRS1'] )) {
 	$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
 } else {
 	$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
-	$totalRows_DetailRS1 = mysql_num_rows ( $all_DetailRS1 );
+	$totalRows_DetailRS1 = mysqli_num_rows ( $all_DetailRS1 );
 }
 $totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
 ?>

@@ -2,14 +2,14 @@
 class PromotionManager {
 	public function get_all_promotions() {
 		// 获取所有可用的促销
-		mysql_select_db ( $database_localhost, $localhost );
+		
 		$query_promotions = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
-		$promotions = mysql_query ( $query_promotions, $localhost );
+		$promotions = mysqli_query($localhost,$query_promotions);
 		if (! $Result1) {
 			$logger->fatal ( "数据库操作失败:" . $updateSQL );
 		}
-		$row_promotions = mysql_fetch_assoc ( $promotions );
-		$totalRows_promotions = mysql_num_rows ( $promotions );
+		$row_promotions = mysqli_fetch_assoc ( $promotions );
+		$totalRows_promotions = mysqli_num_rows ( $promotions );
 	}
 	public function _get_promotion_fee($product_fee, $order) {
 		
@@ -22,15 +22,15 @@ class PromotionManager {
 		// 从数据库中获取所有当前可用的促销计划
 		global $db_conn;
 		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
+		
 		$sql = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
-		$promotions = mysql_query ( $sql, $db_conn );
-		if (mysql_num_rows ( $promotions ) == 0) {
+		$promotions = mysqli_query($db_conn,$sql);
+		if (mysqli_num_rows ( $promotions ) == 0) {
 			return $results;
 		}
 		
 		// 循环这些促销
-		while ( $promotion_plan = mysql_fetch_assoc ( $promotions ) ) {
+		while ( $promotion_plan = mysqli_fetch_assoc ( $promotions ) ) {
 			
 			// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
 			$promotion_ids_array = explode ( ",", $order ['promotion_id'] );

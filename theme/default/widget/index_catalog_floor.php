@@ -22,7 +22,7 @@
 $query_catlogs = "SELECT * FROM `catalog` WHERE pid = 0 and is_delete=0 ";
 $catlogs = mysqli_query($localhost,$query_catlogs);
 if(!$catlogs){$logger->fatal("数据库操作失败:".$query_catlogs);}
-$totalRows_catlogs = mysql_num_rows($catlogs);
+$totalRows_catlogs = mysqli_num_rows($catlogs);
 ?>
 
 <style type="text/css">
@@ -40,7 +40,7 @@ $totalRows_catlogs = mysql_num_rows($catlogs);
 $query_season = "SELECT * FROM product WHERE is_delete=0 and is_on_sheft=1 and cata_path like '%|".$row_catlogs['id']."|%' limit 6";
 $season = mysqli_query($localhost,$query_season);
 if(!$season){$logger->fatal("数据库操作失败:".$query_season);}
-$totalRows_season = mysql_num_rows($season);
+$totalRows_season = mysqli_num_rows($season);
  if($totalRows_season>0){
  ?>
 <table style="" width="1210" border="0" align="center">
@@ -57,7 +57,7 @@ $totalRows_season = mysql_num_rows($season);
 			$get_images = mysqli_query($localhost,$query_get_images);
 			if(!$get_images){$logger->fatal("数据库操作失败:".$query_get_images);}
 			$row_get_images = mysqli_fetch_assoc($get_images);
-			$totalRows_get_images = mysql_num_rows($get_images);
+			$totalRows_get_images = mysqli_num_rows($get_images);
  	   ?>
     <td height="237" width="200">
 <table width="200" height="237" style="border:1px solid #EDEDED">

@@ -20,15 +20,15 @@ ob_start ();
 
 require_once ('Connections/localhost.php');
 // 获取信息
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
-$shopinfo = mysql_query ( $query_shopinfo, $localhost );
+$shopinfo = mysqli_query($localhost,$query_shopinfo);
 if (! $shopinfo) {
 	$logger->fatal ( "数据库操作失败:" . $query_shopinfo );
 }
 
-$row_shopinfo = mysql_fetch_assoc ( $shopinfo );
-$totalRows_shopinfo = mysql_num_rows ( $shopinfo );
+$row_shopinfo = mysqli_fetch_assoc ( $shopinfo );
+$totalRows_shopinfo = mysqli_num_rows ( $shopinfo );
 
 $loginFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_GET ['accesscheck'] )) {
@@ -52,7 +52,7 @@ try {
 		$MM_fldUserAuthorization = "";
 		$MM_redirectLoginSuccess = "index.php";
 		$MM_redirecttoReferrer = true;
-		mysql_select_db ( $database_localhost, $localhost );
+		
 		
 		// 检查是否输入了验证码？如果么有输入,或是输入的验证码是否和SESSION中的验证码不一致，那么直接跳转到失败页面
 		if (! isset ( $_POST ['captcha'] ) or strtolower ( $_POST ['captcha'] ) != $_SESSION ['captcha']) {
@@ -61,13 +61,13 @@ try {
 		
 		$LoginRS__query = sprintf ( "SELECT id,username, password FROM user WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc () ? $loginUsername : addslashes ( $loginUsername ), get_magic_quotes_gpc () ? md5 ( $password ) : addslashes ( md5 ( $password ) ) );
 		
-		$LoginRS = mysql_query ( $LoginRS__query, $localhost );
+		$LoginRS = mysqli_query($localhost,$LoginRS__query);
 		if (! $LoginRS) {
 			$logger->fatal ( "数据库操作失败:" . $LoginRS__query );
 		}
 		
-		$user = mysql_fetch_assoc ( $LoginRS );
-		$loginFoundUser = mysql_num_rows ( $LoginRS );
+		$user = mysqli_fetch_assoc ( $LoginRS );
+		$loginFoundUser = mysqli_num_rows ( $LoginRS );
 		if ($loginFoundUser) {
 			$loginStrGroup = "";
 			
@@ -78,7 +78,7 @@ try {
 			$last_login_at = date ( 'Y-m-d H:i:s' );
 			$last_login_ip = $_SERVER ['REMOTE_ADDR'];
 			$update_last_login_sql = "update user set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user ['id'];
-			$query = mysql_query ( $update_last_login_sql, $localhost );
+			$query = mysqli_query($localhost,$update_last_login_sql);
 			if (! $query) {
 				$logger->fatal ( "数据库操作失败:" . $update_last_login_sql );
 				throw new Exception('系统错误，请稍后重试！');

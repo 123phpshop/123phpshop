@@ -11,16 +11,16 @@ class DBCart extends Cart {
 	protected $cart_items_table_name;
 	final function _update_order_info() {
 		$sql = "update ";
-		return mysql_query ( $sql, $this->conn );
+		return mysqli_query($this->conn,$sql);
 	}
 	final function _clear_order_products() {
 		$sql = "delete from $cart_table_name where order_id=";
-		return mysql_query ( $sql, $this->conn );
+		return mysqli_query($this->conn,$sql);
 	}
 	final function _add_order_products() {
 		foreach ( $this->cart ['products'] as $product ) {
 			$sql = "delete from $cart_table_name where order_id=";
-			$op = mysql_query ( $sql, $this->conn );
+			$op = mysqli_query($this->conn,$sql);
 			if (! $op) {
 				throw new Exception ( "系统错误，请稍后再试！" );
 			}
@@ -54,11 +54,11 @@ class DBCart extends Cart {
 		}
 		
 		// 如果找不到的话，那么返回false;
-		if (mysql_num_rows ( $query ) == 0) {
+		if (mysqli_num_rows ( $query ) == 0) {
 			return;
 		}
 		
-		$result = mysql_fetch_assoc ( $query );
+		$result = mysqli_fetch_assoc ( $query );
 		$this->cart ['order_id'] = $result ['id'];
 		$this->cart ['promotion_id'] = explode ( ",", $result ['promotion_id'] ); // 初始化可以享受的促销类型
 		$this->cart ['promotion_fee'] = $result ['promotion_fee']; // 初始化可以享受的促销类型
@@ -88,12 +88,12 @@ class DBCart extends Cart {
 		}
 		
 		// 如果找不到的话，那么返回false;
-		if (mysql_num_rows ( $query ) == 0) {
+		if (mysqli_num_rows ( $query ) == 0) {
 			return;
 		}
 		
 		// 循环这些商品，然后将其添加到购物车商品列表中
-		while ( $result = mysql_fetch_assoc ( $query ) ) {
+		while ( $result = mysqli_fetch_assoc ( $query ) ) {
 		}
 	}
 }

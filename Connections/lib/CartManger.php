@@ -464,12 +464,12 @@ class CartManger implements ICart {
 		// 这里还是需要获取是否有优惠价格
 		global $db_conn;
 		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
+		
 		
 		$sql = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
-		$promotions = mysql_query ( $sql, $db_conn );
-		$promotion_plans = mysql_fetch_assoc ( $promotions );
-		if (mysql_num_rows ( $product ) == 0) {
+		$promotions = mysqli_query($db_conn,$sql);
+		$promotion_plans = mysqli_fetch_assoc ( $promotions );
+		if (mysqli_num_rows ( $product ) == 0) {
 			return $results;
 		}
 		
@@ -682,11 +682,11 @@ class CartManger implements ICart {
 		// 这里还是需要获取是否有优惠价格
 		global $db_conn;
 		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
+		
 		$query_product = "SELECT id,name,price,brand_id,cata_path,is_shipping_free,is_promotion,promotion_price,promotion_start,promotion_end FROM product WHERE id = " . $product_id;
-		$product = mysql_query ( $query_product, $db_conn ) or die ( mysql_error () );
-		$row_product = mysql_fetch_assoc ( $product );
-		// $totalRows_product = mysql_num_rows($product);
+		$product = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_product);
+		$row_product = mysqli_fetch_assoc ( $product );
+		// $totalRows_product = mysqli_num_rows($product);
 		return $row_product;
 	}
 	

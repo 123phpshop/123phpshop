@@ -28,7 +28,7 @@ $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
  
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -45,14 +45,14 @@ $query_order_item = sprintf("SELECT * FROM order_item WHERE is_delete=0 and  id 
 $order_item = mysqli_query($localhost,$query_order_item);
 if(!$order_item){$logger->fatal("数据库操作失败:".$query_order_item);}
 $row_order_item = mysqli_fetch_assoc($order_item);
-$totalRows_order_item = mysql_num_rows($order_item);
+$totalRows_order_item = mysqli_num_rows($order_item);
 
 
 $query_product = "SELECT * FROM product WHERE is_delete=0 and  id = ".$row_order_item['product_id'];
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 
 
 
@@ -70,7 +70,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
 	$check_product = mysqli_query($localhost,$query_check_product);
 	if(!$check_product){$logger->fatal("数据库操作失败:".$query_check_product);}
 	$row_check_product = mysqli_fetch_assoc($check_product);
-	$totalRows_check_product = mysql_num_rows($check_product);
+	$totalRows_check_product = mysqli_num_rows($check_product);
 
 
 
@@ -253,9 +253,9 @@ log_admin($support_email_question);
 </body>
 </html>
 <?php
-mysql_free_result($order_item);
+mysqli_free_result($order_item);
 
-mysql_free_result($product);
+mysqli_free_result($product);
 ?>
 <script language="JavaScript" type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/jquery.validate.min.js"></script>

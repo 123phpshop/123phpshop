@@ -96,11 +96,11 @@
         <option value="<?php echo $row_brands['id']?>"
 					<?php if (isset($row_product['product_type_id']) && (!(strcmp($row_brands['id'], $row_product['brand_id'])))) {echo "selected=\"selected\"";} ?>><?php echo $row_brands['name']?></option>
         <?php
-								} while ( $row_brands = mysql_fetch_assoc ( $brands ) );
-								$rows = mysql_num_rows ( $brands );
+								} while ( $row_brands = mysqli_fetch_assoc ( $brands ) );
+								$rows = mysqli_num_rows ( $brands );
 								if ($rows > 0) {
 									mysql_data_seek ( $brands, 0 );
-									$row_brands = mysql_fetch_assoc ( $brands );
+									$row_brands = mysqli_fetch_assoc ( $brands );
 								}
 								?>
       </select> <a href="/admin/brands/add.php"><u>添加品牌</u></a></td>
@@ -117,11 +117,11 @@
         <option value="<?php echo $row_product_types['id']?>"
 					<?php if (isset($row_product['product_type_id']) && !(strcmp($row_product_types['id'], $row_product['product_type_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_product_types['name']?></option>
         <?php
-								} while ( $row_product_types = mysql_fetch_assoc ( $product_types ) );
-								$rows = mysql_num_rows ( $product_types );
+								} while ( $row_product_types = mysqli_fetch_assoc ( $product_types ) );
+								$rows = mysqli_num_rows ( $product_types );
 								if ($rows > 0) {
 									mysql_data_seek ( $product_types, 0 );
-									$row_product_types = mysql_fetch_assoc ( $product_types );
+									$row_product_types = mysqli_fetch_assoc ( $product_types );
 								}
 								?>
       </select> <a href="/admin/product_type/index.php"><u>添加商品类型</u></a></td>

@@ -35,7 +35,7 @@ if (isset($_GET['sn'])) {
 $query_order = sprintf("SELECT orders.*,express_company.name as express_company_name  FROM orders left join express_company on orders.express_company_id=express_company.id WHERE orders.sn = '%s' and orders.is_delete=0 and orders.user_id='".$_SESSION['user_id']."'", $colname_order);
 $order = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
 if($totalRows_order==0){
    $insertGoTo = "index.php";
@@ -47,7 +47,7 @@ if($totalRows_order==0){
 $query_order_items = "SELECT * FROM order_item WHERE order_id = ".$row_order['id'];
 $order_items = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_items);}
 $row_order_items = mysqli_fetch_assoc($order_items);
-$totalRows_order_items = mysql_num_rows($order_items);
+$totalRows_order_items = mysqli_num_rows($order_items);
 
 
 
@@ -113,7 +113,7 @@ div{
 		$query_order_product = "SELECT * FROM product WHERE id =".$row_order_items['product_id'];
 		$order_product = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
 		$row_order_product = mysqli_fetch_assoc($order_product);
-		$totalRows_order_product = mysql_num_rows($order_product);
+		$totalRows_order_product = mysqli_num_rows($order_product);
   	  ?>
         <tr>
           <td height="31" scope="row"><div align="left" style="padding-left:20px;"><a style="text-decoration:none;color:#005ea7;" href="/product.php?id=<?php echo $row_order_product['id']; ?>" target="_blank"><?php echo $row_order_product['name']; ?></a> <span style="color:#CCCCCC"><?php echo str_replace(";"," ",$row_order_items['attr_value']); ?></span></div></td>

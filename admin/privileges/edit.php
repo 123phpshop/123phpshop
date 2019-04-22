@@ -63,14 +63,14 @@ $colname_getById = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_getById = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_getById = sprintf ( "SELECT * FROM privilege WHERE id = %s", $colname_getById );
-$getById = mysql_query ( $query_getById, $localhost );
+$getById = mysqli_query($localhost,$query_getById);
 if (! $getById) {
 	$logger->fatal ( "数据库操作失败:" . $query_getById );
 }
-$row_getById = mysql_fetch_assoc ( $getById );
-$totalRows_getById = mysql_num_rows ( $getById );
+$row_getById = mysqli_fetch_assoc ( $getById );
+$totalRows_getById = mysqli_num_rows ( $getById );
 ?>
 <?php
 // 获取biz_rule
@@ -90,8 +90,8 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 
 if ($totalRows_getById > 0 && (isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 	$updateSQL = sprintf ( "UPDATE privilege SET name=%s,is_menu=%s, file_name=%s, sort=%s, para=%s WHERE id=%s", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( isset ( $_POST ['is_menu'] ) ? 1 : 0, "int" ), GetSQLValueString ( $_POST ['file_name'], "text" ), GetSQLValueString ( $_POST ['sort'], "int" ), GetSQLValueString ( $_POST ['para'], "text" ), GetSQLValueString ( $_POST ['id'], "int" ) );
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $updateSQL, $localhost );
+	
+	$Result1 = mysqli_query($localhost,$updateSQL);
 	if (! $Result1) {
 		$logger->fatal ( "数据库操作失败:" . $updateSQL );
 	}
@@ -240,5 +240,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result ( $getById );
+mysqli_free_result ( $getById );
 ?>

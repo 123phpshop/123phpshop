@@ -73,7 +73,7 @@ div{
 		$query_order_product = "SELECT * FROM product WHERE id =".$row_order_items['product_id'];
 		$order_product = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
 		$row_order_product = mysqli_fetch_assoc($order_product);
-		$totalRows_order_product = mysql_num_rows($order_product);
+		$totalRows_order_product = mysqli_num_rows($order_product);
   	  ?>
         <tr>
           <td height="31" scope="row"><div align="left" style="padding-left:20px;"><a style="text-decoration:none;color:#005ea7;" href="/product.php?id=<?php echo $row_order_product['id']; ?>" target="_blank"><?php echo $row_order_product['name']; ?></a> <span style="color:#CCCCCC"><?php echo str_replace(";"," ",$row_order_items['attr_value']); ?></span></div></td>

@@ -35,7 +35,7 @@ $query_news_catalog = sprintf("SELECT * FROM `news_catalog` WHERE id = %s", $col
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
 $row_news_catalog = mysqli_fetch_assoc($news_catalog);
-$totalRows_news_catalog = mysql_num_rows($news_catalog);
+$totalRows_news_catalog = mysqli_num_rows($news_catalog);
 
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {

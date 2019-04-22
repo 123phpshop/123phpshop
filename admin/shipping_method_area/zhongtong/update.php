@@ -49,7 +49,7 @@ $query_shipping_method = "SELECT * FROM shipping_method WHERE config_file_path =
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$insertSQL){$logger->fatal("数据库操作失败:".$query_shipping_method);}
 $row_shipping_method = mysqli_fetch_assoc($shipping_method);
-$totalRows_shipping_method = mysql_num_rows($shipping_method);
+$totalRows_shipping_method = mysqli_num_rows($shipping_method);
 
 $colname_shipping_method_area = "-1";
 if (isset($_GET['id'])) {
@@ -60,7 +60,7 @@ $query_shipping_method_area = sprintf("SELECT * FROM shipping_method_area WHERE 
 $shipping_method_area = mysqli_query($localhost,$query_shipping_method_area);
 if(!$shipping_method_area){$logger->fatal("数据库操作失败:".$query_shipping_method_area);}
 $row_shipping_method_area = mysqli_fetch_assoc($shipping_method_area);
-$totalRows_shipping_method_area = mysql_num_rows($shipping_method_area);
+$totalRows_shipping_method_area = mysqli_num_rows($shipping_method_area);
 
 
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -197,5 +197,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($shipping_method_area);
+mysqli_free_result($shipping_method_area);
 ?>

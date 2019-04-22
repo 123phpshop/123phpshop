@@ -41,27 +41,27 @@ if (! isset ( $_SESSION ['privileges'] )) {
 	// 根据role_id获取权限id
 	$colname_get_privilege_id = $_SESSION ['role_id'];
 	
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_get_privilege_id = sprintf ( "SELECT * FROM role_privilege WHERE role_id = %s", $colname_get_privilege_id );
-	$get_privilege_id = mysql_query ( $query_get_privilege_id, $localhost );
+	$get_privilege_id = mysqli_query($localhost,$query_get_privilege_id);
 	if (! $Result1) {
 		$logger->fatal ( "数据库操作失败:" . $updateSQL );
 	}
-	$row_get_privilege_id = mysql_fetch_assoc ( $get_privilege_id );
-	$totalRows_get_privilege_id = mysql_num_rows ( $get_privilege_id );
+	$row_get_privilege_id = mysqli_fetch_assoc ( $get_privilege_id );
+	$totalRows_get_privilege_id = mysqli_num_rows ( $get_privilege_id );
 	
 	if ($totalRows_get_privilege_id > 0) {
 		
 		while ( $row = $row_get_privilege_id ) {
 			// 根据权限id获取权限
-			mysql_select_db ( $database_localhost, $localhost );
+			
 			$query_get_privilege = sprintf ( "SELECT * FROM privilege WHERE id = %s", $colname_get_privilege );
-			$get_privilege = mysql_query ( $query_get_privilege, $localhost );
+			$get_privilege = mysqli_query($localhost,$query_get_privilege);
 			if (! $Result1) {
 				$logger->fatal ( "数据库操作失败:" . $updateSQL );
 			}
 			$row_get_privilege = mysql_fetch_object ( $get_privilege );
-			$totalRows_get_privilege = mysql_num_rows ( $get_privilege );
+			$totalRows_get_privilege = mysqli_num_rows ( $get_privilege );
 			if ($totalRows_get_privilege > 0) {
 				while ( $privilege_item = $row_get_privilege ) {
 					$_SESSION ['privileges'] [] = $privilege_item;

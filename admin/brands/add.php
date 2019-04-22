@@ -62,8 +62,8 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 		
 		$logger->debug(__FILE__." ".$insertSQL);
 		// 这里需要检查是否有问题，如果没有问题，那么执行添加品牌的操作
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {
 			$logger->fatal ( "数据库操作失败:" . $insertSQL );
 		}

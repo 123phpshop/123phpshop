@@ -24,7 +24,7 @@ $query_shipping_methods = "SELECT * FROM shipping_method where is_delete=0";
 $shipping_methods = mysqli_query($localhost,$query_shipping_methods);
 if(!$shipping_methods){$logger->fatal("数据库操作失败:".$query_shipping_methods);}
 $row_shipping_methods = mysqli_fetch_assoc($shipping_methods);
-$totalRows_shipping_methods = mysql_num_rows($shipping_methods);
+$totalRows_shipping_methods = mysqli_num_rows($shipping_methods);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

@@ -64,7 +64,7 @@ $query_product_images = sprintf("SELECT * FROM product_images WHERE product_id =
 $product_images = mysqli_query($localhost,$query_product_images);
 if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 $row_product_images = mysqli_fetch_assoc($product_images);
-$totalRows_product_images = mysql_num_rows($product_images);
+$totalRows_product_images = mysqli_num_rows($product_images);
 
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
@@ -84,7 +84,7 @@ $query_limit_DetailRS1 = sprintf("%s LIMIT %d, %d", $query_DetailRS1, $startRow_
 $DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 if(!$DetailRS1){$logger->fatal("数据库操作失败:".$query_limit_DetailRS1);}
 $row_DetailRS1 = mysqli_fetch_assoc($DetailRS1);
-$totalRows_DetailRS1 = mysql_num_rows($DetailRS1);
+$totalRows_DetailRS1 = mysqli_num_rows($DetailRS1);
 //	如果找不到这个产品的话，那么直接跳转到index。php
 if($totalRows_DetailRS1==0){
 	 $updateGoTo = "index.php";
@@ -95,7 +95,7 @@ if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
   $all_DetailRS1 = mysqli_query($localhost,$query_DetailRS1);
-  $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
+  $totalRows_DetailRS1 = mysqli_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 ?>
@@ -264,6 +264,6 @@ form{
   <?php } // Show if recordset not empty ?> 
 </body>
 </html><?php
-mysql_free_result($product_images);
-mysql_free_result($DetailRS1);
+mysqli_free_result($product_images);
+mysqli_free_result($DetailRS1);
 ?>

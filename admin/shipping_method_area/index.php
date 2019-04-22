@@ -28,7 +28,7 @@ $query_shipping_method = sprintf("SELECT id, shipping_method_id, area, shipping_
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
 $row_shipping_method = mysqli_fetch_assoc($shipping_method);
-$totalRows_shipping_method = mysql_num_rows($shipping_method);
+$totalRows_shipping_method = mysqli_num_rows($shipping_method);
 
 $colname_shipping_method_folder = "-1";
 if (isset($_GET['shipping_method_id'])) {
@@ -39,7 +39,7 @@ $query_shipping_method_folder = sprintf("SELECT * FROM shipping_method WHERE id 
 $shipping_method_folder = mysqli_query($localhost,$query_shipping_method_folder);
 if(!$shipping_method_folder){$logger->fatal("数据库操作失败:".$query_shipping_method_folder);}
 $row_shipping_method_folder = mysqli_fetch_assoc($shipping_method_folder);
-$totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
+$totalRows_shipping_method_folder = mysqli_num_rows($shipping_method_folder);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -78,7 +78,7 @@ $totalRows_shipping_method_folder = mysql_num_rows($shipping_method_folder);
 </body>
 </html>
 <?php
-mysql_free_result($shipping_method);
+mysqli_free_result($shipping_method);
 
-mysql_free_result($shipping_method_folder);
+mysqli_free_result($shipping_method_folder);
 ?>

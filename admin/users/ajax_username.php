@@ -27,7 +27,7 @@ $query_user = sprintf("SELECT * FROM `user` WHERE username = '%s'", $colname_use
 $user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 $row_user = mysqli_fetch_assoc($user);
-$totalRows_user = mysql_num_rows($user);
+$totalRows_user = mysqli_num_rows($user);
 if($totalRows_user>0){
 	$result="false";
 }

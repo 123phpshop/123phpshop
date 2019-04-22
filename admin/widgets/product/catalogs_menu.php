@@ -32,13 +32,13 @@ function get_catalog_tree($parent_catalog = array(), $prefix = "") {
 		$pid = $parent_catalog ['id'];
 	}
 	
-	mysql_select_db ( $db_database_localhost, $db_conn );
+	
 	$query_catalogs = "SELECT * FROM `catalog` where is_delete=0 and pid=" . $pid;
 	//$glogger->debug ( $query_catalogs );
-	$catalogs = mysql_query ( $query_catalogs, $db_conn );
+	$catalogs = mysqli_query($db_conn,$query_catalogs);
 	if(!$catalogs){$logger->fatal("数据库操作失败:".$query_catalogs);}
 
-	$totalRows_catalogs = mysql_num_rows ( $catalogs );
+	$totalRows_catalogs = mysqli_num_rows ( $catalogs );
  	//$glogger->debug ( "获取分类的数目：" . $totalRows_catalogs );
  	// 如果找不到记录的话，那么直接返回
 	if ($totalRows_catalogs == 0) {
@@ -47,7 +47,7 @@ function get_catalog_tree($parent_catalog = array(), $prefix = "") {
 	
 	// 如果可以找到记录的话，那么循环这些记录
 	$new_prefix = $prefix . "&nbsp&nbsp&nbsp";
-	while ( $catalog = mysql_fetch_assoc ( $catalogs ) ) {
+	while ( $catalog = mysqli_fetch_assoc ( $catalogs ) ) {
  		$catalog ['prefix'] = $prefix;
 		$catalog_tree [] = $catalog;
 		get_catalog_tree ( $catalog, $new_prefix );

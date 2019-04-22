@@ -24,7 +24,7 @@ if (isset($_GET['totalRows_subs'])) {
   $totalRows_subs = $_GET['totalRows_subs'];
 } else {
   $all_subs = mysqli_query($localhost,$query_subs);
-  $totalRows_subs = mysql_num_rows($all_subs);
+  $totalRows_subs = mysqli_num_rows($all_subs);
 }
 $totalPages_subs = ceil($totalRows_subs/$maxRows_subs)-1;
 
@@ -94,5 +94,5 @@ $queryString_subs = sprintf("&totalRows_subs=%d%s", $totalRows_subs, $queryStrin
 </body>
 </html>
 <?php
-mysql_free_result($subs);
+mysqli_free_result($subs);
 ?>

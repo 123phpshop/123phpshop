@@ -5,7 +5,7 @@ $query_leveles = "SELECT * FROM user_levels ORDER BY id ASC";
 $leveles = mysqli_query($localhost,$query_leveles);
 if(!$leveles){$logger->fatal("数据库操作失败:".$query_leveles);}
 $row_leveles = mysqli_fetch_assoc($leveles);
-$totalRows_leveles = mysql_num_rows($leveles);
+$totalRows_leveles = mysqli_num_rows($leveles);
 
 $doc_url="user_level.html#index";
 $support_email_question="查看用户等级列表";log_admin($support_email_question);
@@ -46,5 +46,5 @@ $support_email_question="查看用户等级列表";log_admin($support_email_ques
   <?php } // Show if recordset empty ?></body>
 </html>
 <?php
-mysql_free_result($leveles);
+mysqli_free_result($leveles);
 ?>

@@ -22,7 +22,7 @@ foreach($php_files as $php_file){
     // 更新mysql_select_db函数
     $contents=replace_mysql_select_db($contents);
 
-    // 更新mysql_fetch_associate函数
+    // 更新mysqli_fetch_associate函数
     $contents=replace_mysql_associate($contents);
  
     fwrite($myfile,$contents);

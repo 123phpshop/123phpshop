@@ -33,7 +33,7 @@ if(!$shopinfo){
 }
 
 $row_shopinfo = mysqli_fetch_assoc($shopinfo);
-$totalRows_shopinfo = mysql_num_rows($shopinfo);
+$totalRows_shopinfo = mysqli_num_rows($shopinfo);
 if($totalRows_shopinfo==0){
 	$logger->warn("获取店铺信息失败，没有找到店铺id为1的记录。");
 }
@@ -59,7 +59,7 @@ try{
 	$get_user_by_username = mysqli_query($localhost,$query_get_user_by_username);
 	if(!$get_user_by_username){$logger->fatal("数据库操作失败:".$query_get_user_by_username);}
 	$row_get_user_by_username = mysqli_fetch_assoc($get_user_by_username);
-	$totalRows_get_user_by_username = mysql_num_rows($get_user_by_username);
+	$totalRows_get_user_by_username = mysqli_num_rows($get_user_by_username);
  	if($totalRows_get_user_by_username>0){
  		 throw new Exception("用户名已经被占用，请修改后重试！");
 	}

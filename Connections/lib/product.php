@@ -26,12 +26,12 @@ function user_could_comment($user_id, $product_id) {
 	global $db_conn;
 	global $glogger;
 	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON order_item.order_id=orders.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";
-	$order = mysql_query ( $query_order, $db_conn ) or die ( mysql_error () );
+	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
 	if (! $order) {
 		$glogger->fatal ( "获取用户购买过这个商品的数目失败:" . $query_order );
 	}
 	
-	$totalRows_order = mysql_num_rows ( $order );
+	$totalRows_order = mysqli_num_rows ( $order );
 	// $glogger->debug ( "用户购买过这个商品的数目:" . $totalRows_order );
 	if ($totalRows_order == 0) {
 		return false;
@@ -39,8 +39,8 @@ function user_could_comment($user_id, $product_id) {
 	
 	// 检查用户评论过这个商品的数目，如果这个数目是0的话，那么直接返回false
 	$product_comment_num_sql = "select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id ";
-	$product_comment_num_query = mysql_query ( $product_comment_num_sql, $db_conn ) or die ( mysql_error () );
-	$product_comment_num = mysql_fetch_assoc ( $product_comment_num_query );
+	$product_comment_num_query = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$product_comment_num_sql);
+	$product_comment_num = mysqli_fetch_assoc ( $product_comment_num_query );
 	// $glogger->debug ( "用户评论过的商品的数目:" . $product_comment_num ['comment_num'] );
 	if (( int ) $product_comment_num ['comment_num'] == 0) {
 		return true;
@@ -90,7 +90,7 @@ function _add_db_view_history($product_id) {
 		global $db_conn;
 		global $glogger;
 		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
+		
  		$colname_get_last_view_product = "-1";
 		if (isset($_SESSION['user_id'])) {
 		  $colname_get_last_view_product = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
@@ -104,7 +104,7 @@ function _add_db_view_history($product_id) {
 		}
 		
 		$row_get_last_view_product = mysqli_fetch_assoc($get_last_view_product);
-		$totalRows_get_last_view_product = mysql_num_rows($get_last_view_product);
+		$totalRows_get_last_view_product = mysqli_num_rows($get_last_view_product);
 		if($totalRows_get_last_view_product==0){
 			// 如果最后一条不是这个用户的数据的话,那么直接插入
 			$sql = sprintf ( "insert into user_view_history (user_id,product_id) values('%s','%s')", $_SESSION ['user_id'], $product_id );
@@ -112,7 +112,7 @@ function _add_db_view_history($product_id) {
 			// 如果最后一条是这个用户的数据的话，那么只更新浏览历史的时间
 			$sql = sprintf ( "update  user_view_history set create_time='%s'  where id=%s", date("Y-m-d H:i:s"),$row_get_last_view_product['id'] );
   }
- 		$query=mysql_query ( $sql, $db_conn );
+ 		$query=mysqli_query($db_conn,$sql);
 		if(!$query){
 				$glogger->fatal("添加/更新用户查看历史时数据库操作失败".$sql);
 		}
@@ -129,8 +129,8 @@ function could_devliver($areas) {
 		return false;
 	}
 	$query_area = "SELECT * from shipping_method_area where is_delete=0";
-	$area = mysql_query ( $query_area, $db_conn ) or die ( mysql_error () );
-	while ( $order_area = mysql_fetch_assoc ( $area ) ) {
+	$area = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_area);
+	while ( $order_area = mysqli_fetch_assoc ( $area ) ) {
 		// 如果是全国范围的话，
 		if (trim ( $order_area ['area'] ) == "*_*_*;") {
 			return true;

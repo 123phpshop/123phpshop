@@ -30,7 +30,7 @@ $query_product = sprintf("SELECT * FROM express_company WHERE id = %s", $colname
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 
 if($row_product==0){
 	$could_delete=0;
@@ -70,5 +70,5 @@ if($could_delete==1){
 </body>
 </html>
 <?php
-mysql_free_result($product);
+mysqli_free_result($product);
 ?>

@@ -35,7 +35,7 @@ if (isset($_GET['totalRows_ad_one'])) {
   $totalRows_ad_one = $_GET['totalRows_ad_one'];
 } else {
   $all_ad_one = mysqli_query($localhost,$query_ad_one);
-  $totalRows_ad_one = mysql_num_rows($all_ad_one);
+  $totalRows_ad_one = mysqli_num_rows($all_ad_one);
 }
 $totalPages_ad_one = ceil($totalRows_ad_one/$maxRows_ad_one)-1;
 

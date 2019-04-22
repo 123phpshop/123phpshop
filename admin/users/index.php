@@ -59,7 +59,7 @@ if (isset($_GET['totalRows_users'])) {
     $totalRows_users = $_GET['totalRows_users'];
 } else {
     $all_users = mysqli_query($localhost,$query_users);
-    $totalRows_users = mysql_num_rows($all_users);
+    $totalRows_users = mysqli_num_rows($all_users);
 }
 $totalPages_users = ceil($totalRows_users / $maxRows_users) - 1;
 

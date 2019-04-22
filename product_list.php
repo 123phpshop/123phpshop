@@ -37,7 +37,7 @@ $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catal
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
+$totalRows_catalog = mysqli_num_rows($catalog);
 include($template_path."product_list.php");
 
 ?>

@@ -26,14 +26,14 @@ $colname_product = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_product = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_product = sprintf ( "SELECT * FROM product WHERE id = %s", $colname_product );
-$product = mysql_query ( $query_product, $localhost );
+$product = mysqli_query($localhost,$query_product);
 if (! $product) {
 	$logger->fatal ( "数据库操作失败:" . $query_product );
 }
-$row_product = mysql_fetch_assoc ( $product );
-$totalRows_product = mysql_num_rows ( $product );
+$row_product = mysqli_fetch_assoc ( $product );
+$totalRows_product = mysqli_num_rows ( $product );
 if ($totalRows_product == 0) {
 	// 如果没有相应的商品，那么跳转到商品列表页面
 	header ( "Location: " . "index.php" );
@@ -41,24 +41,24 @@ if ($totalRows_product == 0) {
 }
 
 // 获取品牌信息
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_brands = "SELECT id, name FROM brands where is_delete=0";
-$brands = mysql_query ( $query_brands, $localhost );
+$brands = mysqli_query($localhost,$query_brands);
 if (! $brands) {
 	$logger->fatal ( "数据库操作失败:" . $query_brands );
 }
-$row_brands = mysql_fetch_assoc ( $brands );
-$totalRows_brands = mysql_num_rows ( $brands );
+$row_brands = mysqli_fetch_assoc ( $brands );
+$totalRows_brands = mysqli_num_rows ( $brands );
 
 // 获取商品类型
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
-$product_types = mysql_query ( $query_product_types, $localhost );
+$product_types = mysqli_query($localhost,$query_product_types);
 if (! $product_types) {
 	$logger->fatal ( "数据库操作失败:" . $query_product_types );
 }
-$row_product_types = mysql_fetch_assoc ( $product_types );
-$totalRows_product_types = mysql_num_rows ( $product_types );
+$row_product_types = mysqli_fetch_assoc ( $product_types );
+$totalRows_product_types = mysqli_num_rows ( $product_types );
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
@@ -114,13 +114,13 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 		
 		// 如果需要上架的话
 		$updateSQL = sprintf ( "UPDATE product SET consumption_pointers=%s,user_level_pointers=%s,catalog_id=%s,is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s", GetSQLValueString ( $_POST ['consumption_pointers'], "int" ), GetSQLValueString ( $_POST ['user_level_pointers'], "int" ), GetSQLValueString ( $_POST ['catalog_id'], "int" ), GetSQLValueString ( $_POST ['is_promotion'], "text" ), GetSQLValueString ( $_POST ['promotion_price'], "double" ), GetSQLValueString ( $_POST ['promotion_start'], "date" ), GetSQLValueString ( $_POST ['promotion_end'], "date" ), GetSQLValueString ( $_POST ['is_shipping_free'], "int" ), GetSQLValueString ( $_POST ['meta_keywords'], "text" ), GetSQLValueString ( $_POST ['meta_desc'], "text" ), GetSQLValueString ( $_POST ['description'], "text" ), GetSQLValueString ( $_POST ['product_type_id'], "text" ), GetSQLValueString ( $_POST ['unit'], "text" ), GetSQLValueString ( $_POST ['weight'], "double" ), GetSQLValueString ( $_POST ['is_virtual'], "int" ), GetSQLValueString ( $on_sheft_time, "date" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['ad_text'], "text" ), GetSQLValueString ( $_POST ['price'], "double" ), GetSQLValueString ( $_POST ['market_price'], "double" ), GetSQLValueString ( $_POST ['is_on_sheft'], "int" ), GetSQLValueString ( $_POST ['is_hot'], "text" ), GetSQLValueString ( $_POST ['is_season'], "text" ), GetSQLValueString ( $_POST ['is_recommanded'], "text" ), GetSQLValueString ( $_POST ['store_num'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['brand_id'], "int" ), GetSQLValueString ( $_POST ['id'], "int" ) );
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $updateSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$updateSQL);
 		
 		// 如果数据库操作失败的话
 		if (! $Result1) {
 			$error = "商品更新的数据库操作失败，请联系123phpshop寻求解决方案";
-			$logger->fatal ( "数据库操作失败:" . mysql_error () . $updateSQL );
+			$logger->fatal ( "数据库操作失败:" . mysqli_error ($localhost) . $updateSQL );
 			throw new Exception ( $error );
 		}
 		
@@ -147,17 +147,17 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 				
 				$insertSQL = sprintf ( "INSERT INTO product_images (product_id, image_files) VALUES (%s, %s)", GetSQLValueString ( $_POST ['id'], "int" ), GetSQLValueString ( $image_files, "text" ) );
 				$logger->fatal ( __FILE__ . $insertSQL );
-				mysql_select_db ( $database_localhost, $localhost );
-				$Result1 = mysql_query ( $insertSQL, $localhost );
+				
+				$Result1 = mysqli_query($localhost,$insertSQL);
 				if (! $Result1) {
-					$logger->fatal ( "数据库操作失败:" . mysql_error () . $insertSQL );
+					$logger->fatal ( "数据库操作失败:" . mysqli_error ($localhost) . $insertSQL );
 					throw new Exception ( '系统错误，请联系123phpshop！' );
 				}
 			}
 			
 			// 获取上传失败以后的错误提示
 			$error = $up->getErrorMsg ();
-			$logger->fatal ( "数据库操作失败:" . mysql_error () . $updateSQL );
+			$logger->fatal ( "数据库操作失败:" . mysqli_error ($localhost) . $updateSQL );
 			throw new Exception ( $error );
 		}
 		

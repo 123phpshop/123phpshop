@@ -51,7 +51,7 @@ if (isset($_GET['totalRows_comments'])) {
   $totalRows_comments = $_GET['totalRows_comments'];
 } else {
   $all_comments = mysqli_query($localhost,$query_comments);
-  $totalRows_comments = mysql_num_rows($all_comments);
+  $totalRows_comments = mysqli_num_rows($all_comments);
 }
 $totalPages_comments = ceil($totalRows_comments/$maxRows_comments)-1;
 
@@ -197,5 +197,5 @@ function _get_comment_where_query_string($get){
 </body>
 </html>
 <?php
-mysql_free_result($comments);
+mysqli_free_result($comments);
 ?>

@@ -22,7 +22,7 @@ require_once '../../Connections/localhost.php';
 $query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
 $catalogs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_catalogs);
 $row_catalogs = mysqli_fetch_assoc($catalogs);
-$totalRows_catalogs = mysql_num_rows($catalogs);
+$totalRows_catalogs = mysqli_num_rows($catalogs);
 if ($totalRows_catalogs == 0) {
     $insertGoTo = '/admin/catalog/index.php';
     header(sprintf("Location: %s", $insertGoTo));
@@ -40,7 +40,7 @@ if (!$brands) {
     $logger->fatal("数据库操作失败:" . $query_brands);
 }
 $row_brands = mysqli_fetch_assoc($brands);
-$totalRows_brands = mysql_num_rows($brands);
+$totalRows_brands = mysqli_num_rows($brands);
 
 $is_vproduct_add_page = false;
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -82,7 +82,7 @@ if (!$product_types) {
     $logger->fatal("数据库操作失败:" . $query_product_types);
 }
 $row_product_types = mysqli_fetch_assoc($product_types);
-$totalRows_product_types = mysql_num_rows($product_types);
+$totalRows_product_types = mysqli_num_rows($product_types);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -355,5 +355,5 @@ function show_attr_tab(){
 </body>
 </html>
 <?php
-mysql_free_result($catalogs);
+mysqli_free_result($catalogs);
 ?>

@@ -78,7 +78,7 @@ $query_shipping_method = sprintf("SELECT id, name, `desc`, config_file_path, is_
 $shipping_method = mysqli_query($localhost,$query_shipping_method);
 if(!$shipping_method){$logger->fatal("数据库操作失败:".$query_shipping_method);}
 $row_shipping_method = mysqli_fetch_assoc($shipping_method);
-$totalRows_shipping_method = mysql_num_rows($shipping_method);
+$totalRows_shipping_method = mysqli_num_rows($shipping_method);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -158,5 +158,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($shipping_method);
+mysqli_free_result($shipping_method);
 ?>

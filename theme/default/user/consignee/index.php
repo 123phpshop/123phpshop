@@ -171,5 +171,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($consignees);
+mysqli_free_result($consignees);
 ?>

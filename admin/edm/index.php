@@ -19,7 +19,7 @@ if (isset($_GET['totalRows_edm_list'])) {
   $totalRows_edm_list = $_GET['totalRows_edm_list'];
 } else {
   $all_edm_list = mysqli_query($localhost,$query_edm_list);
-  $totalRows_edm_list = mysql_num_rows($all_edm_list);
+  $totalRows_edm_list = mysqli_num_rows($all_edm_list);
 }
 $totalPages_edm_list = ceil($totalRows_edm_list/$maxRows_edm_list)-1;
 

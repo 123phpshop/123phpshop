@@ -51,7 +51,7 @@ if (isset($_GET['totalRows_news'])) {
   $totalRows_news = $_GET['totalRows_news'];
 } else {
   $all_news = mysqli_query($localhost,$query_news);
-  $totalRows_news = mysql_num_rows($all_news);
+  $totalRows_news = mysqli_num_rows($all_news);
 }
 $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

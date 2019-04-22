@@ -36,6 +36,6 @@ $query_brand = sprintf("SELECT * FROM brands WHERE id = %s and is_delete=0", $co
 $brand = mysqli_query($localhost,$query_brand);
 if(!$brand){$logger->fatal("数据库操作失败:".$query_brand);}
 $row_brand = mysqli_fetch_assoc($brand);
-$totalRows_brand = mysql_num_rows($brand);
+$totalRows_brand = mysqli_num_rows($brand);
 include($template_path."brands_product.php");
 ?>

@@ -27,7 +27,7 @@ $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
 $row_goods = mysqli_fetch_assoc($goods);
 $row_goods_hidden=$row_goods;
-$row_goods_num=mysql_num_rows($goods);
+$row_goods_num=mysqli_num_rows($goods);
 ?>
  <?php if($row_goods_num>0){ ?>
 <table width="960" border="1" class="phpshop123_list_box">

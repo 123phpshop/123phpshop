@@ -35,7 +35,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	$query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and user_id = %s order by is_default desc", $colname_consignees);
 	$consignees = mysqli_query($localhost,$query_consignees);
 	if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}
- 	$totalRows_consignees = mysql_num_rows($consignees);
+ 	$totalRows_consignees = mysqli_num_rows($consignees);
 	if($totalRows_consignees==0){
 		$is_default=1;
 	}
@@ -72,7 +72,7 @@ $query_consignees = sprintf("SELECT * FROM user_consignee WHERE is_delete=0 and 
 $consignees = mysqli_query($localhost,$query_consignees);
 if(!$consignees){$logger->fatal("数据库操作失败:".$query_consignees);}
 $row_consignees = mysqli_fetch_assoc($consignees);
-$totalRows_consignees = mysql_num_rows($consignees);
+$totalRows_consignees = mysqli_num_rows($consignees);
 
 $doc_url="order.html#add_consignee";
 $support_email_question="添加订单";

@@ -53,7 +53,7 @@ $query_express_company = sprintf("SELECT * FROM express_company WHERE id = %s", 
 $express_company = mysqli_query($localhost,$query_express_company);
 if(!$express_company){$logger->fatal("数据库操作失败:".$query_express_company);}
 $row_express_company = mysqli_fetch_assoc($express_company);
-$totalRows_express_company = mysql_num_rows($express_company);
+$totalRows_express_company = mysqli_num_rows($express_company);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -104,5 +104,5 @@ $totalRows_express_company = mysql_num_rows($express_company);
 </body>
 </html>
 <?php
-mysql_free_result($express_company);
+mysqli_free_result($express_company);
 ?>

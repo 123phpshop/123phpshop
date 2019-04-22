@@ -60,14 +60,14 @@ $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
 
 $query_logistics = "SELECT * FROM express_company";
 $logistics = mysqli_query($localhost,$query_logistics);
 if(!$logistics){$logger->fatal("数据库操作失败:".$query_logistics);}
 $row_logistics = mysqli_fetch_assoc($logistics);
-$totalRows_logistics = mysql_num_rows($logistics);
+$totalRows_logistics = mysqli_num_rows($logistics);
 
  
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -106,7 +106,7 @@ do {
             <option value="<?php echo $row_logistics['id']?>"<?php if (!(strcmp($row_logistics['id'], $row_order['express_company_id']))) {echo "selected=\"selected\"";} ?>><?php echo $row_logistics['name']?></option>
             <?php
 } while ($row_logistics = mysqli_fetch_assoc($logistics));
-  $rows = mysql_num_rows($logistics);
+  $rows = mysqli_num_rows($logistics);
   if($rows > 0) {
       mysql_data_seek($logistics, 0);
 	  $row_logistics = mysqli_fetch_assoc($logistics);
@@ -134,6 +134,6 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($order);
-mysql_free_result($logistics);
+mysqli_free_result($order);
+mysqli_free_result($logistics);
 ?>

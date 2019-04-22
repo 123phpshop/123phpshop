@@ -99,14 +99,14 @@ $colname_getByName = "-1";
 if (isset ( $_POST ['name'] )) {
 	$colname_getByName = (get_magic_quotes_gpc ()) ? $_POST ['name'] : addslashes ( $_POST ['name'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_getByName = sprintf ( "SELECT * FROM privilege WHERE name = '%s'", $colname_getByName );
-$getByName = mysql_query ( $query_getByName, $localhost );
+$getByName = mysqli_query($localhost,$query_getByName);
 if (! $getByName) {
 	$logger->fatal ( "数据库操作失败:" . $query_getByName );
 }
-$row_getByName = mysql_fetch_assoc ( $getByName );
-$totalRows_getByName = mysql_num_rows ( $getByName );
+$row_getByName = mysqli_fetch_assoc ( $getByName );
+$totalRows_getByName = mysqli_num_rows ( $getByName );
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
@@ -127,10 +127,10 @@ if ($totalRows_getByName == 0 && (isset ( $_POST ["MM_insert"] )) && ($_POST ["M
 	// 插入数据库
 	$insertSQL = sprintf ( "INSERT INTO privilege (is_menu,name, file_name, pid,sort,para) VALUES (%s, %s,%s, %s, %s, %s)", GetSQLValueString ( isset ( $_POST ['is_menu'] ) ? 1 : 0, "int" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['controller_action'], "text" ), GetSQLValueString ( $colname_getParent, "int" ), GetSQLValueString ( $_POST ['sort'], "int" ), GetSQLValueString ( $_POST ['para'], "text" ) );
 	
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
+	
+	$Result1 = mysqli_query($localhost,$insertSQL);
 	if (! $Result1) {
-		$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysql_error () . $insertSQL );
+		$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysqli_error ($localhost) . $insertSQL );
 		throw new Exception ( COMMON_LANG_DB_ERROR );
 	}
 	
@@ -146,29 +146,29 @@ $colname_getParent = "0";
 if (isset ( $_GET ['parent_id'] ) && $_GET ['parent_id'] != "") {
 	$colname_getParent = (get_magic_quotes_gpc ()) ? $_GET ['parent_id'] : addslashes ( $_GET ['parent_id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_getParent = sprintf ( "SELECT * FROM privilege WHERE id = %s", $colname_getParent );
-$getParent = mysql_query ( $query_getParent, $localhost );
+$getParent = mysqli_query($localhost,$query_getParent);
 if (! $getParent) {
-	$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysql_error () . $query_getParent );
+	$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysqli_error ($localhost) . $query_getParent );
 	throw new Exception ( COMMON_LANG_DB_ERROR );
 }
-$row_getParent = mysql_fetch_assoc ( $getParent );
-$totalRows_getParent = mysql_num_rows ( $getParent );
+$row_getParent = mysqli_fetch_assoc ( $getParent );
+$totalRows_getParent = mysqli_num_rows ( $getParent );
 
 $colname_privileges = "-1";
 if (isset ( $_GET ['parent_id'] )) {
 	$colname_privileges = (get_magic_quotes_gpc ()) ? $_GET ['parent_id'] : addslashes ( $_GET ['parent_id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_privileges = sprintf ( "SELECT * FROM privilege WHERE pid = %s  and is_delete=0 ORDER BY sort asc", $colname_privileges );
-$privileges = mysql_query ( $query_privileges, $localhost );
+$privileges = mysqli_query($localhost,$query_privileges);
 if (! $privileges) {
-	$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysql_error () . $query_privileges );
+	$logger->fatal ( __FILE__ . ":数据库操作失败:" . mysqli_error ($localhost) . $query_privileges );
 	throw new Exception ( COMMON_LANG_DB_ERROR );
 }
-$row_privileges = mysql_fetch_assoc ( $privileges );
-$totalRows_privileges = mysql_num_rows ( $privileges );
+$row_privileges = mysqli_fetch_assoc ( $privileges );
+$totalRows_privileges = mysqli_num_rows ( $privileges );
 ?>
 
 

@@ -23,7 +23,7 @@ if (isset($_GET['totalRows_admin_logs'])) {
   $totalRows_admin_logs = $_GET['totalRows_admin_logs'];
 } else {
   $all_admin_logs = mysqli_query($localhost,$query_admin_logs);
-  $totalRows_admin_logs = mysql_num_rows($all_admin_logs);
+  $totalRows_admin_logs = mysqli_num_rows($all_admin_logs);
 }
 $totalPages_admin_logs = ceil($totalRows_admin_logs/$maxRows_admin_logs)-1;
 

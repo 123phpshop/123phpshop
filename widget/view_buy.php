@@ -22,7 +22,7 @@ $query_buy_view = "SELECT * FROM product WHERE is_on_sheft = 1 and is_delete=0 l
 $buy_view = mysqli_query($localhost,$query_buy_view);
 if(!$buy_view){$logger->fatal("数据库操作失败:".$query_buy_view);}
 $row_buy_view = mysqli_fetch_assoc($buy_view);
-$totalRows_buy_view = mysql_num_rows($buy_view);
+$totalRows_buy_view = mysqli_num_rows($buy_view);
 ?>
 
 <style>
@@ -58,7 +58,7 @@ table{
 		$query_get_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id =". $row_buy_view['id'];
 		$get_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
 		$row_get_images = mysqli_fetch_assoc($get_images);
-		$totalRows_get_images = mysql_num_rows($get_images);
+		$totalRows_get_images = mysqli_num_rows($get_images);
  	   ?>
 	   
     <tr bgcolor="#FFFFFF" class="view_buy_item" >

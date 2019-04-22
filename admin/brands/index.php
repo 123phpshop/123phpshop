@@ -41,7 +41,7 @@ if (isset($_GET['totalRows_brands'])) {
   $totalRows_brands = $_GET['totalRows_brands'];
 } else {
   $all_brands = mysqli_query($localhost,$query_brands);
-  $totalRows_brands = mysql_num_rows($all_brands);
+  $totalRows_brands = mysqli_num_rows($all_brands);
   if($totalRows_brands==0){
 	  $insertGoTo = '/admin/brands/add.php';
 	  header ( sprintf ( "Location: %s", $insertGoTo ) );return;

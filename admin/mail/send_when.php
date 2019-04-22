@@ -41,7 +41,7 @@ $query_send_when = "SELECT id, send_when FROM shop_info WHERE id = 1 and send_wh
 $send_when = mysqli_query($localhost,$query_send_when);
 if(!$send_when){$logger->fatal("数据库操作失败:".$query_send_when);}
 $row_send_when = mysqli_fetch_assoc($send_when);
-$totalRows_send_when = mysql_num_rows($send_when);
+$totalRows_send_when = mysqli_num_rows($send_when);
 if($totalRows_send_when>0){
  	$send_when_array=explode(",",$row_send_when["send_when"]);
 }
@@ -81,5 +81,5 @@ if($totalRows_send_when>0){
 </body>
 </html>
 <?php
-mysql_free_result($send_when);
+mysqli_free_result($send_when);
 ?>

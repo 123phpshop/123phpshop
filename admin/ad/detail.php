@@ -54,12 +54,12 @@ try {
 		$image_path = "/uploads/ad/" . $up->getFileName ();
 		$insertSQL = sprintf ( "INSERT INTO ad_images (ad_id, image_path, link_url) VALUES (%s, %s, %s)", GetSQLValueString ( $_POST ['ad_id'], "int" ), GetSQLValueString ( $image_path, "text" ), GetSQLValueString ( $_POST ['link_url'], "text" ) );
 		
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		
 		// 如果数据库操作出现错误，那么抛出
 		if (! $Result1) {
-			$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysql_error () . $insertSQL );
+			$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysqli_error ($localhost) . $insertSQL );
 			throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 		}
 	}
@@ -68,16 +68,16 @@ try {
 	if (isset ( $_GET ['recordID'] )) {
 		$colname_ad_images = (get_magic_quotes_gpc ()) ? $_GET ['recordID'] : addslashes ( $_GET ['recordID'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_ad_images = sprintf ( "SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images );
-	$ad_images = mysql_query ( $query_ad_images, $localhost );
+	$ad_images = mysqli_query($localhost,$query_ad_images);
 	if (! $ad_images) {
-		$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysql_error () . $query_ad_images );
+		$logger->fatal ( __FILE__ . COMMON_LANG_DB_ERROR . mysqli_error ($localhost) . $query_ad_images );
 		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 	}
 	
-	$row_ad_images = mysql_fetch_assoc ( $ad_images );
-	$totalRows_ad_images = mysql_num_rows ( $ad_images );
+	$row_ad_images = mysqli_fetch_assoc ( $ad_images );
+	$totalRows_ad_images = mysqli_num_rows ( $ad_images );
 	
 	$maxRows_DetailRS1 = 50;
 	$pageNum_DetailRS1 = 0;
@@ -86,22 +86,22 @@ try {
 	}
 	$startRow_DetailRS1 = $pageNum_DetailRS1 * $maxRows_DetailRS1;
 	
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$recordID = $_GET ['recordID'];
 	$query_DetailRS1 = "SELECT * FROM ad WHERE id = $recordID";
 	$query_limit_DetailRS1 = sprintf ( "%s LIMIT %d, %d", $query_DetailRS1, $startRow_DetailRS1, $maxRows_DetailRS1 );
-	$DetailRS1 = mysql_query ( $query_limit_DetailRS1, $localhost );
+	$DetailRS1 = mysqli_query($localhost,$query_limit_DetailRS1);
 	if (! $DetailRS1) {
 		$logger->fatal ( __FILE__." 数据库操作失败:" . $updateSQL );
 		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 	}
-	$row_DetailRS1 = mysql_fetch_assoc ( $DetailRS1 );
+	$row_DetailRS1 = mysqli_fetch_assoc ( $DetailRS1 );
 	
 	if (isset ( $_GET ['totalRows_DetailRS1'] )) {
 		$totalRows_DetailRS1 = $_GET ['totalRows_DetailRS1'];
 	} else {
 		$all_DetailRS1 = mysql_query ( $query_DetailRS1 );
-		$totalRows_DetailRS1 = mysql_num_rows ( $all_DetailRS1 );
+		$totalRows_DetailRS1 = mysqli_num_rows ( $all_DetailRS1 );
 	}
 	$totalPages_DetailRS1 = ceil ( $totalRows_DetailRS1 / $maxRows_DetailRS1 ) - 1;
 } catch ( Exception $ex ) {

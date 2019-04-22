@@ -34,7 +34,7 @@ if(!in_array($email_template_code,$global_phpshop123_email_send_time_array)){
 $query_shop_email = "SELECT email FROM shop_info WHERE id = 1";
 $shop_email = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_shop_email);}
 $row_shop_email = mysqli_fetch_assoc($shop_email);
-$totalRows_shop_email = mysql_num_rows($shop_email);
+$totalRows_shop_email = mysqli_num_rows($shop_email);
 
 //	如果没有设置的话，那么返回
 if($totalRows_shop_email==0){
@@ -49,7 +49,7 @@ $shop_email=$row_shop_email['email'];
 $query_email_template = "SELECT * FROM email_templates WHERE is_delete=0 and  code = '".$email_template_code."'";
 $email_template = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_email_template);}
 $row_email_template = mysqli_fetch_assoc($email_template);
-$totalRows_email_template = mysql_num_rows($email_template);
+$totalRows_email_template = mysqli_num_rows($email_template);
 if($totalRows_email_template==0){
 		return;
 }

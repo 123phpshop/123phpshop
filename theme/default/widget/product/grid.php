@@ -61,7 +61,7 @@ $row=ceil($totalRows_products/$cols);
 		$product_images = mysqli_query($localhost,$query_product_images);
 		if(!$product_images){$logger->fatal("数据库操作失败:".$query_product_images);}
 		$row_product_images = mysqli_fetch_assoc($product_images);
-		$totalRows_product_images = mysql_num_rows($product_images);
+		$totalRows_product_images = mysqli_num_rows($product_images);
  	 ?>
 	 <div class="product_box" align="center">
   	 <table width="220" border="0" >
@@ -94,5 +94,5 @@ $row=ceil($totalRows_products/$cols);
         <?php } // Show if not last page ?> 
 </div>
 <?php
-mysql_free_result($products);
+mysqli_free_result($products);
 ?>

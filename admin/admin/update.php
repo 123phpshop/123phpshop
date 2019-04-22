@@ -66,7 +66,7 @@ if (isset($_GET['id'])) {
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_admin);}
 $row_admin = mysqli_fetch_assoc($admin);
-$totalRows_admin = mysql_num_rows($admin);
+$totalRows_admin = mysqli_num_rows($admin);
 
 // 如果找不到这个id的话
 
@@ -74,7 +74,7 @@ $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
 $roles = mysqli_query($localhost,$query_roles);
 if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_roles = mysqli_fetch_assoc($roles);
-$totalRows_roles = mysql_num_rows($roles);
+$totalRows_roles = mysqli_num_rows($roles);
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -103,7 +103,7 @@ do {
           <option value="<?php echo $row_roles['id']?>"<?php if ($row_roles['id']==$row_admin['role_id']) {echo "selected=\"selected\"";} ?>><?php echo $row_roles['name']?></option>
           <?php
 } while ($row_roles = mysqli_fetch_assoc($roles));
-  $rows = mysql_num_rows($roles);
+  $rows = mysqli_num_rows($roles);
   if($rows > 0) {
       mysql_data_seek($roles, 0);
 	  $row_roles = mysqli_fetch_assoc($roles);
@@ -213,7 +213,7 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($admin);
+mysqli_free_result($admin);
 
-mysql_free_result($roles);
+mysqli_free_result($roles);
 ?>

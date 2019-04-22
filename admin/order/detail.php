@@ -30,7 +30,7 @@ $query_products = sprintf("SELECT order_item.*,product.is_shipping_free,product.
 $products = mysqli_query($localhost,$query_products);
 if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
 $row_products = mysqli_fetch_assoc($products);
-$totalRows_products = mysql_num_rows($products);
+$totalRows_products = mysqli_num_rows($products);
   
 $maxRows_DetailRS1 = 50;
 $pageNum_DetailRS1 = 0;
@@ -51,7 +51,7 @@ if (isset($_GET['totalRows_DetailRS1'])) {
   $totalRows_DetailRS1 = $_GET['totalRows_DetailRS1'];
 } else {
   $all_DetailRS1 = mysqli_query($localhost,$query_DetailRS1);
-  $totalRows_DetailRS1 = mysql_num_rows($all_DetailRS1);
+  $totalRows_DetailRS1 = mysqli_num_rows($all_DetailRS1);
 }
 $totalPages_DetailRS1 = ceil($totalRows_DetailRS1/$maxRows_DetailRS1)-1;
 
@@ -121,7 +121,7 @@ if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1
 		
 		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
 		$promotion_names = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_promotion_names);}
- 		$totalRows_promotion_names = mysql_num_rows($promotion_names);	?>	
+ 		$totalRows_promotion_names = mysqli_num_rows($promotion_names);	?>	
 	 <?php while ($row_promotion_names = mysqli_fetch_assoc($promotion_names)) { ?>
          <a href="../promotion/update.php?id=<?php echo $row_promotion_names['id']; ?>"><?php echo $row_promotion_names['name']; ?></a>
        <?php } ?>

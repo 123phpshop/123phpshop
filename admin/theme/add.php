@@ -83,7 +83,7 @@ $get_themes = mysqli_query($localhost,$query_get_themes);
 if(!$get_themes){
 	$logger->warn("查询错误".$query_get_themes);
 }
- $totalRows_get_themes = mysql_num_rows($get_themes);
+ $totalRows_get_themes = mysqli_num_rows($get_themes);
 if($totalRows_get_themes>0){
 	while($row_get_themes= mysqli_fetch_assoc($get_themes)){
 		$theme_folders[]=$row_get_themes['folder_name'];

@@ -27,7 +27,7 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s", $colnam
 $consignee = mysqli_query($localhost,$query_consignee);
 if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);
-$totalRows_consignee = mysql_num_rows($consignee);
+$totalRows_consignee = mysqli_num_rows($consignee);
 
 if($totalRows_consignee==0){
 	$could_delete=0;

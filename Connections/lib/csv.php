@@ -157,7 +157,7 @@ function import_product($file_path){
 			 $query_get_product_by_id = "SELECT id, name FROM product WHERE name = '".trim($product_name)."'";
  			$get_product_by_id = mysqli_query($db_conn);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_product_by_id);}
 			$row_get_product_by_id = mysqli_fetch_assoc($get_product_by_id);
-			$totalRows_get_product_by_id = mysql_num_rows($get_product_by_id);
+			$totalRows_get_product_by_id = mysqli_num_rows($get_product_by_id);
 			if($totalRows_get_product_by_id >0){
 					throw new Exception("商品名称重复:".$product_name);
  			}

@@ -27,7 +27,7 @@ $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s'", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 if($totalRows_order==0){
 	$result="false";
 }

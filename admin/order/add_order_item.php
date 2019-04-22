@@ -49,11 +49,11 @@ if (isset ( $_GET ['order_id'] )) {
 	$colname_order = (get_magic_quotes_gpc ()) ? $_GET ['order_id'] : addslashes ( $_GET ['order_id'] );
 }
  
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_order = sprintf ( "SELECT * FROM orders WHERE id = %s", $colname_order );
-$order = mysql_query ( $query_order, $localhost ) or die ( mysql_error () );
-$row_order = mysql_fetch_assoc ( $order );
-$totalRows_order = mysql_num_rows ( $order );
+$order = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_order);
+$row_order = mysqli_fetch_assoc ( $order );
+$totalRows_order = mysqli_num_rows ( $order );
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {

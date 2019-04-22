@@ -30,7 +30,7 @@ if(!$member){
 		// 抛出exception
 }
 $row_member = mysqli_fetch_assoc($member);
-$totalRows_member = mysql_num_rows($member);
+$totalRows_member = mysqli_num_rows($member);
 if($totalRows_member>0){
 	$result="false";
 }

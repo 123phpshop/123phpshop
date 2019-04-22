@@ -25,7 +25,7 @@ $query_expresses = "SELECT * FROM express_company";
 $expresses = mysqli_query($localhost,$query_expresses);
 if(!$expresses){$logger->fatal("数据库操作失败:".$query_expresses);}
 $row_expresses = mysqli_fetch_assoc($expresses);
-$totalRows_expresses = mysql_num_rows($expresses);
+$totalRows_expresses = mysqli_num_rows($expresses);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

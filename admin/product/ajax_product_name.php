@@ -27,11 +27,11 @@ $query_product = sprintf("SELECT * FROM product WHERE name = '%s'", $colname_pro
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 if($totalRows_product>0){
 	$result="false";
 }
 
-mysql_free_result($product);
+mysqli_free_result($product);
 die($result);
 ?>

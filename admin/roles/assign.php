@@ -43,7 +43,7 @@ $query_role = sprintf("SELECT * FROM role WHERE id = %s", $colname_role);
 $role = mysqli_query($localhost,$query_role);
 if(!$role){$logger->fatal("数据库操作失败:".$query_role);}
 $row_role = mysqli_fetch_assoc($role);
-$totalRows_role = mysql_num_rows($role);
+$totalRows_role = mysqli_num_rows($role);
 if($totalRows_role>0){
 	$privileges_id_array=explode(",",$row_role['privileges']);
 }

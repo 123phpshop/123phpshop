@@ -43,12 +43,12 @@ try {
 	if (isset ( $_POST ['product_id'] )) {
 		$colname_product = (get_magic_quotes_gpc ()) ? $_POST ['product_id'] : addslashes ( $_POST ['product_id'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_product = sprintf ( "SELECT * FROM product WHERE is_delete=0 and id = %s", $colname_product );
-	$product = mysql_query ( $query_product, $localhost );
+	$product = mysqli_query($localhost,$query_product);
 	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
-	$row_product = mysql_fetch_assoc ( $product );
-	$totalRows_product = mysql_num_rows ( $product );
+	$row_product = mysqli_fetch_assoc ( $product );
+	$totalRows_product = mysqli_num_rows ( $product );
 	if ($totalRows_product == 0) {
 		throw new Exception ( "商品不存在，请刷新后重试！" );
 	}
@@ -57,19 +57,19 @@ try {
 	if (isset ( $_SESSION ['user_id'] )) {
 		$colname_user_favorite = (get_magic_quotes_gpc ()) ? $_SESSION ['user_id'] : addslashes ( $_SESSION ['user_id'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_user_favorite = sprintf ( "SELECT * FROM user_favorite WHERE user_id = %s and product_id=%s and is_delete=1", $colname_user_favorite, $colname_product );
-	$user_favorite = mysql_query ( $query_user_favorite, $localhost );
+	$user_favorite = mysqli_query($localhost,$query_user_favorite);
 		if(!$user_favorite){$logger->fatal("数据库操作失败:".$query_user_favorite);}
 
-	$row_user_favorite = mysql_fetch_assoc ( $user_favorite );
-	$totalRows_user_favorite = mysql_num_rows ( $user_favorite );
+	$row_user_favorite = mysqli_fetch_assoc ( $user_favorite );
+	$totalRows_user_favorite = mysqli_num_rows ( $user_favorite );
 	// 如果有取消收藏的，那么恢复这个收藏
 	if ($totalRows_user_favorite > 0) {
 		// 插入记录
 		$insertSQL = sprintf ( "update user_favorite set is_delete=0, create_time='%s' where id=%s", date('Y-m-d H:i:s') ,$row_user_favorite['id']);
- 		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+ 		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {
 			$logger->fatal("系统错误，收藏失败，请稍后重试:".$insertSQL);
 			throw new Exception ( "系统错误，收藏失败，请稍后重试！" );
@@ -83,8 +83,8 @@ try {
 	// 插入记录
 	$insertSQL = sprintf ( "INSERT INTO user_favorite (user_id, product_id) VALUES (%s, %s)", GetSQLValueString ( $colname_user_favorite, "int" ), GetSQLValueString ( $_POST ['product_id'], "int" ));
 	
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
+	
+	$Result1 = mysqli_query($localhost,$insertSQL);
 	if (! $Result1) {
 		$logger->fatal("系统错误，收藏失败，请稍后重试:".$insertSQL);
 		throw new Exception ( "系统错误，收藏失败，请稍后重试！" );

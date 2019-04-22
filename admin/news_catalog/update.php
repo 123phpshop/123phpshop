@@ -52,7 +52,7 @@ $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE id = %s", $colna
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
 $row_news_catalog = mysqli_fetch_assoc($news_catalog);
-$totalRows_news_catalog = mysql_num_rows($news_catalog);
+$totalRows_news_catalog = mysqli_num_rows($news_catalog);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -93,5 +93,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($news_catalog);
+mysqli_free_result($news_catalog);
 ?>

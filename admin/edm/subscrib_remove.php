@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
 $query_item = sprintf("SELECT * FROM email_subscribe WHERE id = %s", $colname_item);
 $item = mysqli_query($localhost)or die(mysqli_error($localhost),$query_item);
 $row_item = mysqli_fetch_assoc($item);
-$totalRows_item = mysql_num_rows($item);
+$totalRows_item = mysqli_num_rows($item);
 if($totalRows_item==0){
 	$logger->fatal("用户企图删除一个不存在的订阅邮件");
 	$could_delete=0;

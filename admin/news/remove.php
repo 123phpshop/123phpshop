@@ -31,7 +31,7 @@ $query_news = sprintf("SELECT * FROM news WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 
 if($totalRows_news==0){
 	$could_delete=0;
@@ -72,5 +72,5 @@ if($could_delete==1){
 </body>
 </html>
 <?php
-mysql_free_result($news);
+mysqli_free_result($news);
 ?>

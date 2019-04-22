@@ -71,7 +71,7 @@ $query_getById = sprintf("SELECT * FROM `role` WHERE id = %s", $colname_getById)
 $getById = mysqli_query($localhost,$query_getById);
 if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
 $row_getById = mysqli_fetch_assoc($getById);
-$totalRows_getById = mysql_num_rows($getById);
+$totalRows_getById = mysqli_num_rows($getById);
 
 $colname_getByName = "-1";
 if (isset($_POST['name'])) {
@@ -82,7 +82,7 @@ $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s'", $colname_ge
 $getByName = mysqli_query($localhost,$query_getByName);
 if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
 $row_getByName = mysqli_fetch_assoc($getByName);
-$totalRows_getByName = mysql_num_rows($getByName);
+$totalRows_getByName = mysqli_num_rows($getByName);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

@@ -37,7 +37,7 @@ $query_order = sprintf("SELECT * FROM orders WHERE sn = '%s' and is_delete=0 ", 
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
 //	如果没有办法找到这个订单的话,那么告知
 if($totalRows_order==0){
@@ -54,7 +54,7 @@ if($row_order['order_status']!=0){
 $query_pay_method = "SELECT * FROM pay_method WHERE is_activated = 1";
 $pay_method = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_pay_method);}
 $row_pay_method = mysqli_fetch_assoc($pay_method);
-$totalRows_pay_method = mysql_num_rows($pay_method);
+$totalRows_pay_method = mysqli_num_rows($pay_method);
 $consignee_id=0;
 include($template_path."payoff.php");
 ?>

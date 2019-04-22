@@ -35,7 +35,7 @@ $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysqli_query($localhost,$query_admin);
 if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}// 如果数据库操作失败
 $row_admin = mysqli_fetch_assoc($admin);
-$totalRows_admin = mysql_num_rows($admin);
+$totalRows_admin = mysqli_num_rows($admin);
  if($totalRows_admin==0){
 	$could_delete=0;
 }
@@ -78,5 +78,5 @@ if($could_delete==1){
 </body>
 </html>
 <?php
-mysql_free_result($admin);
+mysqli_free_result($admin);
 ?>

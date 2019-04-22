@@ -121,15 +121,15 @@ function get_order_full_by_id($id) {
 function _123phpshop_get_order_by_id($id) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$query_order = sprintf ( "SELECT * FROM orders WHERE id = %s and is_delete=0 ", $id );
-	$order = mysql_query ( $query_order, $db_conn ) or die ( mysql_error () );
-	$totalRows_order = mysql_num_rows ( $order );
+	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
+	$totalRows_order = mysqli_num_rows ( $order );
 	if ($totalRows_order == 0) {
 		return false;
 	}
 	
-	return mysql_fetch_assoc ( $order );
+	return mysqli_fetch_assoc ( $order );
 }
 
 /**
@@ -140,11 +140,11 @@ function _123phpshop_get_order_by_id($id) {
 function _123phpshop_get_order_items_by_id($id) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$query_order = sprintf ( "SELECT order_item.*,product.brand_id,product.is_shipping_free,product.cata_path FROM order_item inner join product on product.id=order_item.product_id WHERE order_item.order_id = %s and order_item.is_delete=0 ", $id );
-	$order = mysql_query ( $query_order, $db_conn ) or die ( mysql_error () );
-	$totalRows_order = mysql_num_rows ( $order );
-	while ( $row_order = mysql_fetch_assoc ( $order ) ) {
+	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
+	$totalRows_order = mysqli_num_rows ( $order );
+	while ( $row_order = mysqli_fetch_assoc ( $order ) ) {
 		$result [] = $row_order;
 	}
 	
@@ -200,7 +200,7 @@ function _123phpshop_product_is_in_order($order, $product) {
 function _123phpshop_order_update_product_quantity($order, $product, $quantity) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$sql = "update order_item set quantity=quantity+" . $quantity . " where order_id=" . $order ['id'] . " and product_id=" . $product ['product_id'];
 	return mysql_query ( $sql );
 }
@@ -225,7 +225,7 @@ function _123phpshop_order_do_add_product($order, $product) {
 	}
 	
 	$insertSQL = sprintf ( "INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)", GetSQLValueString ( $should_pay_price, "double" ), GetSQLValueString ( $order ['id'], "int" ), GetSQLValueString ( $product ['product_id'], "int" ), GetSQLValueString ( $product ['quantity'], "int" ), GetSQLValueString ( $product ['attr_value'], "text" ), GetSQLValueString ( $is_present, "int" ) );
-	$new_order_item_query = mysql_query ( $insertSQL, $db_conn );
+	$new_order_item_query = mysqli_query($db_conn,$insertSQL);
 	if (! $new_order_item_query) {
 		throw new Exception ( "系统错误，请联系123phpshop.com寻求解决方案" );
 	}
@@ -274,11 +274,11 @@ function _123phpshop_update_products_total($order) {
 function _123phpshop_get_product_by_id($id) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$query_sql = sprintf ( "SELECT * FROM product WHERE id = %s", $id );
-	$query = mysql_query ( $query_sql, $db_conn ) or die ( mysql_error () );
-	$result = mysql_fetch_assoc ( $query );
-	$totalRows_order = mysql_num_rows ( $query );
+	$query = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_sql);
+	$result = mysqli_fetch_assoc ( $query );
+	$totalRows_order = mysqli_num_rows ( $query );
 	if ($totalRows_order == 0) {
 		return false;
 	}
@@ -582,10 +582,10 @@ function _get_product_by_id($product_id) {
 	$query_express_company = "SELECT * FROM product WHERE id = '" . $product_id . "'";
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	$express_company = mysql_query ( $query_express_company, $db_conn ) or die ( mysql_error () );
-	$row_express_company = mysql_fetch_assoc ( $express_company );
-	$totalRows_express_company = mysql_num_rows ( $express_company );
+	
+	$express_company = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_express_company);
+	$row_express_company = mysqli_fetch_assoc ( $express_company );
+	$totalRows_express_company = mysqli_num_rows ( $express_company );
 	if ($totalRows_express_company == 0) {
 		return false;
 	}
@@ -605,10 +605,10 @@ function _could_devliver_shipping_methods($areas) {
 	$query_area = "SELECT shipping_method_area.*,shipping_method.is_free,shipping_method.is_delete as shipping_method_is_delete,shipping_method.is_activated as shipping_method_is_activated,shipping_method.is_cod,shipping_method.name as shipping_method_name from shipping_method_area left join shipping_method on shipping_method_area.shipping_method_id=shipping_method.id where shipping_method_area.is_delete=0";
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	$area = mysql_query ( $query_area, $db_conn ) or die ( mysql_error () );
 	
-	while ( $order_area = mysql_fetch_assoc ( $area ) ) {
+	$area = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_area);
+	
+	while ( $order_area = mysqli_fetch_assoc ( $area ) ) {
 		foreach ( $areas as $area_item ) {
 			if ($order_area ['shipping_method_is_delete'] == '0' && $order_area ['shipping_method_is_activated'] == '1' && strpos ( $order_area ['area'], $area_item ) > - 1) {
 				$result [] = $order_area;
@@ -753,14 +753,14 @@ function _get_products_by_order_id($order_id) {
 	$result = array ();
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$query_order_items = "SELECT * FROM order_item WHERE is_delete=0 and order_id = '" . $order_id . "'";
-	$order_items = mysql_query ( $query_order_items, $db_conn ) or die ( mysql_error () );
-	$totalRows_order_items = mysql_num_rows ( $order_items );
+	$order_items = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order_items);
+	$totalRows_order_items = mysqli_num_rows ( $order_items );
 	if ($totalRows_order_items == 0) {
 		return $result;
 	}
-	while ( $item = $row_order_items = mysql_fetch_assoc ( $order_items ) ) {
+	while ( $item = $row_order_items = mysqli_fetch_assoc ( $order_items ) ) {
 		$result [] = $item;
 	}
 	return $result;
@@ -806,9 +806,9 @@ function _123phpshop_add_order_presents($order, $promotion_presents) {
 		// 添加到数据库里面
 		global $db_conn;
 		global $db_database_localhost;
-		mysql_select_db ( $db_database_localhost );
+		
 		$insertSQL = sprintf ( "INSERT INTO order_item (should_pay_price,order_id,product_id, quantity, attr_value, is_present) VALUES (%s,%s, %s,%s, %s, %s)", GetSQLValueString ( 0.00, "double" ), GetSQLValueString ( $order ['id'], "int" ), GetSQLValueString ( $product_id, "int" ), GetSQLValueString ( 1, "int" ), GetSQLValueString ( "", "text" ), GetSQLValueString ( 1, "int" ) );
-		$new_order_item_query = mysql_query ( $insertSQL, $db_conn );
+		$new_order_item_query = mysqli_query($db_conn,$insertSQL);
 		if (! $new_order_item_query) {
 			throw new Exception ( "系统错误，请联系123phpshop.com寻求解决方案" );
 		}
@@ -844,15 +844,15 @@ function _123phpshop_get_order_total($product_fee, $shipping_fee, $promotion_fee
 function _do_update_order_fee($order_id, $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s where id=%s", $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $order_id );
 	if ($promotion_fee_promotion_ids != '') {
 		$sql = sprintf ( "update orders set products_total=%s,shipping_fee=%s,promotion_fee=%s,should_paid=%s,shipping_method=%s,promotion_id='%s' where id=%s", $product_fee, $shipping_fee, $promotion_fee, $order_total, $shipping_fee_plan, $promotion_fee_promotion_ids, $order_id );
 	}
 	
-	$result = mysql_query ( $sql, $db_conn );
+	$result = mysqli_query($db_conn,$sql);
 	if (! $result) {
-		throw new Exception ( "订单费用更新错误，请重试,欢迎联系123phpshop.com寻求解决方案" . mysql_error () );
+		throw new Exception ( "订单费用更新错误，请重试,欢迎联系123phpshop.com寻求解决方案" . mysqli_error ($localhost) );
 	}
 }
 
@@ -861,10 +861,10 @@ function _get_order_by_sn($from_order_sn) {
 	$query_form_order = sprintf ( "SELECT * FROM orders WHERE sn = '%s'", $from_order_sn );
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	$form_order = mysql_query ( $query_form_order, $db_conn ) or die ( mysql_error () );
-	$row_form_order = mysql_fetch_assoc ( $form_order );
-	$totalRows_form_order = mysql_num_rows ( $form_order );
+	
+	$form_order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	$row_form_order = mysqli_fetch_assoc ( $form_order );
+	$totalRows_form_order = mysqli_num_rows ( $form_order );
 	if ($totalRows_form_order > 0) {
 		return $row_form_order;
 	}
@@ -888,8 +888,8 @@ function _update_to_order_price_para($from_order_obj, $to_order_obj) {
 	$query_form_order = sprintf ( "update orders set shipping_fee='%s',products_total='%s',should_paid='%s',actual_paid='%s' WHERE id = '%s'", $shipping_fee, $products_total, $should_paid, $actual_paid, $to_order_obj ['id'] );
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	return mysql_query ( $query_form_order, $db_conn ) or die ( mysql_error () );
+	
+	return mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
 }
 
 // 更新从订单产品的订单id
@@ -897,8 +897,8 @@ function _update_child_order_product_order_id($from_order_id, $to_order_id) {
 	$query_form_order = sprintf ( "update order_item set order_id='%s' WHERE order_id = '%s'", $to_order_id, $from_order_id );
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	return mysql_query ( $query_form_order, $db_conn );
+	
+	return mysqli_query($db_conn,$query_form_order);
 }
 
 // 更新merge_to字段
@@ -906,8 +906,8 @@ function _update_merge_to($from_order_id, $to_order_id) {
 	$query_form_order = sprintf ( "update orders set merge_to='%s' WHERE id = '%s'", $to_order_id, $from_order_id );
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	return mysql_query ( $query_form_order, $db_conn ) or die ( mysql_error () );
+	
+	return mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
 }
 
 // 通过id获取订单记录
@@ -915,10 +915,10 @@ function _get_order_by_id($order_id) {
 	$query_form_order = sprintf ( "SELECT * FROM orders WHERE id = '%s'", $order_id );
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
-	$form_order = mysql_query ( $query_form_order, $db_conn ) or die ( mysql_error () );
-	$row_form_order = mysql_fetch_assoc ( $form_order );
-	$totalRows_form_order = mysql_num_rows ( $form_order );
+	
+	$form_order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_form_order);
+	$row_form_order = mysqli_fetch_assoc ( $form_order );
+	$totalRows_form_order = mysqli_num_rows ( $form_order );
 	if ($totalRows_form_order > 0) {
 		return $row_form_order;
 	}
@@ -929,9 +929,9 @@ function _get_order_by_id($order_id) {
 function _log_order_merge($from_order_obj, $to_order_obj) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$order_log_sql = "insert into order_log(order_id,message)values('" . $to_order_obj ['id'] . "','成功将订单号为：'" . $from_order_obj ['sn'] . "'的订单合并到:" . $to_order_obj ['sn'] . ")";
-	return mysql_query ( $order_log_sql, $db_conn );
+	return mysqli_query($db_conn,$order_log_sql);
 }
 
 /**
@@ -944,9 +944,9 @@ function _log_order_merge($from_order_obj, $to_order_obj) {
 function phpshop123_log_order($order_id, $message) {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$order_log_sql = "insert into order_log(order_id,message)values('" . $order_id . "','" . $message . "')";
-	return mysql_query ( $order_log_sql, $db_conn );
+	return mysqli_query($db_conn,$order_log_sql);
 }
 
 /**
@@ -977,15 +977,15 @@ function _123phpshop_get_promotion_fee($product_fee, $order) {
 	// 获取所有当前可用的促销计划
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost );
+	
 	$sql = "SELECT * FROM promotion WHERE is_delete = 0 and start_date<=" . date ( 'Ymd' ) . " and end_date>=" . date ( 'Ymd' );
-	$promotions = mysql_query ( $sql, $db_conn );
-	if (mysql_num_rows ( $promotions ) == 0) {
+	$promotions = mysqli_query($db_conn,$sql);
+	if (mysqli_num_rows ( $promotions ) == 0) {
 		return $results;
 	}
 	
 	// 循环这些促销
-	while ( $promotion_plan = mysql_fetch_assoc ( $promotions ) ) {
+	while ( $promotion_plan = mysqli_fetch_assoc ( $promotions ) ) {
 		
 		// 这里需要检查用户是否已经享受到了这个促销,如果已经享受了的话，那么就不用在进行了
 		$promotion_ids_array = explode ( ",", $order ['promotion_id'] );

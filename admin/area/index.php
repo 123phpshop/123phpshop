@@ -29,7 +29,7 @@ $query_areas = sprintf("SELECT * FROM area WHERE pid = %s", $colname_areas);
 $areas = mysqli_query($localhost,$query_areas);
 if(!$areas){$logger->fatal("数据库操作失败:".$query_areas);}
 $row_areas = mysqli_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

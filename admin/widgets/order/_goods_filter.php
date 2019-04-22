@@ -25,7 +25,7 @@ if (isset($_GET['product_name'])) {
 $query_goods = "SELECT id,name,price FROM product WHERE is_delete=0 and name like '%".$colname_goods."%'";
 $goods = mysqli_query($localhost,$query_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_goods);}
-$goods_num = mysql_num_rows($goods);
+$goods_num = mysqli_num_rows($goods);
 $row_goods = mysqli_fetch_assoc($goods);
 ?>
 <?php if($goods_num>0){ ?>

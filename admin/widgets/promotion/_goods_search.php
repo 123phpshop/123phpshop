@@ -34,7 +34,7 @@ $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $
 $goods = mysqli_query($localhost,$query_limit_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_limit_goods);}
 $row_goods = mysqli_fetch_assoc($goods);
-$row_goods_num = mysql_num_rows($goods);
+$row_goods_num = mysqli_num_rows($goods);
 ?>
 <?php if($row_goods_num>0){ ?>
 <link href="../../../css/common_admin.css" rel="stylesheet" type="text/css">

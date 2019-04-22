@@ -35,7 +35,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		$from_order = mysqli_query($localhost,$query_from_order);
 		if(!$from_order){$logger->fatal("数据库操作失败:".$query_from_order);}
 		$row_from_order = mysqli_fetch_assoc($from_order);
-		$totalRows_from_order = mysql_num_rows($from_order);
+		$totalRows_from_order = mysqli_num_rows($from_order);
 		if($totalRows_from_order==0){
 			throw new Exception("订单序列号为：".trim($colname_from_order)."订单不存在");
 		}
@@ -50,7 +50,7 @@ if ((isset ( $_POST ["phpshop_db_op"] )) && ($_POST ["phpshop_db_op"] == "merge_
 		$to_order = mysqli_query($localhost,$query_to_order);
 		if(!$to_order){$logger->fatal("数据库操作失败:".$query_to_order);}
 		$row_to_order = mysqli_fetch_assoc($to_order);
-		$totalRows_to_order = mysql_num_rows($to_order);
+		$totalRows_to_order = mysqli_num_rows($to_order);
 	
 		if($totalRows_to_order==0){
 			throw new Exception("订单序列号为：".trim($colname_to_order)."订单不存在");
@@ -125,7 +125,7 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($from_order);
+mysqli_free_result($from_order);
 
-mysql_free_result($to_order);
+mysqli_free_result($to_order);
 ?>

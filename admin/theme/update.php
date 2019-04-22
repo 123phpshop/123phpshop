@@ -80,7 +80,7 @@ $query_theme = sprintf("SELECT * FROM theme WHERE id = %s", $colname_theme);
 $theme = mysqli_query($localhost,$query_theme);
 if(!$theme){$logger->fatal("数据库操作失败:".$query_theme);}
 $row_theme = mysqli_fetch_assoc($theme);
-$totalRows_theme = mysql_num_rows($theme);
+$totalRows_theme = mysqli_num_rows($theme);
 
 // 获取模板文件夹的
 $theme_array=array();
@@ -198,5 +198,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($theme);
+mysqli_free_result($theme);
 ?>

@@ -41,7 +41,7 @@ try{
 	}
 
 	$row_ad_images=mysqli_fetch_assoc($ad_images);
-	$totalRows_ad_images = mysql_num_rows($ad_images);
+	$totalRows_ad_images = mysqli_num_rows($ad_images);
 	if($totalRows_ad_images==0){
 		throw new Exception();// 这需要报错
 	} 

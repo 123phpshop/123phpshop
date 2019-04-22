@@ -39,7 +39,7 @@ if (isset($_GET['totalRows_admins'])) {
   $totalRows_admins = $_GET['totalRows_admins'];
 } else {
   $all_admins = mysqli_query($localhost,$query_admins);
-  $totalRows_admins = mysql_num_rows($all_admins);
+  $totalRows_admins = mysqli_num_rows($all_admins);
 }
 $totalPages_admins = ceil($totalRows_admins/$maxRows_admins)-1;
 
@@ -124,5 +124,5 @@ $queryString_admins = sprintf("&totalRows_admins=%d%s", $totalRows_admins, $quer
 </body>
 </html>
 <?php
-mysql_free_result($admins);
+mysqli_free_result($admins);
 ?>

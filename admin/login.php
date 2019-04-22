@@ -61,7 +61,7 @@ if (isset($_POST['username'])) {
     }
 
     // 如果成功的话
-    $loginFoundUser = mysql_num_rows($LoginRS);
+    $loginFoundUser = mysqli_num_rows($LoginRS);
     if ($loginFoundUser) {
         $loginStrGroup = "";
 
@@ -91,7 +91,7 @@ if (isset($_POST['username'])) {
         }
 
         $row_role = mysqli_fetch_assoc($role);
-        $totalRows_role = mysql_num_rows($role);
+        $totalRows_role = mysqli_num_rows($role);
         if ($totalRows_role > 0) {
             $privileges_id_array = $row_role['privileges'];
         }
@@ -105,7 +105,7 @@ if (isset($_POST['username'])) {
             $logger->fatal("数据库操作失败:" . $query_privilege_files);
         }
 
-        $totalRows_privilege_files = mysql_num_rows($privilege_files);
+        $totalRows_privilege_files = mysqli_num_rows($privilege_files);
         if ($totalRows_privilege_files > 0) {
             while ($row_privilege_files = mysqli_fetch_assoc($privilege_files)) {
                 $privileges_array[] = $row_privilege_files['file_name'];

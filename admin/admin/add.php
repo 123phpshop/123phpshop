@@ -31,8 +31,8 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 
 	$insertSQL = sprintf ( "INSERT INTO member (username, password, mobile, email, mobile_confirmed, role_id) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['username'], "text" ), GetSQLValueString ( md5 ( $_POST ['password'] ), "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['email'], "text" ), GetSQLValueString ( $_POST ['mobile_confirmed'], "text" ), GetSQLValueString ( $_POST ['role_id'], "int" ) );
 	
-	mysql_select_db ( $database_localhost, $localhost );
-	$Result1 = mysql_query ( $insertSQL, $localhost );
+	
+	$Result1 = mysqli_query($localhost,$insertSQL);
 	if (! $Result1) {
 		$logger->fatal ( __FILE__." :添加管理员数据库操作失败:" . $insertSQL );
 		throw new Exception(COMMON_LANG_DB_ERROR);
@@ -46,14 +46,14 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 }
 
 // 选择角色
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query ( $query_roles, $localhost );
+$roles = mysqli_query($localhost,$query_roles);
 if (! $roles) {
 	$logger->fatal ( "数据库操作失败:" . $updateSQL );
 }
-$row_roles = mysql_fetch_assoc ( $roles );
-$totalRows_roles = mysql_num_rows ( $roles );
+$row_roles = mysqli_fetch_assoc ( $roles );
+$totalRows_roles = mysqli_num_rows ( $roles );
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,11 +90,11 @@ $totalRows_roles = mysql_num_rows ( $roles );
 											?>
           <option value="<?php echo $row_roles['id']?>"><?php echo $row_roles['name']?></option>
           <?php
-										} while ( $row_roles = mysql_fetch_assoc ( $roles ) );
-										$rows = mysql_num_rows ( $roles );
+										} while ( $row_roles = mysqli_fetch_assoc ( $roles ) );
+										$rows = mysqli_num_rows ( $roles );
 										if ($rows > 0) {
 											mysql_data_seek ( $roles, 0 );
-											$row_roles = mysql_fetch_assoc ( $roles );
+											$row_roles = mysqli_fetch_assoc ( $roles );
 										}
 										?>
         </select>
@@ -212,5 +212,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result ( $roles );
+mysqli_free_result ( $roles );
 ?>

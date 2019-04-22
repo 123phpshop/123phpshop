@@ -38,7 +38,7 @@ $query_orders = "SELECT * FROM orders WHERE is_delete = 1";
 $orders = mysqli_query($localhost,$query_orders);
 if(!$orders){$logger->fatal("数据库操作失败:".$query_orders);}
 $row_orders = mysqli_fetch_assoc($orders);
-$totalRows_orders = mysql_num_rows($orders);
+$totalRows_orders = mysqli_num_rows($orders);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

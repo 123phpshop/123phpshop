@@ -29,7 +29,7 @@ $query_getById = sprintf("SELECT * FROM privilege WHERE id = %s", $colname_getBy
 $getById = mysqli_query($localhost,$query_getById);
 if(!$getById){$logger->fatal("数据库操作失败:".$query_getById);}
 $row_getById = mysqli_fetch_assoc($getById);
-$totalRows_getById = mysql_num_rows($getById);
+$totalRows_getById = mysqli_num_rows($getById);
 
 //  如果id存在，那么进行删除
 if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
@@ -66,5 +66,5 @@ if ($totalRows_getById > 0 && (isset($_GET['id'])) && ($_GET['id'] != "")) {
 </body>
 </html>
 <?php
-mysql_free_result($getById);
+mysqli_free_result($getById);
 ?>

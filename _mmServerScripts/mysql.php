@@ -149,7 +149,7 @@ class MySqlConnection
 
 			$xmlOutput .= "</FIELDS><ROWS>";
 
-			if (is_resource($results) && mysql_num_rows($results) > 0){
+			if (is_resource($results) && mysqli_num_rows($results) > 0){
 					while ($row = mysql_fetch_array($results)){
 							$xmlOutput .= '<ROW><VALUE/><VALUE/><VALUE>' . $row[0]. '</VALUE></ROW>';	
 					}
@@ -221,7 +221,7 @@ class MySqlConnection
 				$xmlOutput .= "<VALUE>" . $null         . "</VALUE>";
 				$xmlOutput .= "<VALUE>" . $size         . "</VALUE></ROW>";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 
 			$xmlOutput .= "</ROWS></RESULTSET>";
 		}
@@ -290,7 +290,7 @@ class MySqlConnection
 				$row = mysqli_fetch_assoc($result);
 			}
 
-			mysql_free_result($result);
+			mysqli_free_result($result);
 
 			$xmlOutput .= "</ROWS></RESULTSET>";
 		}
@@ -401,7 +401,7 @@ class MySqlConnection
   				$xmlOutput .= '<VALUE>' . $size         . '</VALUE></ROW>';
   			}
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 
 			$xmlOutput .= '</ROWS></RESULTSET>';
 		}

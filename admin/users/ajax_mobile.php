@@ -29,7 +29,7 @@ $query_member = sprintf("SELECT * FROM user WHERE mobile = '%s'", $colname_membe
 $member = mysqli_query($localhost,$query_member);
 if(!$member){$logger->fatal("数据库操作失败:".$query_member);}
 $row_member = mysqli_fetch_assoc($member);
-$totalRows_member = mysql_num_rows($member);
+$totalRows_member = mysqli_num_rows($member);
 if($totalRows_member>0){
 	$result="false";
 }

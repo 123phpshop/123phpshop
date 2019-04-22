@@ -22,7 +22,7 @@ $query_news = "SELECT * FROM news where is_delete=0 and catalog_id=1 ORDER BY id
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 
  
 
@@ -30,7 +30,7 @@ $query_catalog = "SELECT * FROM `news_catalog` WHERE is_delete=0 and id = 1";
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
+$totalRows_catalog = mysqli_num_rows($catalog);
 
 ?>
 

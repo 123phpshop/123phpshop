@@ -20,7 +20,7 @@
 $query_brands = "SELECT * FROM brands WHERE is_delete = 0";
 $brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
-$totalRows_brands = mysql_num_rows($brands);
+$totalRows_brands = mysqli_num_rows($brands);
 $brands_array=array();
 while($row_brands = mysqli_fetch_assoc($brands)){
 	$brands_array[]=$row_brands;

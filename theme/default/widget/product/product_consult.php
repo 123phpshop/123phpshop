@@ -37,17 +37,17 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "new_consult") 
 	if ($validation->run ()) { // 如果可以通过验证的话
 		$insertSQL = sprintf ( "INSERT INTO product_consult (user_id,content, product_id) VALUES (%s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "int" ), GetSQLValueString ( strip_tags ( $_POST ['content'] ), "text" ), GetSQLValueString ( $colname_product, "int" ) );
 		
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {
 			// 记录进入日志
-			$logger->fatal ( "添加商品咨询时数据库操作失败:" . mysql_error () . $insertSQL );
+			$logger->fatal ( "添加商品咨询时数据库操作失败:" . mysqli_error ($localhost) . $insertSQL );
 		}
 		$update_sql = sprintf ( "update product set consulted_num=consulted_num+1 where id=%s", GetSQLValueString ( $colname_product, "int" ) );
-		$Result2 = mysql_query ( $update_sql, $localhost ) or die ( mysql_error () );
+		$Result2 = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$update_sql);
 		if (! $Result1) {
 			// 记录进入日志
-			$logger->fatal ( "更新商品咨询次数时数据库操作失败:" . mysql_error () . $update_sql );
+			$logger->fatal ( "更新商品咨询次数时数据库操作失败:" . mysqli_error ($localhost) . $update_sql );
 		}
 	}
 }
@@ -56,15 +56,15 @@ $colname_consult = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_consult = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_consult = sprintf ( "SELECT product_consult.*,user.username FROM product_consult inner join user on user.id=product_consult.user_id WHERE product_consult.product_id = %s and product_consult.is_delete = 0 ORDER BY product_consult.id DESC", $colname_consult );
-$consult = mysql_query ( $query_consult, $localhost );
+$consult = mysqli_query($localhost,$query_consult);
 if (! $consult) {
 	// 记录进入日志
-	$logger->fatal ( "数据库操作失败:" . mysql_error () . $query_consult );
+	$logger->fatal ( "数据库操作失败:" . mysqli_error ($localhost) . $query_consult );
 }
-$row_consult = mysql_fetch_assoc ( $consult );
-$totalRows_consult = mysql_num_rows ( $consult );
+$row_consult = mysqli_fetch_assoc ( $consult );
+$totalRows_consult = mysqli_num_rows ( $consult );
 
 ?>
 <style type="text/css">
@@ -117,11 +117,11 @@ $totalRows_consult = mysql_num_rows ( $consult );
 			</div></td>
 	</tr>
  				<?php
-														mysql_select_db ( $database_localhost, $localhost );
+														
 														$query_replay = "SELECT * FROM product_consult WHERE to_question = " . $row_consult ['id'] . " and is_delete=0 order by id desc limit 1";
-														$replay = mysql_query ( $query_replay, $localhost ) or die ( mysql_error () );
-														$row_replay = mysql_fetch_assoc ( $replay );
-														$totalRows_replay = mysql_num_rows ( $replay );
+														$replay = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_replay);
+														$row_replay = mysqli_fetch_assoc ( $replay );
+														$totalRows_replay = mysqli_num_rows ( $replay );
 														
 														?>
                  <tr>

@@ -26,7 +26,7 @@ $query_news_cata = sprintf("SELECT * FROM `catalog` WHERE is_delete=0 and pid = 
 $news_cata = mysqli_query($localhost,$query_news_cata);
 if(!$news_cata){$logger->fatal("数据库操作失败:".$query_news_cata);}
 $row_news_cata = mysqli_fetch_assoc($news_cata);
-$totalRows_news_cata = mysql_num_rows($news_cata);
+$totalRows_news_cata = mysqli_num_rows($news_cata);
 ?>
 <?php if($totalRows_news_cata>0){?>
 <style>

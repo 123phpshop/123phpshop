@@ -43,7 +43,7 @@ if (isset($_GET['totalRows_getPrivileges'])) {
   $totalRows_getPrivileges = $_GET['totalRows_getPrivileges'];
 } else {
   $all_getPrivileges = mysqli_query($localhost,$query_getPrivileges);
-  $totalRows_getPrivileges = mysql_num_rows($all_getPrivileges);
+  $totalRows_getPrivileges = mysqli_num_rows($all_getPrivileges);
 }
 $totalPages_getPrivileges = ceil($totalRows_getPrivileges/$maxRows_getPrivileges)-1;
 

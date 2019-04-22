@@ -86,7 +86,7 @@ if($verify_result) {//验证成功
 			} 
   			
 			$row_order = mysqli_fetch_assoc($order);
-			$totalRows_order = mysql_num_rows($order);
+			$totalRows_order = mysqli_num_rows($order);
  			
 			//如果不能找到的话，说明订单不存在，或是参数错误	，这个时候需要给出提示信息
 
@@ -115,7 +115,7 @@ if($verify_result) {//验证成功
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
-			$totalRows_products = mysql_num_rows($products);
+			$totalRows_products = mysqli_num_rows($products);
 			while($row_products = mysqli_fetch_assoc($products)){
   				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
 				if(!mysqli_query($localhost,$update_product_store_num_sql)){
@@ -166,7 +166,7 @@ if($verify_result) {//验证成功
 			} 
   			
 			$row_order = mysqli_fetch_assoc($order);
-			$totalRows_order = mysql_num_rows($order);
+			$totalRows_order = mysqli_num_rows($order);
  			
 			//如果不能找到的话，说明订单不存在，或是参数错误	，这个时候需要给出提示信息
 
@@ -195,7 +195,7 @@ if($verify_result) {//验证成功
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
-			$totalRows_products = mysql_num_rows($products);
+			$totalRows_products = mysqli_num_rows($products);
 			while($row_products = mysqli_fetch_assoc($products)){
   				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
 				if(!mysqli_query($localhost,$update_product_store_num_sql)){

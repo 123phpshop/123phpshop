@@ -54,7 +54,7 @@ if (isset($_GET['totalRows_consult'])) {
   $all_consult = mysqli_query($localhost,$query_consult);
   if(!$all_consult){$logger->fatal("数据库操作失败:".$query_consult);}
 
-  $totalRows_consult = mysql_num_rows($all_consult);
+  $totalRows_consult = mysqli_num_rows($all_consult);
 }
 $totalPages_consult = ceil($totalRows_consult/$maxRows_consult)-1;
 
@@ -215,5 +215,5 @@ function _get_consult_where_query_string(){
 </body>
 </html>
 <?php
-mysql_free_result($consult);
+mysqli_free_result($consult);
 ?>

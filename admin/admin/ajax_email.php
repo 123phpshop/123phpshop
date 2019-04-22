@@ -30,11 +30,11 @@ if(!$member){
 		// 这里还是需要报错的
  	}
 $row_member = mysqli_fetch_assoc($member);
-$totalRows_member = mysql_num_rows($member);
+$totalRows_member = mysqli_num_rows($member);
 if($totalRows_member>0){
 	$result="false";
 }
 
-mysql_free_result($member);
+mysqli_free_result($member);
 die($result);
 ?>

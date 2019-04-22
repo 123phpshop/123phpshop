@@ -31,7 +31,7 @@ $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
 $user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 $row_user = mysqli_fetch_assoc($user);
-$totalRows_user = mysql_num_rows($user);
+$totalRows_user = mysqli_num_rows($user);
 if($totalRows_user==0){
 	$could_delete=0;
 }
@@ -70,5 +70,5 @@ if($could_delete==1){
 </body>
 </html>
 <?php
-mysql_free_result($user);
+mysqli_free_result($user);
 ?>

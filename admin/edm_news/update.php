@@ -30,7 +30,7 @@ if (isset($_GET['id'])) {
 $query_news = sprintf("SELECT * FROM edm_news WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost);if(!$news){$logger->fatal("数据库操作失败:".$updateSQL,$query_news);}
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 
 
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -71,7 +71,7 @@ $query_news = sprintf("SELECT * FROM edm_news WHERE id = %s", $colname_news);
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -253,5 +253,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($news);
+mysqli_free_result($news);
 ?>

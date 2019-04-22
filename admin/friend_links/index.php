@@ -25,7 +25,7 @@ $query_links = "SELECT * FROM friend_links WHERE is_delete = 0 ORDER BY sort DES
 $links = mysqli_query($localhost,$query_links);
 if(!$links){$logger->fatal("数据库操作失败:".$query_links);}
 $row_links = mysqli_fetch_assoc($links);
-$totalRows_links = mysql_num_rows($links);
+$totalRows_links = mysqli_num_rows($links);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,5 +71,5 @@ $totalRows_links = mysql_num_rows($links);
 </body>
 </html>
 <?php
-mysql_free_result($links);
+mysqli_free_result($links);
 ?>

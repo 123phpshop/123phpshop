@@ -50,7 +50,7 @@ if (isset($_GET['totalRows_products'])) {
   $totalRows_products = $_GET['totalRows_products'];
 } else {
   $all_products = mysqli_query($localhost,$query_products);
-  $totalRows_products = mysql_num_rows($all_products);
+  $totalRows_products = mysqli_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
 

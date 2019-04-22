@@ -37,7 +37,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	$user = mysqli_query($localhost,$query_user);
 	if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 	$row_user = mysqli_fetch_assoc($user);
-	$totalRows_user = mysql_num_rows($user);
+	$totalRows_user = mysqli_num_rows($user);
 	if($totalRows_user==0){
 		$error="用户不存在，或已经被删除，请检查后重试，或是联系123phpshop.com的技术支持人员！";
 	}else{

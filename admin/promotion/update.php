@@ -81,7 +81,7 @@ $query_promotion = sprintf("SELECT * FROM promotion WHERE id = %s and is_delete=
 $promotion = mysqli_query($localhost,$query_promotion);
 if(!$promotion){$logger->fatal("数据库操作失败:".$query_promotion);}
 $row_promotion = mysqli_fetch_assoc($promotion);
-$totalRows_promotion = mysql_num_rows($promotion);
+$totalRows_promotion = mysqli_num_rows($promotion);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

@@ -30,21 +30,21 @@ if (isset ( $_GET ['pageNum_ads'] )) {
 }
 $startRow_ads = $pageNum_ads * $maxRows_ads;
 
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_ads = "SELECT * FROM ad";
 $query_limit_ads = sprintf ( "%s LIMIT %d, %d", $query_ads, $startRow_ads, $maxRows_ads );
-$ads = mysql_query ( $query_limit_ads, $localhost );
+$ads = mysqli_query($localhost,$query_limit_ads);
 if (! $ads) {
 	$logger->fatal ( "数据库操作失败:" . $query_limit_ads );
 	throw new Exception ( "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！" );
 }
-$row_ads = mysql_fetch_assoc ( $ads );
+$row_ads = mysqli_fetch_assoc ( $ads );
 
 if (isset ( $_GET ['totalRows_ads'] )) {
 	$totalRows_ads = $_GET ['totalRows_ads'];
 } else {
 	$all_ads = mysql_query ( $query_ads );
-	$totalRows_ads = mysql_num_rows ( $all_ads );
+	$totalRows_ads = mysqli_num_rows ( $all_ads );
 }
 $totalPages_ads = ceil ( $totalRows_ads / $maxRows_ads ) - 1;
 

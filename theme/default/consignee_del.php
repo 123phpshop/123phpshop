@@ -38,5 +38,5 @@
 </body>
 </html>
 <?php
-mysql_free_result($consignee);
+mysqli_free_result($consignee);
 ?>

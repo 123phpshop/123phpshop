@@ -35,15 +35,15 @@ $colname_news_catalog = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_news_catalog = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_news_catalog = sprintf ( "SELECT * FROM news_catalog WHERE is_delete='0' and id = %s", $colname_news_catalog );
-$news_catalog = mysql_query ( $query_news_catalog, $localhost );
+$news_catalog = mysqli_query($localhost,$query_news_catalog);
 if (! $news_catalog) {
-	$logger->fatal ( "数据库操作失败:" . mysql_error () . $query_news_catalog );
+	$logger->fatal ( "数据库操作失败:" . mysqli_error ($localhost) . $query_news_catalog );
 	// throw new Exception('系统错误，请稍后重试！');
 }
-$row_news_catalog = mysql_fetch_assoc ( $news_catalog );
-$totalRows_news_catalog = mysql_num_rows ( $news_catalog );
+$row_news_catalog = mysqli_fetch_assoc ( $news_catalog );
+$totalRows_news_catalog = mysqli_num_rows ( $news_catalog );
 
 $maxRows_news = 50;
 $pageNum_news = 0;
@@ -56,33 +56,33 @@ $colname_news = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_news = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_news = sprintf ( "SELECT * FROM news WHERE is_delete='0'  and catalog_id = %s", $colname_news );
 $query_limit_news = sprintf ( "%s LIMIT %d, %d", $query_news, $startRow_news, $maxRows_news );
-$news = mysql_query ( $query_limit_news, $localhost );
+$news = mysqli_query($localhost,$query_limit_news);
 if (! $news) {
 	$logger->fatal ( "数据库操作失败:" . $query_limit_news );
 // 	throw new Exception('系统错误，请稍后重试！');
 }
-$row_news = mysql_fetch_assoc ( $news );
-$totalRows_row_news = mysql_num_rows ( $news );
+$row_news = mysqli_fetch_assoc ( $news );
+$totalRows_row_news = mysqli_num_rows ( $news );
 
 if (isset ( $_GET ['totalRows_news'] )) {
 	$totalRows_news = $_GET ['totalRows_news'];
 } else {
 	$all_news = mysql_query ( $query_news );
-	$totalRows_news = mysql_num_rows ( $all_news );
+	$totalRows_news = mysqli_num_rows ( $all_news );
 }
 $totalPages_news = ceil ( $totalRows_news / $maxRows_news ) - 1;
 
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_news_catalogs = "SELECT * FROM news_catalog where is_delete='0'";
-$news_catalogs = mysql_query ( $query_news_catalogs, $localhost );
+$news_catalogs = mysqli_query($localhost,$query_news_catalogs);
 if (! $news_catalogs) {
 	$logger->fatal ( "数据库操作失败:" . $query_news_catalogs );
 	// throw new Exception('系统错误，请稍后重试！');
 }
-$row_news_catalogs = mysql_fetch_assoc ( $news_catalogs );
-$totalRows_news_catalogs = mysql_num_rows ( $news_catalogs );
+$row_news_catalogs = mysqli_fetch_assoc ( $news_catalogs );
+$totalRows_news_catalogs = mysqli_num_rows ( $news_catalogs );
 include ($template_path . "news_list.php");
 ?>

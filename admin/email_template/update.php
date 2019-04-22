@@ -36,7 +36,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	$product = mysqli_query($localhost,$query_product);
 	if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 	$row_product = mysqli_fetch_assoc($product);
-	$totalRows_product = mysql_num_rows($product);
+	$totalRows_product = mysqli_num_rows($product);
 	if($totalRows_product>0){
 		$error="一个【发送时间】只能有添加一个模板哦";
 	}else{
@@ -64,7 +64,7 @@ $query_email_template = sprintf("SELECT * FROM email_templates WHERE id = %s", $
 $email_template = mysqli_query($localhost,$query_email_template);
 if(!$email_template){$logger->fatal("数据库操作失败:".$query_email_template);}
 $row_email_template = mysqli_fetch_assoc($email_template);
-$totalRows_email_template = mysql_num_rows($email_template);
+$totalRows_email_template = mysqli_num_rows($email_template);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -142,5 +142,5 @@ $().ready(function(){
   </body>
 </html>
 <?php
-mysql_free_result($email_template);
+mysqli_free_result($email_template);
 ?>

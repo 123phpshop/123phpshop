@@ -147,9 +147,9 @@ function log_admin($message){
 	global $db_database_localhost;
  
 	// 检查是否允许代表这个code的邮件模板可以发送
-	mysql_select_db ( $db_database_localhost, $db_conn );
+	
  	$query_email_template = "insert into admin_op(message,admin_id)values('".$message."','".$_SESSION['admin_username']."') ";
-	$email_template = mysql_query ( $query_email_template, $db_conn ) or die ( mysql_error () );
+	$email_template = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_email_template);
  	if (!$email_template) {
 		return false;
 	}

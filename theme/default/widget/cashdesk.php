@@ -22,7 +22,7 @@ $query_shopinfo = "SELECT logo_path FROM shop_info WHERE id = 1";
 $shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
 $row_shopinfo = mysqli_fetch_assoc($shopinfo);
-$totalRows_shopinfo = mysql_num_rows($shopinfo);
+$totalRows_shopinfo = mysqli_num_rows($shopinfo);
 ?>
 <table width="100%" height="58" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tr>

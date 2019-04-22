@@ -24,7 +24,7 @@ $query_pay_methods = "SELECT * FROM pay_method ORDER BY is_activated DESC";
 $pay_methods = mysqli_query($localhost,$query_pay_methods);
 if(!$pay_methods){$logger->fatal("数据库操作失败:".$query_pay_methods);}
 $row_pay_methods = mysqli_fetch_assoc($pay_methods);
-$totalRows_pay_methods = mysql_num_rows($pay_methods);
+$totalRows_pay_methods = mysqli_num_rows($pay_methods);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -95,5 +95,5 @@ $totalRows_pay_methods = mysql_num_rows($pay_methods);
 </body>
 </html>
 <?php
-mysql_free_result($pay_methods);
+mysqli_free_result($pay_methods);
 ?>

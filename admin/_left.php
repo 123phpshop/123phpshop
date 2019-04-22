@@ -26,7 +26,7 @@ $query_role_menu = sprintf("SELECT `privileges` FROM `role` WHERE id = %s", $col
 $role_menu = mysqli_query($localhost,$query_role_menu, $localhost);
 if (!$role_menu) {$logger->fatal("数据库操作失败:" . $query_role_menu);}
 $row_role_menu = mysqli_fetch_assoc($role_menu);
-$totalRows_role_menu = mysql_num_rows($role_menu);
+$totalRows_role_menu = mysqli_num_rows($role_menu);
 
 if ($row_role_menu['privileges'] == "1") {
     //  如果是全部权限的话权限的话，那么不进行过滤
@@ -38,7 +38,7 @@ if ($row_role_menu['privileges'] == "1") {
 $menu = mysqli_query($localhost,$query_menu);
 if (!$menu) {$logger->fatal("数据库操作失败:" . $query_menu);}
 $row_menu = mysqli_fetch_assoc($menu);
-$totalRows_menu = mysql_num_rows($menu);
+$totalRows_menu = mysqli_num_rows($menu);
 
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
@@ -146,7 +146,7 @@ a[parent] .menu_item_row{
 
     $sub_menu = mysqli_query($localhost);if (!$sub_menu){$logger->fatal("数据库操作失败:" . $query_sub_menu,$query_sub_menu);}
     $row_sub_menu = mysqli_fetch_assoc($sub_menu);
-    $totalRows_sub_menu = mysql_num_rows($sub_menu);
+    $totalRows_sub_menu = mysqli_num_rows($sub_menu);
 
     if ($totalRows_sub_menu > 0) {
         ?>
@@ -192,9 +192,9 @@ $(".menu_item_row").click(function(){
 </body>
 </html>
 <?php
-mysql_free_result($menu);
+mysqli_free_result($menu);
 
-mysql_free_result($sub_menu);
+mysqli_free_result($sub_menu);
 
-mysql_free_result($role_menu);
+mysqli_free_result($role_menu);
 ?>

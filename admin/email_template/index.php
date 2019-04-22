@@ -41,7 +41,7 @@ if (isset($_GET['totalRows_email_templates'])) {
 } else {
   $all_email_templates = mysqli_query($localhost,$query_email_templates);
   if(!$all_email_templates){$logger->fatal("数据库操作失败:".$query_email_templates);}
-  $totalRows_email_templates = mysql_num_rows($all_email_templates);
+  $totalRows_email_templates = mysqli_num_rows($all_email_templates);
 }
 $totalPages_email_templates = ceil($totalRows_email_templates/$maxRows_email_templates)-1;
 
@@ -120,5 +120,5 @@ $queryString_email_templates = sprintf("&totalRows_email_templates=%d%s", $total
     <?php } // Show if recordset empty ?></body>
 </html>
 <?php
-mysql_free_result($email_templates);
+mysqli_free_result($email_templates);
 ?>

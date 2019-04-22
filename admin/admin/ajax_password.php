@@ -31,11 +31,11 @@ if(!isset($_SESSION['admin_id'])){
 	$check_pass = mysqli_query($localhost,$query_check_pass);
 	if(!$check_pass){$logger->fatal("数据库操作失败:".$query_check_pass);}
 	$row_check_pass = mysqli_fetch_assoc($check_pass);
-	$totalRows_check_pass = mysql_num_rows($check_pass);
+	$totalRows_check_pass = mysqli_num_rows($check_pass);
 	if($totalRows_check_pass==0){
 		$result="false";
 	}
 }
-mysql_free_result($check_pass);
+mysqli_free_result($check_pass);
 die($result);
 ?>

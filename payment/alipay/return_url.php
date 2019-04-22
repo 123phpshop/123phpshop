@@ -93,7 +93,7 @@ if($verify_result){
 			} 
   			
 			$row_order = mysqli_fetch_assoc($order);
-			$totalRows_order = mysql_num_rows($order);
+			$totalRows_order = mysqli_num_rows($order);
 
 
 			if($totalRows_order==0){
@@ -120,7 +120,7 @@ if($verify_result){
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
 			$products = mysqli_query($localhost,$query_products);
 			
-			$totalRows_products = mysql_num_rows($products);
+			$totalRows_products = mysqli_num_rows($products);
 			while($row_products = mysqli_fetch_assoc($products)){
  				$update_product_store_num_sql="update product set store_num=store_num-1,sold_num=sold_num+1 where id=".$row_products['product_id'];
 				if(!mysqli_query($localhost,$update_product_store_num_sql)){

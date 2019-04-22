@@ -34,7 +34,7 @@ if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "set_attr")) {
 			
 			$check_exists_sql="select * from product_type_attr_val WHERE product_id=".$colname_product." and product_type_attr_id=".str_replace("attr_","",$key) ;
 			$check_exists_query=mysqli_query($localhost,$check_exists_sql);
-			if(mysql_num_rows($check_exists_query)==0){
+			if(mysqli_num_rows($check_exists_query)==0){
 				$sql="insert into product_type_attr_val(product_id,product_type_attr_id,product_type_attr_value)values('".$colname_product."','".str_replace("attr_","",$key)."','".$value."')";
 				$query=mysqli_query($localhost,$sql);
 				
@@ -57,7 +57,7 @@ $query_product = sprintf("SELECT id, name, product_type_id FROM product WHERE id
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 
 
 // 根据类型的id获取相关的属性
@@ -66,7 +66,7 @@ $query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_
 $product_type_attrs = mysqli_query($localhost,$query_product_type_attrs);
 if(!$product_type_attrs){$logger->fatal("数据库操作失败:".$query_product_type_attrs);}
 $row_product_type_attrs = mysqli_fetch_assoc($product_type_attrs);
-$totalRows_product_type_attrs = mysql_num_rows($product_type_attrs);
+$totalRows_product_type_attrs = mysqli_num_rows($product_type_attrs);
 
 if($totalRows_product_type_attrs>0){
 	// 获取这个产品的所有的属性值，如果可以获取相关记录的话，那么进行更新，如果没有记录的话，那么直接插入。
@@ -79,7 +79,7 @@ if($totalRows_product_type_attrs>0){
 	$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);
 	if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 	$row_get_product_attr_val = mysqli_fetch_assoc($get_product_attr_val);
-	$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
+	$totalRows_get_product_attr_val = mysqli_num_rows($get_product_attr_val);
 }
 ?>
 
@@ -101,7 +101,7 @@ if($totalRows_product_type_attrs>0){
 			$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);
 			if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 			$row_get_product_attr_val = mysqli_fetch_assoc($get_product_attr_val);
-			$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
+			$totalRows_get_product_attr_val = mysqli_num_rows($get_product_attr_val);
 			
 			?>
 		<?php if($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==1){ ?>

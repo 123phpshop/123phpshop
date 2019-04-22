@@ -88,7 +88,7 @@ if (isset($_GET['totalRows_product_type'])) {
   $totalRows_product_type = $_GET['totalRows_product_type'];
 } else {
   $all_product_type = mysqli_query($localhost,$query_product_type);
-  $totalRows_product_type = mysql_num_rows($all_product_type);
+  $totalRows_product_type = mysqli_num_rows($all_product_type);
 }
 $totalPages_product_type = ceil($totalRows_product_type/$maxRows_product_type)-1;
 
@@ -212,5 +212,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($product_type);
+mysqli_free_result($product_type);
 ?>

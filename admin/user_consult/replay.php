@@ -75,7 +75,7 @@ $query_consult = sprintf("SELECT product_consult.* , product.name as product_nam
 $consult = mysqli_query($localhost,$query_consult);
 if(!$consult){$logger->fatal("数据库操作失败:".$query_consult);}
 $row_consult = mysqli_fetch_assoc($consult);
-$totalRows_consult = mysql_num_rows($consult);
+$totalRows_consult = mysqli_num_rows($consult);
 
 $colname_replies = "-1";
 if (isset($_GET['id'])) {
@@ -86,7 +86,7 @@ $query_replies = sprintf("SELECT product_consult.*,member.username as username F
 $replies = mysqli_query($localhost,$query_replies);
 if(!$replies){$logger->fatal("数据库操作失败:".$query_replies);}
 $row_replies = mysqli_fetch_assoc($replies);
-$totalRows_replies = mysql_num_rows($replies);
+$totalRows_replies = mysqli_num_rows($replies);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -144,7 +144,7 @@ $totalRows_replies = mysql_num_rows($replies);
 </body>
 </html>
 <?php
-mysql_free_result($consult);
+mysqli_free_result($consult);
 
-mysql_free_result($replies);
+mysqli_free_result($replies);
 ?>

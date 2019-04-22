@@ -54,7 +54,7 @@ if (isset($_GET['totalRows_orders'])) {
   $all_orders = mysqli_query($localhost,$query_orders);
   if(!$all_orders){$logger->fatal("数据库操作失败:".$query_orders);}
 
-  $totalRows_orders = mysql_num_rows($all_orders);
+  $totalRows_orders = mysqli_num_rows($all_orders);
 }
 $totalPages_orders = ceil($totalRows_orders/$maxRows_orders)-1;
 
@@ -277,5 +277,5 @@ function _get_order_where($get){
 
 </html>
 <?php
-mysql_free_result($orders);
+mysqli_free_result($orders);
 ?>

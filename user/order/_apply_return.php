@@ -34,15 +34,15 @@ try {
 	if (isset ( $_GET ['id'] )) {
 		$colname_order = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_order = sprintf ( "SELECT * FROM orders WHERE id = %s and user_id=%s and is_delete=0 ", $colname_order, $_SESSION ['user_id'] );
-	$order = mysql_query ( $query_order, $localhost );
+	$order = mysqli_query($localhost,$query_order);
 	if (! $order) {
 		$logger->fatal ( "用户在退货时订单查询失败:" . $query_order );
 		throw new Exception ( "订单不存在！" );
 	}
-	$row_order = mysql_fetch_assoc ( $order );
-	$totalRows_order = mysql_num_rows ( $order );
+	$row_order = mysqli_fetch_assoc ( $order );
+	$totalRows_order = mysqli_num_rows ( $order );
 	
 	if ($totalRows_order == 0) {
 		$logger->fatal ( "用户在退货时订单不存在:" . $colname_order );
@@ -55,7 +55,7 @@ try {
 	}
 	
 	$update_catalog = sprintf ( "update `orders` set order_status='" . ORDER_STATUS_RETURNED_APPLIED . "' where id = %s", $colname_order );
-	$update_catalog_query = mysql_query ( $update_catalog, $localhost );
+	$update_catalog_query = mysqli_query($localhost,$update_catalog);
 	if (! $update_catalog_query) {
 		$logger->fatal ( "用户在退货时更新订单状态失败:" . $update_catalog );
 		throw new Exception ( "用户在退货时更新订单状态失败！" );
@@ -101,5 +101,5 @@ try {
 </body>
 </html>
 <?php
-mysql_free_result ( $order );
+mysqli_free_result ( $order );
 ?>

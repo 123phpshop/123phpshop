@@ -22,7 +22,7 @@ $query_top_catas = "SELECT * FROM `catalog` WHERE pid = 0";
 $top_catas = mysqli_query($localhost,$query_top_catas);
 if(!$top_catas){$logger->fatal("数据库操作失败:".$query_top_catas);}
 $row_top_catas = mysqli_fetch_assoc($top_catas);
-$totalRows_top_catas = mysql_num_rows($top_catas);
+$totalRows_top_catas = mysqli_num_rows($top_catas);
 if($totalRows_top_catas==0){
 	return;
 }

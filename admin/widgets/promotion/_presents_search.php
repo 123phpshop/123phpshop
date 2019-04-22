@@ -34,14 +34,14 @@ $query_limit_goods = sprintf("%s LIMIT %d, %d", $query_goods, $startRow_goods, $
 $goods = mysqli_query($localhost,$query_limit_goods);
 if(!$goods){$logger->fatal("数据库操作失败:".$query_limit_goods);}
 $row_goods = mysqli_fetch_assoc($goods);
-$row_goods_num = mysql_num_rows($goods);
+$row_goods_num = mysqli_num_rows($goods);
 if (isset($_GET['totalRows_goods'])) {
   $totalRows_goods = $_GET['totalRows_goods'];
 } else {
   $all_goods = mysqli_query($localhost,$query_goods);
   if(!$all_goods){$logger->fatal("数据库操作失败:".$query_goods);}
 
-  $totalRows_goods = mysql_num_rows($all_goods);
+  $totalRows_goods = mysqli_num_rows($all_goods);
 }
 $totalPages_goods = ceil($totalRows_goods/$maxRows_goods)-1;
 

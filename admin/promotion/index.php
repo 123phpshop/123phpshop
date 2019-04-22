@@ -40,7 +40,7 @@ if (isset($_GET['totalRows_promotions'])) {
   $all_promotions = mysqli_query($localhost,$query_promotions);
   if(!$all_promotions){$logger->fatal("数据库操作失败:".$query_promotions);}
 
-  $totalRows_promotions = mysql_num_rows($all_promotions);
+  $totalRows_promotions = mysqli_num_rows($all_promotions);
 }
 $totalPages_promotions = ceil($totalRows_promotions/$maxRows_promotions)-1;
 
@@ -122,5 +122,5 @@ $queryString_promotions = sprintf("&totalRows_promotions=%d%s", $totalRows_promo
       <?php } // Show if recordset not empty ?></body>
 </html>
 <?php
-mysql_free_result($promotions);
+mysqli_free_result($promotions);
 ?>

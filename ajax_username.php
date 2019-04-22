@@ -32,12 +32,12 @@ try {
 	if (isset ( $_POST ['username'] )) {
 		$colname_get_username = (get_magic_quotes_gpc ()) ? $_POST ['username'] : addslashes ( $_POST ['username'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_get_username = sprintf ( "SELECT * FROM `user` WHERE username = '%s'", $colname_get_username );
-	$get_username = mysql_query ( $query_get_username, $localhost );
+	$get_username = mysqli_query($localhost,$query_get_username);
 	if(!$get_username){$logger->fatal("数据库操作失败:".$query_get_username);}
-	$row_get_username = mysql_fetch_assoc ( $get_username );
-	$totalRows_get_username = mysql_num_rows ( $get_username );
+	$row_get_username = mysqli_fetch_assoc ( $get_username );
+	$totalRows_get_username = mysqli_num_rows ( $get_username );
 	if ($totalRows_get_username > 0) {
 		$result = "false";
 	}

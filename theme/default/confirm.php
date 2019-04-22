@@ -281,14 +281,14 @@ hr {
 																		 * continue;
 																		 * }
 																		 */
-																		mysql_select_db ( $database_localhost, $localhost );
+																		
 																		$query_product_image = "SELECT * FROM product_images WHERE is_delete=0 and  product_id = " . $cart_products_item ['product_id'];
-																		$product_image = mysql_query ( $query_product_image, $localhost );
+																		$product_image = mysqli_query($localhost,$query_product_image);
 																		if (! $Result1) {
 																			$logger->fatal ( "数据库操作失败:" . $updateSQL );
 																		}
-																		$row_product_image = mysql_fetch_assoc ( $product_image );
-																		$totalRows_product_image = mysql_num_rows ( $product_image );
+																		$row_product_image = mysqli_fetch_assoc ( $product_image );
+																		$totalRows_product_image = mysqli_num_rows ( $product_image );
 																		
 																		?>
 				<tr>

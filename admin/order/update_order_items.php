@@ -26,7 +26,7 @@ $query_order = sprintf("SELECT * FROM orders WHERE id = %s", $colname_order);
 $order = mysqli_query($localhost,$query_order);
 if(!$order){$logger->fatal("数据库操作失败:".$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
 $colname_order_items = "-1";
 if (isset($_GET['id'])) {
@@ -37,7 +37,7 @@ $query_order_items = sprintf("SELECT * FROM order_item WHERE order_id = '%s'", $
 $order_items = mysqli_query($localhost,$query_order_items);
 if(!$order_items){$logger->fatal("数据库操作失败:".$query_order_items);}
 $row_order_items = mysqli_fetch_assoc($order_items);
-$totalRows_order_items = mysql_num_rows($order_items);
+$totalRows_order_items = mysqli_num_rows($order_items);
 
 $doc_url="order.html#update_product";
 $support_email_question="更新订单";log_admin($support_email_question);

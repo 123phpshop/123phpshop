@@ -26,7 +26,7 @@ $query_brands = "SELECT id, name FROM brands";
 $brands = mysqli_query($localhost,$query_brands);
 if(!$brands){$logger->fatal("数据库操作失败:".$query_brands);}
 $row_brands = mysqli_fetch_assoc($brands);
-$totalRows_brands = mysql_num_rows($brands);
+$totalRows_brands = mysqli_num_rows($brands);
 
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -107,7 +107,7 @@ $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0
 $product_types = mysqli_query($localhost,$query_product_types);
 if(!$product_types){$logger->fatal("数据库操作失败:".$query_product_types);}
 $row_product_types = mysqli_fetch_assoc($product_types);
-$totalRows_product_types = mysql_num_rows($product_types);
+$totalRows_product_types = mysqli_num_rows($product_types);
 $is_vproduct_add_page=true;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -309,7 +309,7 @@ $().ready(function(){
 
 </html>
 <?php
-mysql_free_result($brands);
+mysqli_free_result($brands);
 
-mysql_free_result($product_types);
+mysqli_free_result($product_types);
 ?>

@@ -43,7 +43,7 @@ if (isset($_GET['totalRows_products'])) {
   $all_products = mysqli_query($localhost,$query_products);
   if(!$all_products){$logger->fatal("数据库操作失败:".$query_products);}
 
-  $totalRows_products = mysql_num_rows($all_products);
+  $totalRows_products = mysqli_num_rows($all_products);
 }
 $totalPages_products = ceil($totalRows_products/$maxRows_products)-1;
 

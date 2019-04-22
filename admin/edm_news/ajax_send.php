@@ -11,7 +11,7 @@ try{
 	$query_ed = sprintf("SELECT * FROM edm_news WHERE id = %s and is_delete=0 ", $colname_ed);
 	$ed = mysqli_query($localhost)or die(mysqli_error($localhost),$query_ed);
 	$row_ed = mysqli_fetch_assoc($ed);
-	$totalRows_ed = mysql_num_rows($ed);
+	$totalRows_ed = mysqli_num_rows($ed);
 	
 	if($totalRows_ed==0){
 		$logger->fatal("添加邮件营销列队的时候发生错误,杂志的id是：".$colname_ed );

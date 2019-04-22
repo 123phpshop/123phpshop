@@ -32,7 +32,7 @@ if (!$news) {
     $logger->fatal(__FILE__ . ":数据库操作失败:" . mysqli_error($localhost) . $query_news);
 }
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 
 try {
 
@@ -54,7 +54,7 @@ try {
         throw new Exception("数据库操作失败:" . $query_ad_images);
     }
 
-    $totalRows_ad_images = mysql_num_rows($ad_images);
+    $totalRows_ad_images = mysqli_num_rows($ad_images);
 
     if ($totalRows_ad_images > 0) {
         throw new Exception("此广告下面有图片，请先删除图片再进行操作");

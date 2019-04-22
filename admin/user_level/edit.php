@@ -66,7 +66,7 @@ $query_item = sprintf("SELECT * FROM user_levels WHERE id = %s", $colname_item);
 $item = mysqli_query($localhost,$query_item);
 if(!$item){$logger->fatal("数据库操作失败:".$query_item);}
 $row_item = mysqli_fetch_assoc($item);
-$totalRows_item = mysql_num_rows($item);
+$totalRows_item = mysqli_num_rows($item);
 if($totalRows_item==0){
 		 $remove_succeed_url="index.php";
 		  header("Location: " . $remove_succeed_url );
@@ -103,5 +103,5 @@ if($totalRows_item==0){
     </body>
 </html>
 <?php
-mysql_free_result($item);
+mysqli_free_result($item);
 ?>

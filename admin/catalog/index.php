@@ -62,7 +62,7 @@ if (isset($_GET['totalRows_catalogs'])) {
   if(!$all_catalogs){
 	$logger->fatal($totalRows_catalogs);
   }
-  $totalRows_catalogs = mysql_num_rows($all_catalogs);
+  $totalRows_catalogs = mysqli_num_rows($all_catalogs);
 }
 $totalPages_catalogs = ceil($totalRows_catalogs/$maxRows_catalogs)-1;
 
@@ -178,5 +178,5 @@ $().ready(function(){
 
 </html>
 <?php
-mysql_free_result($catalogs);
+mysqli_free_result($catalogs);
 ?>

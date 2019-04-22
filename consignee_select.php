@@ -28,7 +28,7 @@ $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_
 $consignee = mysqli_query($localhost,$query_consignee);
 if(!$consignee){$logger->fatal("数据库操作失败:".$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);
-$totalRows_consignee = mysql_num_rows($consignee);
+$totalRows_consignee = mysqli_num_rows($consignee);
 if($totalRows_consignee==0){
 		$result=array('code'=>'1','message'=>'id错误，请刷新页面重试！');
 }else{

@@ -42,7 +42,7 @@ if (isset($_GET['totalRows_attr'])) {
   $totalRows_attr = $_GET['totalRows_attr'];
 } else {
   $all_attr = mysqli_query($localhost,$query_attr);
-  $totalRows_attr = mysql_num_rows($all_attr);
+  $totalRows_attr = mysqli_num_rows($all_attr);
 }
 $totalPages_attr = ceil($totalRows_attr/$maxRows_attr)-1;
 
@@ -125,5 +125,5 @@ $queryString_attr = sprintf("&totalRows_attr=%d%s", $totalRows_attr, $queryStrin
   </body>
 </html>
 <?php
-mysql_free_result($attr);
+mysqli_free_result($attr);
 ?>

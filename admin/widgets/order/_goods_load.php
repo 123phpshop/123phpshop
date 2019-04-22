@@ -21,7 +21,7 @@ $query_product = sprintf("SELECT id,name,price FROM product WHERE id = %s", $pro
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 ?>
 <table width="100%" border="1" class="phpshop123_list_box">
   <tr>

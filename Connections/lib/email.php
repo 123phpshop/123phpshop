@@ -26,11 +26,11 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 function get_shop_info() {
 	global $db_conn;
 	global $db_database_localhost;
-	mysql_select_db ( $db_database_localhost, $db_conn );
+	
 	$query_shop_info = "SELECT * FROM shop_info WHERE id = 1";
-	$shop_info = mysql_query ( $query_shop_info, $db_conn ) or die ( mysql_error () );
-	$row_shop_info = mysql_fetch_assoc ( $shop_info );
-	$totalRows_shop_info = mysql_num_rows ( $shop_info );
+	$shop_info = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_shop_info);
+	$row_shop_info = mysqli_fetch_assoc ( $shop_info );
+	$totalRows_shop_info = mysqli_num_rows ( $shop_info );
 	return $row_shop_info;
 }
 
@@ -54,12 +54,12 @@ function phpshop123_send_email_template($code, $para = array()) {
 	}
 	
 	// 检查是否允许代表这个code的邮件模板可以发送
-	mysql_select_db ( $db_database_localhost, $db_conn );
+	
 	$row_shop_info = get_shop_info ();
 	$query_email_template = "SELECT * FROM email_templates WHERE code = '" . $code . "' and is_delete=0";
-	$email_template = mysql_query ( $query_email_template, $db_conn ) or die ( mysql_error () );
-	$row_email_template = mysql_fetch_assoc ( $email_template );
-	$totalRows_email_template = mysql_num_rows ( $email_template );
+	$email_template = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_email_template);
+	$row_email_template = mysqli_fetch_assoc ( $email_template );
+	$totalRows_email_template = mysqli_num_rows ( $email_template );
 	if ($totalRows_email_template == 0) {
 		return false;
 	}

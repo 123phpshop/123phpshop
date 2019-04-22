@@ -26,14 +26,14 @@ $colname_brand = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_brand = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_brand = sprintf ( "SELECT * FROM brands WHERE is_delete=0 and id = %s", $colname_brand );
-$brand = mysql_query ( $query_brand, $localhost );
+$brand = mysqli_query($localhost,$query_brand);
 if (! $brand) {
 	$logger->fatal ( "数据库操作失败:" . $query_brand );
 }
-$row_brand = mysql_fetch_assoc ( $brand );
-$totalRows_brand = mysql_num_rows ( $brand );
+$row_brand = mysqli_fetch_assoc ( $brand );
+$totalRows_brand = mysqli_num_rows ( $brand );
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
@@ -76,8 +76,8 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 			}
 		}
 		
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $updateSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$updateSQL);
 		
 		// 记录进入日志
 		$logger->debug ( __FILE__ . $updateSQL );
@@ -221,5 +221,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result ( $brand );
+mysqli_free_result ( $brand );
 ?>

@@ -32,7 +32,7 @@ $query_users = "SELECT * FROM `user`";
 $users = mysqli_query($localhost,$query_users);
 if(!$users){$logger->fatal("数据库操作失败:".$query_users);}
 $row_users = mysqli_fetch_assoc($users);
-$totalRows_users = mysql_num_rows($users);
+$totalRows_users = mysqli_num_rows($users);
 
 
 
@@ -97,7 +97,7 @@ $query_recent_orders = "SELECT orders.*,user.username FROM orders inner join use
 $recent_orders = mysqli_query($localhost,$query_recent_orders);
 if(!$recent_orders){$logger->fatal("数据库操作失败:".$query_recent_orders);}
 $row_recent_orders = mysqli_fetch_assoc($recent_orders);
-$totalRows_recent_orders = mysql_num_rows($recent_orders);
+$totalRows_recent_orders = mysqli_num_rows($recent_orders);
 
 $query_total_sales = "SELECT sum('actual_pay') as total FROM orders";
 $total_sales = mysqli_query($localhost,$query_total_sales);

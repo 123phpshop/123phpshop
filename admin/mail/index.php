@@ -46,7 +46,7 @@ $query_smtp_info = "SELECT * FROM shop_info WHERE id = 1";
 $smtp_info = mysqli_query($localhost,$query_smtp_info);
 if(!$smtp_info){$logger->fatal("数据库操作失败:".$query_smtp_info);}
 $row_smtp_info = mysqli_fetch_assoc($smtp_info);
-$totalRows_smtp_info = mysql_num_rows($smtp_info);
+$totalRows_smtp_info = mysqli_num_rows($smtp_info);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

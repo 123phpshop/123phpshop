@@ -37,19 +37,19 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 		if (isset ( $_SESSION ['user_id'] )) {
 			$colname_user = (get_magic_quotes_gpc ()) ? $_SESSION ['user_id'] : addslashes ( $_SESSION ['user_id'] );
 		}
-		mysql_select_db ( $database_localhost, $localhost );
+		
 		$query_user = sprintf ( "SELECT id, password FROM `user` WHERE id = %s and is_delete=0  and password= '%s'", $colname_user,md5($_POST['password']) );
-		$user = mysql_query ( $query_user, $localhost ) or die ( mysql_error () );
-		$row_user = mysql_fetch_assoc ( $user );
-		$totalRows_user = mysql_num_rows ( $user );
+		$user = mysqli_query($localhost ) or die ( mysqli_error ($localhost),$query_user);
+		$row_user = mysqli_fetch_assoc ( $user );
+		$totalRows_user = mysqli_num_rows ( $user );
 		if ($totalRows_user == 0) {
 			throw new Exception ( "旧密码错误，重试！" );
 		}
 		
 		// 如果旧密码正确，那么进行正式更新
 		$updateSQL = sprintf ( "UPDATE user SET password=%s WHERE id=%s", GetSQLValueString ( md5 ( $_POST ['password2'] ), "text" ), GetSQLValueString ( $_SESSION ['user_id'], "int" ) );
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $updateSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$updateSQL);
 		if (!$Result1) {
 			$logger->fatal("更新用户密码操作错误！".$updateSQL);
 			throw new Exception ( "系统错误，请稍后重试！" );

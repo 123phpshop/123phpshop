@@ -52,7 +52,7 @@ $query_product_atts = sprintf("SELECT * FROM product_type_attr where is_delete=0
 $product_atts = mysqli_query($localhost,$query_product_atts);
 if(!$product_atts){$logger->fatal("数据库操作失败:".$query_product_atts);}
 $row_product_atts = mysqli_fetch_assoc($product_atts);
-$totalRows_product_atts = mysql_num_rows($product_atts);
+$totalRows_product_atts = mysqli_num_rows($product_atts);
 
 ?>
 <?php if ($totalRows_product_atts > 0) { // Show if recordset not empty ?>

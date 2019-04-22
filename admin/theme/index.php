@@ -22,7 +22,7 @@ $query_themes = "SELECT * FROM theme";
 $themes = mysqli_query($localhost,$query_themes);
 if(!$themes){$logger->fatal("数据库操作失败:".$query_themes);}
 $row_themes = mysqli_fetch_assoc($themes);
-$totalRows_themes = mysql_num_rows($themes);
+$totalRows_themes = mysqli_num_rows($themes);
 
 $doc_url="template.html#list";
 $support_email_question="模板列表";log_admin($support_email_question);
@@ -74,5 +74,5 @@ $support_email_question="模板列表";log_admin($support_email_question);
     <?php } // Show if recordset empty ?></body>
 </html>
 <?php
-mysql_free_result($themes);
+mysqli_free_result($themes);
 ?>

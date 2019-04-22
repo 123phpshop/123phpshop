@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
 $query_order = sprintf("SELECT * FROM orders WHERE id = %s and user_id=%s ", $colname_order, $_SESSION['user_id']);
 $order = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order);}
 $row_order = mysqli_fetch_assoc($order);
-$totalRows_order = mysql_num_rows($order);
+$totalRows_order = mysqli_num_rows($order);
 
 if($totalRows_order==0){
 	$could_withdraw=0;
@@ -109,5 +109,5 @@ if($could_withdraw==1){
 </body>
 </html>
 <?php
-mysql_free_result($order);
+mysqli_free_result($order);
 ?>

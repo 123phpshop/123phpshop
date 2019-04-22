@@ -53,8 +53,8 @@ if (isset ( $_POST ["MM_insert"] )&& $_POST ["MM_insert"] == "form1") {
 
 		// 如果存在，那么
 		$insertSQL = sprintf ( "INSERT INTO user_consignee (user_id,name, mobile, province, city, district, address, zip) VALUES (%s,%s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_SESSION ['user_id'], "text" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['province'], "text" ), GetSQLValueString ( $_POST ['city'], "text" ), GetSQLValueString ( $_POST ['district'], "text" ), GetSQLValueString ( $_POST ['address'], "text" ), GetSQLValueString ( $_POST ['zip'], "text" ) );
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {
 			throw new Exception();
 			$logger->fatal ( "数据库操作失败:" . $insertSQL );
@@ -66,15 +66,15 @@ $colname_consignee = "-1";
 if (isset ( $_SESSION ['user_id'] )) {
 	$colname_consignee = (get_magic_quotes_gpc ()) ? $_SESSION ['user_id'] : addslashes ( $_SESSION ['user_id'] );
 }
-mysql_select_db ( $database_localhost, $localhost );
+
 $query_consignee = sprintf ( "SELECT * FROM user_consignee WHERE user_id = %s and is_delete=0 order by is_default desc", $colname_consignee );
-$consignee_obj = mysql_query ( $query_consignee, $localhost );
+$consignee_obj = mysqli_query($localhost,$query_consignee);
 if (! $consignee_obj) {
 	$logger->fatal ( "数据库操作失败:" . $query_consignee );
 }
 
-$row_consignee = mysql_fetch_assoc ( $consignee_obj );
-$totalRows_consignee = mysql_num_rows ( $consignee_obj );
+$row_consignee = mysqli_fetch_assoc ( $consignee_obj );
+$totalRows_consignee = mysqli_num_rows ( $consignee_obj );
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) {
 	

@@ -31,7 +31,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	$alipay_config = mysqli_query($localhost,$query_alipay_config);
 	if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}
 	$row_alipay_config = mysqli_fetch_assoc($alipay_config);
-	$totalRows_alipay_config = mysql_num_rows($alipay_config);
+	$totalRows_alipay_config = mysqli_num_rows($alipay_config);
 
 	if($totalRows_alipay_config==0){
 		
@@ -63,7 +63,7 @@ $query_alipay_config = "SELECT * FROM pay_alipay limit 1";
 $alipay_config = mysqli_query($localhost,$query_alipay_config);
 if(!$alipay_config){$logger->fatal("数据库操作失败:".$query_alipay_config);}
 $row_alipay_config = mysqli_fetch_assoc($alipay_config);
-$totalRows_alipay_config = mysql_num_rows($alipay_config);
+$totalRows_alipay_config = mysqli_num_rows($alipay_config);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

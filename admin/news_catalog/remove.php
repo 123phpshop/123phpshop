@@ -31,7 +31,7 @@ $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE id = %s", $colna
 $news_catalog = mysqli_query($localhost,$query_news_catalog);
 if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
 $row_news_catalog = mysqli_fetch_assoc($news_catalog);
-$totalRows_news_catalog = mysql_num_rows($news_catalog);
+$totalRows_news_catalog = mysqli_num_rows($news_catalog);
 
 if($totalRows_news_catalog==0){
 	$could_delete=0;
@@ -49,13 +49,13 @@ if($could_delete==1){
 	$news = mysqli_query($localhost,$query_news);
 	if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 	$row_news = mysqli_fetch_assoc($news);
-	$totalRows_news = mysql_num_rows($news);
+	$totalRows_news = mysqli_num_rows($news);
 	
 	if($totalRows_news>0){
 		$could_delete=0;
 	} 
 
-	mysql_free_result($news);
+	mysqli_free_result($news);
  }
 
 if($could_delete==1){
@@ -93,7 +93,7 @@ if($could_delete==1){
 </body>
 </html>
 <?php
-mysql_free_result($news_catalog);
+mysqli_free_result($news_catalog);
 
 
 ?>

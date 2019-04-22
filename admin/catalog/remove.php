@@ -30,12 +30,12 @@ if (isset($_GET['id'])) {
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
 $catalog = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
+$totalRows_catalog = mysqli_num_rows($catalog);
 if($totalRows_catalog==0){
 	$could_delete=0;
 } 
 
-mysql_free_result($catalog);
+mysqli_free_result($catalog);
 
 if($could_delete==1){
 	$colname_catalog_children = "-1";
@@ -47,12 +47,12 @@ if($could_delete==1){
 	$catalog_children = mysqli_query($localhost,$query_catalog_children);
 	if(!$catalog_children){$logger->fatal("数据库操作失败:".$query_catalog_children);}
 	$row_catalog_children = mysqli_fetch_assoc($catalog_children);
-	$totalRows_catalog_children = mysql_num_rows($catalog_children);
+	$totalRows_catalog_children = mysqli_num_rows($catalog_children);
 	
 	if($totalRows_catalog_children>0){
 		$could_delete=0;
 	} 
-	mysql_free_result($catalog_children);
+	mysqli_free_result($catalog_children);
 }
 
 if($could_delete==1){
@@ -66,13 +66,13 @@ if($could_delete==1){
 	$products = mysqli_query($localhost,$query_products);
 	if(!$products){$logger->fatal("数据库操作失败:".$query_products);}
 	$row_products = mysqli_fetch_assoc($products);
-	$totalRows_products = mysql_num_rows($products);
+	$totalRows_products = mysqli_num_rows($products);
 	
 	if($totalRows_products>0){
 		$could_delete=0;
  	} 
 	
- 	mysql_free_result($products);
+ 	mysqli_free_result($products);
 }
 
 if($could_delete==1){

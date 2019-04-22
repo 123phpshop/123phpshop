@@ -69,7 +69,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 		$info .= "DROP TABLE IF EXISTS `".$val."`;\r\n";
 		$sqlStr = $info.$row[1].";\r\n\r\n";
  		file_put_contents($to_file_name,$sqlStr,FILE_APPEND);
- 		mysql_free_result($res);
+ 		mysqli_free_result($res);
 	}
 
  	foreach($tabList as $val){
@@ -77,7 +77,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 		$backup_info.=date("Y-m-d H:i:s").": 导出表".$val."的数据</br>";
 		$sql = "select * from ".$val;
 		$res = mysqli_query($localhost,$sql,$link);
- 		if(mysql_num_rows($res)<1) continue;
+ 		if(mysqli_num_rows($res)<1) continue;
 		//
 		$info = "-- ----------------------------\r\n";
 		$info .= "-- 表：`".$val."` 的记录\r\n";
@@ -92,7 +92,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 			$sqlStr .= ");\r\n";
 			file_put_contents($to_file_name,$sqlStr,FILE_APPEND);
 		}
- 		mysql_free_result($res);
+ 		mysqli_free_result($res);
 		file_put_contents($to_file_name,"\r\n",FILE_APPEND);
 		header("Content-Type: application/force-download");
 		header("Content-Disposition: attachment; filename=".basename($to_file_name)); 

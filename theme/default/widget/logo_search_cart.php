@@ -22,7 +22,7 @@ $query_shopinfo = "SELECT * FROM shop_info WHERE id = 1";
 $shopinfo = mysqli_query($localhost,$query_shopinfo);
 if(!$shopinfo){$logger->fatal("数据库操作失败:".$query_shopinfo);}
 $row_shopinfo = mysqli_fetch_assoc($shopinfo);
-$totalRows_shopinfo = mysql_num_rows($shopinfo);
+$totalRows_shopinfo = mysqli_num_rows($shopinfo);
 ?>
 <table width="1210" border="0" align="center" style="margin:0px auto;">
   <tr>

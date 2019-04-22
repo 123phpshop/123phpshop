@@ -30,10 +30,10 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 
 		log_admin ( "添加广告" );// 记录进入admin日志
 		$insertSQL = sprintf ( "INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "text" ), GetSQLValueString ( $_POST ['end_date'], "text" ) );
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $insertSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$insertSQL);
 		if (! $Result1) {// 如果数据库操作失败
-			$logger->fatal ( "插入广告时数据库操作失败" . mysql_error () . $insertSQL );
+			$logger->fatal ( "插入广告时数据库操作失败" . mysqli_error ($localhost) . $insertSQL );
 			throw new Exception ( "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！" );
 		}
 		$insertGoTo = "index.php"; // 跳转到index

@@ -71,7 +71,7 @@ if (isset($_GET['totalRows_catalog'])) {
   $totalRows_catalog = $_GET['totalRows_catalog'];
 } else {
   $all_catalog = mysqli_query($localhost,$query_catalog);
-  $totalRows_catalog = mysql_num_rows($all_catalog);
+  $totalRows_catalog = mysqli_num_rows($all_catalog);
 }
 $totalPages_catalog = ceil($totalRows_catalog/$maxRows_catalog)-1;
 
@@ -116,7 +116,7 @@ if (isset($_GET['totalRows_news'])) {
   $totalRows_news = $_GET['totalRows_news'];
 } else {
   $all_news = mysqli_query($localhost,$query_news);
-  $totalRows_news = mysql_num_rows($all_news);
+  $totalRows_news = mysqli_num_rows($all_news);
 }
 $totalPages_news = ceil($totalRows_news/$maxRows_news)-1;
 

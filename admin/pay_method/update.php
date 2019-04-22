@@ -55,7 +55,7 @@ $query_pay_method = sprintf("SELECT * FROM pay_method WHERE id = %s", $colname_p
 $pay_method = mysqli_query($localhost,$query_pay_method);
 if(!$pay_method){$logger->fatal("数据库操作失败:".$query_pay_method);}
 $row_pay_method = mysqli_fetch_assoc($pay_method);
-$totalRows_pay_method = mysql_num_rows($pay_method);
+$totalRows_pay_method = mysqli_num_rows($pay_method);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

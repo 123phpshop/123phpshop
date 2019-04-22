@@ -38,7 +38,7 @@ if (isset($_GET['totalRows_friend_links'])) {
   $totalRows_friend_links = $_GET['totalRows_friend_links'];
 } else {
   $all_friend_links = mysqli_query($localhost,$query_friend_links);
-  $totalRows_friend_links = mysql_num_rows($all_friend_links);
+  $totalRows_friend_links = mysqli_num_rows($all_friend_links);
 }
 $totalPages_friend_links = ceil($totalRows_friend_links/$maxRows_friend_links)-1;
 ?>

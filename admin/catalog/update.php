@@ -29,7 +29,7 @@ $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catal
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
+$totalRows_catalog = mysqli_num_rows($catalog);
 
 
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -63,7 +63,7 @@ $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catal
 $catalog = mysqli_query($localhost,$query_catalog);
 if(!$catalog){$logger->fatal("数据库操作失败:".$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
-$totalRows_catalog = mysql_num_rows($catalog);
+$totalRows_catalog = mysqli_num_rows($catalog);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -126,5 +126,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($catalog);
+mysqli_free_result($catalog);
 ?>

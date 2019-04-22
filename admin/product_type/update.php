@@ -74,7 +74,7 @@ $query_product_type = sprintf("SELECT * FROM product_type WHERE id = %s", $colna
 $product_type = mysqli_query($localhost,$query_product_type);
 if(!$product_type){$logger->fatal("数据库操作失败:".$query_product_type);}
 $row_product_type = mysqli_fetch_assoc($product_type);
-$totalRows_product_type = mysql_num_rows($product_type);
+$totalRows_product_type = mysqli_num_rows($product_type);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -125,5 +125,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($product_type);
+mysqli_free_result($product_type);
 ?>

@@ -79,7 +79,7 @@ if (isset($_GET['totalRows_import_logs'])) {
   $totalRows_import_logs = $_GET['totalRows_import_logs'];
 } else {
   $all_import_logs = mysqli_query($localhost,$query_import_logs);
-  $totalRows_import_logs = mysql_num_rows($all_import_logs);
+  $totalRows_import_logs = mysqli_num_rows($all_import_logs);
 }
 $totalPages_import_logs = ceil($totalRows_import_logs/$maxRows_import_logs)-1;
 
@@ -192,5 +192,5 @@ $queryString_import_logs = sprintf("&totalRows_import_logs=%d%s", $totalRows_imp
   <?php } // Show if recordset not empty ?></body>
 </html>
 <?php
-mysql_free_result($import_logs);
+mysqli_free_result($import_logs);
 ?>

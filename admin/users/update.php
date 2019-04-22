@@ -98,7 +98,7 @@ if (isset($_GET['id'])) {
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
 $user = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_user);}
 $row_user = mysqli_fetch_assoc($user);
-$totalRows_user = mysql_num_rows($user);
+$totalRows_user = mysqli_num_rows($user);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -255,5 +255,5 @@ $( "#birth_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
 </body>
 </html>
 <?php
-mysql_free_result($user);
+mysqli_free_result($user);
 ?>

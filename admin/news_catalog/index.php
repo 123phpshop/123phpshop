@@ -54,7 +54,7 @@ if (isset($_GET['totalRows_news_catalogs'])) {
   $totalRows_news_catalogs = $_GET['totalRows_news_catalogs'];
 } else {
   $all_news_catalogs = mysqli_query($localhost,$query_news_catalogs);
-  $totalRows_news_catalogs = mysql_num_rows($all_news_catalogs);
+  $totalRows_news_catalogs = mysqli_num_rows($all_news_catalogs);
 }
 $totalPages_news_catalogs = ceil($totalRows_news_catalogs/$maxRows_news_catalogs)-1;
 
@@ -134,5 +134,5 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($news_catalogs);
+mysqli_free_result($news_catalogs);
 ?>

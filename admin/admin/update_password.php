@@ -47,7 +47,7 @@ $query_user = sprintf("SELECT id, password FROM `member` WHERE id = %s", $colnam
 $user = mysqli_query($localhost,$query_user);
 if(!$user){$logger->fatal("数据库操作失败:".$query_user);}
 $row_user = mysqli_fetch_assoc($user);
-$totalRows_user = mysql_num_rows($user);
+$totalRows_user = mysqli_num_rows($user);
 
 $colname_password = "-1";
 if (isset($_POST['password'])) {
@@ -57,7 +57,7 @@ if (isset($_POST['password'])) {
 $query_password = sprintf("SELECT * FROM `member` WHERE password = '%s'", $colname_password);
 $password = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_password);}
 $row_password = mysqli_fetch_assoc($password);
-$totalRows_password = mysql_num_rows($password);
+$totalRows_password = mysqli_num_rows($password);
 
 $doc_url="update_password.html";
 $support_email_question="更新管理员密码";
@@ -145,7 +145,7 @@ $().ready(function(){
 </body>
 </html>
 <?php
-mysql_free_result($user);
+mysqli_free_result($user);
 
-mysql_free_result($password);
+mysqli_free_result($password);
 ?>

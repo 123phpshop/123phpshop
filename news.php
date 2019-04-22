@@ -37,7 +37,7 @@ $query_news = sprintf("SELECT * FROM news WHERE is_delete=0 and id = %s", $colna
 $news = mysqli_query($localhost,$query_news);
 if(!$news){$logger->fatal("数据库操作失败:".$query_news);}
 $row_news = mysqli_fetch_assoc($news);
-$totalRows_news = mysql_num_rows($news);
+$totalRows_news = mysqli_num_rows($news);
 
 if($totalRows_news >0){
 
@@ -46,7 +46,7 @@ $query_news_catalog = sprintf("SELECT * FROM news_catalog WHERE is_delete=0 and 
  $news_catalog = mysqli_query($localhost,$query_news_catalog);
  if(!$news_catalog){$logger->fatal("数据库操作失败:".$query_news_catalog);}
 $row_news_catalog = mysqli_fetch_assoc($news_catalog);
-$totalRows_news_catalog = mysql_num_rows($news_catalog);
+$totalRows_news_catalog = mysqli_num_rows($news_catalog);
 
  
  }
@@ -55,6 +55,6 @@ $query_news_catalogs = "SELECT * FROM news_catalog where is_delete=0";
 $news_catalogs = mysqli_query($localhost,$query_news_catalogs);
 if(!$news_catalogs){$logger->fatal("数据库操作失败:".$query_news_catalogs);}
 $row_news_catalogs = mysqli_fetch_assoc($news_catalogs);
-$totalRows_news_catalogs = mysql_num_rows($news_catalogs);
+$totalRows_news_catalogs = mysqli_num_rows($news_catalogs);
 include($template_path."news.php");
 ?>

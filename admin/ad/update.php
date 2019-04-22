@@ -39,8 +39,8 @@ try {
 
 		$updateSQL = sprintf ( "UPDATE ad SET name=%s, image_width=%s, image_height=%s, intro=%s, start_date=%s, end_date=%s WHERE id=%s", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "date" ), GetSQLValueString ( $_POST ['end_date'], "date" ), GetSQLValueString ( $_POST ['id'], "int" ) );
 		
-		mysql_select_db ( $database_localhost, $localhost );
-		$Result1 = mysql_query ( $updateSQL, $localhost );
+		
+		$Result1 = mysqli_query($localhost,$updateSQL);
 		if (! $Result1) {
 			$logger->fatal ( "删除广告操作失败:" . $updateSQL );
 			throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
@@ -54,15 +54,15 @@ try {
 	if (isset ( $_GET ['id'] )) {
 		$colname_ad = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
 	}
-	mysql_select_db ( $database_localhost, $localhost );
+	
 	$query_ad = sprintf ( "SELECT * FROM ad WHERE id = %s", $colname_ad );
-	$ad = mysql_query ( $query_ad, $localhost );
+	$ad = mysqli_query($localhost,$query_ad);
 	if (! $ad) {
 		$logger->fatal ( "数据库操作失败:" . $query_ad );
 		throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 	}
-	$row_ad = mysql_fetch_assoc ( $ad );
-	$totalRows_ad = mysql_num_rows ( $ad );
+	$row_ad = mysqli_fetch_assoc ( $ad );
+	$totalRows_ad = mysqli_num_rows ( $ad );
 
 	// 检查id是否存在，如果不存在，那么告知
 } catch ( Exception $ex ) {

@@ -21,7 +21,7 @@
 $query_pay_config = "SELECT * FROM pay_alipay WHERE id = 1";
 $pay_config = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_pay_config);}
 $row_pay_config = mysqli_fetch_assoc($pay_config);
-$totalRows_pay_config = mysql_num_rows($pay_config);
+$totalRows_pay_config = mysqli_num_rows($pay_config);
 
 /* *
  * 配置文件
@@ -69,5 +69,5 @@ $alipay_config['cacert']    = getcwd().'\\cacert.pem';
 //访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
 $alipay_config['transport']    = 'http';
 
-mysql_free_result($pay_config);
+mysqli_free_result($pay_config);
 ?>

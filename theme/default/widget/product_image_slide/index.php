@@ -26,7 +26,7 @@ $query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 a
 $product_image = mysqli_query($localhost,$query_product_image);
 if(!$product_image){$logger->fatal("数据库操作失败:".$query_product_image);}
 $row_product_image = mysqli_fetch_assoc($product_image);
-$totalRows_product_image = mysql_num_rows($product_image);
+$totalRows_product_image = mysqli_num_rows($product_image);
 
 $colname_product_image_small = "-1";
 if (isset($_GET['id'])) {
@@ -37,7 +37,7 @@ $query_product_image_small = sprintf("SELECT * FROM product_images WHERE is_dele
 $product_image_small = mysqli_query($localhost,$query_product_image_small);
 if(!$product_image_small){$logger->fatal("数据库操作失败:".$query_product_image_small);}
 $row_product_image_small = mysqli_fetch_assoc($product_image_small);
-$totalRows_product_image_small = mysql_num_rows($product_image_small);
+$totalRows_product_image_small = mysqli_num_rows($product_image_small);
 
 $colname_big_images = "-1";
 if (isset($_GET['id'])) {
@@ -48,7 +48,7 @@ $query_big_images = sprintf("SELECT * FROM product_images WHERE is_delete=0 and 
 $big_images = mysqli_query($localhost,$query_big_images);
 if(!$big_images){$logger->fatal("数据库操作失败:".$query_big_images);}
 $row_big_images = mysqli_fetch_assoc($big_images);
-$totalRows_big_images = mysql_num_rows($big_images);
+$totalRows_big_images = mysqli_num_rows($big_images);
 ?><script src="/js/jquery-1.7.2.min.js" ></script>
 <!--[if IE 6]> 
 <script src="/widget/product_image_slide/js/iepng.js" type="text/javascript"></script> 

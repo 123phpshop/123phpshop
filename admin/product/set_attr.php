@@ -65,7 +65,7 @@ $query_product = sprintf("SELECT id, name, product_type_id FROM product WHERE id
 $product = mysqli_query($localhost,$query_product);
 if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysqli_fetch_assoc($product);
-$totalRows_product = mysql_num_rows($product);
+$totalRows_product = mysqli_num_rows($product);
 // 如果不能找到相关的id的话
 
 // 如果可以找到的话，根据类型的id获取相关的属性
@@ -74,7 +74,7 @@ $query_product_type_attrs = "SELECT * FROM product_type_attr WHERE product_type_
 $product_type_attrs = mysqli_query($localhost,$query_product_type_attrs);
 if(!$product_type_attrs){$logger->fatal("数据库操作失败:".$query_product_type_attrs);}
 $row_product_type_attrs = mysqli_fetch_assoc($product_type_attrs);
-$totalRows_product_type_attrs = mysql_num_rows($product_type_attrs);
+$totalRows_product_type_attrs = mysqli_num_rows($product_type_attrs);
 
 if($totalRows_product_type_attrs>0){
 	// 参数检查
@@ -92,7 +92,7 @@ if($totalRows_product_type_attrs>0){
 	if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 
 	$row_get_product_attr_val = mysqli_fetch_assoc($get_product_attr_val);
-	$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
+	$totalRows_get_product_attr_val = mysqli_num_rows($get_product_attr_val);
 }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -128,7 +128,7 @@ if($totalRows_product_type_attrs>0){
 			$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);
 			if(!$get_product_attr_val){$logger->fatal("数据库操作失败:".$query_get_product_attr_val);}
 			$row_get_product_attr_val = mysqli_fetch_assoc($get_product_attr_val);
-			$totalRows_get_product_attr_val = mysql_num_rows($get_product_attr_val);
+			$totalRows_get_product_attr_val = mysqli_num_rows($get_product_attr_val);
 			
 			?>
 		<?php if($row_product_type_attrs['input_method']==1 && $row_product_type_attrs['is_selectable']==1){ ?>

@@ -28,7 +28,7 @@ $query_getByName = sprintf("SELECT * FROM `role` WHERE name = '%s' and is_delete
 $getByName = mysqli_query($localhost,$query_getByName);
 if(!$getByName){$logger->fatal("数据库操作失败:".$query_getByName);}
 $row_getByName = mysqli_fetch_assoc($getByName);
-$totalRows_getByName = mysql_num_rows($getByName);
+$totalRows_getByName = mysqli_num_rows($getByName);
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {

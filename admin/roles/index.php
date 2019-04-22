@@ -24,7 +24,7 @@ $query_getRoles = "SELECT * FROM `role` where is_delete=0 ORDER BY id DESC";
 $getRoles = mysqli_query($localhost,$query_getRoles);
 if(!$getRoles){$logger->fatal("数据库操作失败:".$query_getRoles);}
 $row_getRoles = mysqli_fetch_assoc($getRoles);
-$totalRows_getRoles = mysql_num_rows($getRoles);
+$totalRows_getRoles = mysqli_num_rows($getRoles);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -59,5 +59,5 @@ $totalRows_getRoles = mysql_num_rows($getRoles);
   <?php } // Show if recordset empty ?></body>
 </html>
 <?php
-mysql_free_result($getRoles);
+mysqli_free_result($getRoles);
 ?>
