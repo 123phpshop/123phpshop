@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -15,8 +15,11 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
+ ?>
+<?php require_once('../../Connections/localhost.php'); ?>
 <?php
+
+// 参数初始话
 $doc_url="product.html#delete";
 $support_email_question="删除产品";log_admin($support_email_question);
 $could_delete=1;
@@ -24,6 +27,8 @@ $colname_product = "-1";
 if (isset($_GET['id'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
+
+// 获取商品
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM product WHERE id = %s", $colname_product);
 $product = mysql_query($query_product, $localhost) ;
@@ -31,12 +36,13 @@ if(!$product){$logger->fatal("数据库操作失败:".$query_product);}
 $row_product = mysql_fetch_assoc($product);
 $totalRows_product = mysql_num_rows($product);
 
-if($row_product==0){
+if($row_product==0){ //如果没有找到商品的话，那么这里跑错
 	$could_delete=0;
 } 
 
 if($could_delete==1){
 
+	// 如果可以找到商品的话，那么这里正是开始更新
 	$update_catalog = sprintf("update `product` set is_delete=1 where id = %s", $colname_product);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){

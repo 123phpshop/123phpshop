@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -17,11 +17,10 @@
  */
  ?>
 <?php 
-
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
-include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_session.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_log.php"; // 初始化日志
+include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php"; // 初始化安装
+include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/const.php"; //初始化常量
+require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_session.php"; //初始化session
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/common.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/lib/cart.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_admin_login.php";
@@ -30,5 +29,4 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_access.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_template.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/init_validation.php";
 include_once $_SERVER["DOCUMENT_ROOT"]."/Connections/int_language.php";// 初始化语言
-
 ?>

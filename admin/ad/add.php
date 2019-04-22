@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -15,62 +15,28 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
-?><?php
-
-require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 ?>
 <?php
-
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
 $doc_url = "ad.html#add";
 $support_email_question = "添加广告";
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
-
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	try {
 		// @todo 验证参数
-		log_admin ( "添加广告" );
-		
+
+		log_admin ( "添加广告" );// 记录进入admin日志
 		$insertSQL = sprintf ( "INSERT INTO ad (image_width, image_height, name, intro, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "text" ), GetSQLValueString ( $_POST ['end_date'], "text" ) );
-		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $insertSQL, $localhost );
-		if (! $Result1) {
+		if (! $Result1) {// 如果数据库操作失败
 			$logger->fatal ( "插入广告时数据库操作失败" . mysql_error () . $insertSQL );
 			throw new Exception ( "插入广告时数据库操作失败,请联系123phpshop寻求解决方案！" );
 		}
-		
-		$insertGoTo = "index.php";
-		if (isset ( $_SERVER ['QUERY_STRING'] )) {
-			$insertGoTo .= (strpos ( $insertGoTo, '?' )) ? "&" : "?";
-			$insertGoTo .= $_SERVER ['QUERY_STRING'];
-		}
+		$insertGoTo = "index.php"; // 跳转到index
 		header ( sprintf ( "Location: %s", $insertGoTo ) );
 	} catch ( Exception $ex ) {
 		$error = $ex->getMessage ();

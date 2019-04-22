@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -17,30 +17,6 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
 $doc_url="admin.html#update";
 $support_email_question="更新管理员信息";
 log_admin($support_email_question);
@@ -50,29 +26,35 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
+
+  // 检查参数，如果参数不合法，那么告知
+
+  // 检查id是否存在，如果不存在，那么抛错
+
+  // 如果参数合法，那么正是开始更新
   $updateSQL = sprintf("UPDATE member SET password=%s, username=%s, mobile=%s, email=%s, role_id=%s WHERE id=%s",
                        GetSQLValueString(md5($_POST['password']), "text"),
                        GetSQLValueString($_POST['username'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
-					   GetSQLValueString($_POST['role_id'], "text"),
+					             GetSQLValueString($_POST['role_id'], "text"),
                        GetSQLValueString($_POST['id'], "int"));
 
+  // 如果用户没有填写密码的话，那么不更新密码字段
 	if(empty($_POST['password']) || !isset($_POST['password'])){
  		$updateSQL = sprintf("UPDATE member SET   username=%s, mobile=%s, email=%s, role_id=%s WHERE id=%s",
                         GetSQLValueString($_POST['username'], "text"),
-                       GetSQLValueString($_POST['mobile'], "text"),
-                       GetSQLValueString($_POST['email'], "text"),
-					   GetSQLValueString($_POST['role_id'], "text"),
-                 	   GetSQLValueString($_POST['id'], "int"));
+                        GetSQLValueString($_POST['mobile'], "text"),
+                        GetSQLValueString($_POST['email'], "text"),
+					              GetSQLValueString($_POST['role_id'], "text"),
+                 	      GetSQLValueString($_POST['id'], "int"));
 	}
-	
+  
+  
   mysql_select_db($database_localhost, $localhost);
   $Result1 = mysql_query($updateSQL, $localhost) ;
   if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
-
   $updateGoTo = "index.php";
-   
   header(sprintf("Location: %s", $updateGoTo));
 }
 
@@ -86,12 +68,13 @@ $admin = mysql_query($query_admin, $localhost) ;if(!$Result1){$logger->fatal("�
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
 
+// 如果找不到这个id的话
 mysql_select_db($database_localhost, $localhost);
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
-$roles = mysql_query($query_roles, $localhost) ;if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
+$roles = mysql_query($query_roles, $localhost) ;
+if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL);}
 $row_roles = mysql_fetch_assoc($roles);
 $totalRows_roles = mysql_num_rows($roles);
-
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

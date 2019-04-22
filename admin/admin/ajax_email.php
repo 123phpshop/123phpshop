@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -15,8 +15,8 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); ?>
-<?php
+ ?><?php require_once('../../Connections/localhost.php');
+
 $result="true";
 $colname_member = "-1";
 if (isset($_POST['email'])) {
@@ -27,14 +27,14 @@ $query_member = sprintf("SELECT * FROM member WHERE email = '%s'", $colname_memb
 $member = mysql_query($query_member, $localhost) ;
 if(!$member){
 		$logger->fatal("删除广告操作失败:".$updateSQL);
+		// 这里还是需要报错的
  	}
 $row_member = mysql_fetch_assoc($member);
 $totalRows_member = mysql_num_rows($member);
 if($totalRows_member>0){
 	$result="false";
 }
-?> 
-<?php
+
 mysql_free_result($member);
 die($result);
 ?>

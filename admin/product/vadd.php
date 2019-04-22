@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -15,35 +15,10 @@
  *  手机:	13391334121
  *  邮箱:	service@123phpshop.com
  */
- ?><?php require_once('../../Connections/localhost.php'); 
-
+ ?>
+<?php require_once('../../Connections/localhost.php'); 
 $doc_url="product.html#vadd";
 $support_email_question="添加虚拟商品";log_admin($support_email_question);
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
 $editFormAction = $_SERVER['PHP_SELF'];
 
 mysql_select_db($database_localhost, $localhost);
@@ -60,9 +35,10 @@ if (isset($_SERVER['QUERY_STRING'])) {
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   require_once($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/catalogs.php');
   
+  //   参数验证
   if($_POST['is_on_sheft']=='0'){
   $insertSQL = sprintf("INSERT INTO product (is_promotion,promotion_price,promotion_start,promotion_end,pointers,is_shipping_free,meta_keywords,meta_desc,description,tags,unit,is_virtual,weight,cata_path,name, ad_text, catalog_id, price, market_price, is_on_sheft, is_hot, is_season, is_recommanded, store_num, intro,brand_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
- 					   GetSQLValueString($_POST['is_promotion'], "int"),
+ 					GetSQLValueString($_POST['is_promotion'], "int"),
   						GetSQLValueString($_POST['promotion_price'], "double"),
 						GetSQLValueString($_POST['promotion_start'], "date"),
 						GetSQLValueString($_POST['promotion_end'], "date"),
@@ -125,8 +101,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
    $insertGoTo = "detail.php?recordID=".mysql_insert_id();
    header(sprintf("Location: %s", $insertGoTo));
 }
-?>
-<?php
+
 mysql_select_db($database_localhost, $localhost);
 $query_product_types = "SELECT * FROM product_type WHERE pid = 0 and is_delete=0";
 $product_types = mysql_query($query_product_types, $localhost) ;

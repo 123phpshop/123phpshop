@@ -3,7 +3,7 @@ ob_start();
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -26,7 +26,7 @@ if (isset($_GET['accesscheck'])) {
 
 if (isset($_POST['username'])) {
 
-    // 对字段进行验证
+    // 对字段进行验证。如果字段不合法那么告知退出
     $validation->set_rules('username', '用户名', 'required|min_length[2]|alpha_dash|max_length[18]');
     $validation->set_rules('password', '密码', 'required|alpha_dash|max_length[18]');
     $validation->set_rules('captcha', '验证码', 'required|exact_length[4]|alpha_numeric');
@@ -37,6 +37,7 @@ if (isset($_POST['username'])) {
         return;
     }
 
+    // 如果字段合法，那么正是开始验证
     $loginUsername = $_POST['username'];
     $password = md5($_POST['password']);
     $MM_fldUserAuthorization = "";
@@ -54,10 +55,12 @@ if (isset($_POST['username'])) {
     $LoginRS__query = sprintf("SELECT id,role_id,username,password FROM member WHERE username='%s' AND password='%s' and is_delete=0", get_magic_quotes_gpc() ? $loginUsername : addslashes($loginUsername), get_magic_quotes_gpc() ? $password : addslashes($password));
     $LoginRS = mysql_query($LoginRS__query, $localhost);
     if (!$LoginRS) {
+        // 如果query错误那么告知
         $logger->fatal(__FILE__ . "数据库操作失败:" . $LoginRS__query);
         throw new Exception(COMMON_LANG_DB_ERROR);
     }
 
+    // 如果成功的话
     $loginFoundUser = mysql_num_rows($LoginRS);
     if ($loginFoundUser) {
         $loginStrGroup = "";
@@ -70,7 +73,7 @@ if (isset($_POST['username'])) {
         $last_login_at = date('Y-m-d H:i:s');
         $last_login_ip = $_SERVER['REMOTE_ADDR'];
 
-        // 更新用户的登录时间和ip
+        // 更新用户的最后一次的登录时间和ip
         $update_last_login_sql = "update member set last_login_at='" . $last_login_at . "', last_login_ip='" . $last_login_ip . "' where id=" . $user_rs['id'];
         $query = mysql_query($update_last_login_sql, $localhost);
         if (!$query) {
@@ -79,7 +82,7 @@ if (isset($_POST['username'])) {
 
         $privileges_array = array();
 
-        // 获取这个用户的角色
+        // 获取登录用户角色
         mysql_select_db($database_localhost, $localhost);
         $query_role = "SELECT * FROM `role` WHERE id = " . $user_rs['role_id'];
         $role = mysql_query($query_role, $localhost);
@@ -93,7 +96,7 @@ if (isset($_POST['username'])) {
             $privileges_id_array = $row_role['privileges'];
         }
 
-        // 获取这个用户的权限
+        // 获取登录用户权限
         $privileges_array = array();
         mysql_select_db($database_localhost, $localhost);
         $query_privilege_files = "SELECT file_name FROM privilege WHERE id in (" . $privileges_id_array . ")";
@@ -109,6 +112,7 @@ if (isset($_POST['username'])) {
             }
         }
 
+        // 如果成功的话，那么进行跳转
         $_SESSION['privileges'] = $privileges_array;
         if (isset($_SESSION['PrevUrl']) && true) {
             $MM_redirectLoginSuccess = $_SESSION['PrevUrl'];

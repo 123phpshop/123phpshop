@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -19,36 +19,9 @@
 
 ob_start ();
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/Connections/localhost.php');
-?>
-<?php
-
 $doc_url = "product.html#udpate";
 $support_email_question = "编辑商品";
 log_admin ( $support_email_question );
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $colname_product = "-1";
 if (isset ( $_GET ['id'] )) {
 	$colname_product = (get_magic_quotes_gpc ()) ? $_GET ['id'] : addslashes ( $_GET ['id'] );
@@ -141,7 +114,6 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 		
 		// 如果需要上架的话
 		$updateSQL = sprintf ( "UPDATE product SET consumption_pointers=%s,user_level_pointers=%s,catalog_id=%s,is_promotion=%s,promotion_price=%s,promotion_start=%s,promotion_end=%s,is_shipping_free=%s, meta_keywords=%s, meta_desc=%s, description=%s, product_type_id=%s, unit=%s,weight=%s,is_virtual=%s,on_sheft_time=%s,name=%s, ad_text=%s, price=%s, market_price=%s, is_on_sheft=%s, is_hot=%s, is_season=%s, is_recommanded=%s, store_num=%s, intro=%s, brand_id=%s WHERE id=%s", GetSQLValueString ( $_POST ['consumption_pointers'], "int" ), GetSQLValueString ( $_POST ['user_level_pointers'], "int" ), GetSQLValueString ( $_POST ['catalog_id'], "int" ), GetSQLValueString ( $_POST ['is_promotion'], "text" ), GetSQLValueString ( $_POST ['promotion_price'], "double" ), GetSQLValueString ( $_POST ['promotion_start'], "date" ), GetSQLValueString ( $_POST ['promotion_end'], "date" ), GetSQLValueString ( $_POST ['is_shipping_free'], "int" ), GetSQLValueString ( $_POST ['meta_keywords'], "text" ), GetSQLValueString ( $_POST ['meta_desc'], "text" ), GetSQLValueString ( $_POST ['description'], "text" ), GetSQLValueString ( $_POST ['product_type_id'], "text" ), GetSQLValueString ( $_POST ['unit'], "text" ), GetSQLValueString ( $_POST ['weight'], "double" ), GetSQLValueString ( $_POST ['is_virtual'], "int" ), GetSQLValueString ( $on_sheft_time, "date" ), GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['ad_text'], "text" ), GetSQLValueString ( $_POST ['price'], "double" ), GetSQLValueString ( $_POST ['market_price'], "double" ), GetSQLValueString ( $_POST ['is_on_sheft'], "int" ), GetSQLValueString ( $_POST ['is_hot'], "text" ), GetSQLValueString ( $_POST ['is_season'], "text" ), GetSQLValueString ( $_POST ['is_recommanded'], "text" ), GetSQLValueString ( $_POST ['store_num'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['brand_id'], "int" ), GetSQLValueString ( $_POST ['id'], "int" ) );
-		
 		mysql_select_db ( $database_localhost, $localhost );
 		$Result1 = mysql_query ( $updateSQL, $localhost );
 		
@@ -189,10 +161,10 @@ if ((isset ( $_POST ["form_op"] )) && ($_POST ["form_op"] == "update_order")) {
 			throw new Exception ( $error );
 		}
 		
-		// 如果什么问题都没有，那么轻松的跳转吧
+		// 如果什么问题都没有，那么跳转
 		$updateGoTo = "../product/index.php";
 		header ( sprintf ( "Location: %s", $updateGoTo ) );
-		return;
+		exit;
 	} catch ( Exception $ex ) {
 		$error = $ex->getMessage ();
 	}

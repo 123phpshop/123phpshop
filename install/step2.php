@@ -3,7 +3,7 @@ ob_start();
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -79,7 +79,7 @@ function _import_sql($admin_username, $admin_password)
     // sql文件包含的sql语句数组
     $templine = '';
     $lines = file($filename);
-    mysql_query("set names utf8;");
+    mysqli_query("set names utf8;");
     foreach ($lines as $line) {
         // Skip it if it's a comment
         if (substr($line, 0, 2) == '--' || $line == '') {
@@ -96,7 +96,7 @@ function _import_sql($admin_username, $admin_password)
             $templine = '';
         }
     }
-    if (!mysql_query("insert  into `member`(`id`,`username`,`password`,`mobile`,`email`,`register_at`,`mobile_confirmed`,`birth_date`,`is_delete`,`last_login_at`,`last_login_ip`) values (1,'" . $_POST['admin_username'] . "','" . md5($_POST['admin_password']) . "','13391334121','service@123phpshop.com',NULL,'1',NULL,0,'','" . $_SERVER['REMOTE_ADDR'] . "');
+    if (!mysqli_query("insert  into `member`(`id`,`username`,`password`,`mobile`,`email`,`register_at`,`mobile_confirmed`,`birth_date`,`is_delete`,`last_login_at`,`last_login_ip`) values (1,'" . $_POST['admin_username'] . "','" . md5($_POST['admin_password']) . "','13391334121','service@123phpshop.com',NULL,'1',NULL,0,'','" . $_SERVER['REMOTE_ADDR'] . "');
 	")) {
         return false;
     }
@@ -104,7 +104,6 @@ function _import_sql($admin_username, $admin_password)
 }
 /**
  * 检查目录是否可写
- *
  * @param unknown $uploads_folder
  * @return boolean
  */
@@ -154,8 +153,8 @@ if($hostname_localhost==""){
 	require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/check_install.php";
 	return;
 }
-$localhost = mysql_pconnect($hostname_localhost, $username_localhost, $password_localhost) or trigger_error(mysql_error(),E_USER_ERROR);
-mysql_query("set names utf8");
+$localhost = mysqli_pconnect($hostname_localhost, $username_localhost, $password_localhost,$database_localhost) or trigger_error(mysqli_error(),E_USER_ERROR);
+mysqli_query("set names utf8");
 require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";?>';
     try {
         $f = fopen($config_file, "w");
@@ -177,10 +176,10 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/Connections/start.php";?>';
  */
 function _db_could_connect($db_host, $db_username, $db_password, $db_name)
 {
-    if (!mysql_connect($db_host, $db_username, $db_password)) {
+    if (!mysqli_connect($db_host, $db_username, $db_password)) {
         return false;
     }
-    return mysql_select_db($db_name);
+    return mysqli_select_db($db_name);
 }
 
 /**

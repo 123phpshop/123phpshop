@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -18,42 +18,25 @@
 ?><?php
 
 require_once ('../../Connections/localhost.php');
-?>
-<?php
-
 $doc_url = "ad.html#udpate";
 $support_email_question = "更新广告";
 log_admin ( "更新广告" );
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 try {
+
+
+	// 处理表单
 	if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
+
+		// 验证参数
+
+		// 检查ad是否存在，如果不存在那么告知
+
+		// 如果存在，那么正开始更新
+
 		$updateSQL = sprintf ( "UPDATE ad SET name=%s, image_width=%s, image_height=%s, intro=%s, start_date=%s, end_date=%s WHERE id=%s", GetSQLValueString ( $_POST ['name'], "text" ), GetSQLValueString ( $_POST ['image_width'], "int" ), GetSQLValueString ( $_POST ['image_height'], "int" ), GetSQLValueString ( $_POST ['intro'], "text" ), GetSQLValueString ( $_POST ['start_date'], "date" ), GetSQLValueString ( $_POST ['end_date'], "date" ), GetSQLValueString ( $_POST ['id'], "int" ) );
 		
 		mysql_select_db ( $database_localhost, $localhost );
@@ -63,12 +46,8 @@ try {
 			throw new Exception ( COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER );
 		}
 		$updateGoTo = "index.php";
-		if (isset ( $_SERVER ['QUERY_STRING'] )) {
-			$updateGoTo .= (strpos ( $updateGoTo, '?' )) ? "&" : "?";
-			$updateGoTo .= $_SERVER ['QUERY_STRING'];
-		}
 		header ( sprintf ( "Location: %s", $updateGoTo ) );
-		return;
+		exit();
 	}
 	
 	$colname_ad = "-1";
@@ -84,6 +63,8 @@ try {
 	}
 	$row_ad = mysql_fetch_assoc ( $ad );
 	$totalRows_ad = mysql_num_rows ( $ad );
+
+	// 检查id是否存在，如果不存在，那么告知
 } catch ( Exception $ex ) {
 	$error = $ex->getMessage ();
 }

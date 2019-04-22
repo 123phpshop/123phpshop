@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -26,31 +26,39 @@ if (isset($_GET['id'])) {
 	$colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
 log_admin("删除广告");
-mysql_select_db($database_localhost, $localhost);
-$query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
-$ad_images = mysql_query($query_ad_images, $localhost) ;
- if(!$ad_images){
-		$logger->fatal("删除广告操作失败:".$query_ad_images);
- 	}
-$row_ad_images=mysql_fetch_assoc($ad_images);
-$totalRows_ad_images = mysql_num_rows($ad_images);
-if($totalRows_ad_images==0){
-	$could_delete=0;
-} 
 
-if($could_delete==1){
-	
+try{
+
+	// 参数检查
+
+	// 检查id是否存在，如果不存在，那么告知
+	mysql_select_db($database_localhost, $localhost);
+	$query_ad_images = sprintf("SELECT * FROM ad_images WHERE id = %s", $colname_ad_images);
+	$ad_images = mysql_query($query_ad_images, $localhost) ;
+	if(!$ad_images){
+		$logger->fatal("删除广告操作失败:".$query_ad_images);
+		throw new Exception();
+	}
+
+	$row_ad_images=mysql_fetch_assoc($ad_images);
+	$totalRows_ad_images = mysql_num_rows($ad_images);
+	if($totalRows_ad_images==0){
+		throw new Exception();// 这需要报错
+	} 
+
 	@unlink($_SERVER['DOCUMENT_ROOT'].$row_ad_images['image_path']);
- 		$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
-		$update_catalog_query = mysql_query($update_catalog, $localhost);
-		if(!$update_catalog_query){
-			$logger->fatal("数据库操作失败:".$update_catalog);
-			$could_delete=0;
-		}else{
- 			$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
-			header("Location: " . $remove_succeed_url );
-		}
- 	
+	$update_catalog = sprintf("delete from `ad_images` where id = %s", $colname_ad_images);
+	$update_catalog_query = mysql_query($update_catalog, $localhost);
+	if(!$update_catalog_query){
+		$logger->fatal("数据库操作失败:".$update_catalog);
+		throw new Exception();
+	}
+
+	$remove_succeed_url="/admin/ad/detail.php?recordID=".$row_ad_images['ad_id'];
+	header("Location: " . $remove_succeed_url );
+	exit();
+}catch(Exception $ex){
+	$could_delete=0;
 }
 
 

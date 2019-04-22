@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -18,31 +18,6 @@
  ?><?php require_once('../../Connections/localhost.php'); ?><?php
 $doc_url="product.html#detail";
 $support_email_question="查看商品详细";log_admin($support_email_question);
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-
 $editFormAction = $_SERVER['PHP_SELF'];
 $error="";
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -54,7 +29,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "product_image_form"
 	// 我们这里需要对上传文件进行检查
     include($_SERVER['DOCUMENT_ROOT'].'/Connections/lib/upload.php'); 
   
-	$up = new fileupload;
+	 $up = new fileupload;
     //设置属性(上传的位置， 大小， 类型， 名是是否要随机生成)
     $up -> set("path", $_SERVER['DOCUMENT_ROOT']."/uploads/product/");
     $up -> set("maxsize", 2000000);

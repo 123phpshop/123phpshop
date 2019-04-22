@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -16,44 +16,19 @@
  *  邮箱:	service@123phpshop.com
  */
 ?><?php
-
 require_once ('../../Connections/localhost.php');
-?>
-<?php
-
 $doc_url = "admin.html#add";
 $support_email_question = "添加管理员";
 log_admin ( "添加管理员" );
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
-	$theValue = (! get_magic_quotes_gpc ()) ? addslashes ( $theValue ) : $theValue;
-	
-	switch ($theType) {
-		case "text" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "long" :
-		case "int" :
-			$theValue = ($theValue != "") ? intval ( $theValue ) : "NULL";
-			break;
-		case "double" :
-			$theValue = ($theValue != "") ? "'" . doubleval ( $theValue ) . "'" : "NULL";
-			break;
-		case "date" :
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined" :
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
+
+	// 参数验证
+
 	$insertSQL = sprintf ( "INSERT INTO member (username, password, mobile, email, mobile_confirmed, role_id) VALUES (%s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['username'], "text" ), GetSQLValueString ( md5 ( $_POST ['password'] ), "text" ), GetSQLValueString ( $_POST ['mobile'], "text" ), GetSQLValueString ( $_POST ['email'], "text" ), GetSQLValueString ( $_POST ['mobile_confirmed'], "text" ), GetSQLValueString ( $_POST ['role_id'], "int" ) );
 	
 	mysql_select_db ( $database_localhost, $localhost );
@@ -62,7 +37,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 		$logger->fatal ( __FILE__." :添加管理员数据库操作失败:" . $insertSQL );
 		throw new Exception(COMMON_LANG_DB_ERROR);
 	}
-	$insertGoTo = "index.php";
+	$insertGoTo = "index.php"; // 跳转
 	if (isset ( $_SERVER ['QUERY_STRING'] )) {
 		$insertGoTo .= (strpos ( $insertGoTo, '?' )) ? "&" : "?";
 		$insertGoTo .= $_SERVER ['QUERY_STRING'];
@@ -70,6 +45,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	header ( sprintf ( "Location: %s", $insertGoTo ) );
 }
 
+// 选择角色
 mysql_select_db ( $database_localhost, $localhost );
 $query_roles = "SELECT * FROM `role` WHERE is_delete = 0";
 $roles = mysql_query ( $query_roles, $localhost );
@@ -78,6 +54,7 @@ if (! $roles) {
 }
 $row_roles = mysql_fetch_assoc ( $roles );
 $totalRows_roles = mysql_num_rows ( $roles );
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

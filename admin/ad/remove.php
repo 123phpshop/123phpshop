@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -35,6 +35,7 @@ $row_news = mysql_fetch_assoc($news);
 $totalRows_news = mysql_num_rows($news);
 
 try {
+
     if ($totalRows_news == 0) { // 如果id不存在
         throw new Exception("广告不存在！");
     }
@@ -44,25 +45,29 @@ try {
     if (isset($_GET['id'])) {
         $colname_ad_images = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
     }
-
+    // 选择数据库
     mysql_select_db($database_localhost, $localhost);
     $query_ad_images = sprintf("SELECT * FROM ad_images WHERE ad_id = %s", $colname_ad_images);
     $ad_images = mysql_query($query_ad_images, $localhost);
     if (!$ad_images) {
         $logger->fatal("数据库操作失败:" . $query_ad_images);
+        throw new Exception("数据库操作失败:" . $query_ad_images);
     }
+
     $totalRows_ad_images = mysql_num_rows($ad_images);
 
     if ($totalRows_ad_images > 0) {
         throw new Exception("此广告下面有图片，请先删除图片再进行操作");
     }
 
+    // 正式删除
     $update_catalog = sprintf("delete from `ad` where id = %s", $colname_news);
     $update_catalog_query = mysql_query($update_catalog, $localhost);
     if (!$update_catalog_query) {
         $logger->fatal("删除广告操作失败:" . $updateSQL);
-        throw new Exception("删除广告操作失败");
+        throw new Exception(COMMON_LANG_SYSTEM_ERROR_PLEASE_TRY_AGAIN_LATER);
     }
+    // 删除之后的跳转
     $remove_succeed_url = "index.php";
     header("Location: " . $remove_succeed_url);
 } catch (Exception $ex) {

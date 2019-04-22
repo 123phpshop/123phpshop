@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -23,8 +23,6 @@ $colname_product = "-1";
 if (isset($_POST['code'])) {
   $colname_product = (get_magic_quotes_gpc()) ? $_POST['code'] : addslashes($_POST['code']);
 }
- 
-
 mysql_select_db($database_localhost, $localhost);
 $query_product = sprintf("SELECT * FROM email_templates WHERE code = '%s' and is_delete=0", trim($colname_product));
 $product = mysql_query($query_product, $localhost) ;

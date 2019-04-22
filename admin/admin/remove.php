@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -17,6 +17,8 @@
  */
  ?><?php require_once('../../Connections/localhost.php'); ?>
 <?php
+
+// 初始化参数
 $doc_url="admin.html#delete";
 $support_email_question="删除管理员";
 log_admin($support_email_question);
@@ -26,21 +28,25 @@ $remove_succeed_url="index.php";
 if (isset($_GET['id'])) {
   $colname_admin = (get_magic_quotes_gpc()) ? $_GET['id'] : addslashes($_GET['id']);
 }
+
+// 检查id是否存在，如果存在的话，那么抛错
 mysql_select_db($database_localhost, $localhost);
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
 $admin = mysql_query($query_admin, $localhost) ;
-if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}
+if(!$admin){$logger->fatal("数据库操作失败:".$query_admin);}// 如果数据库操作失败
 $row_admin = mysql_fetch_assoc($admin);
 $totalRows_admin = mysql_num_rows($admin);
  if($totalRows_admin==0){
 	$could_delete=0;
 }
 if($could_delete==1){
-	
+
+	// 如果已经删除的话，那么直接跳转回去即可
 	if($row_admin['is_delete']=='1'){
 		header("Location: " . $remove_succeed_url );
 	}
 	
+	// 如果么有的话，那么这里需要删除即可
 	$update_catalog = sprintf("update `member` set is_delete=1 where id = %s", $colname_admin);
 	$update_catalog_query = mysql_query($update_catalog, $localhost);
 	if(!$update_catalog_query){
@@ -48,8 +54,8 @@ if($could_delete==1){
 	}else{
 		header("Location: " . $remove_succeed_url );
  	}
-	
 }
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -65,8 +71,7 @@ if($could_delete==1){
   <p>由于一下原因，您不能删除这个分类，请及时修正，或是联系123phpshop.com的技术支持人员！</p>
   <p>1. 记录不存在，请检查参数之后再试。</p>
   <p>2. 系统错误，无法删除，请示后再试。 </p>
-  <p>您也可以<a href="index.php">点击这里返回</a>。
-    
+  <p>您也可以<a href="index.php">点击这里返回</a>  
     </p>
 </div>
 <?php } ?>

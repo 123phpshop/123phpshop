@@ -2,7 +2,7 @@
 /**
  * 123PHPSHOP
  * ============================================================================
- * 版权所有 2015 上海序程信息科技有限公司，并保留所有权利。
+ * 版权所有 2015~2019 上海序程信息科技有限公司，并保留所有权利。
  * 网站地址: http://www.123PHPSHOP.com；
  * ----------------------------------------------------------------------------
  * 这是一个免费的软件。您可以在商业目的和非商业目的地前提下对程序除本声明之外的
@@ -22,6 +22,8 @@ $support_email_question="浏览产品回收站";log_admin($support_email_questio
 
 // 处理批量操作
  if ((isset($_POST["form_op"])) && ($_POST["form_op"] == "batch_op")) {
+
+  // 调整参数
 	if(count($_POST['product_id'])>0 && $_POST['op_id']=="100"){	
 			mysql_select_db($database_localhost, $localhost);
 			$sql="update `product` set is_delete=0 where id in (".implode(",",$_POST['product_id']).")";
