@@ -101,7 +101,7 @@ a{
 	      <?php 
  	
 	$query_second_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_top_catalogs['id'];
-	$second_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_second_level_cata);}
+	$second_level_cata = mysqli_query($localhost,$query_second_level_cata);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_second_level_cata);}
  	$totalRows_second_level_cata = mysqli_num_rows($second_level_cata);
 	if($totalRows_second_level_cata>0){
 	while($row_second_level_cata = mysqli_fetch_assoc($second_level_cata)){
@@ -113,7 +113,7 @@ a{
               <?php 
  	  
 	$query_third_level_cata = "SELECT * FROM `catalog` WHERE pid = ".$row_second_level_cata['id'];
-	$third_level_cata = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_third_level_cata);}
+	$third_level_cata = mysqli_query($localhost,$query_third_level_cata);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_third_level_cata);}
  	$totalRows_third_level_cata = mysqli_num_rows($third_level_cata);
 	if($totalRows_third_level_cata>0){
 	while($row_third_level_cata = mysqli_fetch_assoc($third_level_cata)){

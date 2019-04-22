@@ -30,7 +30,7 @@ if (isset($_POST['id'])) {
 
 
 $query_get_username = sprintf("SELECT * FROM `user` WHERE username = '%s' and id != '%s'", $colname_get_username,$colname_id);
-$get_username = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_username);}
+$get_username = mysqli_query($localhost,$query_get_username);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_username);}
 $row_get_username = mysqli_fetch_assoc($get_username);
 $totalRows_get_username = mysqli_num_rows($get_username);
 if($totalRows_get_username>0){

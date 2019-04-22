@@ -17,7 +17,7 @@ $startRow_subs = $pageNum_subs * $maxRows_subs;
 
 $query_subs = "SELECT * FROM email_subscribe where is_delete=0 ORDER BY id DESC";
 $query_limit_subs = sprintf("%s LIMIT %d, %d", $query_subs, $startRow_subs, $maxRows_subs);
-$subs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_limit_subs);
+$subs = mysqli_query($localhost,$query_limit_subs)or die(mysqli_error($localhost).$query_limit_subs);
 $row_subs = mysqli_fetch_assoc($subs);
 
 if (isset($_GET['totalRows_subs'])) {

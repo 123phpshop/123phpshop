@@ -182,7 +182,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "order_add_product_f
                        GetSQLValueString(isset($_POST['is_present']) ? "true" : "", "defined","1","0"));
 
   
-  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
+  $Result1 = mysqli_query($localhost,$Result1);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
   
   	// 	更新订单的产品总价，运费总价和订单总额
 	$products_total_fee="";

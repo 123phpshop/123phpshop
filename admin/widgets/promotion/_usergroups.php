@@ -2,7 +2,7 @@
 <?php
 
 $query_userlevels = "SELECT id, name FROM user_levels";
-$userlevels = mysqli_query($localhost)or die(mysqli_error($localhost),$query_userlevels);
+$userlevels = mysqli_query($localhost,$query_userlevels)or die(mysqli_error($localhost).$query_userlevels);
 $row_userlevels = mysqli_fetch_assoc($userlevels);
 $totalRows_userlevels = mysqli_num_rows($userlevels);
 ?> 

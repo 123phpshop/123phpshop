@@ -20,7 +20,7 @@ require_once '../../Connections/localhost.php';
 // 检查是否有分类，如果还没有设置分类的话，那么直接跳转到添加分类页面
 
 $query_catalogs = "SELECT * FROM `catalog` where is_delete=0 ";
-$catalogs = mysqli_query($localhost)or die(mysqli_error($localhost),$query_catalogs);
+$catalogs = mysqli_query($localhost,$query_catalogs) or die(mysqli_error($localhost).$query_catalogs);
 $row_catalogs = mysqli_fetch_assoc($catalogs);
 $totalRows_catalogs = mysqli_num_rows($catalogs);
 if ($totalRows_catalogs == 0) {
@@ -68,7 +68,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) { // 正�
     }
 
     // 如果数据库插入成功，那么跳转到这个页面
-    $insertGoTo = "update.php?id=" . mysql_insert_id();
+    $insertGoTo = "update.php?id=" . mysqli_insert_id();
     header(sprintf("Location: %s", $insertGoTo));
 }
 ?>

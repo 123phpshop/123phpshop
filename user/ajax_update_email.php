@@ -27,8 +27,8 @@ if (isset($_POST['id'])) {
   $colname_id = (get_magic_quotes_gpc()) ? $_POST['id'] : addslashes($_POST['id']);
 }
 
-$query_member = sprintf("SELECT * FROM user WHERE email = '%s' and id!='%s'", $colname_member, $colname_id);
-$member = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_member);}
+$query_order_images = sprintf("SELECT * FROM user WHERE email = '%s' and id!='%s'", $colname_member, $colname_id);
+$member = mysqli_query($localhost,$query_order_images);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_member);}
 $row_member = mysqli_fetch_assoc($member);
 $totalRows_member = mysqli_num_rows($member);
 if($totalRows_member>0){

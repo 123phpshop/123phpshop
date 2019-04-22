@@ -86,7 +86,7 @@ try{
 	   //declare two session variables and assign them
 		$_SESSION['username'] = $_POST['username'];
 		$_SESSION['MM_UserGroup'] = "";	      
-		$_SESSION['user_id'] = mysql_insert_id();
+		$_SESSION['user_id'] = mysqli_insert_id();
 	
 	 // 如果注册成功的话
 	  $insertGoTo = "index.php";

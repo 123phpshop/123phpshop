@@ -71,7 +71,7 @@ div{
 	  <?php 
  	  	
 		$query_order_product = "SELECT * FROM product WHERE id =".$row_order_items['product_id'];
-		$order_product = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
+		$order_product = mysqli_query($localhost,$query_order_product);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_order_product);}
 		$row_order_product = mysqli_fetch_assoc($order_product);
 		$totalRows_order_product = mysqli_num_rows($order_product);
   	  ?>
@@ -87,7 +87,7 @@ div{
 			<?php 
 				
 				$query_product_image = sprintf("SELECT * FROM product_images WHERE is_delete=0 and  product_id = %s", $row_order_product['id']);
-				$product_image = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_image);}
+				$product_image = mysqli_query($localhost,$query_product_image);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_image);}
 				$row_product_image = mysqli_fetch_assoc($product_image);
    			?>
    

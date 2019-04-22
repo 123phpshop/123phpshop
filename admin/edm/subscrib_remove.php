@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
 }
 
 $query_item = sprintf("SELECT * FROM email_subscribe WHERE id = %s", $colname_item);
-$item = mysqli_query($localhost)or die(mysqli_error($localhost),$query_item);
+$item = mysqli_query($localhost,$query_item)or die(mysqli_error($localhost).$query_item);
 $row_item = mysqli_fetch_assoc($item);
 $totalRows_item = mysqli_num_rows($item);
 if($totalRows_item==0){
@@ -27,7 +27,7 @@ if($could_delete==1){
 					   GetSQLValueString($_GET['id'], "int"));
 	
 	
-	$Result1 = mysqli_query($localhost)or die(mysqli_error($localhost),$updateSQL);
+	$Result1 = mysqli_query($localhost,$updateSQL)or die(mysqli_error($localhost).$updateSQL);
 	
 	$updateGoTo = "subscribe_list.php";
 	header(sprintf("Location: %s", $updateGoTo));

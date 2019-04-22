@@ -38,7 +38,7 @@ $totalRows_catlogs = mysqli_num_rows($catlogs);
 <?php while($row_catlogs = mysqli_fetch_assoc($catlogs)){
 
 $query_season = "SELECT * FROM product WHERE is_delete=0 and is_on_sheft=1 and cata_path like '%|".$row_catlogs['id']."|%' limit 6";
-$season = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_season);}
+$season = mysqli_query($localhost,$query_season);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_season);}
 $totalRows_season = mysqli_num_rows($season);
  if($totalRows_season>0){
  ?>
@@ -53,7 +53,7 @@ $totalRows_season = mysqli_num_rows($season);
   		while ($row_season = mysqli_fetch_assoc($season)){
  			
 			$query_get_images = "SELECT * FROM product_images WHERE is_delete=0  and  product_id =". $row_season['id'];
-			$get_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
+			$get_images = mysqli_query($localhost,$query_get_images);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
 			$row_get_images = mysqli_fetch_assoc($get_images);
 			$totalRows_get_images = mysqli_num_rows($get_images);
  	   ?>

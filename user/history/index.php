@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
 $where_string=_get_comment_where_query_string();
 $query_comments = "SELECT product.name,user_view_history.*  FROM user_view_history inner join product on product.id=user_view_history.product_id WHERE user_view_history.user_id = $colname_comments ORDER BY user_view_history.id DESC";
 $query_limit_comments = sprintf("%s LIMIT %d, %d", $query_comments, $startRow_comments, $maxRows_comments);
-$comments = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_limit_comments);}
+$comments = mysqli_query($localhost,$query_limit_comments);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_limit_comments);}
 $row_comments = mysqli_fetch_assoc($comments);
 
 if (isset($_GET['totalRows_comments'])) {

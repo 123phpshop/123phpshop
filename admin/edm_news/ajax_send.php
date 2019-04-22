@@ -9,7 +9,7 @@ try{
 	}
 	
 	$query_ed = sprintf("SELECT * FROM edm_news WHERE id = %s and is_delete=0 ", $colname_ed);
-	$ed = mysqli_query($localhost)or die(mysqli_error($localhost),$query_ed);
+	$ed = mysqli_query($localhost,$query_ed)or die(mysqli_error($localhost).$query_ed);
 	$row_ed = mysqli_fetch_assoc($ed);
 	$totalRows_ed = mysqli_num_rows($ed);
 	

@@ -108,7 +108,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
  
 
 $query_info = "SELECT * FROM shop_info WHERE id = 1";
-$info = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_info);}
+$info = mysqli_query($localhost,$query_info);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_info);}
 $row_info = mysqli_fetch_assoc($info);
 $totalRows_info = mysqli_num_rows($info);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

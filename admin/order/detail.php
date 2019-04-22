@@ -120,7 +120,7 @@ if(!$log_DetailRS1){$logger->fatal("数据库操作失败:".$query_log_DetailRS1
 	 if($row_DetailRS1['promotion_id']!=''){
 		
 		$query_promotion_names = "SELECT * FROM promotion WHERE id in (".$row_DetailRS1['promotion_id'].")";
-		$promotion_names = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_promotion_names);}
+		$promotion_names = mysqli_query($localhost,$query_promotion_names);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_promotion_names);}
  		$totalRows_promotion_names = mysqli_num_rows($promotion_names);	?>	
 	 <?php while ($row_promotion_names = mysqli_fetch_assoc($promotion_names)) { ?>
          <a href="../promotion/update.php?id=<?php echo $row_promotion_names['id']; ?>"><?php echo $row_promotion_names['name']; ?></a>

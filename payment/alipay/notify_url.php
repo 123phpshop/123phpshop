@@ -113,7 +113,7 @@ if($verify_result) {//验证成功
 			//		循环所有的产品，将他们的数量-1
 			
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
-			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
+			$products = mysqli_query($localhost,$query_products);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
 			$totalRows_products = mysqli_num_rows($products);
 			while($row_products = mysqli_fetch_assoc($products)){
@@ -193,7 +193,7 @@ if($verify_result) {//验证成功
 			//		循环所有的产品，将他们的数量-1
 			
 			$query_products = "SELECT * FROM order_item WHERE order_id =".$row_order ['id'];
-			$products = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
+			$products = mysqli_query($localhost,$query_products);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_products);}
 			
 			$totalRows_products = mysqli_num_rows($products);
 			while($row_products = mysqli_fetch_assoc($products)){

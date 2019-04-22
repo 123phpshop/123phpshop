@@ -61,7 +61,7 @@ hr:last-child{
 	<?php 
 	
 	$query_product_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id = ".$row_ad_products['id'];
-	$product_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_images);}
+	$product_images = mysqli_query($localhost,$query_product_images);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_product_images);}
 	$row_product_images = mysqli_fetch_assoc($product_images);
 	$totalRows_product_images = mysqli_num_rows($product_images);
  	?>

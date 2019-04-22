@@ -33,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['name'], "text"));
 
   
-  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
+  $Result1 = mysqli_query($localhost,$Result1);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 }
 
 $maxRows_news_catalogs = 50;

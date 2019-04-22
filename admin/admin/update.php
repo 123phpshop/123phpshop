@@ -64,7 +64,7 @@ if (isset($_GET['id'])) {
 }
 
 $query_admin = sprintf("SELECT * FROM member WHERE id = %s", $colname_admin);
-$admin = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_admin);}
+$admin = mysqli_query($localhost,$query_admin);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_admin);}
 $row_admin = mysqli_fetch_assoc($admin);
 $totalRows_admin = mysqli_num_rows($admin);
 

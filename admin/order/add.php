@@ -63,7 +63,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 		$Result1 = mysqli_query($localhost,$insertSQL);
 		if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
 		
-		$new_order_id=mysql_insert_id();
+		$new_order_id=mysqli_insert_id();
 		phpshop123_log_order_new($new_order_id);
 		$insertGoTo = "detail.php?recordID=".$new_order_id;
 		header(sprintf("Location: %s", $insertGoTo));

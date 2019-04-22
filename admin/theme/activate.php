@@ -53,7 +53,7 @@ if($could_delete==1){
 	
 	
 	$query_themes = sprintf("update `theme` set is_delete=1 where id!= %s", $colname_order);
-	$themes = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_themes);}
+	$themes = mysqli_query($localhost,$query_themes);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_themes);}
   	if(!$themes){
 		$logger->fatal("数据库操作失败:".$query_themes);
 		$could_delete=0;

@@ -82,7 +82,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_db_export")) {
 		$info .= "-- 表：`".$val."` 的记录\r\n";
 		$info .= "-- ----------------------------\r\n";
 		file_put_contents($to_file_name,$info,FILE_APPEND);
- 		while($row = mysql_fetch_row($res)){
+ 		while($row = mysqli_fetch_row($res)){
 			$sqlStr = "INSERT INTO `".$val."` VALUES (";
 			foreach($row as $zd){
 				$sqlStr .= "'".$zd."', ";

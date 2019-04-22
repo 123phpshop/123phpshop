@@ -56,7 +56,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString($_SESSION['admin_id'], "int"));
 	
 	
-	$Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
+	$Result1 = mysqli_query($localhost,$insertSQL);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$insertSQL);}
 
 	$update_sql=sprintf("update product_consult set is_replied=1 where id=%s",GetSQLValueString($_POST['to_question'], "int"));
 	$Result1 = mysqli_query($localhost,$update_sql);

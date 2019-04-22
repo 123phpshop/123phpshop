@@ -95,7 +95,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "order_form")) 
 	if (! $Result1) {
 		$logger->fatal ( "数据库操作失败:" . $insertSQL );
 	}
-	$order_id = mysql_insert_id ();
+	$order_id = mysqli_insert_id ();
 	
 	// @todo检查参数，如果参数不正确的话，能否告知？
 	

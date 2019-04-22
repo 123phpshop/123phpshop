@@ -144,7 +144,7 @@ a[parent] .menu_item_row{
         $query_sub_menu = "SELECT * FROM privilege WHERE pid = " . $row_menu['id'] . " and is_delete=0 and is_menu=1 and id in (" . $row_role_menu['privileges'] . ") order by sort asc";
     }
 
-    $sub_menu = mysqli_query($localhost);if (!$sub_menu){$logger->fatal("数据库操作失败:" . $query_sub_menu,$query_sub_menu);}
+    $sub_menu = mysqli_query($localhost,$query_sub_menu);if (!$sub_menu){$logger->fatal("数据库操作失败:" . $query_sub_menu,$query_sub_menu);}
     $row_sub_menu = mysqli_fetch_assoc($sub_menu);
     $totalRows_sub_menu = mysqli_num_rows($sub_menu);
 

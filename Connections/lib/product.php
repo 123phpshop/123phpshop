@@ -26,7 +26,7 @@ function user_could_comment($user_id, $product_id) {
 	global $db_conn;
 	global $glogger;
 	$query_order = "SELECT orders.id, orders.user_id,order_item.order_id,order_item.product_id  FROM orders LEFT JOIN order_item ON order_item.order_id=orders.id WHERE orders.`user_id`=$user_id AND   order_item.product_id=$product_id";
-	$order = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$query_order);
+	$order = mysqli_query($db_conn,$query_order) or die ( mysqli_error ($localhost).$query_order);
 	if (! $order) {
 		$glogger->fatal ( "获取用户购买过这个商品的数目失败:" . $query_order );
 	}
@@ -39,7 +39,7 @@ function user_could_comment($user_id, $product_id) {
 	
 	// 检查用户评论过这个商品的数目，如果这个数目是0的话，那么直接返回false
 	$product_comment_num_sql = "select count(*) as comment_num from product_comment where product_id=$product_id and user_id=$user_id ";
-	$product_comment_num_query = mysqli_query($db_conn ) or die ( mysqli_error ($localhost),$product_comment_num_sql);
+	$product_comment_num_query = mysqli_query($db_conn,$product_comment_num_sql ) or die ( mysqli_error ($localhost).$product_comment_num_sql);
 	$product_comment_num = mysqli_fetch_assoc ( $product_comment_num_query );
 	// $glogger->debug ( "用户评论过的商品的数目:" . $product_comment_num ['comment_num'] );
 	if (( int ) $product_comment_num ['comment_num'] == 0) {
@@ -95,7 +95,7 @@ function _add_db_view_history($product_id) {
 		if (isset($_SESSION['user_id'])) {
 		  $colname_get_last_view_product = (get_magic_quotes_gpc()) ? $_SESSION['user_id'] : addslashes($_SESSION['user_id']);
 		}
-		mysql_select_db($db_database_localhost, $db_conn);
+		mysqli_select_db($db_conn,$db_database_localhost);
 		$query_get_last_view_product = sprintf("SELECT * FROM user_view_history WHERE user_id = %s and product_id= %s ORDER BY id DESC limit 1", $colname_get_last_view_product,$product_id);
 		$get_last_view_product = mysqli_query($db_conn,$query_get_last_view_product);
 		if(!$get_last_view_product){

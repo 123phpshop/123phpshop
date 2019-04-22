@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
 
 
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s", $colname_consignee);
-$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
+$consignee = mysqli_query($localhost,$query_consignee);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);
 $totalRows_consignee = mysqli_num_rows($consignee);
 

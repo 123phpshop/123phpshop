@@ -43,7 +43,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 	
 	
 	$query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s", $colname_consignee,$_SESSION['user_id']);
-	$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
+	$consignee = mysqli_query($localhost,$query_consignee);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
  	$totalRows_consignee = mysqli_num_rows($consignee);
 	if($totalRows_consignee==1){
   	
@@ -58,7 +58,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['id'], "int"));
  
 	  
-	  $Result1 = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
+	  $Result1 = mysqli_query($localhost,$updateSQL);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$updateSQL);}
  	  $updateGoTo = "index.php";
 	  header(sprintf("Location: %s", $updateGoTo));
 	}
@@ -69,7 +69,7 @@ if (isset($_GET['id'])) {
 }
 
 $query_consignee = sprintf("SELECT * FROM user_consignee WHERE id = %s and user_id= %s ", $colname_consignee,$_SESSION['user_id']);
-$consignee = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
+$consignee = mysqli_query($localhost,$query_consignee);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_consignee);}
 $row_consignee = mysqli_fetch_assoc($consignee);
 $totalRows_consignee = mysqli_num_rows($consignee);
 if($totalRows_consignee==0){

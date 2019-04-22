@@ -96,7 +96,7 @@ if (isset($_GET['id'])) {
 }
 
 $query_user = sprintf("SELECT * FROM `user` WHERE id = %s", $colname_user);
-$user = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_user);}
+$user = mysqli_query($localhost,$query_user);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_user);}
 $row_user = mysqli_fetch_assoc($user);
 $totalRows_user = mysqli_num_rows($user);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

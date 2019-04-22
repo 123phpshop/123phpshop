@@ -98,7 +98,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   
   $Result1 = mysqli_query($localhost,$insertSQL);
   if(!$Result1){$logger->fatal("数据库操作失败:".$insertSQL);}
-   $insertGoTo = "detail.php?recordID=".mysql_insert_id();
+   $insertGoTo = "detail.php?recordID=".mysqli_insert_id();
    header(sprintf("Location: %s", $insertGoTo));
 }
 

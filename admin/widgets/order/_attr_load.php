@@ -73,7 +73,7 @@ $colname_get_product_attr_val = (get_magic_quotes_gpc()) ? $_GET['product_id'] :
 }
 
 $query_get_product_attr_val = sprintf("SELECT * FROM product_type_attr_val WHERE product_id = %s and product_type_attr_id=%s", $colname_get_product_attr_val,$row_product_type_attrs['id']);
-$get_product_attr_val = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_product_attr_val);}
+$get_product_attr_val = mysqli_query($localhost,$query_get_product_attr_val);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_product_attr_val);}
 $row_get_product_attr_val = mysqli_fetch_assoc($get_product_attr_val);
 $totalRows_get_product_attr_val = mysqli_num_rows($get_product_attr_val);
 ?>

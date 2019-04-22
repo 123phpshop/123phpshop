@@ -56,7 +56,7 @@ table{
  		<?php 
  	   	
 		$query_get_images = "SELECT * FROM product_images WHERE is_delete=0 and product_id =". $row_buy_view['id'];
-		$get_images = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
+		$get_images = mysqli_query($localhost,$query_get_images);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_get_images);}
 		$row_get_images = mysqli_fetch_assoc($get_images);
 		$totalRows_get_images = mysqli_num_rows($get_images);
  	   ?>

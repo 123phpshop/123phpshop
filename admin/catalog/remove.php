@@ -28,7 +28,7 @@ if (isset($_GET['id'])) {
 }
 
 $query_catalog = sprintf("SELECT * FROM `catalog` WHERE id = %s", $colname_catalog);
-$catalog = mysqli_query($localhost);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_catalog);}
+$catalog = mysqli_query($localhost,$query_catalog);if(!$Result1){$logger->fatal("数据库操作失败:".$updateSQL,$query_catalog);}
 $row_catalog = mysqli_fetch_assoc($catalog);
 $totalRows_catalog = mysqli_num_rows($catalog);
 if($totalRows_catalog==0){
